@@ -87,12 +87,12 @@ singbox/
 
 ## CDN 目录链接（推荐）
 
-### Loy-GeoSite:[SRS 目录](https://github.com/bgpeer/sch6688/tree/main/geo/sing/geosite)
+### Loy-GeoSite:[sing-box目录](https://github.com/bgpeer/sch6688/tree/main/geo/sing/geosite)
 ```
 https://cdn.jsdelivr.net/gh/bgpeer/sch6688@main/geo/sing/geosite
 ```
 
-### Loy-GeoIP:[SRS 目录](https://github.com/bgpeer/sch6688/tree/main/geo/sing/geoip)
+### Loy-GeoIP:[sing-box目录](https://github.com/bgpeer/sch6688/tree/main/geo/sing/geoip)
 ```
 https://cdn.jsdelivr.net/gh/bgpeer/sch6688@main/geo/sing/geoip
 ```
