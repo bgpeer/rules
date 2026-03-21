@@ -50,12 +50,12 @@ geo/
 
 在 ClashMi → **Geo RuleSet** 中填写以下两个目录链接（推荐使用 CDN）：
 
-### Loy_GeoSite:[域名-mrs 规则集目录](https://github.com/bgpeer/sch6688/tree/main/geo/rules/geosite)
+### Loy_GeoSite:[域名规则集目录](https://github.com/bgpeer/sch6688/tree/main/geo/rules/geosite)
 ```
 https://cdn.jsdelivr.net/gh/bgpeer/sch6688@main/geo/rules/geosite
 ```
 
-### Loy_GeoIP:[IP-mrs 规则集目录](https://github.com/bgpeer/sch6688/tree/main/geo/rules/geoip)
+### Loy_GeoIP:[ip规则集目录](https://github.com/bgpeer/sch6688/tree/main/geo/rules/geoip)
 ```
 https://cdn.jsdelivr.net/gh/bgpeer/sch6688@main/geo/rules/geoip
 ```
