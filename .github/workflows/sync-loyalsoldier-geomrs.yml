@@ -100,13 +100,20 @@ jobs:
       - name: Show outputs (debug)
         run: |
           set -eux
-          echo "=== geo/rules/ ===" && ls geo/rules/ | head -20 || true
-          echo "mrs  : $(find geo/rules -name '*.mrs'  | wc -l)"
-          echo "yaml : $(find geo/rules -name '*.yaml' | wc -l)"
-          echo "list : $(find geo/rules -name '*.list' | wc -l)"
-          echo "=== geo/sing/ ===" && ls geo/sing/ | head -20 || true
-          echo "json : $(find geo/sing  -name '*.json' | wc -l)"
-          echo "srs  : $(find geo/sing  -name '*.srs'  | wc -l)"
+          echo "=== geo/rules/geosite/ ===" && ls geo/rules/geosite/ | head -10 || true
+          echo "=== geo/rules/geoip/ ===" && ls geo/rules/geoip/ | head -10 || true
+          echo "=== geo/sing/geosite/ ===" && ls geo/sing/geosite/ | head -10 || true
+          echo "=== geo/sing/geoip/ ===" && ls geo/sing/geoip/ | head -10 || true
+          echo "rules/geosite mrs  : $(find geo/rules/geosite -name '*.mrs'  | wc -l)"
+          echo "rules/geosite yaml : $(find geo/rules/geosite -name '*.yaml' | wc -l)"
+          echo "rules/geosite list : $(find geo/rules/geosite -name '*.list' | wc -l)"
+          echo "rules/geoip   mrs  : $(find geo/rules/geoip   -name '*.mrs'  | wc -l)"
+          echo "rules/geoip   yaml : $(find geo/rules/geoip   -name '*.yaml' | wc -l)"
+          echo "rules/geoip   list : $(find geo/rules/geoip   -name '*.list' | wc -l)"
+          echo "sing/geosite  json : $(find geo/sing/geosite  -name '*.json' | wc -l)"
+          echo "sing/geosite  srs  : $(find geo/sing/geosite  -name '*.srs'  | wc -l)"
+          echo "sing/geoip    json : $(find geo/sing/geoip    -name '*.json' | wc -l)"
+          echo "sing/geoip    srs  : $(find geo/sing/geoip    -name '*.srs'  | wc -l)"
           git status --porcelain || true
 
       # ── Commit & Push（stash 重试版） ─────────────────────────────────────
