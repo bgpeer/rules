@@ -46,112 +46,57 @@ geo/
 
 ---
 
-🚀 使用方法
+## 使用方法（ClashMi）
 
-1️⃣ Mihomo / Clash Meta
+在 ClashMi → **Geo RuleSet** 中填写以下两个目录链接（推荐使用 CDN）：
 
-YAML
+### Loy_GeoSite:[域名-mrs 规则集目录](https://github.com/SHICHUNHUI88/sch6688/tree/main/geo/rules/geosite)
+```
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/sch6688@main/geo/rules/geosite
+```
 
-rule-providers:
-  google:
-    type: http
-    behavior: domain
-    url: https://raw.githubusercontent.com/<你的用户名>/<仓库名>/main/geo/rules/geosite/google.yaml
-    path: ./ruleset/google.yaml
-    interval: 86400
+### Loy_GeoIP:[IP-mrs 规则集目录](https://github.com/SHICHUNHUI88/sch6688/tree/main/geo/rules/geoip)
+```
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/sch6688@main/geo/rules/geoip
+```
 
-MRS（推荐）
 
-rule-providers:
-  google:
-    type: http
-    behavior: domain
-    format: mrs
-    url: https://raw.githubusercontent.com/<你的用户名>/<仓库名>/main/geo/rules/geosite/google.mrs
+> 说明：这是“目录链接”，ClashMi 会按需下载其中的 `.mrs` 小文件（例如 
+- `geosite/google.mrs`
+- `geoip/google.mrs`
+
+---
+## [可用于Clash Mi的样板](https://cdn.gh-proxy.org/https://gist.github.com/SHICHUNHUI88/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
+---
+
+## 同步机制
+
+- 上游来源：Loyalsoldier / MetaCubeX 相关 Geo 规则体系（拆分 `.mrs`）
+- 同步频率：每日自动同步（北京时间凌晨更新）
+- 同步策略：**增删同步**（上游新增/删除/更新都会同步到本仓库）
 
 ---
 
-2️⃣ Sing-box
+## 目录结构（Loyalsoldier）
 
-JSON
-
-{
-  "rule_set": [
-    {
-      "type": "remote",
-      "tag": "google",
-      "format": "json",
-      "url": "https://raw.githubusercontent.com/<你的用户名>/<仓库名>/main/geo/sing/geosite/google.json"
-    }
-  ]
-}
-
-SRS（推荐）
-
-{
-  "rule_set": [
-    {
-      "type": "remote",
-      "tag": "google",
-      "format": "binary",
-      "url": "https://raw.githubusercontent.com/<你的用户名>/<仓库名>/main/geo/sing/geosite/google.srs"
-    }
-  ]
-}
+singbox/
+  Loy-geosite/   # 域名类规则集（.srs）
+  Loy-geoip/     # IP 类规则集（.srs）
 
 ---
 
-🔄 自动更新
+## CDN 目录链接（推荐）
 
-- 每天自动同步（北京时间 02:00）
-- 同步源：
-  - https://github.com/Loyalsoldier/geoip
-  - https://github.com/Loyalsoldier/v2ray-rules-dat
+### Loy-GeoSite:[SRS 目录](https://github.com/SHICHUNHUI88/sch6688/tree/main/geo/sing/geosite)
+```
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/sch6688@main/geo/sing/geosite
+```
 
----
+### Loy-GeoIP:[SRS 目录](https://github.com/SHICHUNHUI88/sch6688/tree/main/geo/sing/geoip)
+```
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/sch6688@main/geo/sing/geoip
+```
 
-⚙️ 本地运行
-
-依赖
-
-- "v2dat"
-- "mihomo"
-- "sing-box"
-- "python3"
-
-执行
-
-chmod +x scripts/sync_loy_geo_mrs.sh
-./scripts/sync_loy_geo_mrs.sh
-
----
-
-🧠 规则转换说明
-
-原始规则| 输出
-"full:api.example.com"| DOMAIN
-"example.com"| DOMAIN-SUFFIX
-".example.com"| DOMAIN-SUFFIX
-
----
-
-⚠️ 注意
-
-- "keyword:" / "regexp:" 规则默认忽略（避免不兼容问题）
-- 所有规则均来自上游项目，不保证 100% 可用性
-- 建议优先使用 ".mrs" 或 ".srs"（性能更好）
-
----
-
-🙏 致谢
-
-- Loyalsoldier
-- v2ray-rules-dat
-- MetaCubeX / Mihomo
-- SagerNet / Sing-box
-
----
-
-📜 License
-
-MIT
+> 说明：这是“目录链接”，singbox 会按需下载其中的 `.srs` 小文件（例如
+- `geosite/google.srs`
+- `geoip/google.srs`
