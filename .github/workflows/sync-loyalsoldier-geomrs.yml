@@ -1,0 +1,155 @@
+name: Sync Loyalsoldier DAT -> Multi-format Rulesets
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 18 * * *"   # 北京时间 02:00（UTC 18:00）
+  push:
+    paths:
+      - ".github/workflows/sync-loyalsoldier-geomrs.yml"
+      - "scripts/sync_loy_geo_mrs.sh"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-geo-writer
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      # ── Go 工具链（v2dat） ────────────────────────────────────────────────
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Install v2dat
+        run: |
+          set -eux
+          go install github.com/urlesistiana/v2dat@latest
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+          v2dat -h || true
+
+      # ── mihomo（mrs 编译） ────────────────────────────────────────────────
+      - name: Install mihomo
+        run: |
+          set -eux
+          MIHOMO_VERSION="1.19.10"
+          ARCH="amd64"
+          URL_TGZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.tar.gz"
+          URL_GZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.gz"
+
+          if curl -fL --retry 3 --retry-delay 2 "$URL_TGZ" -o mihomo.tar.gz 2>/dev/null; then
+            tar -xzf mihomo.tar.gz
+            BIN="$(find . -maxdepth 3 -type f -name mihomo | head -n 1)"
+            [ -f "$BIN" ] && cp -f "$BIN" ./mihomo
+          else
+            curl -fL --retry 3 --retry-delay 2 "$URL_GZ" -o mihomo.gz
+            gunzip -c mihomo.gz > ./mihomo
+          fi
+          chmod +x ./mihomo
+          ./mihomo -v
+
+      # ── sing-box（srs 编译） ──────────────────────────────────────────────
+      - name: Install sing-box
+        run: |
+          set -eux
+          SINGBOX_VERSION="$(curl -fsSL https://api.github.com/repos/SagerNet/sing-box/releases/latest \
+            | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')"
+          echo "sing-box version: $SINGBOX_VERSION"
+          ARCH="amd64"
+          URL="https://github.com/SagerNet/sing-box/releases/download/v${SINGBOX_VERSION}/sing-box-${SINGBOX_VERSION}-linux-${ARCH}.tar.gz"
+
+          curl -fL --retry 3 --retry-delay 2 "$URL" -o singbox.tar.gz
+          tar -xzf singbox.tar.gz
+          BIN="$(find . -maxdepth 3 -type f -name sing-box | head -n 1)"
+          cp -f "$BIN" ./sing-box
+          chmod +x ./sing-box
+          ./sing-box version
+
+      # ── 同步分支到最新 ────────────────────────────────────────────────────
+      - name: Sync branch (pre-run)
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eux
+          BRANCH="${DEFAULT_BRANCH:-main}"
+          git fetch origin "${BRANCH}"
+          git rebase "origin/${BRANCH}"
+
+      # ── 执行脚本 ─────────────────────────────────────────────────────────
+      - name: Run sync script
+        env:
+          MIHOMO_BIN: ./mihomo
+          SINGBOX_BIN: ./sing-box
+        run: |
+          set -eux
+          chmod +x scripts/sync_loy_geo_mrs.sh
+          scripts/sync_loy_geo_mrs.sh
+
+      # ── 调试输出 ─────────────────────────────────────────────────────────
+      - name: Show outputs (debug)
+        run: |
+          set -eux
+          echo "=== geo/rules/ ===" && ls geo/rules/ | head -20 || true
+          echo "mrs  : $(find geo/rules -name '*.mrs'  | wc -l)"
+          echo "yaml : $(find geo/rules -name '*.yaml' | wc -l)"
+          echo "list : $(find geo/rules -name '*.list' | wc -l)"
+          echo "=== geo/sing/ ===" && ls geo/sing/ | head -20 || true
+          echo "json : $(find geo/sing  -name '*.json' | wc -l)"
+          echo "srs  : $(find geo/sing  -name '*.srs'  | wc -l)"
+          git status --porcelain || true
+
+      # ── Commit & Push（stash 重试版） ─────────────────────────────────────
+      - name: Commit & push (safe)
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eux
+          BRANCH="${DEFAULT_BRANCH:-main}"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A geo/rules geo/sing
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: sync Loyalsoldier dat -> multi-format rulesets (geo)"
+
+          for i in 1 2 3 4 5; do
+            if git push origin "HEAD:${BRANCH}"; then
+              echo "Push success."; exit 0
+            fi
+
+            echo "Push rejected (race). retry=${i}"
+            git stash push -u -m "actions-autostash" || true
+            git fetch origin "${BRANCH}"
+            git rebase "origin/${BRANCH}"
+            git stash pop || true
+
+            git add -A geo/rules geo/sing
+
+            if git diff --name-only --diff-filter=U | grep -q .; then
+              echo "Conflict after rebase. Aborting."
+              git status --porcelain || true
+              exit 1
+            fi
+
+            sleep $((i*2))
+          done
+
+          echo "Failed to push after retries."
+          exit 1
