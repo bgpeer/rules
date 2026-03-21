@@ -55,7 +55,7 @@ geo/
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/rules/geosite
 ```
 
-### Loy_GeoIP:[ip规则集目录](https://github.com/SHICHUNHUI88/tree/main/rules/geo/rules/geoip)
+### Loy_GeoIP:[ip规则集目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/rules/geoip)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/rules/geoip
 ```
@@ -87,12 +87,12 @@ singbox/
 
 ## CDN 目录链接（推荐）
 
-### Loy-GeoSite:[sing-box目录](https://github.com/SHICHUNHUI88/tree/main/rules/geo/sing/geosite)
+### Loy-GeoSite:[sing-box目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/sing/geosite)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/sing/geosite
 ```
 
-### Loy-GeoIP:[sing-box目录](https://github.com/SHICHUNHUI88/tree/main/rules/geo/sing/geoip)
+### Loy-GeoIP:[sing-box目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/sing/geoip)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/sing/geoip
 ```
