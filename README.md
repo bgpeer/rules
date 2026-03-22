@@ -32,12 +32,8 @@
 
 ```
 geo/
-├── rules/
-│   ├── geosite/   # *.mrs  *.yaml  *.list
-│   └── geoip/     # *.mrs  *.yaml  *.list
-└── sing/
-    ├── geosite/   # *.json  *.srs
-    └── geoip/     # *.json  *.srs
+├── geosite/   # *.mrs  *.yaml  *.list  *.json  *.srs
+└── geoip/     # *.mrs  *.yaml  *.list  *.json  *.srs
 ```
 
 ## 格式说明
