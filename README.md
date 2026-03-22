@@ -52,12 +52,12 @@ geo/
 
 ### Loy_GeoSite:[域名规则集目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/rules/geosite)
 ```
-https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/rules/geosite
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/rules/geosite
 ```
 
 ### Loy_GeoIP:[ip规则集目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/rules/geoip)
 ```
-https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/rules/geoip
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/rules/geoip
 ```
 
 
@@ -89,12 +89,12 @@ singbox/
 
 ### Loy-GeoSite:[sing-box目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/sing/geosite)
 ```
-https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/sing/geosite
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/sing/geosite
 ```
 
 ### Loy-GeoIP:[sing-box目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/sing/geoip)
 ```
-https://cdn.jsdelivr.net/gh/SHICHUNHUI88@main/rules/geo/sing/geoip
+https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/sing/geoip
 ```
 
 > 说明：这是“目录链接”，singbox 会按需下载其中的 `.srs` 小文件（例如
