@@ -51,6 +51,7 @@ geo/
 ## 改后缀就行了
 **geosite域名样板**
 `https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/cn.list`
+
 **geoip样板**
 `https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/cn.list`
 
