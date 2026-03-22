@@ -48,7 +48,8 @@ geo/
 
 ---
 
-## 改后缀就行了
+## 规则集目录有五种格式，yaml，list，mrs，json，srs，改后缀对应软件就行了
+
 **geosite域名样板**
 `https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/cn.list`
 
@@ -86,34 +87,4 @@ https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip
 ## [可用于Clash Mi的样板](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 ---
 
-## 同步机制
-
-- 上游来源：Loyalsoldier / MetaCubeX 相关 Geo 规则体系（拆分 `.mrs`）
-- 同步频率：每日自动同步（北京时间凌晨更新）
-- 同步策略：**增删同步**（上游新增/删除/更新都会同步到本仓库）
-
----
-
-## 目录结构（Loyalsoldier）
-
-singbox/
-  Loy-geosite/   # 域名类规则集（.srs）
-  Loy-geoip/     # IP 类规则集（.srs）
-
----
-
-## CDN 目录链接（推荐）
-
-### Loy-GeoSite:[sing-box目录](https://github.com/bgpeer/rules/tree/main/geo/geosite)
-```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite
-```
-
-### Loy-GeoIP:[sing-box目录](https://github.com/bgpeer/rules/tree/main/geo/geoip)
-```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip
-```
-
-> 说明：这是“目录链接”，singbox 会按需下载其中的 `.srs` 小文件（例如
-- `geosite/google.srs`
-- `geoip/google.srs`
+## [可用于Sing-box的样板](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
