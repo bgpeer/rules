@@ -6,43 +6,55 @@
 
 ✨ 特性
 
-- 🔄 每日自动同步（GitHub Actions）
-- 📦 多格式输出
-  - Mihomo / Clash：
-    - ".mrs"
-    - ".yaml"
-    - ".list"
-  - Sing-box：
-    - ".json"
-    - ".srs"
-- 🧠 语义严格区分
-  - "DOMAIN"（精确匹配）
-  - "DOMAIN-SUFFIX"（后缀匹配）
-- 🧹 全量同步
-  - 自动删除过期规则
-- ⚙️ 完全自动化构建
+# rules
 
----
+自动将 [Loyalsoldier](https://github.com/Loyalsoldier) 的 `geoip.dat` / `geosite.dat` 拆分转换为多种格式规则集，每天北京时间 02:00 自动更新。
 
-📁 目录结构
+## geosite.dat 规则转换情况
 
+| 原始类型 | 转换类型 | mrs | yaml | list | json/srs |
+|---|---|:---:|:---:|:---:|:---:|
+| 普通条目 | domain-suffix | ✅ | ✅ | ✅ | ✅ |
+| `full:` | domain 精确 | ✅ | ✅ | ✅ | ✅ |
+| `keyword:` | domain-keyword | ⚠️ 跳过 | ✅ | ✅ | ✅ |
+| `regexp:` | domain-regex | ⚠️ 跳过 | ✅ | ✅ | ✅ |
+
+## geoip.dat 规则转换情况
+
+| 原始类型 | 转换类型 | mrs | yaml | list | json/srs |
+|---|---|:---:|:---:|:---:|:---:|
+| IPv4 CIDR | IP-CIDR | ✅ | ✅ | ✅ | ✅ |
+| IPv6 CIDR | IP-CIDR6 | ✅ | ✅ | ✅ | ✅ |
+
+> ⚠️ mrs 格式由 mihomo `convert-ruleset` 编译，天生不支持 keyword / regexp 类型，跳过为正常行为。
+
+## 文件目录
+
+```
 geo/
 ├── rules/
-│   ├── geosite/
-│   │   ├── google.yaml
-│   │   ├── google.list
-│   │   └── google.mrs
-│   └── geoip/
-│       ├── cn.yaml
-│       ├── cn.list
-│       └── cn.mrs
+│   ├── geosite/   # *.mrs  *.yaml  *.list
+│   └── geoip/     # *.mrs  *.yaml  *.list
 └── sing/
-    ├── geosite/
-    │   ├── google.json
-    │   └── google.srs
-    └── geoip/
-        ├── cn.json
-        └── cn.srs
+    ├── geosite/   # *.json  *.srs
+    └── geoip/     # *.json  *.srs
+```
+
+## 格式说明
+
+| 格式 | 适用客户端 |
+|---|---|
+| `.mrs` | mihomo（二进制规则集） |
+| `.yaml` | mihomo rule-provider |
+| `.list` | Surge / 小火箭 |
+| `.json` | sing-box rule-set source |
+| `.srs` | sing-box（二进制规则集） |
+
+## 数据来源
+
+- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
+- [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)
+
 
 ---
 
