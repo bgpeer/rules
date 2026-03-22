@@ -1,8 +1,4 @@
 payload:
-  - DOMAIN,api.viu.now.com
-  - DOMAIN,dfp6rglgjqszk.cloudfront.net
-  - DOMAIN,d1k2us671qcoau.cloudfront.net
-  - DOMAIN,d2anahhhmp1ffz.cloudfront.net
   - DOMAIN-SUFFIX,netvigator.com
   - DOMAIN-SUFFIX,now.com
   - DOMAIN-SUFFIX,pccwsolutions.com
@@ -27,3 +23,8 @@ payload:
   - DOMAIN-SUFFIX,theclub.com.hk
   - DOMAIN-SUFFIX,1010.com.hk
   - DOMAIN-SUFFIX,now.com.hk
+  - DOMAIN,api.viu.now.com
+  - DOMAIN,dfp6rglgjqszk.cloudfront.net
+  - DOMAIN,d1k2us671qcoau.cloudfront.net
+  - DOMAIN,d2anahhhmp1ffz.cloudfront.net
+  - DOMAIN-REGEX,^ewcdn[0-9]+\.nowe\.com$

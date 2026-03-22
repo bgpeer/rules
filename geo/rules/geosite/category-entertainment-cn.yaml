@@ -1,6 +1,4 @@
 payload:
-  - DOMAIN,p3-novel.byteimg.com
-  - DOMAIN,p6-novel.byteimg.com
   - DOMAIN-SUFFIX,tcfmglobal.com
   - DOMAIN-SUFFIX,abdf002.com
   - DOMAIN-SUFFIX,yeshen.com
@@ -613,8 +611,6 @@ payload:
   - DOMAIN-SUFFIX,adukwai.com
   - DOMAIN-SUFFIX,e.kuaishou.cn
   - DOMAIN-SUFFIX,e.kuaishou.com
-  - DOMAIN,log-sdk.gifshow.com
-  - DOMAIN,wlog.kuaishou.com
   - DOMAIN-SUFFIX,ad.api.3g.youku.com
   - DOMAIN-SUFFIX,ad.api.mobile.youku.com
   - DOMAIN-SUFFIX,ad.mobile.youku.com
@@ -636,6 +632,17 @@ payload:
   - DOMAIN-SUFFIX,v6-adashx.ut.youku.com
   - DOMAIN-SUFFIX,yk-ssp.ad.youku.com
   - DOMAIN-SUFFIX,ykad-data.youku.com
+  - DOMAIN-SUFFIX,apple.www.letv.com
+  - DOMAIN-SUFFIX,ark.letv.com
+  - DOMAIN-SUFFIX,dc.letv.com
+  - DOMAIN-SUFFIX,g3.letv.com
+  - DOMAIN-SUFFIX,ads.service.kugou.com
+  - DOMAIN-SUFFIX,adserviceretry.kglink.cn
+  - DOMAIN-SUFFIX,adserviceretry.kugou.com
+  - DOMAIN,p3-novel.byteimg.com
+  - DOMAIN,p6-novel.byteimg.com
+  - DOMAIN,log-sdk.gifshow.com
+  - DOMAIN,wlog.kuaishou.com
   - DOMAIN,ads3-normal-hl.zijieapi.com
   - DOMAIN,ads3-normal.zijieapi.com
   - DOMAIN,ads5-normal-hl.zijieapi.com
@@ -651,11 +658,5 @@ payload:
   - DOMAIN,rtlog3-applog.fqnovel.com
   - DOMAIN,rtlog5-applog-hl.fqnovel.com
   - DOMAIN,rtlog5-applog.fqnovel.com
-  - DOMAIN-SUFFIX,apple.www.letv.com
-  - DOMAIN-SUFFIX,ark.letv.com
-  - DOMAIN-SUFFIX,dc.letv.com
-  - DOMAIN-SUFFIX,g3.letv.com
-  - DOMAIN-SUFFIX,ads.service.kugou.com
-  - DOMAIN-SUFFIX,adserviceretry.kglink.cn
-  - DOMAIN-SUFFIX,adserviceretry.kugou.com
   - DOMAIN,apilog-web.acfun.cn
+  - DOMAIN-REGEX,^.+-mihayo\.akamaized\.net$

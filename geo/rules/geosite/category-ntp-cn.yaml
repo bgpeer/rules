@@ -1,4 +1,8 @@
 payload:
+  - DOMAIN-SUFFIX,cn.pool.ntp.org
+  - DOMAIN-SUFFIX,ntp.neu.edu.cn
+  - DOMAIN-SUFFIX,ntp.ntsc.ac.cn
+  - DOMAIN-SUFFIX,ntp.org.cn
   - DOMAIN,ntp.aliyun.com
   - DOMAIN,ntp1.aliyun.com
   - DOMAIN,ntp2.aliyun.com
@@ -16,7 +20,3 @@ payload:
   - DOMAIN,ntp3.tencent.com
   - DOMAIN,ntp4.tencent.com
   - DOMAIN,ntp5.tencent.com
-  - DOMAIN-SUFFIX,cn.pool.ntp.org
-  - DOMAIN-SUFFIX,ntp.neu.edu.cn
-  - DOMAIN-SUFFIX,ntp.ntsc.ac.cn
-  - DOMAIN-SUFFIX,ntp.org.cn

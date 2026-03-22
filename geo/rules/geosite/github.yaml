@@ -1,6 +1,4 @@
 payload:
-  - DOMAIN,github-api.arkoselabs.com
-  - DOMAIN,github-cloud.s3.amazonaws.com
   - DOMAIN-SUFFIX,githubnext.com
   - DOMAIN-SUFFIX,git.io
   - DOMAIN-SUFFIX,atom.io
@@ -32,3 +30,6 @@ payload:
   - DOMAIN-SUFFIX,blob.core.windows.net
   - DOMAIN-SUFFIX,collector.github.com
   - DOMAIN-SUFFIX,copilot-telemetry.githubusercontent.com
+  - DOMAIN,github-api.arkoselabs.com
+  - DOMAIN,github-cloud.s3.amazonaws.com
+  - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$

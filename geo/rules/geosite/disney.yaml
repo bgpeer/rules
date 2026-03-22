@@ -1,7 +1,4 @@
 payload:
-  - DOMAIN,espn.api.edge.bamgrid.com
-  - DOMAIN,espn.hb.omtrdc.net
-  - DOMAIN,espndotcom.tt.omtrdc.net
   - DOMAIN-SUFFIX,thisispolaris.com
   - DOMAIN-SUFFIX,bamgrid.com
   - DOMAIN-SUFFIX,disney.bg
@@ -154,4 +151,8 @@ payload:
   - DOMAIN-SUFFIX,disney.co.za
   - DOMAIN-SUFFIX,disney-portal.my.onetrust.com
   - DOMAIN-SUFFIX,disneyplus.com.ssl.sc.omtrdc.net
+  - DOMAIN,espn.api.edge.bamgrid.com
+  - DOMAIN,espn.hb.omtrdc.net
+  - DOMAIN,espndotcom.tt.omtrdc.net
   - DOMAIN,disney.my.sentry.io
+  - DOMAIN-REGEX,^hses[1-7]?\.akamaized\.net$

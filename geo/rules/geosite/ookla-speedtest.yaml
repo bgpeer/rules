@@ -1,5 +1,4 @@
 payload:
-  - DOMAIN,www.speedtest.net.cdn.cloudflare.net
   - DOMAIN-SUFFIX,cdnst.net
   - DOMAIN-SUFFIX,cellmaps.com
   - DOMAIN-SUFFIX,ekahau.cloud
@@ -12,3 +11,5 @@ payload:
   - DOMAIN-SUFFIX,speedtestcustom.com
   - DOMAIN-SUFFIX,webtest.net
   - DOMAIN-SUFFIX,ookla-speedtest-central.hgconair.hgc.com.hk
+  - DOMAIN,www.speedtest.net.cdn.cloudflare.net
+  - DOMAIN-REGEX,^speed\.(coe|open)\.ad\.[a-z]{2,6}\.prod\.hosts\.ooklaserver\.net$
