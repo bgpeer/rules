@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 # sync_loy_geo_mrs.sh
 # 从 Loyalsoldier 下载 geoip/geosite .dat，拆分并输出五种格式：
-#   geo/rules/geosite/  ->  .mrs  .yaml  .list
-#   geo/rules/geoip/    ->  .mrs  .yaml  .list
-#   geo/sing/geosite/   ->  .json  .srs
-#   geo/sing/geoip/     ->  .json  .srs
+#   geo/geosite/  ->  .mrs  .yaml  .list  .json  .srs
+#   geo/geoip/    ->  .mrs  .yaml  .list  .json  .srs
 #
-# geosite 支持五种规则类型：
+# geosite 支持四种规则类型：
 #   普通条目  -> domain-suffix  (.example.com)
 #   full:     -> domain 精确    (api.example.com)
-#   keyword:  -> domain-keyword (保留，写入 yaml/list/json/srs，mrs 不支持跳过)
-#   regexp:   -> domain-regex   (保留，写入 yaml/list/json/srs，mrs 不支持跳过)
+#   keyword:  -> domain-keyword (写入 yaml/list/json/srs，mrs 不支持跳过)
+#   regexp:   -> domain-regex   (写入 yaml/list/json/srs，mrs 不支持跳过)
 #
 # geoip 支持：
 #   IPv4 CIDR -> IP-CIDR
@@ -20,10 +18,8 @@ set -euo pipefail
 GEOIP_URL='https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/geoip.dat'
 GEOSITE_URL='https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat'
 
-OUT_RULES_GEOSITE='geo/rules/geosite'
-OUT_RULES_GEOIP='geo/rules/geoip'
-OUT_SING_GEOSITE='geo/sing/geosite'
-OUT_SING_GEOIP='geo/sing/geoip'
+OUT_GEOSITE='geo/geosite'
+OUT_GEOIP='geo/geoip'
 
 MIHOMO_BIN="${MIHOMO_BIN:-./mihomo}"
 SINGBOX_BIN="${SINGBOX_BIN:-./sing-box}"
@@ -66,16 +62,14 @@ fi
 
 # ── 3. 清空旧输出（增删同步） ─────────────────────────────────────────────────
 echo "[3/7] Clean output dirs (full sync)..."
-rm -rf geo/rules geo/sing
-mkdir -p \
-  "$OUT_RULES_GEOSITE" "$OUT_RULES_GEOIP" \
-  "$OUT_SING_GEOSITE"  "$OUT_SING_GEOIP"
+rm -rf "$OUT_GEOSITE" "$OUT_GEOIP"
+mkdir -p "$OUT_GEOSITE" "$OUT_GEOIP"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 辅助函数
 # ══════════════════════════════════════════════════════════════════════════════
 
-# ── mrs（仅 domain/suffix，keyword/regexp 不写入）────────────────────────────
+# ── mrs（仅 domain/suffix，keyword/regexp 不支持）────────────────────────────
 convert_mrs() {
   local behavior="$1" src="$2" dst="$3"
   local tmp="${dst}.tmp"
@@ -86,27 +80,22 @@ convert_mrs() {
 }
 
 # ── yaml（geosite）───────────────────────────────────────────────────────────
-# 接收四个"已分类"的临时文件：suffix / domain / keyword / regexp
 make_yaml_domain() {
   local f_suffix="$1" f_domain="$2" f_keyword="$3" f_regexp="$4" dst="$5"
   {
     echo "payload:"
-    # domain-suffix
     while IFS= read -r line; do
       [[ -z "$line" ]] && continue
       echo "  - DOMAIN-SUFFIX,${line#.}"
     done < "$f_suffix"
-    # domain 精确
     while IFS= read -r line; do
       [[ -z "$line" ]] && continue
       echo "  - DOMAIN,${line}"
     done < "$f_domain"
-    # keyword
     while IFS= read -r line; do
       [[ -z "$line" ]] && continue
       echo "  - DOMAIN-KEYWORD,${line}"
     done < "$f_keyword"
-    # regexp
     while IFS= read -r line; do
       [[ -z "$line" ]] && continue
       echo "  - DOMAIN-REGEX,${line}"
@@ -178,10 +167,10 @@ def read_lines(path):
     with open(path) as f:
         return [l.strip() for l in f if l.strip()]
 
-suffixes = read_lines(f_suffix)   # 保留前导点，如 ".example.com"
-domains  = read_lines(f_domain)   # 精确，如 "api.example.com"
-keywords = read_lines(f_keyword)  # 如 "pay"
-regexps  = read_lines(f_regexp)   # 如 "^pay"
+suffixes = read_lines(f_suffix)
+domains  = read_lines(f_domain)
+keywords = read_lines(f_keyword)
+regexps  = read_lines(f_regexp)
 
 rule = {}
 if domains:
@@ -239,7 +228,7 @@ mkdir -p \
   "$WORKDIR/gs_domain" \
   "$WORKDIR/gs_keyword" \
   "$WORKDIR/gs_regexp" \
-  "$WORKDIR/gs_mrs"   # mrs 只用 suffix+domain 合并文件
+  "$WORKDIR/gs_mrs"
 
 geosite_ok=0
 geosite_skip=0
@@ -249,7 +238,6 @@ while IFS= read -r f; do
   tag="${base#geosite_}"; tag="${tag%.txt}"
   [[ "$tag" == "$base" ]] && tag="${base%.txt}"
 
-  # 四个分类文件
   f_suffix="${WORKDIR}/gs_suffix/${tag}.txt"
   f_domain="${WORKDIR}/gs_domain/${tag}.txt"
   f_keyword="${WORKDIR}/gs_keyword/${tag}.txt"
@@ -259,20 +247,12 @@ while IFS= read -r f; do
   while IFS= read -r line; do
     [[ -z "$line" ]] && continue
     case "$line" in
-      keyword:*)
-        echo "${line#keyword:}" >> "$f_keyword"
-        ;;
-      regexp:*)
-        echo "${line#regexp:}" >> "$f_regexp"
-        ;;
-      full:*)
-        # 精确域名，不加点
-        echo "${line#full:}" >> "$f_domain"
-        ;;
+      keyword:*) echo "${line#keyword:}" >> "$f_keyword" ;;
+      regexp:*)  echo "${line#regexp:}"  >> "$f_regexp"  ;;
+      full:*)    echo "${line#full:}"    >> "$f_domain"  ;;
       *)
-        # domain-suffix，确保以 . 开头
         if [[ "$line" == .* ]]; then
-          echo "$line" >> "$f_suffix"
+          echo "$line"  >> "$f_suffix"
         else
           echo ".$line" >> "$f_suffix"
         fi
@@ -280,32 +260,26 @@ while IFS= read -r f; do
     esac
   done < "$f"
 
-  # 判断是否完全为空（四个文件都空）
   if [[ ! -s "$f_suffix" && ! -s "$f_domain" && ! -s "$f_keyword" && ! -s "$f_regexp" ]]; then
     geosite_skip=$((geosite_skip+1)); continue
   fi
 
-  # mrs：只用 suffix+domain 合并文件（mihomo convert-ruleset 不支持 keyword/regexp）
+  # mrs：只用 suffix+domain
   f_mrs="${WORKDIR}/gs_mrs/${tag}.txt"
   cat "$f_suffix" "$f_domain" > "$f_mrs"
   if [[ -s "$f_mrs" ]]; then
-    convert_mrs domain "$f_mrs" "${OUT_RULES_GEOSITE}/${tag}.mrs" || true
+    convert_mrs domain "$f_mrs" "${OUT_GEOSITE}/${tag}.mrs" || true
   fi
 
-  # yaml
   make_yaml_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-    "${OUT_RULES_GEOSITE}/${tag}.yaml"
+    "${OUT_GEOSITE}/${tag}.yaml"
 
-  # list
   make_list_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-    "${OUT_RULES_GEOSITE}/${tag}.list"
+    "${OUT_GEOSITE}/${tag}.list"
 
-  # json
-  json="${OUT_SING_GEOSITE}/${tag}.json"
+  json="${OUT_GEOSITE}/${tag}.json"
   make_singbox_json_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" "$json"
-
-  # srs
-  compile_srs "$json" "${OUT_SING_GEOSITE}/${tag}.srs" || true
+  compile_srs "$json" "${OUT_GEOSITE}/${tag}.srs" || true
 
   geosite_ok=$((geosite_ok+1))
 done < <(find "$WORKDIR/geosite_txt" -type f -name '*.txt' | sort)
@@ -326,13 +300,13 @@ while IFS= read -r f; do
 
   [[ ! -s "$f" ]] && continue
 
-  convert_mrs ipcidr "$f" "${OUT_RULES_GEOIP}/${tag}.mrs"    || true
-  make_yaml_ipcidr   "$f"  "${OUT_RULES_GEOIP}/${tag}.yaml"
-  make_list_ipcidr   "$f"  "${OUT_RULES_GEOIP}/${tag}.list"
+  convert_mrs ipcidr "$f" "${OUT_GEOIP}/${tag}.mrs"    || true
+  make_yaml_ipcidr   "$f"  "${OUT_GEOIP}/${tag}.yaml"
+  make_list_ipcidr   "$f"  "${OUT_GEOIP}/${tag}.list"
 
-  json="${OUT_SING_GEOIP}/${tag}.json"
+  json="${OUT_GEOIP}/${tag}.json"
   make_singbox_json_ipcidr "$f" "$json"
-  compile_srs "$json" "${OUT_SING_GEOIP}/${tag}.srs"         || true
+  compile_srs "$json" "${OUT_GEOIP}/${tag}.srs"        || true
 
   geoip_ok=$((geoip_ok+1))
 done < <(find "$WORKDIR/geoip_txt" -type f -name '*.txt' | sort)
@@ -343,15 +317,15 @@ echo "[INFO] geoip: ok=$geoip_ok"
 # 6. 统计
 # ══════════════════════════════════════════════════════════════════════════════
 echo "[6/7] Final counts:"
-echo "  geo/rules/geosite/  mrs  : $(find "$OUT_RULES_GEOSITE" -name '*.mrs'  | wc -l | tr -d ' ')"
-echo "  geo/rules/geosite/  yaml : $(find "$OUT_RULES_GEOSITE" -name '*.yaml' | wc -l | tr -d ' ')"
-echo "  geo/rules/geosite/  list : $(find "$OUT_RULES_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
-echo "  geo/rules/geoip/    mrs  : $(find "$OUT_RULES_GEOIP"   -name '*.mrs'  | wc -l | tr -d ' ')"
-echo "  geo/rules/geoip/    yaml : $(find "$OUT_RULES_GEOIP"   -name '*.yaml' | wc -l | tr -d ' ')"
-echo "  geo/rules/geoip/    list : $(find "$OUT_RULES_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
-echo "  geo/sing/geosite/   json : $(find "$OUT_SING_GEOSITE"  -name '*.json' | wc -l | tr -d ' ')"
-echo "  geo/sing/geosite/   srs  : $(find "$OUT_SING_GEOSITE"  -name '*.srs'  | wc -l | tr -d ' ')"
-echo "  geo/sing/geoip/     json : $(find "$OUT_SING_GEOIP"    -name '*.json' | wc -l | tr -d ' ')"
-echo "  geo/sing/geoip/     srs  : $(find "$OUT_SING_GEOIP"    -name '*.srs'  | wc -l | tr -d ' ')"
+echo "  geo/geosite/  mrs  : $(find "$OUT_GEOSITE" -name '*.mrs'  | wc -l | tr -d ' ')"
+echo "  geo/geosite/  yaml : $(find "$OUT_GEOSITE" -name '*.yaml' | wc -l | tr -d ' ')"
+echo "  geo/geosite/  list : $(find "$OUT_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
+echo "  geo/geosite/  json : $(find "$OUT_GEOSITE" -name '*.json' | wc -l | tr -d ' ')"
+echo "  geo/geosite/  srs  : $(find "$OUT_GEOSITE" -name '*.srs'  | wc -l | tr -d ' ')"
+echo "  geo/geoip/    mrs  : $(find "$OUT_GEOIP"   -name '*.mrs'  | wc -l | tr -d ' ')"
+echo "  geo/geoip/    yaml : $(find "$OUT_GEOIP"   -name '*.yaml' | wc -l | tr -d ' ')"
+echo "  geo/geoip/    list : $(find "$OUT_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
+echo "  geo/geoip/    json : $(find "$OUT_GEOIP"   -name '*.json' | wc -l | tr -d ' ')"
+echo "  geo/geoip/    srs  : $(find "$OUT_GEOIP"   -name '*.srs'  | wc -l | tr -d ' ')"
 
 echo "[7/7] Done."
