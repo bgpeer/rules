@@ -100,20 +100,18 @@ jobs:
       - name: Show outputs (debug)
         run: |
           set -eux
-          echo "=== geo/rules/geosite/ ===" && ls geo/rules/geosite/ | head -10 || true
-          echo "=== geo/rules/geoip/ ===" && ls geo/rules/geoip/ | head -10 || true
-          echo "=== geo/sing/geosite/ ===" && ls geo/sing/geosite/ | head -10 || true
-          echo "=== geo/sing/geoip/ ===" && ls geo/sing/geoip/ | head -10 || true
-          echo "rules/geosite mrs  : $(find geo/rules/geosite -name '*.mrs'  | wc -l)"
-          echo "rules/geosite yaml : $(find geo/rules/geosite -name '*.yaml' | wc -l)"
-          echo "rules/geosite list : $(find geo/rules/geosite -name '*.list' | wc -l)"
-          echo "rules/geoip   mrs  : $(find geo/rules/geoip   -name '*.mrs'  | wc -l)"
-          echo "rules/geoip   yaml : $(find geo/rules/geoip   -name '*.yaml' | wc -l)"
-          echo "rules/geoip   list : $(find geo/rules/geoip   -name '*.list' | wc -l)"
-          echo "sing/geosite  json : $(find geo/sing/geosite  -name '*.json' | wc -l)"
-          echo "sing/geosite  srs  : $(find geo/sing/geosite  -name '*.srs'  | wc -l)"
-          echo "sing/geoip    json : $(find geo/sing/geoip    -name '*.json' | wc -l)"
-          echo "sing/geoip    srs  : $(find geo/sing/geoip    -name '*.srs'  | wc -l)"
+          echo "=== geo/geosite/ ===" && ls geo/geosite/ | head -10 || true
+          echo "=== geo/geoip/ ===" && ls geo/geoip/ | head -10 || true
+          echo "geosite mrs  : $(find geo/geosite -name '*.mrs'  | wc -l)"
+          echo "geosite yaml : $(find geo/geosite -name '*.yaml' | wc -l)"
+          echo "geosite list : $(find geo/geosite -name '*.list' | wc -l)"
+          echo "geosite json : $(find geo/geosite -name '*.json' | wc -l)"
+          echo "geosite srs  : $(find geo/geosite -name '*.srs'  | wc -l)"
+          echo "geoip   mrs  : $(find geo/geoip   -name '*.mrs'  | wc -l)"
+          echo "geoip   yaml : $(find geo/geoip   -name '*.yaml' | wc -l)"
+          echo "geoip   list : $(find geo/geoip   -name '*.list' | wc -l)"
+          echo "geoip   json : $(find geo/geoip   -name '*.json' | wc -l)"
+          echo "geoip   srs  : $(find geo/geoip   -name '*.srs'  | wc -l)"
           git status --porcelain || true
 
       # ── Commit & Push（stash 重试版） ─────────────────────────────────────
@@ -127,7 +125,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add -A geo/rules geo/sing
+          git add -A geo/geosite geo/geoip
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
@@ -147,7 +145,7 @@ jobs:
             git rebase "origin/${BRANCH}"
             git stash pop || true
 
-            git add -A geo/rules geo/sing
+            git add -A geo/geosite geo/geoip
 
             if git diff --name-only --diff-filter=U | grep -q .; then
               echo "Conflict after rebase. Aborting."
