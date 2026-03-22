@@ -1,38 +1,4 @@
 payload:
-  - DOMAIN,img-prod-cms-rt-microsoft-com.akamaized.net
-  - DOMAIN,img-s-msn-com.akamaized.net
-  - DOMAIN,mwf-service.akamaized.net
-  - DOMAIN,officecdn-microsoft-com.akamaized.net
-  - DOMAIN,statics-marketingsites-eas-ms-com.akamaized.net
-  - DOMAIN,statics-marketingsites-eus-ms-com.akamaized.net
-  - DOMAIN,statics-marketingsites-wcus-ms-com.akamaized.net
-  - DOMAIN,az764295.vo.msecnd.net
-  - DOMAIN,bingsettingssearch.trafficmanager.net
-  - DOMAIN,default.exp-tas.com
-  - DOMAIN,developer.microsoft.com
-  - DOMAIN,download.visualstudio.microsoft.com
-  - DOMAIN,dtlgalleryint.cloudapp.net
-  - DOMAIN,packages.microsoft.com
-  - DOMAIN,poshtestgallery.cloudapp.net
-  - DOMAIN,psg-int-centralus.cloudapp.net
-  - DOMAIN,psg-int-eastus.cloudapp.net
-  - DOMAIN,rink.hockeyapp.net
-  - DOMAIN,vscode-sync-insiders.trafficmanager.net
-  - DOMAIN,vscode-sync.trafficmanager.net
-  - DOMAIN,vscode.blob.core.windows.net
-  - DOMAIN,vscode.search.windows.net
-  - DOMAIN,vsmarketplacebadge.apphb.com
-  - DOMAIN,crl.microsoft.com
-  - DOMAIN,mscrl.microsoft.com
-  - DOMAIN,ocsp.microsoft.com
-  - DOMAIN,oneocsp.microsoft.com
-  - DOMAIN,prodforza.blob.core.windows.net
-  - DOMAIN,flightsimulator.azureedge.net
-  - DOMAIN,azure.microsoft.com
-  - DOMAIN,azuremarketplace.microsoft.com
-  - DOMAIN,location.microsoft.com
-  - DOMAIN,github-api.arkoselabs.com
-  - DOMAIN,github-cloud.s3.amazonaws.com
   - DOMAIN-SUFFIX,microsoft
   - DOMAIN-SUFFIX,hotmail
   - DOMAIN-SUFFIX,office
@@ -551,40 +517,9 @@ payload:
   - DOMAIN-SUFFIX,nelreports.net
   - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
   - DOMAIN-SUFFIX,download.windowsupdate.com
-  - DOMAIN,b.c2r.ts.cdn.office.net
-  - DOMAIN,bg.v4.a.dl.ws.microsoft.com
-  - DOMAIN,bg4.v4.a.dl.ws.microsoft.com
-  - DOMAIN,build.microsoft.com
-  - DOMAIN,cdn.marketplaceimages.windowsphone.com
-  - DOMAIN,cn.windowssearch.com
-  - DOMAIN,ctldl.windowsupdate.com
-  - DOMAIN,devblogs.microsoft.com
-  - DOMAIN,developer.microsoft.com
-  - DOMAIN,docs.microsoft.com
-  - DOMAIN,download.microsoft.com
-  - DOMAIN,download.visualstudio.microsoft.com
-  - DOMAIN,f.c2r.ts.cdn.office.net
-  - DOMAIN,fs.microsoft.com
-  - DOMAIN,learn.microsoft.com
-  - DOMAIN,myvs.download.prss.microsoft.com
-  - DOMAIN,oemsoc.download.prss.microsoft.com
-  - DOMAIN,officecdn.microsoft.com
-  - DOMAIN,res-1.cdn.office.net
-  - DOMAIN,res.cdn.office.net
-  - DOMAIN,sdx.microsoft.com
-  - DOMAIN,shell.cdn.office.net
-  - DOMAIN,software.download.prss.microsoft.com
-  - DOMAIN,statics.teams.cdn.office.net
-  - DOMAIN,storeedgefd.dsx.mp.microsoft.com
-  - DOMAIN,surface.downloads.prss.microsoft.com
-  - DOMAIN,vscode.download.prss.microsoft.com
-  - DOMAIN,vz.download.prss.microsoft.com
-  - DOMAIN,wscont1.apps.microsoft.com
-  - DOMAIN,wscont2.apps.microsoft.com
   - DOMAIN-SUFFIX,microsoftreactor.cn
   - DOMAIN-SUFFIX,microsoftreactor.com.cn
   - DOMAIN-SUFFIX,reactorms.com.cn
-  - DOMAIN,www.microsoft.com
   - DOMAIN-SUFFIX,microsoftnews.cn
   - DOMAIN-SUFFIX,msn.cn
   - DOMAIN-SUFFIX,browser.events.data.msn.cn
@@ -683,7 +618,73 @@ payload:
   - DOMAIN-SUFFIX,ditu.live.com
   - DOMAIN-SUFFIX,r.bing.com
   - DOMAIN-SUFFIX,th.bing.com
-  - DOMAIN,bj1.api.bing.com
-  - DOMAIN,emoi-cncdn.bing.com
   - DOMAIN-SUFFIX,collector.github.com
   - DOMAIN-SUFFIX,copilot-telemetry.githubusercontent.com
+  - DOMAIN,img-prod-cms-rt-microsoft-com.akamaized.net
+  - DOMAIN,img-s-msn-com.akamaized.net
+  - DOMAIN,mwf-service.akamaized.net
+  - DOMAIN,officecdn-microsoft-com.akamaized.net
+  - DOMAIN,statics-marketingsites-eas-ms-com.akamaized.net
+  - DOMAIN,statics-marketingsites-eus-ms-com.akamaized.net
+  - DOMAIN,statics-marketingsites-wcus-ms-com.akamaized.net
+  - DOMAIN,az764295.vo.msecnd.net
+  - DOMAIN,bingsettingssearch.trafficmanager.net
+  - DOMAIN,default.exp-tas.com
+  - DOMAIN,developer.microsoft.com
+  - DOMAIN,download.visualstudio.microsoft.com
+  - DOMAIN,dtlgalleryint.cloudapp.net
+  - DOMAIN,packages.microsoft.com
+  - DOMAIN,poshtestgallery.cloudapp.net
+  - DOMAIN,psg-int-centralus.cloudapp.net
+  - DOMAIN,psg-int-eastus.cloudapp.net
+  - DOMAIN,rink.hockeyapp.net
+  - DOMAIN,vscode-sync-insiders.trafficmanager.net
+  - DOMAIN,vscode-sync.trafficmanager.net
+  - DOMAIN,vscode.blob.core.windows.net
+  - DOMAIN,vscode.search.windows.net
+  - DOMAIN,vsmarketplacebadge.apphb.com
+  - DOMAIN,crl.microsoft.com
+  - DOMAIN,mscrl.microsoft.com
+  - DOMAIN,ocsp.microsoft.com
+  - DOMAIN,oneocsp.microsoft.com
+  - DOMAIN,prodforza.blob.core.windows.net
+  - DOMAIN,flightsimulator.azureedge.net
+  - DOMAIN,azure.microsoft.com
+  - DOMAIN,azuremarketplace.microsoft.com
+  - DOMAIN,location.microsoft.com
+  - DOMAIN,github-api.arkoselabs.com
+  - DOMAIN,github-cloud.s3.amazonaws.com
+  - DOMAIN,b.c2r.ts.cdn.office.net
+  - DOMAIN,bg.v4.a.dl.ws.microsoft.com
+  - DOMAIN,bg4.v4.a.dl.ws.microsoft.com
+  - DOMAIN,build.microsoft.com
+  - DOMAIN,cdn.marketplaceimages.windowsphone.com
+  - DOMAIN,cn.windowssearch.com
+  - DOMAIN,ctldl.windowsupdate.com
+  - DOMAIN,devblogs.microsoft.com
+  - DOMAIN,developer.microsoft.com
+  - DOMAIN,docs.microsoft.com
+  - DOMAIN,download.microsoft.com
+  - DOMAIN,download.visualstudio.microsoft.com
+  - DOMAIN,f.c2r.ts.cdn.office.net
+  - DOMAIN,fs.microsoft.com
+  - DOMAIN,learn.microsoft.com
+  - DOMAIN,myvs.download.prss.microsoft.com
+  - DOMAIN,oemsoc.download.prss.microsoft.com
+  - DOMAIN,officecdn.microsoft.com
+  - DOMAIN,res-1.cdn.office.net
+  - DOMAIN,res.cdn.office.net
+  - DOMAIN,sdx.microsoft.com
+  - DOMAIN,shell.cdn.office.net
+  - DOMAIN,software.download.prss.microsoft.com
+  - DOMAIN,statics.teams.cdn.office.net
+  - DOMAIN,storeedgefd.dsx.mp.microsoft.com
+  - DOMAIN,surface.downloads.prss.microsoft.com
+  - DOMAIN,vscode.download.prss.microsoft.com
+  - DOMAIN,vz.download.prss.microsoft.com
+  - DOMAIN,wscont1.apps.microsoft.com
+  - DOMAIN,wscont2.apps.microsoft.com
+  - DOMAIN,www.microsoft.com
+  - DOMAIN,bj1.api.bing.com
+  - DOMAIN,emoi-cncdn.bing.com
+  - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$

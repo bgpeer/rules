@@ -1,9 +1,4 @@
 payload:
-  - DOMAIN,notary-submissions-prod.s3-accelerate.amazonaws.com
-  - DOMAIN,notary-submissions-prod.s3.us-west-2.amazonaws.com
-  - DOMAIN,appleworldwidedeveloper.hb-api.omtrdc.net
-  - DOMAIN,appleworldwidedeveloper.sc.omtrdc.net
-  - DOMAIN,p-events-delivery.akamaized.net
   - DOMAIN-SUFFIX,macruby.com
   - DOMAIN-SUFFIX,cups.org
   - DOMAIN-SUFFIX,macruby.net
@@ -36,3 +31,8 @@ payload:
   - DOMAIN-SUFFIX,researchkit.com.cn
   - DOMAIN-SUFFIX,swiftui.cn
   - DOMAIN-SUFFIX,swiftui.com.cn
+  - DOMAIN,notary-submissions-prod.s3-accelerate.amazonaws.com
+  - DOMAIN,notary-submissions-prod.s3.us-west-2.amazonaws.com
+  - DOMAIN,appleworldwidedeveloper.hb-api.omtrdc.net
+  - DOMAIN,appleworldwidedeveloper.sc.omtrdc.net
+  - DOMAIN,p-events-delivery.akamaized.net
