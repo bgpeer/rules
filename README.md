@@ -58,14 +58,14 @@ geo/
 
 在 ClashMi → **Geo RuleSet** 中填写以下两个目录链接（推荐使用 CDN）：
 
-### Loy_GeoSite:[域名规则集目录](https://github.com/bgpeer/rules/tree/main/geo/rules/geosite)
+### Loy_GeoSite:[域名规则集目录](https://github.com/bgpeer/rules/tree/main/geo/geosite)
 ```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/rules/geosite
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite
 ```
 
-### Loy_GeoIP:[ip规则集目录](https://github.com/bgpeer/rules/tree/main/geo/rules/geoip)
+### Loy_GeoIP:[ip规则集目录](https://github.com/bgpeer/rules/tree/main/geo/geoip)
 ```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/rules/geoip
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip
 ```
 
 
@@ -95,14 +95,14 @@ singbox/
 
 ## CDN 目录链接（推荐）
 
-### Loy-GeoSite:[sing-box目录](https://github.com/bgpeer/rules/tree/main/geo/sing/geosite)
+### Loy-GeoSite:[sing-box目录](https://github.com/bgpeer/rules/tree/main/geo/geosite)
 ```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/sing/geosite
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite
 ```
 
-### Loy-GeoIP:[sing-box目录](https://github.com/bgpeer/rules/tree/main/geo/sing/geoip)
+### Loy-GeoIP:[sing-box目录](https://github.com/bgpeer/rules/tree/main/geo/geoip)
 ```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/sing/geoip
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip
 ```
 
 > 说明：这是“目录链接”，singbox 会按需下载其中的 `.srs` 小文件（例如
