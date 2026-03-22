@@ -67,12 +67,12 @@ geo/
 
 在 ClashMi → **Geo RuleSet** 中填写以下两个目录链接（推荐使用 CDN）：
 
-### Loy_GeoSite:[域名规则集目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/geosite)
+### [GEOSITE数据库](https://github.com/SHICHUNHUI88/rules/tree/main/geo/geosite)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/geosite
 ```
 
-### Loy_GeoIP:[ip规则集目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/geoip)
+### [GEOIP数据库](https://github.com/SHICHUNHUI88/rules/tree/main/geo/geoip)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/geoip
 ```
