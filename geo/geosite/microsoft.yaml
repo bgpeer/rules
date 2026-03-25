@@ -167,7 +167,7 @@ payload:
   - DOMAIN-SUFFIX,msocdn.com
   - DOMAIN-SUFFIX,msturing.org
   - DOMAIN-SUFFIX,msudalosti.com
-  - DOMAIN-SUFFIX,xamarin.com
+  - DOMAIN-SUFFIX,msocsp.com
   - DOMAIN-SUFFIX,nextechafrica.net
   - DOMAIN-SUFFIX,nxta.org
   - DOMAIN-SUFFIX,o365weve-dev.com
@@ -217,7 +217,7 @@ payload:
   - DOMAIN-SUFFIX,t-msedge.net
   - DOMAIN-SUFFIX,tailwindtraders.com
   - DOMAIN-SUFFIX,techhub.ms
-  - DOMAIN-SUFFIX,microsoftnews.com
+  - DOMAIN-SUFFIX,microsoftnews.net
   - DOMAIN-SUFFIX,translatetheweb.com
   - DOMAIN-SUFFIX,unlocklimitlesslearning.com
   - DOMAIN-SUFFIX,userpxt.io
@@ -241,12 +241,11 @@ payload:
   - DOMAIN-SUFFIX,winhec.com
   - DOMAIN-SUFFIX,microsoft.ca
   - DOMAIN-SUFFIX,yammer.com
-  - DOMAIN-SUFFIX,msocsp.com
   - DOMAIN-SUFFIX,microsoftnews.cc
-  - DOMAIN-SUFFIX,azuredatabricks.net
+  - DOMAIN-SUFFIX,microsoftnews.com
+  - DOMAIN-SUFFIX,azuredevopslaunch.com
   - DOMAIN-SUFFIX,microsoft.cat
   - DOMAIN-SUFFIX,tfsallin.net
-  - DOMAIN-SUFFIX,microsoftnews.net
   - DOMAIN-SUFFIX,microsoftnews.org
   - DOMAIN-SUFFIX,microsoftnewsforkids.com
   - DOMAIN-SUFFIX,microsoftnewsforkids.net
@@ -269,11 +268,11 @@ payload:
   - DOMAIN-SUFFIX,onedrive.eu
   - DOMAIN-SUFFIX,onedrive.net
   - DOMAIN-SUFFIX,onedrive.org
+  - DOMAIN-SUFFIX,xamarin.com
   - DOMAIN-SUFFIX,vscode-unpkg.net
   - DOMAIN-SUFFIX,vscode-cdn.net
   - DOMAIN-SUFFIX,vscode.dev
   - DOMAIN-SUFFIX,vsassets.io
-  - DOMAIN-SUFFIX,vfsforgit.org
   - DOMAIN-SUFFIX,microsoft.by
   - DOMAIN-SUFFIX,gamepass.com
   - DOMAIN-SUFFIX,orithegame.com
@@ -332,8 +331,8 @@ payload:
   - DOMAIN-SUFFIX,azurecosmosdb.com
   - DOMAIN-SUFFIX,azurecosmosdb.info
   - DOMAIN-SUFFIX,azurecosmosdb.net
-  - DOMAIN-SUFFIX,vfsforgit.com
-  - DOMAIN-SUFFIX,azuredevopslaunch.com
+  - DOMAIN-SUFFIX,azuredatabricks.net
+  - DOMAIN-SUFFIX,vfsforgit.org
   - DOMAIN-SUFFIX,azuredigitaltwin.com
   - DOMAIN-SUFFIX,azuredigitaltwins.com
   - DOMAIN-SUFFIX,azuredigitaltwins.net
@@ -399,7 +398,7 @@ payload:
   - DOMAIN-SUFFIX,office365love.com
   - DOMAIN-SUFFIX,office365tw.com
   - DOMAIN-SUFFIX,renovacionoffice.com
-  - DOMAIN-SUFFIX,visualstudio.net
+  - DOMAIN-SUFFIX,vfsforgit.com
   - DOMAIN-SUFFIX,githubnext.com
   - DOMAIN-SUFFIX,git.io
   - DOMAIN-SUFFIX,atom.io
@@ -428,7 +427,7 @@ payload:
   - DOMAIN-SUFFIX,githubcopilot.com
   - DOMAIN-SUFFIX,npm.community
   - DOMAIN-SUFFIX,npmjs.com
-  - DOMAIN-SUFFIX,visualstudio.eu
+  - DOMAIN-SUFFIX,visualstudio.net
   - DOMAIN-SUFFIX,adaptivecards.io
   - DOMAIN-SUFFIX,api-extractor.com
   - DOMAIN-SUFFIX,apisof.net
@@ -470,12 +469,13 @@ payload:
   - DOMAIN-SUFFIX,visualstudio-staging.com
   - DOMAIN-SUFFIX,visualstudio.com
   - DOMAIN-SUFFIX,visualstudio.co
+  - DOMAIN-SUFFIX,visualstudio.eu
   - DOMAIN-SUFFIX,live.com.au
   - DOMAIN-SUFFIX,onedrive.co.uk
   - DOMAIN-SUFFIX,skypedata.akadns.net
   - DOMAIN-SUFFIX,skype-edf.akadns.net
-  - DOMAIN-SUFFIX,microsoftstore.com.hk
   - DOMAIN-SUFFIX,visualstudio.co.uk
+  - DOMAIN-SUFFIX,microsoftstore.com.hk
   - DOMAIN-SUFFIX,dcg.microsoft.com
   - DOMAIN-SUFFIX,dynamics.cn
   - DOMAIN-SUFFIX,engkoo.com
@@ -627,10 +627,6 @@ payload:
   - DOMAIN,statics-marketingsites-eas-ms-com.akamaized.net
   - DOMAIN,statics-marketingsites-eus-ms-com.akamaized.net
   - DOMAIN,statics-marketingsites-wcus-ms-com.akamaized.net
-  - DOMAIN,crl.microsoft.com
-  - DOMAIN,mscrl.microsoft.com
-  - DOMAIN,ocsp.microsoft.com
-  - DOMAIN,oneocsp.microsoft.com
   - DOMAIN,prodforza.blob.core.windows.net
   - DOMAIN,flightsimulator.azureedge.net
   - DOMAIN,azure.microsoft.com
@@ -654,6 +650,10 @@ payload:
   - DOMAIN,vscode.blob.core.windows.net
   - DOMAIN,vscode.search.windows.net
   - DOMAIN,vsmarketplacebadge.apphb.com
+  - DOMAIN,crl.microsoft.com
+  - DOMAIN,mscrl.microsoft.com
+  - DOMAIN,ocsp.microsoft.com
+  - DOMAIN,oneocsp.microsoft.com
   - DOMAIN,b.c2r.ts.cdn.office.net
   - DOMAIN,bg.v4.a.dl.ws.microsoft.com
   - DOMAIN,bg4.v4.a.dl.ws.microsoft.com
@@ -684,7 +684,7 @@ payload:
   - DOMAIN,vz.download.prss.microsoft.com
   - DOMAIN,wscont1.apps.microsoft.com
   - DOMAIN,wscont2.apps.microsoft.com
-  - DOMAIN,www.microsoft.com
   - DOMAIN,bj1.api.bing.com
   - DOMAIN,emoi-cncdn.bing.com
+  - DOMAIN,www.microsoft.com
   - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$
