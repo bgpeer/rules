@@ -88,3 +88,61 @@ https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip
 ---
 
 ## [可用于Sing-box的样板](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
+
+---
+
+```markdown
+---
+
+## 使用方法（QuantumultX）
+
+QuantumultX 使用 `filter_remote` 引用远程规则，格式与 Surge/小火箭不同，需使用 `QuantumultX/` 目录下的专用文件。
+
+### geosite 域名样板
+```
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geosite/cn.list
+```
+
+### geoip 样板
+```
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geoip/cn.list
+```
+
+### 在 filter_remote 中引用
+
+```
+[filter_remote]
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+```
+
+> 说明：文件内不含策略名，必须通过 `force-policy` 指定走哪个策略组，否则 QX 解析失败。
+
+### QuantumultX 格式说明
+
+| 规则类型 | 示例 |
+|---|---|
+| 域名后缀 | `HOST-SUFFIX, example.com` |
+| 域名精确 | `HOST, api.example.com` |
+| 域名关键字 | `HOST-KEYWORD, openai` |
+| IPv4 | `IP-CIDR, 1.1.1.1/32` |
+| IPv6 | `IP-CIDR6, 2606::/32` |
+
+> ⚠️ QuantumultX 不支持正则（regexp）类型，相关条目已在转换时自动跳过。
+```
+
+---
+
+同时建议在顶部"文件目录"那块也补上 QX 的目录结构：
+
+```markdown
+QuantumultX/
+├── geosite/   # *.list（HOST-SUFFIX / HOST / HOST-KEYWORD）
+└── geoip/     # *.list（IP-CIDR / IP-CIDR6）
+```
+
+以及"格式说明"表格里加一行：
+
+```markdown
+| `.list`（QX） | QuantumultX |
+```
