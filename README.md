@@ -1,6 +1,6 @@
 # 🌍 Loyalsoldier Geo Rules → Multi-format Rulesets
 
-自动同步 Loyalsoldier 的 `geoip.dat` 和 `geosite.dat`，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge/ QuantumultX 等代理工具。
+自动同步 Loyalsoldier 的 `geoip.dat` 和 `geosite.dat`，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / QuantumultX 等代理工具。
 
 ---
 
@@ -38,7 +38,7 @@ geo/
 ├── geosite/        # *.mrs  *.yaml  *.list  *.json  *.srs
 └── geoip/          # *.mrs  *.yaml  *.list  *.json  *.srs
 
-QuantumultX/
+QX/
 ├── geosite/        # *.list（HOST-SUFFIX / HOST / HOST-KEYWORD）
 └── geoip/          # *.list（IP-CIDR / IP-CIDR6）
 ```
@@ -103,32 +103,30 @@ https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip
 
 ---
 
-## 使用方法（Sing-box）
-
 ## [可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
 
 ---
 
 ## 使用方法（QuantumultX）
 
-QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QuantumultX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
+QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
 
-### geosite 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/QuantumultX/geosite)
+### geosite 域名样板
 ```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geosite/cn.list
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QX/geosite/cn.list
 ```
 
-### geoip 样板 [目录](https://github.com/bgpeer/rules/tree/main/QuantumultX/geoip)
+### geoip 样板
 ```
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geoip/cn.list
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QX/geoip/cn.list
 ```
 
 ### 在 filter_remote 中引用
 
 ```ini
 [filter_remote]
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
-https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
 ```
 
 > 说明：文件内不含策略名，必须通过 `force-policy` 指定走哪个策略组，否则 QX 解析失败。将 `direct` 替换为你实际的策略组名称即可。
@@ -144,5 +142,4 @@ https://cdn.jsdelivr.net/gh/bgpeer/rules@main/QuantumultX/geoip/cn.list, tag=CN-
 | IPv6 | `IP-CIDR6, 2606::/32` |
 
 ---
-
 
