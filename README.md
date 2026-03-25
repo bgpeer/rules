@@ -111,12 +111,12 @@ https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/geoip
 
 QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
 
-### geosite 域名样板
+### geosite 域名样板 [目录](https://github.com/SHICHUNHUI88/rules/tree/main/QX/geosite)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/QX/geosite/cn.list
 ```
 
-### geoip 样板
+### geoip 样板 [目录](https://github.com/SHICHUNHUI88/rules/tree/main/QX/geoip)
 ```
 https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/QX/geoip/cn.list
 ```
