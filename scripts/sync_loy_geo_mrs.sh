@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # sync_loy_geo_mrs.sh
 # 从 Loyalsoldier 下载 geoip/geosite .dat，拆分并输出五种格式：
-#   geo/geosite/  ->  .mrs  .yaml  .list  .json  .srs
-#   geo/geoip/    ->  .mrs  .yaml  .list  .json  .srs
+#   geo/geosite/        ->  .mrs  .yaml  .list  .json  .srs
+#   geo/geoip/          ->  .mrs  .yaml  .list  .json  .srs
+#   QuantumultX/geosite ->  .list
+#   QuantumultX/geoip   ->  .list
 #
 # geosite 支持四种规则类型：
 #   普通条目  -> domain-suffix  (.example.com)
 #   full:     -> domain 精确    (api.example.com)
 #   keyword:  -> domain-keyword (写入 yaml/list/json/srs，mrs 不支持跳过)
-#   regexp:   -> domain-regex   (写入 yaml/list/json/srs，mrs 不支持跳过)
+#   regexp:   -> domain-regex   (写入 yaml/list/json/srs，mrs 不支持跳过；QX 不支持跳过)
 #
 # geoip 支持：
 #   IPv4 CIDR -> IP-CIDR
@@ -20,6 +22,8 @@ GEOSITE_URL='https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/ge
 
 OUT_GEOSITE='geo/geosite'
 OUT_GEOIP='geo/geoip'
+OUT_QX_GEOSITE='QuantumultX/geosite'
+OUT_QX_GEOIP='QuantumultX/geoip'
 
 MIHOMO_BIN="${MIHOMO_BIN:-./mihomo}"
 SINGBOX_BIN="${SINGBOX_BIN:-./sing-box}"
@@ -62,8 +66,8 @@ fi
 
 # ── 3. 清空旧输出（增删同步） ─────────────────────────────────────────────────
 echo "[3/7] Clean output dirs (full sync)..."
-rm -rf "$OUT_GEOSITE" "$OUT_GEOIP"
-mkdir -p "$OUT_GEOSITE" "$OUT_GEOIP"
+rm -rf "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"
+mkdir -p "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 辅助函数
@@ -119,7 +123,7 @@ make_yaml_ipcidr() {
   } > "$dst"
 }
 
-# ── list（geosite）───────────────────────────────────────────────────────────
+# ── list（geosite，mihomo/Surge/小火箭）──────────────────────────────────────
 make_list_domain() {
   local f_suffix="$1" f_domain="$2" f_keyword="$3" f_regexp="$4" dst="$5"
   {
@@ -142,7 +146,7 @@ make_list_domain() {
   } > "$dst"
 }
 
-# ── list（geoip）─────────────────────────────────────────────────────────────
+# ── list（geoip，mihomo/Surge/小火箭）────────────────────────────────────────
 make_list_ipcidr() {
   local src="$1" dst="$2"
   while IFS= read -r line; do
@@ -151,6 +155,39 @@ make_list_ipcidr() {
       echo "IP-CIDR6,${line}"
     else
       echo "IP-CIDR,${line}"
+    fi
+  done < "$src" > "$dst"
+}
+
+# ── list QX（geosite，QuantumultX）───────────────────────────────────────────
+make_qx_list_domain() {
+  local f_suffix="$1" f_domain="$2" f_keyword="$3" dst="$4"
+  # regexp: QX 不支持，跳过
+  {
+    while IFS= read -r line; do
+      [[ -z "$line" ]] && continue
+      echo "HOST-SUFFIX, ${line#.}"
+    done < "$f_suffix"
+    while IFS= read -r line; do
+      [[ -z "$line" ]] && continue
+      echo "HOST, ${line}"
+    done < "$f_domain"
+    while IFS= read -r line; do
+      [[ -z "$line" ]] && continue
+      echo "HOST-KEYWORD, ${line}"
+    done < "$f_keyword"
+  } > "$dst"
+}
+
+# ── list QX（geoip，QuantumultX）─────────────────────────────────────────────
+make_qx_list_ipcidr() {
+  local src="$1" dst="$2"
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    if [[ "$line" == *:* ]]; then
+      echo "IP-CIDR6, ${line}"
+    else
+      echo "IP-CIDR, ${line}"
     fi
   done < "$src" > "$dst"
 }
@@ -277,6 +314,9 @@ while IFS= read -r f; do
   make_list_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
     "${OUT_GEOSITE}/${tag}.list"
 
+  make_qx_list_domain "$f_suffix" "$f_domain" "$f_keyword" \
+    "${OUT_QX_GEOSITE}/${tag}.list"
+
   json="${OUT_GEOSITE}/${tag}.json"
   make_singbox_json_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" "$json"
   compile_srs "$json" "${OUT_GEOSITE}/${tag}.srs" || true
@@ -303,6 +343,7 @@ while IFS= read -r f; do
   convert_mrs ipcidr "$f" "${OUT_GEOIP}/${tag}.mrs"    || true
   make_yaml_ipcidr   "$f"  "${OUT_GEOIP}/${tag}.yaml"
   make_list_ipcidr   "$f"  "${OUT_GEOIP}/${tag}.list"
+  make_qx_list_ipcidr "$f" "${OUT_QX_GEOIP}/${tag}.list"
 
   json="${OUT_GEOIP}/${tag}.json"
   make_singbox_json_ipcidr "$f" "$json"
@@ -317,15 +358,17 @@ echo "[INFO] geoip: ok=$geoip_ok"
 # 6. 统计
 # ══════════════════════════════════════════════════════════════════════════════
 echo "[6/7] Final counts:"
-echo "  geo/geosite/  mrs  : $(find "$OUT_GEOSITE" -name '*.mrs'  | wc -l | tr -d ' ')"
-echo "  geo/geosite/  yaml : $(find "$OUT_GEOSITE" -name '*.yaml' | wc -l | tr -d ' ')"
-echo "  geo/geosite/  list : $(find "$OUT_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
-echo "  geo/geosite/  json : $(find "$OUT_GEOSITE" -name '*.json' | wc -l | tr -d ' ')"
-echo "  geo/geosite/  srs  : $(find "$OUT_GEOSITE" -name '*.srs'  | wc -l | tr -d ' ')"
-echo "  geo/geoip/    mrs  : $(find "$OUT_GEOIP"   -name '*.mrs'  | wc -l | tr -d ' ')"
-echo "  geo/geoip/    yaml : $(find "$OUT_GEOIP"   -name '*.yaml' | wc -l | tr -d ' ')"
-echo "  geo/geoip/    list : $(find "$OUT_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
-echo "  geo/geoip/    json : $(find "$OUT_GEOIP"   -name '*.json' | wc -l | tr -d ' ')"
-echo "  geo/geoip/    srs  : $(find "$OUT_GEOIP"   -name '*.srs'  | wc -l | tr -d ' ')"
+echo "  geo/geosite/        mrs  : $(find "$OUT_GEOSITE"    -name '*.mrs'  | wc -l | tr -d ' ')"
+echo "  geo/geosite/        yaml : $(find "$OUT_GEOSITE"    -name '*.yaml' | wc -l | tr -d ' ')"
+echo "  geo/geosite/        list : $(find "$OUT_GEOSITE"    -name '*.list' | wc -l | tr -d ' ')"
+echo "  geo/geosite/        json : $(find "$OUT_GEOSITE"    -name '*.json' | wc -l | tr -d ' ')"
+echo "  geo/geosite/        srs  : $(find "$OUT_GEOSITE"    -name '*.srs'  | wc -l | tr -d ' ')"
+echo "  geo/geoip/          mrs  : $(find "$OUT_GEOIP"      -name '*.mrs'  | wc -l | tr -d ' ')"
+echo "  geo/geoip/          yaml : $(find "$OUT_GEOIP"      -name '*.yaml' | wc -l | tr -d ' ')"
+echo "  geo/geoip/          list : $(find "$OUT_GEOIP"      -name '*.list' | wc -l | tr -d ' ')"
+echo "  geo/geoip/          json : $(find "$OUT_GEOIP"      -name '*.json' | wc -l | tr -d ' ')"
+echo "  geo/geoip/          srs  : $(find "$OUT_GEOIP"      -name '*.srs'  | wc -l | tr -d ' ')"
+echo "  QuantumultX/geosite list : $(find "$OUT_QX_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
+echo "  QuantumultX/geoip   list : $(find "$OUT_QX_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
 
 echo "[7/7] Done."
