@@ -3,8 +3,8 @@
 # 从 Loyalsoldier 下载 geoip/geosite .dat，拆分并输出五种格式：
 #   geo/geosite/        ->  .mrs  .yaml  .list  .json  .srs
 #   geo/geoip/          ->  .mrs  .yaml  .list  .json  .srs
-#   QuantumultX/geosite ->  .list
-#   QuantumultX/geoip   ->  .list
+#   QX/geosite          ->  .list
+#   QX/geoip            ->  .list
 #
 # geosite 支持四种规则类型：
 #   普通条目  -> domain-suffix  (.example.com)
@@ -22,8 +22,8 @@ GEOSITE_URL='https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/ge
 
 OUT_GEOSITE='geo/geosite'
 OUT_GEOIP='geo/geoip'
-OUT_QX_GEOSITE='QuantumultX/geosite'
-OUT_QX_GEOIP='QuantumultX/geoip'
+OUT_QX_GEOSITE='QX/geosite'
+OUT_QX_GEOIP='QX/geoip'
 
 MIHOMO_BIN="${MIHOMO_BIN:-./mihomo}"
 SINGBOX_BIN="${SINGBOX_BIN:-./sing-box}"
@@ -368,7 +368,7 @@ echo "  geo/geoip/          yaml : $(find "$OUT_GEOIP"      -name '*.yaml' | wc 
 echo "  geo/geoip/          list : $(find "$OUT_GEOIP"      -name '*.list' | wc -l | tr -d ' ')"
 echo "  geo/geoip/          json : $(find "$OUT_GEOIP"      -name '*.json' | wc -l | tr -d ' ')"
 echo "  geo/geoip/          srs  : $(find "$OUT_GEOIP"      -name '*.srs'  | wc -l | tr -d ' ')"
-echo "  QuantumultX/geosite list : $(find "$OUT_QX_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
-echo "  QuantumultX/geoip   list : $(find "$OUT_QX_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
+echo "  QX/geosite/         list : $(find "$OUT_QX_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
+echo "  QX/geoip/           list : $(find "$OUT_QX_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
 
 echo "[7/7] Done."
