@@ -115,26 +115,19 @@ jobs:
 
           echo ""
           echo "=== [DEBUG] douyin IP 诊断 ==="
-          for fmt in yaml list json; do
+          for fmt in yaml list; do
             f="geo/geosite/douyin.${fmt}"
             if [ -f "$f" ]; then
-              if [ "$fmt" = "json" ]; then
-                cnt=$(python3 -c "
-import json
-d = json.load(open('$f'))
-rules = d.get('rules', [{}])
-print(len(rules[0].get('ip_cidr', [])))
-" 2>/dev/null || echo "parse_err")
-                echo "douyin.json  ip_cidr 条数 : $cnt"
-              else
-                cnt=$(grep -cE '^  - IP-CIDR|^IP-CIDR' "$f" 2>/dev/null || echo 0)
-                asn=$(grep -cE '^  - IP-ASN|^IP-ASN'   "$f" 2>/dev/null || echo 0)
-                echo "douyin.${fmt}  IP-CIDR=$cnt  IP-ASN=$asn"
-              fi
+              cnt=$(grep -cE 'IP-CIDR' "$f" 2>/dev/null || echo 0)
+              asn=$(grep -cE 'IP-ASN'  "$f" 2>/dev/null || echo 0)
+              echo "douyin.${fmt}  IP-CIDR=${cnt}  IP-ASN=${asn}"
             else
-              echo "douyin.${fmt} : 文件不存在"
+              echo "douyin.${fmt} : not found"
             fi
           done
+          if [ -f geo/geosite/douyin.json ]; then
+            python3 -c 'import json,sys; d=json.load(open("geo/geosite/douyin.json")); r=d.get("rules",[{}]); print("douyin.json ip_cidr:", len(r[0].get("ip_cidr",[])), "entries")'
+          fi
 
       # ── Commit & Push（stash 重试版） ─────────────────────────────────────
       - name: Commit & push (safe)
