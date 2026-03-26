@@ -674,11 +674,15 @@ payload:
   - PROCESS-NAME,WeChat.exe
   - PROCESS-NAME,WeChatApp.exe
   - PROCESS-NAME,com.tencent.lolm
+  - PROCESS-NAME-WILDCARD,com.tencent.mm*
+  - PROCESS-NAME-WILDCARD,WeChat*.exe
+  - PROCESS-NAME-WILDCARD,wechat*.exe
+  - IP-ASN,132203
+  - IP-ASN,45090
   - IP-CIDR,1.12.0.0/14
+  - PROCESS-NAME-WILDCARD,com.tencent.lolm*
   - IP-CIDR,43.132.0.0/16
   - IP-CIDR,129.226.0.0/16
   - IP-CIDR,36.155.0.0/16
   - IP-CIDR,183.3.0.0/16
   - IP-CIDR,119.28.0.0/16
-  - IP-ASN,132203
-  - IP-ASN,45090

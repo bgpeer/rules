@@ -20,6 +20,10 @@ payload:
   - PROCESS-NAME,claude.exe
   - PROCESS-NAME,Anthropic
   - PROCESS-NAME,Anthropic.exe
+  - PROCESS-NAME-WILDCARD,*Claude*
+  - PROCESS-NAME-WILDCARD,*claude*
+  - PROCESS-NAME-WILDCARD,*Anthropic*
+  - PROCESS-NAME-WILDCARD,*anthropic*
   - IP-CIDR,160.79.104.0/23
   - IP-CIDR6,2607:6bc0::/48
   - IP-ASN,399358

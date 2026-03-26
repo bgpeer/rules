@@ -114,6 +114,8 @@ PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
 PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
 PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
 PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
+IP-ASN,396986
+IP-ASN,138699
 IP-CIDR,170.176.0.0/12
 IP-CIDR,161.117.0.0/16
 IP-CIDR,47.246.0.0/16
@@ -134,5 +136,6 @@ IP-CIDR,89.187.171.13/32
 IP-CIDR,71.18.162.252/32
 IP-CIDR,71.18.162.253/32
 IP-CIDR,71.18.162.254/32
-IP-ASN,396986
-IP-ASN,138699
+PROCESS-PATH-REGEX,(?i).*\\TikTok.*\.exe$
+PROCESS-PATH-REGEX,(?i).*\\TikTok.*Live.*Studio.*\.exe$
+PROCESS-PATH-REGEX,(?i).*\\CapCut.*\.exe$
