@@ -1,0 +1,353 @@
+payload:
+  # ==== 国内 DNS ====
+  - DOMAIN,dns.alidns.com
+  - DOMAIN,doh.pub
+  - DOMAIN,dns.pub
+  - DOMAIN,dns.baidu.com
+  - DOMAIN,dns.360.cn
+  - DOMAIN,dns.10086.cn
+  - DOMAIN,dns.10010.com
+  - DOMAIN,dns.189.cn
+  - DOMAIN,dns.cernet.cn
+  - DOMAIN,dns.ctc.edu.cn
+  - DOMAIN,doh.360.cn
+  - DOMAIN,doh.alidns.com
+  - DOMAIN,doh.pubdns.cn
+  - DOMAIN,dns.knet.cn
+  - DOMAIN,dns.114dns.com
+  - DOMAIN,dns.114dns.cn
+  - DOMAIN,dns.tuna.tsinghua.edu.cn
+  - DOMAIN,dns.tencent.com
+  - DOMAIN,dns.wechat.com
+  - DOMAIN,dns.huaweicloud.com
+  - DOMAIN,dns.aliyun.com
+
+  ## 🟢 阿里云（Alibaba Cloud）
+  - DOMAIN-SUFFIX,alicdn.com
+  - DOMAIN-SUFFIX,taobaocdn.com
+  - DOMAIN-SUFFIX,aliyuncs.com
+  - DOMAIN-SUFFIX,aliyun.com
+  - DOMAIN-SUFFIX,tbcache.com
+  - DOMAIN-SUFFIX,cdn.aliyun.com
+  ## 🔵 腾讯云（Tencent Cloud）
+  - DOMAIN-SUFFIX,tencent.com
+  - DOMAIN-SUFFIX,tencent-cloud.net
+  - DOMAIN-SUFFIX,myqcloud.com
+  - DOMAIN-SUFFIX,qcloudcdn.com
+  - DOMAIN-SUFFIX,cdn.qcloud.com
+  - DOMAIN-SUFFIX,cdn-go.cn
+  - DOMAIN-SUFFIX,cdn.qq.com
+  - DOMAIN-SUFFIX,gtimg.com
+  - DOMAIN-SUFFIX,qpic.cn
+  - DOMAIN-SUFFIX,dnsv1.com
+  ## 🟣 百度云（Baidu Cloud）
+  - DOMAIN-SUFFIX,baidubce.com
+  - DOMAIN-SUFFIX,bdstatic.com
+  - DOMAIN-SUFFIX,bdydns.com
+  - DOMAIN-SUFFIX,baidupcs.com
+  - DOMAIN-SUFFIX,cdn.baidubce.com
+  - DOMAIN-SUFFIX,cdn.bcebos.com
+  ## 🟠 华为云（Huawei Cloud）
+  - DOMAIN-SUFFIX,hwcdn.net
+  - DOMAIN-SUFFIX,huaweicloud.com
+  - DOMAIN-SUFFIX,myhuaweicloud.com
+  - DOMAIN-SUFFIX,hwclouds.com
+  - DOMAIN-SUFFIX,myhwcdn.cn
+  ## ⚪ 网宿科技（Wangsu）
+  - DOMAIN-SUFFIX,wangsu.com
+  - DOMAIN-SUFFIX,wscdns.com
+  - DOMAIN-SUFFIX,wsdvs.com
+  - DOMAIN-SUFFIX,wscloudcdn.com
+  - DOMAIN-SUFFIX,ourwebpic.com
+  - DOMAIN-SUFFIX,cdn20.com
+  - DOMAIN-SUFFIX,cdn30.com
+  ## 🟤 七牛云（Qiniu）
+  - DOMAIN-SUFFIX,qiniucdn.com
+  - DOMAIN-SUFFIX,qiniudn.com
+  - DOMAIN-SUFFIX,qiniuio.com
+  - DOMAIN-SUFFIX,cdn.clouddn.com
+  - DOMAIN-SUFFIX,qnssl.com
+  - DOMAIN-SUFFIX,qiniudns.com
+  ## 🟢 蓝汛（ChinaCache）
+  - DOMAIN-SUFFIX,chinacache.net
+  - DOMAIN-SUFFIX,lxdns.com
+  ## 🔵 白山云（BaishanCloud）
+  - DOMAIN-SUFFIX,bsclink.cn
+  - DOMAIN-SUFFIX,bsccdn.net
+  - DOMAIN-SUFFIX,bsgslb.com
+  ## 🟣 京东云（JD Cloud）
+  - DOMAIN-SUFFIX,jdcloud.com
+  - DOMAIN-SUFFIX,jcloud-cdn.com
+  - DOMAIN-SUFFIX,360buyimg.com
+  ## 🟠 其他国内 CDN / 公共云
+  - DOMAIN-SUFFIX,163yun.com       
+  - DOMAIN-SUFFIX,ctyunapi.cn      
+  - DOMAIN-SUFFIX,cndns.com.cn
+  - DOMAIN-SUFFIX,letvcdn.com
+  - DOMAIN-SUFFIX,sina.com
+  - DOMAIN-SUFFIX,sohu.com
+
+  # 京东中国 / 京东金融 规则集 (ClashMeta)
+  # ==== 进程 ====
+  - PROCESS-NAME,com.jd.app.mall
+  - PROCESS-NAME,com.jingdong.app.mall
+  - PROCESS-NAME,com.jd.jrapp
+  - PROCESS-NAME,com.jd.jrapp.pay
+  # ==== 主域名 ====
+  - DOMAIN-SUFFIX,jd.com
+  - DOMAIN-SUFFIX,360buy.com
+  - DOMAIN-SUFFIX,360buyimg.com
+  - DOMAIN-SUFFIX,jdstatic.com
+  - DOMAIN-SUFFIX,jdcdn.com
+  - DOMAIN-SUFFIX,jdedge.net
+  - DOMAIN-SUFFIX,jdwl.com
+  # ==== 京东金融 / 支付体系 ====
+  - DOMAIN-SUFFIX,jr.jd.com
+  - DOMAIN-SUFFIX,jdpay.com
+  - DOMAIN-SUFFIX,baitiao.com
+  - DOMAIN-SUFFIX,wangyin.com
+  - DOMAIN-SUFFIX,jdallianz.com
+  - DOMAIN-SUFFIX,chinabank.com.cn
+  - DOMAIN-SUFFIX,healthjd.com
+  - DOMAIN-SUFFIX,yiyaojd.com
+  # ==== API 与登录服务 ====
+  - DOMAIN-SUFFIX,api.m.jd.com
+  - DOMAIN-SUFFIX,m.jd.com
+  - DOMAIN-SUFFIX,wq.jd.com
+  - DOMAIN-SUFFIX,plogin.m.jd.com
+  - DOMAIN-SUFFIX,passport.jd.com
+  - DOMAIN-SUFFIX,mservice.jd.com
+  # ==== 静态资源 ====
+  - DOMAIN-KEYWORD,360buyimg
+  - DOMAIN-KEYWORD,img10
+  - DOMAIN-KEYWORD,img11
+  - DOMAIN-KEYWORD,jdstatic
+  - DOMAIN-KEYWORD,jdcdn
+  - DOMAIN-KEYWORD,scdn.jd
+  - DOMAIN-KEYWORD,jdedge
+  # ==== 关键词 ====
+  - DOMAIN-KEYWORD,jdpay
+  - DOMAIN-KEYWORD,baitiao
+  - DOMAIN-KEYWORD,jingdong
+  - IP-ASN,133481
+
+  # ==== 📊 同花顺 (10jqka / iFinD) ====
+  # 进程分流 (Android)
+  - PROCESS-NAME,com.hexin.plat.android
+  - PROCESS-NAME,com.hexin.android.stock
+  - PROCESS-NAME,com.hexin.passport
+  # 核心业务与 API
+  - DOMAIN-SUFFIX,10jqka.com.cn
+  - DOMAIN-SUFFIX,ths123.com
+  - DOMAIN-SUFFIX,ths123.com.cn
+  - DOMAIN-SUFFIX,hexin.cn
+  - DOMAIN-SUFFIX,flush.com.cn
+  - DOMAIN-SUFFIX,ifind.com.cn
+  - DOMAIN-SUFFIX,thsi.cn
+  - DOMAIN-SUFFIX,iwencai.com
+  # 行情、推送与静态资源 (CDN)
+  - DOMAIN-SUFFIX,thsimg.com
+  - DOMAIN-SUFFIX,thskline.com
+  - DOMAIN-SUFFIX,ths666.com
+  - DOMAIN-SUFFIX,ths8.com
+  - DOMAIN-SUFFIX,ths8.cn
+  - DOMAIN-SUFFIX,my710.com
+  # 子业务 (基金/金融工具)
+  - DOMAIN-SUFFIX,fund123.cn
+  - DOMAIN-SUFFIX,998000.com
+  - DOMAIN-SUFFIX,itdh.com.cn
+  # 自治系统兜底 (ASN)
+  - IP-ASN,58519
+  # 🔑 关键词 (兜底防漏网)
+  - DOMAIN-KEYWORD,10jqka
+  - DOMAIN-KEYWORD,ifind
+  - DOMAIN-KEYWORD,hexin
+  - DOMAIN-KEYWORD,ths
+  - DOMAIN-KEYWORD,thskline
+
+  # 📈 平安证券 Ping An Securities
+  - PROCESS-NAME,com.pingan.securities
+  - PROCESS-NAME,com.pingan.mobile.stock
+  - DOMAIN-SUFFIX,pingan.com
+  - DOMAIN-SUFFIX,pingan.com.cn
+  - DOMAIN-SUFFIX,pingan.cn
+  - DOMAIN-SUFFIX,pingansec.com
+  - DOMAIN-SUFFIX,pingan.com.hk
+  - DOMAIN-SUFFIX,trade.pingan.com
+  - DOMAIN-SUFFIX,stock.pingan.com
+  - DOMAIN-SUFFIX,m.pingan.com
+  - DOMAIN-SUFFIX,passport.pingan.com
+  - DOMAIN-SUFFIX,api.pingansec.com
+  - DOMAIN-KEYWORD,pingansec
+  - DOMAIN-KEYWORD,pinganstock
+  - DOMAIN-KEYWORD,pingan
+
+  # 💹 东方财富 Eastmoney
+  - PROCESS-NAME,com.eastmoney.android.berlin
+  - PROCESS-NAME,com.eastmoney.android.berlinlite
+  - PROCESS-NAME,com.eastmoney.android.fund
+  - DOMAIN-SUFFIX,eastmoney.com
+  - DOMAIN-SUFFIX,eastmoney.cn
+  - DOMAIN-SUFFIX,emdata.net
+  - DOMAIN-SUFFIX,emsec.net
+  - DOMAIN-SUFFIX,dfcfw.com
+  - DOMAIN-SUFFIX,dfcfd.com
+  - DOMAIN-SUFFIX,api.eastmoney.com
+  - DOMAIN-SUFFIX,push2.eastmoney.com
+  - DOMAIN-SUFFIX,push2his.eastmoney.com
+  - DOMAIN-SUFFIX,passport.eastmoney.com
+  - DOMAIN-SUFFIX,trade.eastmoney.com
+  - DOMAIN-SUFFIX,live.eastmoney.com
+  - DOMAIN-SUFFIX,fund.eastmoney.com
+  - DOMAIN-SUFFIX,stock.eastmoney.com
+  - DOMAIN-SUFFIX,guba.eastmoney.com
+  - DOMAIN-KEYWORD,eastmoney
+  - DOMAIN-KEYWORD,dfcf
+  - DOMAIN-KEYWORD,dfcfw
+  - DOMAIN-KEYWORD,emdata
+
+  # 中国主要银行规则集 (ClashMeta)
+  # 🏦 中国建设银行 (CCB)
+  - PROCESS-NAME,com.china.ccb.mbank
+  - DOMAIN-SUFFIX,ccb.com
+  - DOMAIN-SUFFIX,ccb.cn
+  - DOMAIN-SUFFIX,ccbjf.com
+  - DOMAIN-SUFFIX,ccb-life.com.cn
+  - DOMAIN-SUFFIX,ccbfund.cn
+  - DOMAIN-SUFFIX,ebank.ccb.com
+  - DOMAIN-SUFFIX,m.ccb.com
+  - DOMAIN-SUFFIX,wx.ccb.com
+  - DOMAIN-SUFFIX,creditcard.ccb.com
+  - DOMAIN-SUFFIX,ccblogin.ccb.com
+  - DOMAIN-KEYWORD,ccb
+
+  # 🏦 中国工商银行 (ICBC)
+  - PROCESS-NAME,com.icbc
+  - PROCESS-NAME,com.icbc.elife
+  - DOMAIN-SUFFIX,icbc.com.cn
+  - DOMAIN-SUFFIX,icbc-ltd.com
+  - DOMAIN-SUFFIX,icbcus.com
+  - DOMAIN-SUFFIX,icbcasia.com
+  - DOMAIN-SUFFIX,icbc.com.mo
+  - DOMAIN-SUFFIX,mybank.icbc.com.cn
+  - DOMAIN-SUFFIX,corporbank.icbc.com.cn
+  - DOMAIN-SUFFIX,3g.icbc.com.cn
+  - DOMAIN-SUFFIX,ebill.icbc.com.cn
+  - DOMAIN-SUFFIX,epass.icbc.com.cn
+  - DOMAIN-SUFFIX,creditcard.icbc.com.cn
+  - DOMAIN-KEYWORD,icbc
+
+  # 🏦 平安银行 (PINGAN)
+  - PROCESS-NAME,com.pingan.pabank
+  - PROCESS-NAME,com.pingan.creditcard
+  - DOMAIN-SUFFIX,pingan.com
+  - DOMAIN-SUFFIX,pingan.com.cn
+  - DOMAIN-SUFFIX,pingan.cn
+  - DOMAIN-SUFFIX,pinganbank.com
+  - DOMAIN-SUFFIX,pinganbank.com.cn
+  - DOMAIN-SUFFIX,bank.pingan.com
+  - DOMAIN-SUFFIX,creditcard.pingan.com
+  - DOMAIN-SUFFIX,m.pingan.com
+  - DOMAIN-SUFFIX,ebank.pingan.com
+  - DOMAIN-SUFFIX,login.pingan.com
+  - DOMAIN-SUFFIX,insurance.pingan.com
+  - DOMAIN-KEYWORD,pingan
+  - DOMAIN-KEYWORD,pabank
+
+  # 🏦 招商银行 (CMB)
+  - PROCESS-NAME,com.cmbchina.ccd.pluto.cmbActivity
+  - PROCESS-NAME,com.cmbchina.ccd.pluto
+  - PROCESS-NAME,com.cmbchina.ccd.pb
+  - DOMAIN-SUFFIX,cmbchina.com
+  - DOMAIN-SUFFIX,cmbchina.com.cn
+  - DOMAIN-SUFFIX,cmbimg.com
+  - DOMAIN-SUFFIX,cmburl.cn
+  - DOMAIN-SUFFIX,cmblife.com
+  - DOMAIN-SUFFIX,m.cmbchina.com
+  - DOMAIN-SUFFIX,openapi.cmbchina.com
+  - DOMAIN-SUFFIX,ebank.cmbchina.com
+  - DOMAIN-SUFFIX,creditcard.cmbchina.com
+  - DOMAIN-SUFFIX,life.cmbchina.com
+  - DOMAIN-SUFFIX,login.cmbchina.com
+  - DOMAIN-SUFFIX,service.cmbchina.com
+  - DOMAIN-SUFFIX,insurance.cmbchina.com
+  - DOMAIN-SUFFIX,cmbapp.cmbchina.com
+  - DOMAIN-KEYWORD,cmbchina
+  - DOMAIN-KEYWORD,cmblife
+  - DOMAIN-KEYWORD,cmb
+
+  # ==== 👮交管12123 ====
+  - PROCESS-NAME,com.tmri.app.main
+  - PROCESS-NAME,com.tmri.app
+  - PROCESS-NAME,com.tmri.android
+  - PROCESS-NAME,com.tmri
+  - DOMAIN-SUFFIX,122.gov.cn
+  - DOMAIN-SUFFIX,12123.gov.cn
+  - DOMAIN-SUFFIX,tmri.gov.cn
+  - DOMAIN-SUFFIX,mps.gov.cn
+  - DOMAIN-SUFFIX,gongan.gov.cn
+  - DOMAIN-SUFFIX,ga.gov.cn
+  - DOMAIN-KEYWORD,12123
+  - DOMAIN-KEYWORD,tmri
+  - DOMAIN-KEYWORD,jiaoguan
+  - DOMAIN-KEYWORD,jtgj
+  - DOMAIN-KEYWORD,gongan
+  - DOMAIN-KEYWORD,mps
+
+  # 💿 夸克进程名（Android / TV / PC）
+  - PROCESS-NAME,com.quark.browser
+  - PROCESS-NAME,com.quark.clouddrive
+  - PROCESS-NAME,com.quark.scanking
+  - PROCESS-NAME,com.quark.yun.tv
+  - PROCESS-NAME,com.quark.aisearch
+  - PROCESS-NAME,QuarkCloudDrive.exe
+  - PROCESS-NAME,ChromeHost.exe
+  # 主站 / 网盘 / AI / 文档 / 扫描王 等域名 
+  - DOMAIN-SUFFIX,quark.cn
+  - DOMAIN-SUFFIX,myquark.cn
+  - DOMAIN,pan.quark.cn
+  - DOMAIN,ai.quark.cn
+  - DOMAIN,b.quark.cn
+  - DOMAIN,doc.quark.cn
+  - DOMAIN,image.quark.cn
+  # 关键字匹配（兜底用，小心误伤其它 “quark” 站点）
+  - DOMAIN-KEYWORD,quark
+  - DOMAIN-KEYWORD,myquark
+  - DOMAIN-KEYWORD,quarkcloud
+  - DOMAIN-KEYWORD,quarkpan
+  # ===== 正则兜底（夸克系域名）=====
+  - DOMAIN-REGEX,(?i)(^|\\.)quark\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\\.)myquark\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\\.)pan\\.quark\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\\.)doc\\.quark\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\\.)image\\.quark\\.cn$
+  # ===== ASN（后端基本都在阿里系 ASN 上）=====
+  - IP-ASN,37963
+
+  # cilicili 域名规则集
+  - DOMAIN,dspcilipwa6.fnrlgg.com
+  - DOMAIN,src.3llzcucy.com
+  - DOMAIN,src.pfep5.com
+  - DOMAIN,xv9nlpwm.tieten365.com
+  - DOMAIN,sc.kpgk8zvx9.com
+  - DOMAIN,evdcilicili3.pmuwlj.com
+  - DOMAIN,newbie.ewukbav.live
+  - DOMAIN,svs0a33sd.5p2gjr7.com
+  - DOMAIN,svs0a33sd.hau3ef3.com
+  - DOMAIN,svs0a33sd.pcdy5zn.com
+  - DOMAIN,svs0a23sd.tk27e5k.com
+  - DOMAIN,svs0a33sd.6jkn3y5.com
+  - DOMAIN,ntgvp3zk.vyilwh.com
+  - DOMAIN-SUFFIX,fnrlgg.com
+  - DOMAIN-SUFFIX,3llzcucy.com
+  - DOMAIN-SUFFIX,pfep5.com
+  - DOMAIN-SUFFIX,tieten365.com
+  - DOMAIN-SUFFIX,kpgk8zvx9.com
+  - DOMAIN-SUFFIX,pmuwlj.com
+  - DOMAIN-SUFFIX,ewukbav.live
+  - DOMAIN-SUFFIX,5p2gjr7.com
+  - DOMAIN-SUFFIX,hau3ef3.com
+  - DOMAIN-SUFFIX,pcdy5zn.com
+  - DOMAIN-SUFFIX,tk27e5k.com
+  - DOMAIN-SUFFIX,6jkn3y5.com
+  - DOMAIN-SUFFIX,vyilwh.com
