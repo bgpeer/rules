@@ -1,0 +1,23 @@
+payload:
+  - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,anthropic.com
+  - DOMAIN-SUFFIX,platform.claude.com
+  - DOMAIN-SUFFIX,claudeusercontent.com
+  - DOMAIN-SUFFIX,claudeusercontent.net
+  - DOMAIN,cdn.usefathom.com
+  - DOMAIN,claude.ai
+  - DOMAIN,api.anthropic.com
+  - DOMAIN,platform.claude.com
+  - DOMAIN-KEYWORD,anthropic
+  - DOMAIN-KEYWORD,claude
+  - DOMAIN-REGEX,^(.*\.)?claude\.ai$
+  - DOMAIN-REGEX,^(.*\.)?anthropic\.com$
+  - DOMAIN-REGEX,^(.*\.)?platform\.claude\.com$
+  - PROCESS-NAME,com.anthropic.claude
+  - PROCESS-NAME,Claude
+  - PROCESS-NAME,Claude.exe
+  - PROCESS-NAME,claude
+  - PROCESS-NAME,claude.exe
+  - PROCESS-NAME,Anthropic
+  - PROCESS-NAME,Anthropic.exe
+  - IP-ASN,399358
