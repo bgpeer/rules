@@ -148,16 +148,16 @@ payload:
   - DOMAIN-KEYWORD,qishui
   - DOMAIN-KEYWORD,ecombdapi
   # ==== 抖音国内 CDN / 加速 IP ====
-  - IP-CIDR,101.227.0.0/24
-  - IP-CIDR,101.32.0.0/24
-  - IP-CIDR,183.60.0.0/24
-  - IP-CIDR,106.75.0.0/24
-  - IP-CIDR,123.125.0.0/24
-  - IP-CIDR,140.205.0.0/24
-  - IP-CIDR,182.140.0.0/24
+  - IP-CIDR,101.227.0.0/24,no-resolve
+  - IP-CIDR,101.32.0.0/24,no-resolve
+  - IP-CIDR,183.60.0.0/24,no-resolve
+  - IP-CIDR,106.75.0.0/24,no-resolve
+  - IP-CIDR,123.125.0.0/24,no-resolve
+  - IP-CIDR,140.205.0.0/24,no-resolve
+  - IP-CIDR,182.140.0.0/24,no-resolve
   # ==== 可扩云段 ====
-  - IP-CIDR,106.13.244.0/24
-  - IP-CIDR,8.134.241.0/24
+  - IP-CIDR,106.13.244.0/24,no-resolve
+  - IP-CIDR,8.134.241.0/24,no-resolve
   # ==== 单点（保留 /32）====
   - IP-CIDR,182.100.44.245/32,no-resolve
   - IP-CIDR,117.24.163.100/32,no-resolve
