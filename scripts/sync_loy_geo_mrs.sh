@@ -465,7 +465,7 @@ echo "[4/8] Process geosite..."
 mkdir -p \
   "$WORKDIR/gs_suffix"  "$WORKDIR/gs_domain"  "$WORKDIR/gs_keyword" \
   "$WORKDIR/gs_regexp"  "$WORKDIR/gs_process" "$WORKDIR/gs_process_re" \
-  "$WORKDIR/gs_asn"     "$WORKDIR/gs_mrs"
+  "$WORKDIR/gs_asn"     "$WORKDIR/gs_mrs"     "$WORKDIR/clash_ip"
 
 geosite_ok=0
 geosite_skip=0
