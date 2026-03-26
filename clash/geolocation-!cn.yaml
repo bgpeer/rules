@@ -1,0 +1,384 @@
+payload:
+  # ==== 国外 DNS ====
+  - DOMAIN,1dot1dot1dot1.cloudflare-dns.com
+  - DOMAIN,dns.cloudflare.com
+  - DOMAIN,dns.google
+  - DOMAIN,dns.google.com
+  - DOMAIN,dns.quad9.net
+  - DOMAIN,dns.nextdns.io
+  - DOMAIN,dns.adguard.com
+  - DOMAIN,doh.opendns.com
+  - DOMAIN,doh-de.blahdns.com
+  - DOMAIN,doh.ffmuc.net
+  - DOMAIN,doh.mullvad.net
+  - DOMAIN,doh.armadillodns.net
+  - DOMAIN,doh.qis.io
+  - DOMAIN,doh.powerdns.com
+  - DOMAIN,doh.tiar.app
+  - DOMAIN,8888.google
+  - DOMAIN,chrome.cloudflare-dns.com
+  - DOMAIN,cloudflare-dns.com
+  - DOMAIN,dns-family.adguard.com
+  - DOMAIN,dns-nyc.aaflalo.me
+  - DOMAIN,dns-tls.qis.io
+  - DOMAIN,dns-unfiltered.adguard.com
+  - DOMAIN,dns.aa.net.uk
+  - DOMAIN,dns.aaflalo.me
+  - DOMAIN,dns.containerpi.com
+  - DOMAIN,dns.dns-over-https.com
+  - DOMAIN,dns.dnsoverhttps.net
+  - DOMAIN,dns.flatuslifir.is
+  - DOMAIN,dns.hostux.net
+  - DOMAIN,dns.ipv6dns.com
+  - DOMAIN,dns.keweon.center
+  - DOMAIN,dns.sb
+  - DOMAIN,dns.surfshark.com
+  - DOMAIN,dns.twnic.tw
+  - DOMAIN,dns10.quad9.net
+  - DOMAIN,dns11.quad9.net
+  - DOMAIN,dns9.quad9.net
+  - DOMAIN,doh-fi.blahdns.com
+  - DOMAIN,doh-jp.blahdns.com
+  - DOMAIN,doh-pure.onedns.net
+  - DOMAIN,doh.42l.fr
+  - DOMAIN,doh.centraleu.pi-dns.com
+  - DOMAIN,doh.cleanbrowsing.org
+  - DOMAIN,doh.crypto.sx
+  - DOMAIN,doh.dns.sb
+  - DOMAIN,doh.dnslify.com
+  - DOMAIN,doh.eastus.pi-dns.com
+  - DOMAIN,doh.familyshield.opendns.com
+  - DOMAIN,doh.li
+  - DOMAIN,doh.libredns.gr
+  - DOMAIN,doh.northeu.pi-dns.com
+  - DOMAIN,doh.onedns.net
+  - DOMAIN,doh.powerdns.org
+  - DOMAIN,doh.sb
+  - DOMAIN,doh.seby.io
+  - DOMAIN,doh.securedns.eu
+  - DOMAIN,doh.tiarap.org
+  - DOMAIN,doh.westus.pi-dns.com
+  - DOMAIN,doh.xfinity.com
+  - DOMAIN,dohdot.coxlab.net
+  - DOMAIN,dot-pure.onedns.net
+  - DOMAIN,dot.onedns.net
+  - DOMAIN,example.doh.blockerdns.com
+  - DOMAIN,family.canadianshield.cira.ca
+  - DOMAIN,family.cloudflare-dns.com
+  - DOMAIN,ibksturm.synology.me
+  - DOMAIN,ibuki.cgnat.net
+  - DOMAIN,jcdns.fun
+  - DOMAIN,jp.tiar.app
+  - DOMAIN,jp.tiarap.org
+  - DOMAIN,mozilla.cloudflare-dns.com
+  - DOMAIN,odvr.nic.cz
+  - DOMAIN,one.one.one.one
+  - DOMAIN,opera.cloudflare-dns.com
+  - DOMAIN,ordns.he.net
+  - DOMAIN,private.canadianshield.cira.ca
+  - DOMAIN,protected.canadianshield.cira.ca
+  - DOMAIN,rdns.faelix.net
+  - DOMAIN,security-filter-dns.cleanbrowsing.org
+  - DOMAIN,security.cloudflare-dns.com
+  - DOMAIN,unfiltered.adguard-dns.com
+  - DOMAIN,dns.securedns.eu
+
+  # ==== 国外 CDN + 公共云 ====
+  ## ☁️ Cloudflare
+  - DOMAIN-SUFFIX,cloudflare.com
+  - DOMAIN-SUFFIX,cloudflare.net
+  - DOMAIN-SUFFIX,cloudflare.org
+  - DOMAIN-SUFFIX,cfcdn.com
+  - DOMAIN-SUFFIX,cf-ipfs.com
+  - DOMAIN-SUFFIX,workers.dev
+  - IP-ASN,13335,no-resolve
+  ## 🔵 Akamai
+  - DOMAIN-SUFFIX,akamai.net
+  - DOMAIN-SUFFIX,akamaiedge.net
+  - DOMAIN-SUFFIX,akamaitechnologies.com
+  - DOMAIN-SUFFIX,akamaized.net
+  - DOMAIN-SUFFIX,akamaihd.net
+  - DOMAIN-SUFFIX,edgekey.net
+  - DOMAIN-SUFFIX,edgesuite.net
+  ## 🟣 Fastly
+  - DOMAIN-SUFFIX,fastly.net
+  - DOMAIN-SUFFIX,fastlylb.net
+  - DOMAIN-SUFFIX,map.fastly.net
+  ## 🟠 Amazon Web Services (AWS)
+  - DOMAIN-SUFFIX,amazonaws.com
+  - DOMAIN-SUFFIX,cloudfront.net
+  - DOMAIN-SUFFIX,awsstatic.com
+  - DOMAIN-SUFFIX,awstrack.me
+  ## 🔵 Microsoft Azure CDN
+  - DOMAIN-SUFFIX,azureedge.net
+  - DOMAIN-SUFFIX,azurefd.net
+  - DOMAIN-SUFFIX,msecnd.net
+  - DOMAIN-SUFFIX,microsoft.com
+  - DOMAIN-SUFFIX,msn.com
+  ## 🟣 jsDelivr
+  - DOMAIN-SUFFIX,jsdelivr.net
+  ## 🟠 BunnyCDN
+  - DOMAIN-SUFFIX,b-cdn.net
+  - DOMAIN-SUFFIX,bunnycdn.net
+  - DOMAIN-SUFFIX,bunnycdn.ru
+  ## 🟡 CDN77 / StackPath
+  - DOMAIN-SUFFIX,cdn77.com
+  - DOMAIN-SUFFIX,cdn77.org
+  - DOMAIN-SUFFIX,stackpathdns.com
+  - DOMAIN-SUFFIX,kxcdn.com
+  ## 🟢 Cloudinary
+  - DOMAIN-SUFFIX,cloudinary.com
+  ## 🟣 Netlify CDN
+  - DOMAIN-SUFFIX,netlify.app
+  - DOMAIN-SUFFIX,netlifycdn.com
+  ## 🟠 GitHub / Pages CDN
+  - DOMAIN-SUFFIX,github.io
+  - DOMAIN-SUFFIX,githubusercontent.com
+  ## 🟡 Vercel CDN
+  - DOMAIN-SUFFIX,vercel.app
+  - DOMAIN-SUFFIX,vercel-dns.com
+  ## ⚪ Apple / Mozilla / Instagram CDN
+  - DOMAIN-SUFFIX,cdn-apple.com
+  - DOMAIN-SUFFIX,cdn.mozilla.net
+  - DOMAIN-SUFFIX,cdninstagram.com
+  ## 🟣 Edgecast / Limelight Networks
+  - DOMAIN-SUFFIX,edgecastcdn.net
+  - DOMAIN-SUFFIX,edgio.net
+  - DOMAIN-SUFFIX,llnw.net
+  ## 🔵 Oracle Cloud (OCI)
+  - DOMAIN-SUFFIX,oraclecloud.com
+  - DOMAIN-SUFFIX,ocir.io
+  - DOMAIN-SUFFIX,oracledns.net
+  ## 🟢 DigitalOcean
+  - DOMAIN-SUFFIX,digitaloceanspaces.com
+  - DOMAIN-SUFFIX,digitalocean.com
+  ## 🟣 Hetzner Cloud
+  - DOMAIN-SUFFIX,hetzner.cloud
+  - DOMAIN-SUFFIX,hetzner.de
+  - DOMAIN-SUFFIX,static.hetzner.com
+  ## 🟠 Vultr / Linode
+  - DOMAIN-SUFFIX,vultr.com
+  - DOMAIN-SUFFIX,linode.com
+  - DOMAIN-SUFFIX,linodeusercontent.com
+  ## ⚪ Backblaze / Wasabi / Cloud Storage
+  - DOMAIN-SUFFIX,backblazeb2.com
+  - DOMAIN-SUFFIX,wasabisys.com
+  - DOMAIN-SUFFIX,storj.io
+  ## 🎮 IIJ 日本游戏CDN 
+  - DOMAIN-SUFFIX,iij.ad.jp
+  - DOMAIN-SUFFIX,iijcdn.ad.jp
+  - DOMAIN-SUFFIX,iijgio.com
+  - DOMAIN-KEYWORD,iijcdn
+  - DOMAIN-SUFFIX,cdn.iij.ad.jp
+  - DOMAIN-SUFFIX,cdn.dmm.com
+  - DOMAIN-SUFFIX,dmm.com
+  - DOMAIN-SUFFIX,cdn.gree.net
+  - DOMAIN-SUFFIX,gree.net
+  - DOMAIN-SUFFIX,cdn.mobage.jp
+  - DOMAIN-SUFFIX,mobage.jp
+  - DOMAIN-SUFFIX,dena.com
+  - DOMAIN-SUFFIX,nicovideo.jp
+  - DOMAIN-SUFFIX,nimg.jp
+  ## 🔑 常见关键词匹配
+  - DOMAIN-KEYWORD,cloudflare
+  - DOMAIN-KEYWORD,akamai
+  - DOMAIN-KEYWORD,fastly
+  - DOMAIN-KEYWORD,cloudfront
+  - DOMAIN-KEYWORD,googlecdn
+  - DOMAIN-KEYWORD,azureedge
+  - DOMAIN-KEYWORD,bunnycdn
+  - DOMAIN-KEYWORD,cdn77
+  - DOMAIN-KEYWORD,vercel
+
+  # ==== 阿里 / 淘宝 / 支付宝 国际服务 ====
+  - DOMAIN-SUFFIX,alibaba.com
+  - DOMAIN-SUFFIX,alibaba-inc.com
+  - DOMAIN-SUFFIX,aliexpress.com
+  - DOMAIN-SUFFIX,ae01.alicdn.com
+  - DOMAIN-SUFFIX,ae02.alicdn.com
+  - DOMAIN-SUFFIX,ae03.alicdn.com
+  - DOMAIN-SUFFIX,alipay.com
+  - DOMAIN-SUFFIX,alipay.hk
+  - DOMAIN-SUFFIX,antgroup.com
+  - DOMAIN-SUFFIX,worldfirst.com
+  - DOMAIN-SUFFIX,global.alipay.com
+  - DOMAIN-SUFFIX,lazada.com
+  - DOMAIN-SUFFIX,lazada.sg
+  - DOMAIN-SUFFIX,lazada.co.id
+  - DOMAIN-SUFFIX,lazada.com.my
+  - DOMAIN-SUFFIX,lazada.co.th
+  - DOMAIN-SUFFIX,lazada.vn
+  - DOMAIN-SUFFIX,lzdcdn.com
+  - DOMAIN-SUFFIX,lzd.co
+  - DOMAIN-SUFFIX,daraz.com
+  - DOMAIN-SUFFIX,daraz.pk
+  - DOMAIN-SUFFIX,daraz.lk
+  - DOMAIN-SUFFIX,daraz.com.bd
+  - DOMAIN-SUFFIX,daraz.com.np
+  - DOMAIN-SUFFIX,cainiao.com
+  - DOMAIN-SUFFIX,cainiao-global.com
+  - DOMAIN-SUFFIX,global.cainiao.com
+
+  # ==== 🐦X (Twitter) 全域匹配 ====
+  - DOMAIN-SUFFIX,x.com
+  - DOMAIN-SUFFIX,twitter.com
+  - DOMAIN-SUFFIX,t.co
+  - DOMAIN-SUFFIX,twimg.com
+  - DOMAIN-SUFFIX,twitpic.com
+  - DOMAIN-SUFFIX,periscope.tv
+  - DOMAIN-SUFFIX,pscp.tv
+  - DOMAIN-SUFFIX,video.twimg.com
+  - DOMAIN-SUFFIX,abs.twimg.com
+  - DOMAIN-SUFFIX,pbs.twimg.com
+  # API 接口域名
+  - DOMAIN-SUFFIX,api.twitter.com
+  - DOMAIN-SUFFIX,upload.twitter.com
+  - DOMAIN-SUFFIX,mobile.twitter.com
+  - DOMAIN-SUFFIX,analytics.twitter.com
+  # 登录认证 & 广告
+  - DOMAIN-SUFFIX,ads-twitter.com
+  - DOMAIN-SUFFIX,syndication.twimg.com
+  - DOMAIN-SUFFIX,platform.twitter.com
+  # 图片/视频 CDN
+  - DOMAIN-KEYWORD,twimg
+  - DOMAIN-KEYWORD,video.twimg
+  # 官方应用（Android / iOS）
+  - PROCESS-NAME,com.twitter.android
+  - PROCESS-NAME,com.twitter.android.lite
+  - PROCESS-NAME,com.twitter.android.beta
+  - PROCESS-NAME,com.twitter.android.dev
+  # X / 新版图标应用包名
+  - PROCESS-NAME,com.x.android
+  - PROCESS-NAME,com.xcorp.android
+
+  # ==== 💹海外金融证券 ====
+  # 💹Tiger Brokers / TradeUP（老虎）
+  - DOMAIN-SUFFIX,tigerbrokers.com
+  - DOMAIN-SUFFIX,tradeup.com
+  - DOMAIN-SUFFIX,itiger.com
+  - DOMAIN-SUFFIX,tigersecurities.com
+  - DOMAIN-SUFFIX,tigerfintech.com
+  - DOMAIN-SUFFIX,tradeupapi.com
+  - DOMAIN-SUFFIX,tigerbbs.com
+  - PROCESS-NAME,com.tigerbrokers.stock
+  # 💹Futu / Moomoo（富途）
+  - DOMAIN-SUFFIX,futunn.com
+  - DOMAIN-SUFFIX,moomoo.com
+  - DOMAIN-SUFFIX,moomooapp.com
+  - DOMAIN-SUFFIX,futu5.com
+  - PROCESS-NAME,com.futu5.android
+  - PROCESS-NAME,com.moomoo.android
+  # 💹Interactive Brokers（盈透）
+  - DOMAIN-SUFFIX,interactivebrokers.com
+  - DOMAIN-SUFFIX,ibkr.com
+  - DOMAIN-SUFFIX,ibllc.com
+  - DOMAIN-SUFFIX,ibrokers.com
+  - PROCESS-NAME,com.interactivebrokers.ibkr
+  - PROCESS-NAME,com.interactivebrokers.ibkrmobile
+  # 💹OKX / OKCoin（欧易）
+  - DOMAIN-SUFFIX,okx.com
+  - DOMAIN-SUFFIX,okcoin.com
+  - DOMAIN-SUFFIX,okex.com
+  - DOMAIN-SUFFIX,okg.com
+  - DOMAIN-SUFFIX,oklink.com
+  - PROCESS-NAME,com.okinc.okex.gp
+  - PROCESS-NAME,com.okex.wallet
+
+  # ==== 💳海外银行 ====
+  # 💳OCBC Bank（华侨银行）
+  - DOMAIN-SUFFIX,ocbc.com
+  - DOMAIN-SUFFIX,ocbcwhhk.com
+  - DOMAIN-SUFFIX,ocbcbank.com
+  - DOMAIN-SUFFIX,ocbcgroup.com
+  - DOMAIN-SUFFIX,ocbc.com.sg
+  - PROCESS-NAME,com.ocbc.mobile
+  - PROCESS-NAME,com.ocbc.westpac.android
+  # 💲PayPal
+  - DOMAIN-SUFFIX,paypal.com
+  - DOMAIN-SUFFIX,paypalobjects.com
+  - DOMAIN-SUFFIX,paypal.me
+  - DOMAIN-SUFFIX,paypal-dns.com
+  - DOMAIN-SUFFIX,venmo.com
+  - DOMAIN-SUFFIX,braintreepayments.com
+  - PROCESS-NAME,com.paypal.android.p2pmobile
+  - PROCESS-NAME,com.paypal.venmo
+  # 💱Wise (TransferWise)
+  - DOMAIN-SUFFIX,wise.com
+  - DOMAIN-SUFFIX,transferwise.com
+  - DOMAIN-SUFFIX,wise.jobs
+  - DOMAIN-SUFFIX,wiseassets.com
+  - PROCESS-NAME,com.transferwise.android
+  - PROCESS-NAME,com.wise.android
+  # 💳East West Bank (华美银行)
+  - DOMAIN-SUFFIX,eastwestbank.com
+  - DOMAIN-SUFFIX,ewbconnect.com
+  - DOMAIN-SUFFIX,ewb.me
+  - PROCESS-NAME,com.eastwestbank.mobilebanking
+  # 💳HSBC（汇丰银行）
+  - DOMAIN-SUFFIX,hsbc.com
+  - DOMAIN-SUFFIX,hsbc.com.hk
+  - DOMAIN-SUFFIX,hsbc.com.sg
+  - DOMAIN-SUFFIX,hsbc.com.cn
+  - DOMAIN-SUFFIX,hsbcnet.com
+  - DOMAIN-SUFFIX,hsbcadirect.com
+  - DOMAIN-SUFFIX,hsbcprivatebank.com
+  - PROCESS-NAME,com.htsu.hsbcpersonalbanking
+  - PROCESS-NAME,com.hsbc.hsbcukmobilebanking
+  - PROCESS-NAME,com.hsbc.hsbcchina
+
+  # 📶 Xesim （相关规则集）
+  - PROCESS-NAME,com.elink.xesim
+  # 官网 / 主站
+  - DOMAIN-SUFFIX,xesim.cc
+  - DOMAIN-SUFFIX,xesim.com
+  - DOMAIN-SUFFIX,xesim.net
+  - DOMAIN,www.xesim.cc
+  - DOMAIN,xesim.cc
+  - DOMAIN,www.xesim.com
+  - DOMAIN,xesim.com
+  # eSIM 管理 / SeedLink / 教程接口
+  - DOMAIN-SUFFIX,app.xesim.net
+  - DOMAIN-SUFFIX,esim.xesim.net
+  - DOMAIN,app.xesim.net
+  - DOMAIN,esim.xesim.net
+  - DOMAIN,shop.xesim.com
+  - DOMAIN,eu.shop.xesim.com
+  - DOMAIN,ro.shop.xesim.com
+  # 帮助中心 / 隐私 / Blog（都在自家域名下）
+  - DOMAIN-KEYWORD,seedlink
+  - DOMAIN-KEYWORD,xesim
+  - DOMAIN-KEYWORD,xesimcc
+  # 正则兜底（配合上面的 DOMAIN-SUFFIX）
+  - DOMAIN-REGEX,(?i)(^|\.)xesim\.cc$
+  - DOMAIN-REGEX,(?i)(^|\.)xesim\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)xesim\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)app\.xesim\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)esim\.xesim\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)shop\.xesim\.com$
+
+  # ==== 动态域名 ====
+  - DOMAIN-SUFFIX,blogdns.org
+  - DOMAIN-SUFFIX,dyn.com
+  - DOMAIN-SUFFIX,dyndns-ip.com
+  - DOMAIN-SUFFIX,dyndns-pics.com
+  - DOMAIN-SUFFIX,dyndns.org
+  - DOMAIN-SUFFIX,from-pr.com
+  - DOMAIN-SUFFIX,from-sd.com
+  - DOMAIN-SUFFIX,is-a-hunter.com
+  - DOMAIN-SUFFIX,3d-game.com
+  - DOMAIN-SUFFIX,4irc.com
+  - DOMAIN-SUFFIX,b0ne.com
+  - DOMAIN-SUFFIX,chatnook.com
+  - DOMAIN-SUFFIX,darktech.org
+  - DOMAIN-SUFFIX,deaftone.com
+  - DOMAIN-SUFFIX,dtdns.com
+  - DOMAIN-SUFFIX,dtdns.net
+  - DOMAIN-SUFFIX,effers.com
+  - DOMAIN-SUFFIX,etowns.net
+  - DOMAIN-SUFFIX,etowns.org
+  - DOMAIN-SUFFIX,flnet.org
+  - DOMAIN-SUFFIX,gotgeeks.com
+  - DOMAIN-SUFFIX,scieron.com
+  - DOMAIN-SUFFIX,slyip.com
+  - DOMAIN-SUFFIX,slyip.net
+  - DOMAIN-SUFFIX,suroot.com
