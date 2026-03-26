@@ -385,6 +385,13 @@ apply_clash_geosite() {
   mkdir -p "$ctmp"
   parse_clash_yaml "$clash_yaml" "$ctmp" "$tag"
 
+  # ipcidr/asn 桶额外存到 clash_ip/，供 geoip 流程直接取用，无需重复解析
+  mkdir -p "${WORKDIR}/clash_ip"
+  cp -f "${ctmp}/${tag}.ipcidr.clash.txt" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" \
+    2>/dev/null || : > "${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
+  cp -f "${ctmp}/${tag}.asn.clash.txt" "${WORKDIR}/clash_ip/${tag}.asn.txt" \
+    2>/dev/null || : > "${WORKDIR}/clash_ip/${tag}.asn.txt"
+
   local mtmp="${WORKDIR}/merged"
   mkdir -p "$mtmp"
 
@@ -659,18 +666,20 @@ clash_geoip_ok=0
 if [[ -d "$CLASH_DIR" ]]; then
   while IFS= read -r cyaml; do
     tag="$(basename "$cyaml" .yaml)"
-    [[ -n "${geoip_processed[$tag]+x}" ]] && continue   # geo 已处理
-    [[ -n "${geosite_processed[$tag]+x}" ]] && continue # geosite 已处理（混合 yaml 留给 geosite 处理）
+    [[ -n "${geoip_processed[$tag]+x}" ]] && continue   # geo geoip already processed
 
-    # 解析看是否有 ipcidr/asn 内容
-    ctmp="${WORKDIR}/clash_parsed"
-    mkdir -p "$ctmp"
-    parse_clash_yaml "$cyaml" "$ctmp" "${tag}_geoip2"
+    # Use cached parse from geosite flow if available, else parse now
+    if [[ -f "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" ]]; then
+      f_ipcidr="${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
+      f_asn="${WORKDIR}/clash_ip/${tag}.asn.txt"
+    else
+      ctmp="${WORKDIR}/clash_parsed"
+      mkdir -p "$ctmp"
+      parse_clash_yaml "$cyaml" "$ctmp" "${tag}_geoip2"
+      f_ipcidr="${ctmp}/${tag}_geoip2.ipcidr.clash.txt"
+      f_asn="${ctmp}/${tag}_geoip2.asn.clash.txt"
+    fi
 
-    f_ipcidr="${ctmp}/${tag}_geoip2.ipcidr.clash.txt"
-    f_asn="${ctmp}/${tag}_geoip2.asn.clash.txt"
-
-    [[ ! -s "$f_ipcidr" && ! -s "$f_asn" ]] && continue
 
     echo "[CLASH-ONLY] geoip/${tag} <- ${cyaml}"
 
