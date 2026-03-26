@@ -1,0 +1,60 @@
+payload:
+  # ==== 🎮 Wildrift/ 游戏核心服务 ====
+  - PROCESS-NAME,com.riotgames.league.wildrift
+  - PROCESS-NAME,com.riotgames.league.wildrift.android
+  - PROCESS-NAME,com.riotgames.league.teamfighttactics
+  - PROCESS-NAME,RiotClientServices.exe
+  - PROCESS-NAME,LeagueClientUx.exe
+  - PROCESS-NAME,LeagueClient.exe
+  # ==== 🌐 核心域名 (Riot & LOL) ====
+  - DOMAIN-SUFFIX,riotgames.com
+  - DOMAIN-SUFFIX,riot.com
+  - DOMAIN-SUFFIX,pvp.net
+  - DOMAIN-SUFFIX,leagueoflegends.com
+  - DOMAIN-SUFFIX,playvalorant.com
+  - DOMAIN-SUFFIX,myqcloud.com
+  # ==== 🎧 语音系统 (Vivox - 没它没语音) ====
+  - DOMAIN-SUFFIX,vivox.com
+  - DOMAIN-SUFFIX,vxe1.vivox.com
+  - DOMAIN-SUFFIX,vxg1.vivox.com
+  # ==== 🛠️ API / 登录 / 防作弊 ====
+  - DOMAIN-SUFFIX,account.riotgames.com
+  - DOMAIN-SUFFIX,auth.riotgames.com
+  - DOMAIN-SUFFIX,api.riotgames.com
+  - DOMAIN-SUFFIX,riot-client.riotgames.com
+  - DOMAIN-SUFFIX,clientconfig.rpg.riotgames.com
+  - DOMAIN-SUFFIX,anticheat.riotgames.com
+  - DOMAIN-SUFFIX,playerpreferences.riotgames.com
+  # ==== 📦 游戏补丁 / CDN ====
+  - DOMAIN-SUFFIX,riotcdn.net
+  - DOMAIN-SUFFIX,wr-assets.riotcdn.net
+  - DOMAIN-SUFFIX,l3cdn.riotgames.com
+  - DOMAIN-SUFFIX,riotgamespatcher-a.akamaized.net
+  # ==== 🔑 关键词与 ASN (最强优化) ====
+  - DOMAIN-KEYWORD,riot
+  - DOMAIN-KEYWORD,valorant
+  - DOMAIN-KEYWORD,glz
+  - IP-ASN,6507
+  # ==== 📌 精准 IP 段 (保留核心) ====
+  - IP-CIDR,104.160.128.0/17,no-resolve
+  - IP-CIDR,172.65.192.0/18,no-resolve
+  - IP-CIDR,15.177.0.0/18,no-resolve
+
+  # ✅ 进程正则兜底（Android 包名变体）
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.teamfighttactics(\..+)?$
+  # ✅ Riot 官方域名正则兜底（不误伤）
+  - DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)riot\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)leagueoflegends\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)playvalorant\.com$
+  # ✅ Wild Rift 常见 glz 动态服务兜底
+  - DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
+  # ✅ Vivox 语音节点兜底（vxg/vxe 会变）
+  - DOMAIN-REGEX,(?i)(^|\.)vivox\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
+  # ✅ Riot CDN 资源兜底
+  - DOMAIN-REGEX,(?i)(^|\.)riotcdn\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
