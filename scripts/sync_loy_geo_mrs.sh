@@ -641,6 +641,7 @@ while IFS= read -r f; do
   # clash_yaml 路径（有则传入，无则传空字符串）
   _clash_yaml="${CLASH_DIR}/${tag}.yaml"
   [[ -f "$_clash_yaml" ]] || _clash_yaml=""
+  [[ "$tag" == "douyin" ]] && echo "[DEBUG-DOUYIN] clash_yaml=\"${_clash_yaml}\" pwd=$(pwd) exists=$([[ -f "${CLASH_DIR}/${tag}.yaml" ]] && echo yes || echo no)"
 
   make_yaml_domain \
     "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
