@@ -396,22 +396,16 @@ apply_clash_geosite() {
   mkdir -p "$ctmp"
   parse_clash_yaml "$clash_yaml" "$ctmp" "$tag"
 
-  # ipcidr/asn 桶额外存到 clash_ip/，供 geoip 流程直接取用，无需重复解析
-  mkdir -p "${WORKDIR}/clash_ip"
-  cp -f "${ctmp}/${tag}.ipcidr.clash.txt" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" \
-    2>/dev/null || : > "${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
-  cp -f "${ctmp}/${tag}.asn.clash.txt" "${WORKDIR}/clash_ip/${tag}.asn.txt" \
-    2>/dev/null || : > "${WORKDIR}/clash_ip/${tag}.asn.txt"
-
   local mtmp="${WORKDIR}/merged"
   mkdir -p "$mtmp"
 
-  # ipcidr 桶单独 merge_dedup 后写入 clash_ip/，供主流程读取
+  # ipcidr/asn 桶：geo geosite 本身不含 IP，初始为空，merge_dedup 后写入 clash_ip/
   local f_geo_ipcidr="${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
   local f_geo_ip_asn="${WORKDIR}/clash_ip/${tag}.asn.txt"
-  : > "$f_geo_ipcidr"; : > "$f_geo_ip_asn"   # geo geosite 不含 IP，初始为空
-  merge_dedup "$f_geo_ipcidr" "${ctmp}/${tag}.ipcidr.clash.txt"     "${mtmp}/${tag}.ipcidr.txt" ipcidr && cp -f "${mtmp}/${tag}.ipcidr.txt" "$f_geo_ipcidr" || true
-  merge_dedup "$f_geo_ip_asn" "${ctmp}/${tag}.asn.clash.txt"     "${mtmp}/${tag}.ip_asn.txt" asn    && cp -f "${mtmp}/${tag}.ip_asn.txt" "$f_geo_ip_asn" || true
+  : > "$f_geo_ipcidr"
+  : > "$f_geo_ip_asn"
+  merge_dedup "$f_geo_ipcidr" "${ctmp}/${tag}.ipcidr.clash.txt" "${mtmp}/${tag}.ipcidr.txt" ipcidr     && cp -f "${mtmp}/${tag}.ipcidr.txt" "$f_geo_ipcidr" || true
+  merge_dedup "$f_geo_ip_asn" "${ctmp}/${tag}.asn.clash.txt"   "${mtmp}/${tag}.ip_asn.txt"  asn        && cp -f "${mtmp}/${tag}.ip_asn.txt"  "$f_geo_ip_asn"   || true
 
   for bucket in suffix domain keyword regexp process process_re asn; do
     local geo_f clash_f merged_f
