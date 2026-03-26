@@ -531,10 +531,14 @@ while IFS= read -r f; do
     convert_mrs domain "$f_mrs" "${OUT_GEOSITE}/${tag}.mrs" || true
   fi
 
+  # DEBUG
+  echo "[DEBUG] tag=${tag} ipcidr_lines=$(wc -l < "$f_ipcidr") ip_asn_lines=$(wc -l < "$f_ip_asn")"
   make_yaml_domain \
     "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
     "$f_process" "$f_process_re" "$f_ipcidr" "$f_ip_asn" \
     "${OUT_GEOSITE}/${tag}.yaml"
+  # DEBUG
+  echo "[DEBUG] yaml_ip_lines=$(grep -c IP-CIDR "${OUT_GEOSITE}/${tag}.yaml" 2>/dev/null || echo 0)"
 
   make_list_domain \
     "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
