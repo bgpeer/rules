@@ -87,9 +87,8 @@ convert_mrs() {
   mv -f "$tmp" "$dst"
 }
 
-# ── yaml（geosite，直接合并所有规则行，去重）────────────────────────────────
+# ── yaml（geosite，geo 数据不动，clash 只追加 geo 没有的）──────────────────
 # 参数：f_suffix f_domain f_keyword f_regexp f_process f_process_re clash_yaml dst
-# clash_yaml 可以为空字符串（无 clash yaml 时）
 make_yaml_domain() {
   local f_suffix="$1" f_domain="$2" f_keyword="$3" f_regexp="$4" \
         f_process="$5" f_process_re="$6" clash_yaml="$7" dst="$8"
@@ -106,35 +105,38 @@ def read_lines(path):
     except FileNotFoundError:
         return []
 
-def normalize(rule_line):
-    parts = rule_line.split(",", 2)
-    if len(parts) < 2:
-        return rule_line.lower()
-    t = parts[0].strip().upper()
-    v = parts[1].strip()
+def norm_value(t, v):
     if t == "DOMAIN-SUFFIX":
-        return "DOMAIN-SUFFIX," + v.lstrip(".")
+        return v.lstrip(".")
     if t in ("IP-CIDR", "IP-CIDR6"):
-        return t + "," + v.lower()
-    return t + "," + v
+        return v.lower()
+    return v
 
-# 1. 从 geo 分桶重建规则行
+# 1. geo 分桶原样输出，建各类型去重集合
 geo_lines = []
-for line in read_lines(f_suffix):
-    geo_lines.append("DOMAIN-SUFFIX," + line.lstrip("."))
-for line in read_lines(f_domain):
-    geo_lines.append("DOMAIN," + line)
-for line in read_lines(f_keyword):
-    geo_lines.append("DOMAIN-KEYWORD," + line)
-for line in read_lines(f_regexp):
-    geo_lines.append("DOMAIN-REGEX," + line)
-for line in read_lines(f_process):
-    geo_lines.append("PROCESS-NAME," + line)
-for line in read_lines(f_process_re):
-    geo_lines.append("PROCESS-NAME-REGEX," + line)
+geo_seen = {}
 
-# 2. 从 clash yaml 直接读 payload 规则行（保留所有类型含 IP）
-clash_lines = []
+def add_geo(rule_type, value):
+    geo_lines.append(rule_type + "," + value)
+    geo_seen.setdefault(rule_type, set()).add(norm_value(rule_type, value))
+
+for line in read_lines(f_suffix):
+    add_geo("DOMAIN-SUFFIX", line.lstrip("."))
+for line in read_lines(f_domain):
+    add_geo("DOMAIN", line)
+for line in read_lines(f_keyword):
+    add_geo("DOMAIN-KEYWORD", line)
+for line in read_lines(f_regexp):
+    add_geo("DOMAIN-REGEX", line)
+for line in read_lines(f_process):
+    add_geo("PROCESS-NAME", line)
+for line in read_lines(f_process_re):
+    add_geo("PROCESS-NAME-REGEX", line)
+
+# 2. clash yaml 只追加 geo 同类型里没有的
+clash_extra = []
+clash_seen = {}
+
 if clash_yaml:
     re_item = re.compile(r"^\s*-\s+(.+)$")
     try:
@@ -149,22 +151,21 @@ if clash_yaml:
                 parts = [p.strip() for p in entry.split(",")]
                 if len(parts) < 2:
                     continue
-                clash_lines.append(parts[0].upper() + "," + parts[1])
+                t = parts[0].upper()
+                v = parts[1]
+                nv = norm_value(t, v)
+                if nv in geo_seen.get(t, set()):
+                    continue
+                if nv in clash_seen.get(t, set()):
+                    continue
+                clash_seen.setdefault(t, set()).add(nv)
+                clash_extra.append(t + "," + v)
     except FileNotFoundError:
         pass
 
-# 3. 去重合并（geo 在前，clash 追加新增）
-seen = set()
-result = []
-for line in geo_lines + clash_lines:
-    key = normalize(line)
-    if key not in seen:
-        seen.add(key)
-        result.append(line)
-
 with open(dst, "w", encoding="utf-8") as f:
     f.write("payload:\n")
-    for line in result:
+    for line in geo_lines + clash_extra:
         f.write("  - " + line + "\n")
 PYEOF
 }
@@ -183,7 +184,7 @@ make_yaml_ipcidr() {
   } > "$dst"
 }
 
-# ── list（geosite，mihomo/Surge/小火箭，直接合并去重）────────────────────────
+# ── list（geosite，geo 数据不动，clash 只追加 geo 没有的）──────────────────
 # 参数：f_suffix f_domain f_keyword f_regexp f_process f_process_re clash_yaml dst
 make_list_domain() {
   local f_suffix="$1" f_domain="$2" f_keyword="$3" f_regexp="$4" \
@@ -201,33 +202,36 @@ def read_lines(path):
     except FileNotFoundError:
         return []
 
-def normalize(rule_line):
-    parts = rule_line.split(",", 2)
-    if len(parts) < 2:
-        return rule_line.lower()
-    t = parts[0].strip().upper()
-    v = parts[1].strip()
+def norm_value(t, v):
     if t == "DOMAIN-SUFFIX":
-        return "DOMAIN-SUFFIX," + v.lstrip(".")
+        return v.lstrip(".")
     if t in ("IP-CIDR", "IP-CIDR6"):
-        return t + "," + v.lower()
-    return t + "," + v
+        return v.lower()
+    return v
 
 geo_lines = []
-for line in read_lines(f_suffix):
-    geo_lines.append("DOMAIN-SUFFIX," + line.lstrip("."))
-for line in read_lines(f_domain):
-    geo_lines.append("DOMAIN," + line)
-for line in read_lines(f_keyword):
-    geo_lines.append("DOMAIN-KEYWORD," + line)
-for line in read_lines(f_regexp):
-    geo_lines.append("DOMAIN-REGEX," + line)
-for line in read_lines(f_process):
-    geo_lines.append("PROCESS-NAME," + line)
-for line in read_lines(f_process_re):
-    geo_lines.append("PROCESS-NAME-REGEX," + line)
+geo_seen = {}
 
-clash_lines = []
+def add_geo(rule_type, value):
+    geo_lines.append(rule_type + "," + value)
+    geo_seen.setdefault(rule_type, set()).add(norm_value(rule_type, value))
+
+for line in read_lines(f_suffix):
+    add_geo("DOMAIN-SUFFIX", line.lstrip("."))
+for line in read_lines(f_domain):
+    add_geo("DOMAIN", line)
+for line in read_lines(f_keyword):
+    add_geo("DOMAIN-KEYWORD", line)
+for line in read_lines(f_regexp):
+    add_geo("DOMAIN-REGEX", line)
+for line in read_lines(f_process):
+    add_geo("PROCESS-NAME", line)
+for line in read_lines(f_process_re):
+    add_geo("PROCESS-NAME-REGEX", line)
+
+clash_extra = []
+clash_seen = {}
+
 if clash_yaml:
     re_item = re.compile(r"^\s*-\s+(.+)$")
     try:
@@ -242,20 +246,20 @@ if clash_yaml:
                 parts = [p.strip() for p in entry.split(",")]
                 if len(parts) < 2:
                     continue
-                clash_lines.append(parts[0].upper() + "," + parts[1])
+                t = parts[0].upper()
+                v = parts[1]
+                nv = norm_value(t, v)
+                if nv in geo_seen.get(t, set()):
+                    continue
+                if nv in clash_seen.get(t, set()):
+                    continue
+                clash_seen.setdefault(t, set()).add(nv)
+                clash_extra.append(t + "," + v)
     except FileNotFoundError:
         pass
 
-seen = set()
-result = []
-for line in geo_lines + clash_lines:
-    key = normalize(line)
-    if key not in seen:
-        seen.add(key)
-        result.append(line)
-
 with open(dst, "w", encoding="utf-8") as f:
-    for line in result:
+    for line in geo_lines + clash_extra:
         f.write(line + "\n")
 PYEOF
 }
