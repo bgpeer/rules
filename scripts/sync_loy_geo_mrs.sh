@@ -27,6 +27,7 @@ OUT_QX_GEOSITE='QX/geosite'
 OUT_QX_GEOIP='QX/geoip'
 
 CLASH_DIR="${CLASH_DIR:-clash}"
+CLASH_IP_DIR="${CLASH_IP_DIR:-clash-ip}"
 
 MIHOMO_BIN="${MIHOMO_BIN:-./mihomo}"
 SINGBOX_BIN="${SINGBOX_BIN:-./sing-box}"
@@ -588,7 +589,6 @@ buckets = {
     'asn':        [],
 }
 
-
 re_item = re.compile(r'^\s*-\s+(.+)$')
 
 with open(yaml_path, encoding='utf-8') as f:
@@ -747,31 +747,140 @@ apply_clash_geoip() {
   done
 }
 
-# ── 输出 geoip 全部五种格式的统一入口 ────────────────────────────────────────
+# ── 输出 geoip 全部五种格式（纯 Loyalsoldier 数据，不混入 clash yaml）────────
 emit_geoip_all() {
   local tag="$1" f_ipcidr="$2" f_asn="$3"
-
-  local clash_yaml="${CLASH_DIR}/${tag}.yaml"
-  [[ -f "$clash_yaml" ]] || clash_yaml=""
 
   # mrs
   if [[ -s "$f_ipcidr" ]]; then
     convert_mrs ipcidr "$f_ipcidr" "${OUT_GEOIP}/${tag}.mrs" || true
   fi
 
-  # yaml
-  make_yaml_ipcidr "$f_ipcidr" "$f_asn" "$clash_yaml" "${OUT_GEOIP}/${tag}.yaml"
+  # yaml（不传 clash_yaml，空字符串）
+  make_yaml_ipcidr "$f_ipcidr" "$f_asn" "" "${OUT_GEOIP}/${tag}.yaml"
 
   # list
-  make_list_ipcidr "$f_ipcidr" "$f_asn" "$clash_yaml" "${OUT_GEOIP}/${tag}.list"
+  make_list_ipcidr "$f_ipcidr" "$f_asn" "" "${OUT_GEOIP}/${tag}.list"
 
   # QX list（跳过 ASN）
-  make_qx_list_ipcidr "$f_ipcidr" "$clash_yaml" "${OUT_QX_GEOIP}/${tag}.list"
+  make_qx_list_ipcidr "$f_ipcidr" "" "${OUT_QX_GEOIP}/${tag}.list"
 
   # json + srs
   local json="${OUT_GEOIP}/${tag}.json"
-  make_singbox_json_ipcidr "$f_ipcidr" "$clash_yaml" "$json"
+  make_singbox_json_ipcidr "$f_ipcidr" "" "$json"
   compile_srs "$json" "${OUT_GEOIP}/${tag}.srs" || true
+}
+
+# ── clash-ip/ 数据合并进 geo/geoip/ 五种格式 + QX/geoip/ ────────────────────
+# 参数：tag  f_ipcidr(clash-ip解析结果)  f_asn(clash-ip解析结果)
+emit_clash_ip_merge() {
+  local tag="$1" f_ci_ipcidr="$2" f_ci_asn="$3"
+
+  local dst_mrs="${OUT_GEOIP}/${tag}.mrs"
+  local dst_yaml="${OUT_GEOIP}/${tag}.yaml"
+  local dst_list="${OUT_GEOIP}/${tag}.list"
+  local dst_json="${OUT_GEOIP}/${tag}.json"
+  local dst_srs="${OUT_GEOIP}/${tag}.srs"
+  local dst_qx="${OUT_QX_GEOIP}/${tag}.list"
+
+  # 从现有 list 文件提取已有条目作为去重基准
+  local f_exist_cidr="${WORKDIR}/ci_exist_${tag}_cidr.txt"
+  local f_exist_asn="${WORKDIR}/ci_exist_${tag}_asn.txt"
+  : > "$f_exist_cidr"; : > "$f_exist_asn"
+
+  if [[ -f "$dst_list" ]]; then
+    grep -E "^IP-CIDR," "$dst_list"  | cut -d, -f2 >> "$f_exist_cidr" || true
+    grep -E "^IP-CIDR6," "$dst_list" | cut -d, -f2 >> "$f_exist_cidr" || true
+    grep -E "^IP-ASN,"   "$dst_list" | cut -d, -f2 >> "$f_exist_asn"  || true
+  fi
+
+  # 计算新增 CIDR（clash-ip 有但现有文件没有的）
+  local f_new_cidr="${WORKDIR}/ci_new_${tag}_cidr.txt"
+  local f_new_asn="${WORKDIR}/ci_new_${tag}_asn.txt"
+
+  merge_dedup "$f_exist_cidr" "$f_ci_ipcidr" "${WORKDIR}/ci_all_${tag}_cidr.txt" ipcidr
+  # 新增 = clash-ip 里 exist 没有的
+  python3 -c "
+import sys
+exist = set(v.strip().lower() for v in open('${f_exist_cidr}') if v.strip())
+new = []
+seen = set()
+for v in open('${f_ci_ipcidr}'):
+    v = v.strip()
+    if not v: continue
+    k = v.lower()
+    if k not in exist and k not in seen:
+        seen.add(k)
+        new.append(v)
+open('${f_new_cidr}', 'w').write('\n'.join(new) + ('\n' if new else ''))
+"
+
+  merge_dedup "$f_exist_asn" "$f_ci_asn" "${WORKDIR}/ci_all_${tag}_asn.txt" asn
+  python3 -c "
+import sys
+exist = set(v.strip() for v in open('${f_exist_asn}') if v.strip())
+new = []
+seen = set()
+for v in open('${f_ci_asn}'):
+    v = v.strip()
+    if not v: continue
+    if v not in exist and v not in seen:
+        seen.add(v)
+        new.append(v)
+open('${f_new_asn}', 'w').write('\n'.join(new) + ('\n' if new else ''))
+"
+
+  if [[ ! -s "$f_new_cidr" ]] && [[ ! -s "$f_new_asn" ]]; then
+    echo "[CLASH-IP] ${tag}: no new entries, skip"
+    return 0
+  fi
+
+  echo "[CLASH-IP] ${tag}: +$(wc -l < "$f_new_cidr" | tr -d ' ') CIDRs  +$(wc -l < "$f_new_asn" | tr -d ' ') ASNs"
+
+  # ── mrs（全量 cidr 重编译）───────────────────────────────────────────────
+  local f_all_cidr="${WORKDIR}/ci_all_${tag}_cidr.txt"
+  if [[ -s "$f_all_cidr" ]]; then
+    convert_mrs ipcidr "$f_all_cidr" "$dst_mrs" || true
+  fi
+
+  # ── yaml（追加新增行）───────────────────────────────────────────────────
+  [[ -f "$dst_yaml" ]] || echo "payload:" > "$dst_yaml"
+  while IFS= read -r line; do [[ -z "$line" ]] && continue
+    if [[ "$line" == *:* ]]; then echo "  - IP-CIDR6,${line}"
+    else echo "  - IP-CIDR,${line}"; fi
+  done < "$f_new_cidr" >> "$dst_yaml"
+  while IFS= read -r line; do [[ -z "$line" ]] && continue
+    echo "  - IP-ASN,${line}"
+  done < "$f_new_asn" >> "$dst_yaml"
+
+  # ── list（追加新增行）───────────────────────────────────────────────────
+  while IFS= read -r line; do [[ -z "$line" ]] && continue
+    if [[ "$line" == *:* ]]; then echo "IP-CIDR6,${line}"
+    else echo "IP-CIDR,${line}"; fi
+  done < "$f_new_cidr" >> "$dst_list"
+  while IFS= read -r line; do [[ -z "$line" ]] && continue
+    echo "IP-ASN,${line}"
+  done < "$f_new_asn" >> "$dst_list"
+
+  # ── json + srs（从 list 重新生成）───────────────────────────────────────
+  python3 -c "
+import json
+cidrs = []
+for line in open('${dst_list}'):
+    line = line.strip()
+    if line.startswith('IP-CIDR6,'): cidrs.append(line[9:])
+    elif line.startswith('IP-CIDR,'): cidrs.append(line[8:])
+rule = {'ip_cidr': cidrs} if cidrs else {}
+out = {'version': 3, 'rules': [rule] if rule else []}
+open('${dst_json}', 'w').write(json.dumps(out, ensure_ascii=False, separators=(',', ':')) + '\n')
+"
+  compile_srs "$dst_json" "$dst_srs" || true
+
+  # ── QX list（跳过 ASN，追加新增行）─────────────────────────────────────
+  while IFS= read -r line; do [[ -z "$line" ]] && continue
+    if [[ "$line" == *:* ]]; then echo "IP-CIDR6, ${line}"
+    else echo "IP-CIDR, ${line}"; fi
+  done < "$f_new_cidr" >> "$dst_qx"
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1032,9 +1141,46 @@ fi
 echo "[INFO] geoip clash-only: ok=$clash_geoip_ok"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 6. 统计
+# 6. 处理 clash-ip/（纯 IP 规则，合并进 geo/geoip/ 五格式 + QX/geoip/）
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[6/8] Final counts:"
+echo "[6/8] Process clash-ip/..."
+clash_ip_ok=0
+
+if [[ -d "$CLASH_IP_DIR" ]]; then
+  while IFS= read -r cyaml; do
+    tag="$(basename "$cyaml" .yaml)"
+    echo "[CLASH-IP] processing ${tag} <- ${cyaml}"
+
+    # 解析 clash-ip yaml（只取 ipcidr + asn 桶）
+    ctmp="${WORKDIR}/clash_ip_parsed"
+    mkdir -p "$ctmp"
+    parse_clash_yaml "$cyaml" "$ctmp" "ci_${tag}"
+
+    f_ci_ipcidr="${ctmp}/ci_${tag}.ipcidr.clash.txt"
+    f_ci_asn="${ctmp}/ci_${tag}.asn.clash.txt"
+    [[ -f "$f_ci_ipcidr" ]] || : > "$f_ci_ipcidr"
+    [[ -f "$f_ci_asn"    ]] || : > "$f_ci_asn"
+
+    # 无 IP 条目则跳过
+    if [[ ! -s "$f_ci_ipcidr" ]] && [[ ! -s "$f_ci_asn" ]]; then
+      echo "[CLASH-IP] ${tag}: no IP entries, skip"
+      continue
+    fi
+
+    # 确保输出目录存在
+    mkdir -p "$OUT_GEOIP" "$OUT_QX_GEOIP"
+
+    emit_clash_ip_merge "$tag" "$f_ci_ipcidr" "$f_ci_asn"
+    clash_ip_ok=$((clash_ip_ok+1))
+  done < <(find "$CLASH_IP_DIR" -maxdepth 1 -name "*.yaml" | sort)
+fi
+
+echo "[INFO] clash-ip: ok=$clash_ip_ok"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 7. 统计
+# ══════════════════════════════════════════════════════════════════════════════
+echo "[7/8] Final counts:"
 echo "  geo/geosite/   mrs  : $(find "$OUT_GEOSITE"    -name '*.mrs'  | wc -l | tr -d ' ')"
 echo "  geo/geosite/   yaml : $(find "$OUT_GEOSITE"    -name '*.yaml' | wc -l | tr -d ' ')"
 echo "  geo/geosite/   list : $(find "$OUT_GEOSITE"    -name '*.list' | wc -l | tr -d ' ')"
@@ -1047,5 +1193,6 @@ echo "  geo/geoip/     json : $(find "$OUT_GEOIP"      -name '*.json' | wc -l | 
 echo "  geo/geoip/     srs  : $(find "$OUT_GEOIP"      -name '*.srs'  | wc -l | tr -d ' ')"
 echo "  QX/geosite/    list : $(find "$OUT_QX_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
 echo "  QX/geoip/      list : $(find "$OUT_QX_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
+echo "  clash-ip merged     : $clash_ip_ok"
 
-echo "[7/8] Done."
+echo "[8/8] Done."
