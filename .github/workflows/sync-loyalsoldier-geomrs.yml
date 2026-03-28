@@ -9,6 +9,7 @@ on:
       - ".github/workflows/sync-loyalsoldier-geomrs.yml"
       - "scripts/sync_loy_geo_mrs.sh"
       - "clash/**"
+      - "clash-ip/**"
 
 permissions:
   contents: write
