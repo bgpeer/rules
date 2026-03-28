@@ -99,11 +99,11 @@ https://cdn.jsdelivr.net/gh/SHICHUNHUI88/rules@main/geo/geoip
 
 ---
 
-## [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.github.com/SHICHUNHUI88/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
+## [可用于 Clash Mi 的样板](https://gh-raw.shichunhui88.workers.dev/gist/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 
 ---
 
-## [可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.github.com/SHICHUNHUI88/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
+## [可用于 Sing-box 的样板](https://gh-raw.shichunhui88.workers.dev/gist/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
 
 ---
 
