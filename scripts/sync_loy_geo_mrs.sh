@@ -1078,27 +1078,35 @@ while IFS= read -r f; do
 
   [[ ! -s "$f" ]] && continue
 
+  # 纯 Loyalsoldier 数据（不混入任何 clash 条目）
   f_ipcidr="${WORKDIR}/geoip_cidr_${tag}.txt"
   f_asn="${WORKDIR}/geoip_asn_${tag}.txt"
   cp "$f" "$f_ipcidr"
   : > "$f_asn"
 
-  # 优先从 clash_ip/ 缓存补充（geosite 流程已解析过同名 clash yaml 的 IP 条目）
-  if [[ -s "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" ]]; then
-    merge_dedup "$f_ipcidr" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" \
-      "${WORKDIR}/merged/${tag}_gi_ipcidr.txt" ipcidr \
-      && cp -f "${WORKDIR}/merged/${tag}_gi_ipcidr.txt" "$f_ipcidr" || true
-  fi
-  if [[ -s "${WORKDIR}/clash_ip/${tag}.asn.txt" ]]; then
-    merge_dedup "$f_asn" "${WORKDIR}/clash_ip/${tag}.asn.txt" \
-      "${WORKDIR}/merged/${tag}_gi_asn.txt" asn \
-      && cp -f "${WORKDIR}/merged/${tag}_gi_asn.txt" "$f_asn" || true
-  fi
-
-  # 再跑 apply_clash_geoip（处理 clash yaml 里直接以 geoip tag 命名的情况）
-  apply_clash_geoip "$tag" "$f_ipcidr" "$f_asn"
-
+  # 五种格式 + QX 只用纯 Loyalsoldier 数据
   emit_geoip_all "$tag" "$f_ipcidr" "$f_asn"
+
+  # clash/ 的 IP 条目：merge 后只重编译 mrs
+  f_clash_ipcidr="${WORKDIR}/geoip_clash_cidr_${tag}.txt"
+  f_clash_asn="${WORKDIR}/geoip_clash_asn_${tag}.txt"
+  cp "$f_ipcidr" "$f_clash_ipcidr"
+  : > "$f_clash_asn"
+
+  # 从 clash_ip/ 缓存补充（geosite 流程已解析过同名 clash yaml 的 IP 条目）
+  if [[ -s "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" ]]; then
+    merge_dedup "$f_clash_ipcidr" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" \
+      "${WORKDIR}/merged/${tag}_gi_ipcidr.txt" ipcidr \
+      && cp -f "${WORKDIR}/merged/${tag}_gi_ipcidr.txt" "$f_clash_ipcidr" || true
+  fi
+
+  # apply_clash_geoip（clash yaml 直接以 geoip tag 命名的情况）
+  apply_clash_geoip "$tag" "$f_clash_ipcidr" "$f_clash_asn"
+
+  # 只有 clash 带来新条目时才重编译 mrs（跳过 ASN，mrs 不支持）
+  if [[ -s "$f_clash_ipcidr" ]]; then
+    convert_mrs ipcidr "$f_clash_ipcidr" "${OUT_GEOIP}/${tag}.mrs" || true
+  fi
 
   geoip_processed["$tag"]=1
   geoip_ok=$((geoip_ok+1))
@@ -1131,8 +1139,11 @@ if [[ -d "$CLASH_DIR" ]]; then
     # 只有确实含 IP 条目才建文件
     [[ -s "$f_ipcidr" ]] || continue
 
-    echo "[CLASH-ONLY] geoip/${tag} <- ${cyaml}"
-    emit_geoip_all "$tag" "$f_ipcidr" "$f_asn"
+    echo "[CLASH-ONLY] geoip/${tag} <- ${cyaml} (mrs only)"
+    # clash/ 来源只输出 mrs（跳过 ASN，mrs 不支持）
+    if [[ -s "$f_ipcidr" ]]; then
+      convert_mrs ipcidr "$f_ipcidr" "${OUT_GEOIP}/${tag}.mrs" || true
+    fi
 
     clash_geoip_ok=$((clash_geoip_ok+1))
   done < <(find "$CLASH_DIR" -maxdepth 1 -name '*.yaml' | sort)
