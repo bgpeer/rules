@@ -81,7 +81,7 @@ https://gh.example.org/rules/geo/geoip/cn.list
 
 ## 使用方法（Clash Mi）
 
-在 Clash Mi → **Geo RuleSet** 中填写以下两个目录链接（推荐使用 CDN）：
+可以在 Clash Mi → **Geo RuleSet** 中填写以下两个目录链接：
 
 ### [GEOSITE 数据库](https://github.com/bgpeer/rules/tree/main/geo/geosite)
 ```
