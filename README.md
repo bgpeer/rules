@@ -83,12 +83,12 @@ https://gh.example.org/rules/geo/geoip/cn.list
 
 可以在 Clash Mi → **Geo RuleSet** 中填写以下两个目录链接：
 
-### GEOSITE 数据库
+**geosite**
 ```
 https://gh.example.org/rules/geo/geosite
 ```
 
-### GEOIP 数据库
+**geoip**
 ```
 https://gh.example.org/rules/geo/geoip
 ```
