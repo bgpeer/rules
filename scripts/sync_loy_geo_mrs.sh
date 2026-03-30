@@ -18,8 +18,8 @@
 #   若 clash/<name>.yaml 存在但 geo 无同名文件，则纯从 clash 数据建档。
 set -euo pipefail
 
-GEOIP_URL='https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/geoip.dat'
-GEOSITE_URL='https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat'
+GEOIP_URL='https://raw.githubusercontent.com/Loyalsoldier/geoip/release/geoip.dat'
+GEOSITE_URL='https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geosite.dat'
 
 OUT_GEOSITE='geo/geosite'
 OUT_GEOIP='geo/geoip'
