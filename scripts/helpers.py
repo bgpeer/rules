@@ -244,11 +244,12 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
     write_lines(os.path.join(out_qx_geosite, f"{tag}.list"), qx_out)
 
     # ── json（sing-box v3）────────────────────────────────────────────────
-    j_suffix = list(suffix)  # 带点，如 ".0x0.st"
+    # suffix 列表混合了带点(geo)和不带点(clash merge)的值，统一加点
+    j_suffix = [v if v.startswith(".") else "." + v for v in suffix]
     j_domain = list(domain)
     j_keyword = list(keyword)
     j_regexp = list(regexp)
-    j_cidrs = list(clash_ipcidr)  # 从独立参数取
+    j_cidrs = []  # IP 条目从 clash_extras 获取（与 yaml/list 一致）
     for t, v in clash_extras:
         if t in JSON_SKIP_TYPES:
             continue
@@ -262,6 +263,17 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
             j_regexp.append(v)
         elif t in ("IP-CIDR", "IP-CIDR6"):
             j_cidrs.append(v)
+
+    # 去重（clash_ipcidr 和 clash_extras 可能有重叠）
+    if j_cidrs:
+        seen_cidr = set()
+        deduped = []
+        for v in j_cidrs:
+            k = v.lower()
+            if k not in seen_cidr:
+                seen_cidr.add(k)
+                deduped.append(v)
+        j_cidrs = deduped
 
     rule = {}
     if j_domain:   rule["domain"]         = j_domain
