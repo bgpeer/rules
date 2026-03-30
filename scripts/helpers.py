@@ -155,13 +155,16 @@ def parse_geosite_txt(filepath):
 # 单 tag 全格式输出（内存中完成，不启动子进程）
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
-                     mrs_tasks, srs_tasks, workdir):
+def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
+                     out_qx_geosite, mrs_tasks, srs_tasks, workdir):
     """
     为一个 geosite tag 输出全部格式。
     buckets: {"suffix":[], "domain":[], "keyword":[], "regexp":[],
-              "process":[], "process_re":[], "asn":[], "ipcidr":[]}
-    返回 (clash_ipcidr_list, clash_asn_list) 供 geoip 阶段使用
+              "process":[], "process_re":[]}
+              注意：不含 ipcidr/asn（这些单独通过 clash_ipcidr 传入）
+    clash_ipcidr: clash yaml 中解析出的 IP-CIDR 列表（用于 QX 和 json）
+    clash_yaml: clash yaml 路径（用于提取 extras 追加进 yaml/list/json）
+    返回 (extra_ipcidr_list, extra_asn_list) 供 geoip 阶段使用
     """
     suffix   = buckets.get("suffix", [])
     domain   = buckets.get("domain", [])
@@ -169,10 +172,8 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
     regexp   = buckets.get("regexp", [])
     process  = buckets.get("process", [])
     process_re = buckets.get("process_re", [])
-    asn_vals = buckets.get("asn", [])
-    ipcidr   = buckets.get("ipcidr", [])
 
-    # 构建 geo_seen 用于 clash 去重
+    # 构建 geo_seen 用于 clash 去重（不含 ipcidr/asn，让 IP 类条目通过 extras 输出）
     geo_seen = {}
     for v in suffix:
         geo_seen.setdefault("DOMAIN-SUFFIX", set()).add(v.lstrip("."))
@@ -186,11 +187,8 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
         geo_seen.setdefault("PROCESS-NAME", set()).add(v)
     for v in process_re:
         geo_seen.setdefault("PROCESS-NAME-REGEX", set()).add(v)
-    for v in ipcidr:
-        t = "IP-CIDR6" if ":" in v else "IP-CIDR"
-        geo_seen.setdefault(t, set()).add(v.lower())
 
-    # clash extras
+    # clash extras（包含域名类 + IP 类 + 进程类，与 geo_seen 去重）
     clash_extras = []  # [(type, value), ...]
     clash_seen = {}
     for t, v in parse_clash_entries(clash_yaml):
@@ -202,7 +200,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
         clash_seen.setdefault(t, set()).add(nv)
         clash_extras.append((t, v))
 
-    # 所有 geo 行（type, value）
+    # 所有 geo 行（type, value）— 仅域名类 + 进程类，不含 IP
     geo_lines = (
         [("DOMAIN-SUFFIX", v.lstrip(".")) for v in suffix] +
         [("DOMAIN", v) for v in domain] +
@@ -211,6 +209,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
         [("PROCESS-NAME", v) for v in process] +
         [("PROCESS-NAME-REGEX", v) for v in process_re]
     )
+    # clash_extras 包含 IP-CIDR/IP-ASN 等，会被追加进 yaml/list
     all_lines = geo_lines + clash_extras
 
     # ── yaml ──────────────────────────────────────────────────────────────
@@ -229,29 +228,32 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
         qx_out.append(f"HOST, {v}")
     for v in keyword:
         qx_out.append(f"HOST-KEYWORD, {v}")
-    for v in ipcidr:
+    # clash 来源的 IP 条目（用于 QX geosite）
+    for v in clash_ipcidr:
         t = "IP-CIDR6" if ":" in v else "IP-CIDR"
         qx_out.append(f"{t}, {v}")
-    # clash extras for QX
+    # clash extras for QX（仅域名类，IP 已经从 clash_ipcidr 取了）
     for t, v in clash_extras:
         if t in QX_SKIP_TYPES:
             continue
+        if t in ("IP-CIDR", "IP-CIDR6"):
+            continue  # 已从 clash_ipcidr 输出
         qx_t = QX_TYPE_MAP.get(t)
         if qx_t:
             qx_out.append(f"{qx_t}, {v}")
     write_lines(os.path.join(out_qx_geosite, f"{tag}.list"), qx_out)
 
     # ── json（sing-box v3）────────────────────────────────────────────────
-    j_suffix = list(suffix)
+    j_suffix = list(suffix)  # 带点，如 ".0x0.st"
     j_domain = list(domain)
     j_keyword = list(keyword)
     j_regexp = list(regexp)
-    j_cidrs = list(ipcidr)
+    j_cidrs = list(clash_ipcidr)  # 从独立参数取
     for t, v in clash_extras:
         if t in JSON_SKIP_TYPES:
             continue
         if t == "DOMAIN-SUFFIX":
-            j_suffix.append(v.lstrip("."))
+            j_suffix.append("." + v.lstrip("."))
         elif t == "DOMAIN":
             j_domain.append(v)
         elif t == "DOMAIN-KEYWORD":
@@ -263,7 +265,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
 
     rule = {}
     if j_domain:   rule["domain"]         = j_domain
-    if j_suffix:   rule["domain_suffix"]  = [s.lstrip(".") for s in j_suffix]
+    if j_suffix:   rule["domain_suffix"]  = j_suffix
     if j_keyword:  rule["domain_keyword"] = j_keyword
     if j_regexp:   rule["domain_regex"]   = j_regexp
     if j_cidrs:    rule["ip_cidr"]        = j_cidrs
@@ -273,10 +275,10 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
                   f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
-    # ── mrs 源文件（suffix + domain）──────────────────────────────────────
+    # ── mrs 源文件（suffix + domain，保留原始带点格式）─────────────────────
     mrs_src = os.path.join(workdir, "gs_mrs", f"{tag}.txt")
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-    mrs_lines = [v.lstrip(".") for v in suffix] + list(domain)
+    mrs_lines = list(suffix) + list(domain)
     if mrs_lines:
         write_lines(mrs_src, mrs_lines)
         mrs_tasks.append(f"domain\t{mrs_src}\t{os.path.join(out_geosite, f'{tag}.mrs')}")
@@ -285,14 +287,14 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite, out_qx_geosite,
     srs_tasks.append(f"{json_path}\t{os.path.join(out_geosite, f'{tag}.srs')}")
 
     # 返回 clash 带来的 IP 条目供 geoip 使用
-    clash_ipcidr = []
-    clash_asn = []
+    extra_ipcidr = []
+    extra_asn = []
     for t, v in clash_extras:
         if t in ("IP-CIDR", "IP-CIDR6"):
-            clash_ipcidr.append(v)
+            extra_ipcidr.append(v)
         elif t == "IP-ASN":
-            clash_asn.append(v)
-    return clash_ipcidr, clash_asn
+            extra_asn.append(v)
+    return extra_ipcidr, extra_asn
 
 
 def emit_geoip_tag(tag, ipcidr_lines, asn_lines, out_geoip, out_qx_geoip,
@@ -364,8 +366,9 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
 
         geo_buckets = parse_geosite_txt(f)
 
-        # clash 融合
+        # clash 融合（只融合 6 个域名/进程类桶，ipcidr/asn 单独缓存）
         clash_yaml = os.path.join(clash_dir, f"{tag}.yaml")
+        clash_ipcidr = []
         if os.path.isfile(clash_yaml):
             print(f"[MERGE] geosite/{tag} <- {clash_yaml}")
             cb = parse_clash_to_buckets(clash_yaml)
@@ -373,33 +376,33 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
                 geo_buckets.setdefault(btype, [])
                 geo_buckets[btype] = merge_dedup_lists(
                     geo_buckets[btype], cb.get(btype, []), btype)
-            # ipcidr + asn 缓存
-            geo_buckets["ipcidr"] = cb.get("ipcidr", [])
-            geo_buckets["asn"] = cb.get("asn", [])
+            # ipcidr/asn 单独缓存，不放进 geo_buckets
+            clash_ipcidr = cb.get("ipcidr", [])
         else:
             clash_yaml = ""
-            geo_buckets.setdefault("process", [])
-            geo_buckets.setdefault("process_re", [])
-            geo_buckets.setdefault("asn", [])
-            geo_buckets.setdefault("ipcidr", [])
+
+        geo_buckets.setdefault("process", [])
+        geo_buckets.setdefault("process_re", [])
 
         # 检查空
         has_data = any(geo_buckets.get(k) for k in
                        ("suffix", "domain", "keyword", "regexp",
-                        "process", "process_re", "asn", "ipcidr"))
+                        "process", "process_re")) or clash_ipcidr
         if not has_data:
             skip += 1
             processed.add(tag)
             continue
 
         ci, ca = emit_geosite_tag(
-            tag, geo_buckets, clash_yaml,
+            tag, geo_buckets, clash_yaml, clash_ipcidr,
             out_geosite, out_qx_geosite,
             mrs_tasks, srs_tasks, workdir)
 
-        # 缓存 clash 带来的 IP 条目
-        if ci or ca:
-            clash_ip_cache[tag] = (ci, ca)
+        # 缓存 clash 带来的 IP 条目（包括直接解析的 + extras 里的）
+        all_ci = clash_ipcidr + ci
+        all_ca = ca
+        if all_ci or all_ca:
+            clash_ip_cache[tag] = (all_ci, all_ca)
 
         processed.add(tag)
         ok += 1
@@ -417,7 +420,7 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
             print(f"[CLASH-ONLY] geosite/{tag} <- {cyaml}")
             cb = parse_clash_to_buckets(cyaml)
 
-            # 构建 buckets
+            # 构建 buckets（不含 ipcidr/asn）
             buckets = {
                 "suffix": cb.get("suffix", []),
                 "domain": cb.get("domain", []),
@@ -425,23 +428,24 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
                 "regexp": cb.get("regexp", []),
                 "process": cb.get("process", []),
                 "process_re": cb.get("process_re", []),
-                "asn": cb.get("asn", []),
-                "ipcidr": cb.get("ipcidr", []),
             }
+            clash_ipcidr = cb.get("ipcidr", [])
 
             has_data = any(buckets.get(k) for k in
                            ("suffix", "domain", "keyword", "regexp",
-                            "process", "process_re", "asn", "ipcidr"))
+                            "process", "process_re")) or clash_ipcidr
             if not has_data:
                 continue
 
             ci, ca = emit_geosite_tag(
-                tag, buckets, cyaml,
+                tag, buckets, cyaml, clash_ipcidr,
                 out_geosite, out_qx_geosite,
                 mrs_tasks, srs_tasks, workdir)
 
-            if ci or ca:
-                clash_ip_cache[tag] = (ci, ca)
+            all_ci = clash_ipcidr + ci
+            all_ca = ca
+            if all_ci or all_ca:
+                clash_ip_cache[tag] = (all_ci, all_ca)
 
             processed.add(tag)
             clash_only_ok += 1
