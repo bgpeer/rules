@@ -436,7 +436,6 @@ if [[ -d "$CLASH_DIR" ]]; then
     ensure_clash_parsed "$cyaml" "$tag"
 
     for bucket in suffix domain keyword regexp process process_re asn; do
-      local clash_f
       clash_f="$(clash_bucket_file "$tag" "$bucket")"
       case "$bucket" in
         suffix)     cp -f "$clash_f" "$f_suffix"     ;;
@@ -509,7 +508,7 @@ while IFS= read -r f; do
 
   # 从 clash_ip/ 缓存补充（geosite 流程已解析过同名 clash yaml 的 IP 条目）
   if [[ -s "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" ]]; then
-    local mtmp="${WORKDIR}/merged"
+    mtmp="${WORKDIR}/merged"
     mkdir -p "$mtmp"
     py merge_dedup "$f_clash_ipcidr" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" \
       "${mtmp}/${tag}_gi_ipcidr.txt" ipcidr \
