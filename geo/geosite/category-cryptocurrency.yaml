@@ -1,6 +1,6 @@
 payload:
-  - DOMAIN-SUFFIX,nexo.io
-  - DOMAIN-SUFFIX,zb.live
+  - DOMAIN-SUFFIX,gatedata.org
+  - DOMAIN-SUFFIX,binance.cloud
   - DOMAIN-SUFFIX,bingx.com
   - DOMAIN-SUFFIX,bitbank.cc
   - DOMAIN-SUFFIX,bitcoin.org
@@ -26,7 +26,7 @@ payload:
   - DOMAIN-SUFFIX,cryptocompare.com
   - DOMAIN-SUFFIX,cryptomus.com
   - DOMAIN-SUFFIX,curve.fi
-  - DOMAIN-SUFFIX,bitflyer.jp
+  - DOMAIN-SUFFIX,gateio.live
   - DOMAIN-SUFFIX,debank.com
   - DOMAIN-SUFFIX,dogecoin.com
   - DOMAIN-SUFFIX,dydx.exchange
@@ -63,17 +63,6 @@ payload:
   - DOMAIN-SUFFIX,ethereum.foundation
   - DOMAIN-SUFFIX,ethereum.org
   - DOMAIN-SUFFIX,etherscan.io
-  - DOMAIN-SUFFIX,onekey-asset.com
-  - DOMAIN-SUFFIX,onekey.so
-  - DOMAIN-SUFFIX,onekeycn.com
-  - DOMAIN-SUFFIX,redotpay.com
-  - DOMAIN-SUFFIX,trustwallet.com
-  - DOMAIN-SUFFIX,gate.io
-  - DOMAIN-SUFFIX,gatedata.org
-  - DOMAIN-SUFFIX,gateimg.com
-  - DOMAIN-SUFFIX,straitsx.com
-  - DOMAIN-SUFFIX,gateio.live
-  - DOMAIN-SUFFIX,gateio.services
   - DOMAIN-SUFFIX,htx.com
   - DOMAIN-SUFFIX,hbabit.com
   - DOMAIN-SUFFIX,hbfile.net
@@ -84,37 +73,43 @@ payload:
   - DOMAIN-SUFFIX,huobiasia.vip
   - DOMAIN-SUFFIX,huobigroup.com
   - DOMAIN-SUFFIX,huobitoken.com
-  - DOMAIN-SUFFIX,kucoin.com
-  - DOMAIN-SUFFIX,kucoin.plus
   - DOMAIN-SUFFIX,nexo.com
-  - DOMAIN-SUFFIX,osl.com
-  - DOMAIN-SUFFIX,aave.com
-  - DOMAIN-SUFFIX,cyberx.com
-  - DOMAIN-SUFFIX,bisq.io
-  - DOMAIN-SUFFIX,bisq.network
-  - DOMAIN-SUFFIX,bitsquare.io
-  - DOMAIN-SUFFIX,coinonecore.com
-  - DOMAIN-SUFFIX,coinonecorp.com
-  - DOMAIN-SUFFIX,localbitcoinschain.com
-  - DOMAIN-SUFFIX,localbitcoins.com
-  - DOMAIN-SUFFIX,kraken.onl
-  - DOMAIN-SUFFIX,kraken.com
-  - DOMAIN-SUFFIX,deribit.com
+  - DOMAIN-SUFFIX,nexo.io
   - DOMAIN-SUFFIX,wisecoin.com
   - DOMAIN-SUFFIX,wiseid.com
   - DOMAIN-SUFFIX,wisekey.com
-  - DOMAIN-SUFFIX,okx.com
   - DOMAIN-SUFFIX,wyndlabs.ai
   - DOMAIN-SUFFIX,wynd.network
+  - DOMAIN-SUFFIX,trustwallet.com
+  - DOMAIN-SUFFIX,asproex.com
+  - DOMAIN-SUFFIX,asproexapi.com
+  - DOMAIN-SUFFIX,bitflyer.com
+  - DOMAIN-SUFFIX,bitflyer.jp
+  - DOMAIN-SUFFIX,deribit.com
+  - DOMAIN-SUFFIX,gate.io
+  - DOMAIN-SUFFIX,osl.com
+  - DOMAIN-SUFFIX,aave.com
+  - DOMAIN-SUFFIX,cyberx.com
+  - DOMAIN-SUFFIX,gateio.services
+  - DOMAIN-SUFFIX,onekey-asset.com
+  - DOMAIN-SUFFIX,onekey.so
+  - DOMAIN-SUFFIX,onekeycn.com
+  - DOMAIN-SUFFIX,redotpay.com
+  - DOMAIN-SUFFIX,straitsx.com
+  - DOMAIN-SUFFIX,bisq.io
+  - DOMAIN-SUFFIX,okx.com
+  - DOMAIN-SUFFIX,okx.cab
+  - DOMAIN-SUFFIX,okx-dns2.com
+  - DOMAIN-SUFFIX,okx-dns1.com
+  - DOMAIN-SUFFIX,bisq.network
+  - DOMAIN-SUFFIX,bitsquare.io
   - DOMAIN-SUFFIX,zb.app
   - DOMAIN-SUFFIX,zb.com
   - DOMAIN-SUFFIX,zb.io
-  - DOMAIN-SUFFIX,bitflyer.com
-  - DOMAIN-SUFFIX,asproex.com
-  - DOMAIN-SUFFIX,asproexapi.com
+  - DOMAIN-SUFFIX,zb.live
   - DOMAIN-SUFFIX,binance.cc
   - DOMAIN-SUFFIX,binance.charity
-  - DOMAIN-SUFFIX,binance.cloud
+  - DOMAIN-SUFFIX,gateimg.com
   - DOMAIN-SUFFIX,binance.co
   - DOMAIN-SUFFIX,binance.com
   - DOMAIN-SUFFIX,binance.info
@@ -164,22 +159,27 @@ payload:
   - DOMAIN-SUFFIX,bybit-global.com
   - DOMAIN-SUFFIX,bybit.cloud
   - DOMAIN-SUFFIX,bybitglobal.com
-  - DOMAIN-SUFFIX,okex.com
+  - DOMAIN-SUFFIX,coinonecore.com
+  - DOMAIN-SUFFIX,coinonecorp.com
   - DOMAIN-SUFFIX,okx-dns.com
-  - DOMAIN-SUFFIX,okx-dns1.com
-  - DOMAIN-SUFFIX,okx-dns2.com
-  - DOMAIN-SUFFIX,okx.cab
-  - DOMAIN-SUFFIX,wisekey.com.hk
+  - DOMAIN-SUFFIX,okex.com
+  - DOMAIN-SUFFIX,kraken.com
+  - DOMAIN-SUFFIX,kraken.onl
+  - DOMAIN-SUFFIX,kucoin.com
+  - DOMAIN-SUFFIX,kucoin.plus
+  - DOMAIN-SUFFIX,localbitcoins.com
+  - DOMAIN-SUFFIX,localbitcoinschain.com
   - DOMAIN-SUFFIX,coinone.co.kr
   - DOMAIN-SUFFIX,xhpjc6-cdn-settings.appsflyersdk.com
   - DOMAIN-SUFFIX,pod-15-sunco-ws.zendesk.com
   - DOMAIN-SUFFIX,redotpay.zendesk.com
+  - DOMAIN-SUFFIX,wisekey.com.hk
   - DOMAIN-SUFFIX,btcbox.co.jp
   - DOMAIN-SUFFIX,rp-static-apne1.s3.ap-northeast-1.amazonaws.com
   - DOMAIN-SUFFIX,oklink.com
-  - DOMAIN,onekey.zendesk.com
   - DOMAIN,deribit.cdn.prismic.io
-  - DOMAIN,bybit-exchange.github.io
-  - DOMAIN,bybit.ada.support
+  - DOMAIN,onekey.zendesk.com
   - DOMAIN,d3r7nsslvs6aaf.cloudfront.net
   - DOMAIN,straitsx-826709081262441084-b790f87a2ae6fd417434295.freshchat.com
+  - DOMAIN,bybit-exchange.github.io
+  - DOMAIN,bybit.ada.support
