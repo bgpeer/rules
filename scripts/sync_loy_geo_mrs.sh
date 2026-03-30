@@ -17,7 +17,9 @@
 #     QX list               -> 跳过 DOMAIN-REGEX / PROCESS-NAME / PROCESS-NAME-REGEX / IP-ASN
 #   若 clash/<n>.yaml 存在但 geo 无同名文件，则纯从 clash 数据建档。
 #
-# 性能：mrs/srs 编译使用 xargs -P 并行化，利用多核加速。
+# 性能优化：
+#   - Python 批处理：一次 python3 调用处理所有 tag 的全部文本格式（消除 6000+ 次进程启动）
+#   - 并行编译：mrs/srs 用 xargs -P 多核并行
 set -euo pipefail
 
 GEOIP_URL='https://raw.githubusercontent.com/Loyalsoldier/geoip/release/geoip.dat'
@@ -34,7 +36,6 @@ CLASH_IP_DIR="${CLASH_IP_DIR:-clash-ip}"
 MIHOMO_BIN="${MIHOMO_BIN:-./mihomo}"
 SINGBOX_BIN="${SINGBOX_BIN:-./sing-box}"
 
-# 并行编译线程数（默认 CPU 核数，至少 2）
 PARALLEL="${PARALLEL:-$(nproc 2>/dev/null || echo 2)}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -55,40 +56,26 @@ command -v python3     >/dev/null 2>&1 || { echo "ERROR: python3 not found";    
 echo "[INFO] mihomo version:";   "$MIHOMO_BIN"  -v       || true
 echo "[INFO] sing-box version:"; "$SINGBOX_BIN" version  || true
 
-# ── helpers.py 快捷调用 ──────────────────────────────────────────────────────
-py() { python3 "$HELPERS" "$@"; }
-
 # ── 工作目录 ──────────────────────────────────────────────────────────────────
 WORKDIR="$(mktemp -d)"
 trap 'rm -rf "$WORKDIR"' EXIT
 
-# ── 编译任务队列（串行阶段写入，最后并行执行）────────────────────────────────
-MRS_TASKS="${WORKDIR}/mrs_tasks.txt"    # 格式: behavior\tsrc\tdst
-SRS_TASKS="${WORKDIR}/srs_tasks.txt"    # 格式: json\tsrs
+MRS_TASKS="${WORKDIR}/mrs_tasks.txt"
+SRS_TASKS="${WORKDIR}/srs_tasks.txt"
 : > "$MRS_TASKS"
 : > "$SRS_TASKS"
-
-queue_mrs() {
-  local behavior="$1" src="$2" dst="$3"
-  printf '%s\t%s\t%s\n' "$behavior" "$src" "$dst" >> "$MRS_TASKS"
-}
-
-queue_srs() {
-  local json_file="$1" srs="$2"
-  printf '%s\t%s\n' "$json_file" "$srs" >> "$SRS_TASKS"
-}
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. 下载
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[1/9] Download dat files..."
+echo "[1/7] Download dat files..."
 curl -fsSL --retry 3 --retry-delay 2 "$GEOIP_URL"   -o "$WORKDIR/geoip.dat"
 curl -fsSL --retry 3 --retry-delay 2 "$GEOSITE_URL" -o "$WORKDIR/geosite.dat"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 2. 解包
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[2/9] Unpack dat -> txt..."
+echo "[2/7] Unpack dat -> txt..."
 mkdir -p "$WORKDIR/geoip_txt" "$WORKDIR/geosite_txt"
 v2dat unpack geoip   -o "$WORKDIR/geoip_txt"   "$WORKDIR/geoip.dat"
 v2dat unpack geosite -o "$WORKDIR/geosite_txt" "$WORKDIR/geosite.dat"
@@ -104,476 +91,53 @@ fi
 # ══════════════════════════════════════════════════════════════════════════════
 # 3. 清空旧输出（增删同步）
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[3/9] Clean output dirs (full sync)..."
+echo "[3/7] Clean output dirs (full sync)..."
 rm -rf "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"
 mkdir -p "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 辅助函数
+# 4. Python 批处理 geosite（一次调用处理所有 tag，输出 yaml/list/json/QX）
 # ══════════════════════════════════════════════════════════════════════════════
-
-# ── clash yaml 解析（带缓存）─────────────────────────────────────────────────
-declare -A clash_parsed_cache=()
-CLASH_CACHE_DIR="${WORKDIR}/clash_parsed"
-mkdir -p "$CLASH_CACHE_DIR"
-
-ensure_clash_parsed() {
-  local yaml_path="$1" tag="$2"
-  if [[ -n "${clash_parsed_cache[${tag}]+x}" ]]; then return 0; fi
-  py parse_clash "$yaml_path" "$CLASH_CACHE_DIR" "$tag"
-  clash_parsed_cache["$tag"]=1
-}
-
-clash_bucket_file() {
-  local tag="$1" bucket="$2"
-  echo "${CLASH_CACHE_DIR}/${tag}.${bucket}.clash.txt"
-}
-
-# ── apply_clash_geosite ──────────────────────────────────────────────────────
-apply_clash_geosite() {
-  local tag="$1" \
-        f_suffix="$2"     f_domain="$3"     f_keyword="$4" \
-        f_regexp="$5"     f_process="$6"    f_process_re="$7" \
-        f_asn="$8"
-
-  local clash_yaml="${CLASH_DIR}/${tag}.yaml"
-  [[ -f "$clash_yaml" ]] || return 0
-
-  echo "[MERGE] geosite/${tag} <- ${clash_yaml}"
-  ensure_clash_parsed "$clash_yaml" "$tag"
-
-  local mtmp="${WORKDIR}/merged"
-  mkdir -p "$mtmp"
-
-  mkdir -p "${WORKDIR}/clash_ip"
-  local f_geo_ipcidr="${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
-  local f_geo_ip_asn="${WORKDIR}/clash_ip/${tag}.asn.txt"
-  : > "$f_geo_ipcidr"; : > "$f_geo_ip_asn"
-
-  py merge_dedup "$f_geo_ipcidr" "$(clash_bucket_file "$tag" ipcidr)" \
-    "${mtmp}/${tag}.ipcidr.txt" ipcidr \
-    && cp -f "${mtmp}/${tag}.ipcidr.txt" "$f_geo_ipcidr" || true
-  py merge_dedup "$f_geo_ip_asn" "$(clash_bucket_file "$tag" asn)" \
-    "${mtmp}/${tag}.ip_asn.txt" asn \
-    && cp -f "${mtmp}/${tag}.ip_asn.txt" "$f_geo_ip_asn" || true
-
-  for bucket in suffix domain keyword regexp process process_re; do
-    local geo_f
-    case "$bucket" in
-      suffix)     geo_f="$f_suffix"     ;;
-      domain)     geo_f="$f_domain"     ;;
-      keyword)    geo_f="$f_keyword"    ;;
-      regexp)     geo_f="$f_regexp"     ;;
-      process)    geo_f="$f_process"    ;;
-      process_re) geo_f="$f_process_re" ;;
-    esac
-    py merge_dedup "$geo_f" "$(clash_bucket_file "$tag" "$bucket")" \
-      "${mtmp}/${tag}.${bucket}.txt" "$bucket"
-    cp -f "${mtmp}/${tag}.${bucket}.txt" "$geo_f"
-  done
-}
-
-# ── apply_clash_geoip ────────────────────────────────────────────────────────
-apply_clash_geoip() {
-  local tag="$1" f_ipcidr="$2" f_asn="$3"
-
-  local clash_yaml="${CLASH_DIR}/${tag}.yaml"
-  [[ -f "$clash_yaml" ]] || return 0
-
-  echo "[MERGE] geoip/${tag} <- ${clash_yaml}"
-  ensure_clash_parsed "$clash_yaml" "${tag}_geoip"
-
-  local mtmp="${WORKDIR}/merged"
-  mkdir -p "$mtmp"
-
-  for bucket in ipcidr asn; do
-    local geo_f
-    case "$bucket" in
-      ipcidr) geo_f="$f_ipcidr" ;;
-      asn)    geo_f="$f_asn"    ;;
-    esac
-    py merge_dedup "$geo_f" "$(clash_bucket_file "${tag}_geoip" "$bucket")" \
-      "${mtmp}/${tag}_geoip.${bucket}.txt" "$bucket"
-    cp -f "${mtmp}/${tag}_geoip.${bucket}.txt" "$geo_f"
-  done
-}
-
-# ── emit_geosite_all：输出文本格式 + 登记编译任务（不立即编译）───────────────
-emit_geosite_all() {
-  local tag="$1" \
-        f_suffix="$2" f_domain="$3" f_keyword="$4" f_regexp="$5" \
-        f_process="$6" f_process_re="$7" f_ipcidr="$8" clash_yaml="$9"
-
-  # mrs 源文件准备
-  local f_mrs="${WORKDIR}/gs_mrs/${tag}.txt"
-  cat "$f_suffix" "$f_domain" > "$f_mrs"
-  if [[ -s "$f_mrs" ]]; then
-    queue_mrs domain "$f_mrs" "${OUT_GEOSITE}/${tag}.mrs"
-  fi
-
-  # yaml / list / QX list / json — 立即生成
-  py make_yaml_domain \
-    "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-    "$f_process" "$f_process_re" "$clash_yaml" \
-    "${OUT_GEOSITE}/${tag}.yaml"
-
-  py make_list_domain \
-    "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-    "$f_process" "$f_process_re" "$clash_yaml" \
-    "${OUT_GEOSITE}/${tag}.list"
-
-  py make_qx_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_ipcidr" \
-    "$clash_yaml" "${OUT_QX_GEOSITE}/${tag}.list"
-
-  local json="${OUT_GEOSITE}/${tag}.json"
-  py make_json_domain "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" "$f_ipcidr" \
-    "$clash_yaml" "$json"
-
-  # srs 登记（json 已生成，后续并行编译）
-  queue_srs "$json" "${OUT_GEOSITE}/${tag}.srs"
-}
-
-# ── emit_geoip_all：输出文本格式 + 登记编译任务 ──────────────────────────────
-emit_geoip_all() {
-  local tag="$1" f_ipcidr="$2" f_asn="$3"
-
-  if [[ -s "$f_ipcidr" ]]; then
-    queue_mrs ipcidr "$f_ipcidr" "${OUT_GEOIP}/${tag}.mrs"
-  fi
-
-  py make_yaml_ipcidr "$f_ipcidr" "$f_asn" "" "${OUT_GEOIP}/${tag}.yaml"
-  py make_list_ipcidr "$f_ipcidr" "$f_asn" "" "${OUT_GEOIP}/${tag}.list"
-  py make_qx_ipcidr "$f_ipcidr" "" "${OUT_QX_GEOIP}/${tag}.list"
-
-  local json="${OUT_GEOIP}/${tag}.json"
-  py make_json_ipcidr "$f_ipcidr" "" "$json"
-  queue_srs "$json" "${OUT_GEOIP}/${tag}.srs"
-}
-
-# ── emit_clash_ip_merge ──────────────────────────────────────────────────────
-emit_clash_ip_merge() {
-  local tag="$1" f_ci_ipcidr="$2" f_ci_asn="$3"
-
-  local dst_mrs="${OUT_GEOIP}/${tag}.mrs"
-  local dst_yaml="${OUT_GEOIP}/${tag}.yaml"
-  local dst_list="${OUT_GEOIP}/${tag}.list"
-  local dst_json="${OUT_GEOIP}/${tag}.json"
-  local dst_srs="${OUT_GEOIP}/${tag}.srs"
-  local dst_qx="${OUT_QX_GEOIP}/${tag}.list"
-
-  local f_exist_cidr="${WORKDIR}/ci_exist_${tag}_cidr.txt"
-  local f_exist_asn="${WORKDIR}/ci_exist_${tag}_asn.txt"
-  : > "$f_exist_cidr"; : > "$f_exist_asn"
-
-  if [[ -f "$dst_list" ]]; then
-    grep -E "^IP-CIDR6?," "$dst_list" | cut -d, -f2 >> "$f_exist_cidr" || true
-    grep -E "^IP-ASN,"    "$dst_list" | cut -d, -f2 >> "$f_exist_asn"  || true
-  fi
-
-  local f_new_cidr="${WORKDIR}/ci_new_${tag}_cidr.txt"
-  local f_new_asn="${WORKDIR}/ci_new_${tag}_asn.txt"
-  py diff_new_entries "$f_exist_cidr" "$f_ci_ipcidr" "$f_new_cidr" cidr
-  py diff_new_entries "$f_exist_asn"  "$f_ci_asn"    "$f_new_asn"  asn
-
-  if [[ ! -s "$f_new_cidr" ]] && [[ ! -s "$f_new_asn" ]]; then
-    echo "[CLASH-IP] ${tag}: no new entries, skip"
-    return 0
-  fi
-
-  echo "[CLASH-IP] ${tag}: +$(wc -l < "$f_new_cidr" | tr -d ' ') CIDRs  +$(wc -l < "$f_new_asn" | tr -d ' ') ASNs"
-
-  # mrs 源文件
-  local f_all_cidr="${WORKDIR}/ci_all_${tag}_cidr.txt"
-  py merge_dedup "$f_exist_cidr" "$f_ci_ipcidr" "$f_all_cidr" ipcidr
-  if [[ -s "$f_all_cidr" ]]; then
-    queue_mrs ipcidr "$f_all_cidr" "$dst_mrs"
-  fi
-
-  # yaml 追加
-  [[ -f "$dst_yaml" ]] || echo "payload:" > "$dst_yaml"
-  while IFS= read -r line; do [[ -z "$line" ]] && continue
-    if [[ "$line" == *:* ]]; then echo "  - IP-CIDR6,${line}"
-    else echo "  - IP-CIDR,${line}"; fi
-  done < "$f_new_cidr" >> "$dst_yaml"
-  while IFS= read -r line; do [[ -z "$line" ]] && continue
-    echo "  - IP-ASN,${line}"
-  done < "$f_new_asn" >> "$dst_yaml"
-
-  # list 追加
-  while IFS= read -r line; do [[ -z "$line" ]] && continue
-    if [[ "$line" == *:* ]]; then echo "IP-CIDR6,${line}"
-    else echo "IP-CIDR,${line}"; fi
-  done < "$f_new_cidr" >> "$dst_list"
-  while IFS= read -r line; do [[ -z "$line" ]] && continue
-    echo "IP-ASN,${line}"
-  done < "$f_new_asn" >> "$dst_list"
-
-  # json + srs
-  py rebuild_json_from_list "$dst_list" "$dst_json"
-  queue_srs "$dst_json" "$dst_srs"
-
-  # QX list 追加（跳过 ASN）
-  while IFS= read -r line; do [[ -z "$line" ]] && continue
-    if [[ "$line" == *:* ]]; then echo "IP-CIDR6, ${line}"
-    else echo "IP-CIDR, ${line}"; fi
-  done < "$f_new_cidr" >> "$dst_qx"
-}
+echo "[4/7] Batch process geosite (Python)..."
+python3 "$HELPERS" batch_geosite \
+  "$WORKDIR/geosite_txt" \
+  "$CLASH_DIR" \
+  "$OUT_GEOSITE" \
+  "$OUT_QX_GEOSITE" \
+  "$MRS_TASKS" \
+  "$SRS_TASKS" \
+  "$WORKDIR"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 4. 处理 geosite（串行：数据准备 + 文本格式输出）
+# 5. Python 批处理 geoip（一次调用处理所有 tag）
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[4/9] Process geosite..."
-mkdir -p \
-  "$WORKDIR/gs_suffix"  "$WORKDIR/gs_domain"  "$WORKDIR/gs_keyword" \
-  "$WORKDIR/gs_regexp"  "$WORKDIR/gs_process" "$WORKDIR/gs_process_re" \
-  "$WORKDIR/gs_asn"     "$WORKDIR/gs_mrs"     "$WORKDIR/clash_ip"
+echo "[5/7] Batch process geoip (Python)..."
+python3 "$HELPERS" batch_geoip \
+  "$WORKDIR/geoip_txt" \
+  "$CLASH_DIR" \
+  "$WORKDIR/clash_ip" \
+  "$OUT_GEOIP" \
+  "$OUT_QX_GEOIP" \
+  "$MRS_TASKS" \
+  "$SRS_TASKS" \
+  "$WORKDIR"
 
-geosite_ok=0
-geosite_skip=0
-
-declare -A geosite_processed=()
-
-while IFS= read -r f; do
-  base="$(basename "$f")"
-  tag="${base#geosite_}"; tag="${tag%.txt}"
-  [[ "$tag" == "$base" ]] && tag="${base%.txt}"
-
-  f_suffix="${WORKDIR}/gs_suffix/${tag}.txt"
-  f_domain="${WORKDIR}/gs_domain/${tag}.txt"
-  f_keyword="${WORKDIR}/gs_keyword/${tag}.txt"
-  f_regexp="${WORKDIR}/gs_regexp/${tag}.txt"
-  f_process="${WORKDIR}/gs_process/${tag}.txt"
-  f_process_re="${WORKDIR}/gs_process_re/${tag}.txt"
-  f_asn="${WORKDIR}/gs_asn/${tag}.txt"
-  for fx in "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-            "$f_process" "$f_process_re" "$f_asn"; do
-    : > "$fx"
-  done
-
-  while IFS= read -r line; do
-    [[ -z "$line" ]] && continue
-    case "$line" in
-      keyword:*) echo "${line#keyword:}" >> "$f_keyword" ;;
-      regexp:*)  echo "${line#regexp:}"  >> "$f_regexp"  ;;
-      full:*)    echo "${line#full:}"    >> "$f_domain"  ;;
-      *)
-        if [[ "$line" == .* ]]; then echo "$line"   >> "$f_suffix"
-        else                         echo ".$line"  >> "$f_suffix"
-        fi ;;
-    esac
-  done < "$f"
-
-  apply_clash_geosite "$tag" \
-    "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-    "$f_process" "$f_process_re" "$f_asn"
-
-  f_ipcidr="${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
-  f_ip_asn="${WORKDIR}/clash_ip/${tag}.asn.txt"
-  [[ -f "$f_ipcidr" ]] || : > "$f_ipcidr"
-  [[ -f "$f_ip_asn" ]] || : > "$f_ip_asn"
-
-  local_empty=true
-  for fx in "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-            "$f_process" "$f_process_re" "$f_asn" "$f_ipcidr"; do
-    [[ -s "$fx" ]] && { local_empty=false; break; }
-  done
-  if $local_empty; then geosite_skip=$((geosite_skip+1)); continue; fi
-
-  _clash_yaml="${CLASH_DIR}/${tag}.yaml"
-  [[ -f "$_clash_yaml" ]] || _clash_yaml=""
-
-  emit_geosite_all "$tag" \
-    "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-    "$f_process" "$f_process_re" "$f_ipcidr" "$_clash_yaml"
-
-  geosite_processed["$tag"]=1
-  geosite_ok=$((geosite_ok+1))
-done < <(find "$WORKDIR/geosite_txt" -type f -name '*.txt' | sort)
-
-echo "[INFO] geosite geo pass: ok=$geosite_ok  skipped_empty=$geosite_skip"
-
-# ── clash-only geosite ───────────────────────────────────────────────────────
-echo "[4b/9] Process clash-only geosite..."
-clash_geosite_ok=0
-
-if [[ -d "$CLASH_DIR" ]]; then
-  while IFS= read -r cyaml; do
-    tag="$(basename "$cyaml" .yaml)"
-    [[ -n "${geosite_processed[$tag]+x}" ]] && continue
-
-    echo "[CLASH-ONLY] geosite/${tag} <- ${cyaml}"
-
-    f_suffix="${WORKDIR}/gs_suffix/${tag}.txt"
-    f_domain="${WORKDIR}/gs_domain/${tag}.txt"
-    f_keyword="${WORKDIR}/gs_keyword/${tag}.txt"
-    f_regexp="${WORKDIR}/gs_regexp/${tag}.txt"
-    f_process="${WORKDIR}/gs_process/${tag}.txt"
-    f_process_re="${WORKDIR}/gs_process_re/${tag}.txt"
-    f_asn="${WORKDIR}/gs_asn/${tag}.txt"
-    for fx in "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-              "$f_process" "$f_process_re" "$f_asn"; do
-      : > "$fx"
-    done
-
-    ensure_clash_parsed "$cyaml" "$tag"
-
-    for bucket in suffix domain keyword regexp process process_re asn; do
-      clash_f="$(clash_bucket_file "$tag" "$bucket")"
-      case "$bucket" in
-        suffix)     cp -f "$clash_f" "$f_suffix"     ;;
-        domain)     cp -f "$clash_f" "$f_domain"     ;;
-        keyword)    cp -f "$clash_f" "$f_keyword"    ;;
-        regexp)     cp -f "$clash_f" "$f_regexp"     ;;
-        process)    cp -f "$clash_f" "$f_process"    ;;
-        process_re) cp -f "$clash_f" "$f_process_re" ;;
-        asn)        cp -f "$clash_f" "$f_asn"        ;;
-      esac
-    done
-
-    f_ipcidr="$(clash_bucket_file "$tag" ipcidr)"
-    f_ip_asn="$(clash_bucket_file "$tag" asn)"
-    [[ -f "$f_ipcidr" ]] || : > "$f_ipcidr"
-    [[ -f "$f_ip_asn" ]] || : > "$f_ip_asn"
-
-    mkdir -p "${WORKDIR}/clash_ip"
-    cp -f "$f_ipcidr" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
-    cp -f "$f_ip_asn"  "${WORKDIR}/clash_ip/${tag}.asn.txt"
-
-    local_empty=true
-    for fx in "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-              "$f_process" "$f_process_re" "$f_asn" "$f_ipcidr"; do
-      [[ -s "$fx" ]] && { local_empty=false; break; }
-    done
-    $local_empty && continue
-
-    emit_geosite_all "$tag" \
-      "$f_suffix" "$f_domain" "$f_keyword" "$f_regexp" \
-      "$f_process" "$f_process_re" "$f_ipcidr" "$cyaml"
-
-    geosite_processed["$tag"]=1
-    clash_geosite_ok=$((clash_geosite_ok+1))
-  done < <(find "$CLASH_DIR" -maxdepth 1 -name '*.yaml' | sort)
-fi
-
-echo "[INFO] geosite clash-only: ok=$clash_geosite_ok"
+# ── Python 批处理 clash-ip/ ──────────────────────────────────────────────────
+echo "[5b/7] Batch process clash-ip (Python)..."
+python3 "$HELPERS" batch_clash_ip \
+  "$CLASH_IP_DIR" \
+  "$OUT_GEOIP" \
+  "$OUT_QX_GEOIP" \
+  "$MRS_TASKS" \
+  "$SRS_TASKS" \
+  "$WORKDIR"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 5. 处理 geoip
+# 6. 并行编译 mrs + srs
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[5/9] Process geoip..."
+echo "[6/7] Parallel compile mrs + srs (jobs=$PARALLEL)..."
 
-geoip_ok=0
-declare -A geoip_processed=()
-
-while IFS= read -r f; do
-  base="$(basename "$f")"
-  tag="${base#geoip_}"; tag="${tag%.txt}"
-  [[ "$tag" == "$base" ]] && tag="${base%.txt}"
-
-  [[ ! -s "$f" ]] && continue
-
-  f_ipcidr="${WORKDIR}/geoip_cidr_${tag}.txt"
-  f_asn="${WORKDIR}/geoip_asn_${tag}.txt"
-  cp "$f" "$f_ipcidr"
-  : > "$f_asn"
-
-  # 五种格式 + QX（纯 Loyalsoldier 数据）
-  emit_geoip_all "$tag" "$f_ipcidr" "$f_asn"
-
-  # clash 合并后的 mrs（覆盖上面登记的任务，因为 mrs_tasks 去重取最后一条）
-  f_clash_ipcidr="${WORKDIR}/geoip_clash_cidr_${tag}.txt"
-  f_clash_asn="${WORKDIR}/geoip_clash_asn_${tag}.txt"
-  cp "$f_ipcidr" "$f_clash_ipcidr"
-  : > "$f_clash_asn"
-
-  if [[ -s "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" ]]; then
-    mtmp="${WORKDIR}/merged"
-    mkdir -p "$mtmp"
-    py merge_dedup "$f_clash_ipcidr" "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" \
-      "${mtmp}/${tag}_gi_ipcidr.txt" ipcidr \
-      && cp -f "${mtmp}/${tag}_gi_ipcidr.txt" "$f_clash_ipcidr" || true
-  fi
-
-  apply_clash_geoip "$tag" "$f_clash_ipcidr" "$f_clash_asn"
-
-  if [[ -s "$f_clash_ipcidr" ]]; then
-    queue_mrs ipcidr "$f_clash_ipcidr" "${OUT_GEOIP}/${tag}.mrs"
-  fi
-
-  geoip_processed["$tag"]=1
-  geoip_ok=$((geoip_ok+1))
-done < <(find "$WORKDIR/geoip_txt" -type f -name '*.txt' | sort)
-
-echo "[INFO] geoip geo pass: ok=$geoip_ok"
-
-# ── clash-only geoip ─────────────────────────────────────────────────────────
-echo "[5b/9] Process clash-only geoip..."
-clash_geoip_ok=0
-
-if [[ -d "$CLASH_DIR" ]]; then
-  while IFS= read -r cyaml; do
-    tag="$(basename "$cyaml" .yaml)"
-    [[ -n "${geoip_processed[$tag]+x}" ]] && continue
-
-    if [[ -f "${WORKDIR}/clash_ip/${tag}.ipcidr.txt" ]]; then
-      f_ipcidr="${WORKDIR}/clash_ip/${tag}.ipcidr.txt"
-      f_asn="${WORKDIR}/clash_ip/${tag}.asn.txt"
-      [[ -f "$f_asn" ]] || : > "$f_asn"
-    else
-      ensure_clash_parsed "$cyaml" "${tag}_geoip2"
-      f_ipcidr="$(clash_bucket_file "${tag}_geoip2" ipcidr)"
-      f_asn="$(clash_bucket_file "${tag}_geoip2" asn)"
-      [[ -f "$f_asn" ]] || : > "$f_asn"
-    fi
-
-    [[ -s "$f_ipcidr" ]] || continue
-
-    echo "[CLASH-ONLY] geoip/${tag} <- ${cyaml} (mrs only)"
-    queue_mrs ipcidr "$f_ipcidr" "${OUT_GEOIP}/${tag}.mrs"
-
-    clash_geoip_ok=$((clash_geoip_ok+1))
-  done < <(find "$CLASH_DIR" -maxdepth 1 -name '*.yaml' | sort)
-fi
-
-echo "[INFO] geoip clash-only: ok=$clash_geoip_ok"
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 6. 处理 clash-ip/
-# ══════════════════════════════════════════════════════════════════════════════
-echo "[6/9] Process clash-ip/..."
-clash_ip_ok=0
-
-if [[ -d "$CLASH_IP_DIR" ]]; then
-  while IFS= read -r cyaml; do
-    tag="$(basename "$cyaml" .yaml)"
-    echo "[CLASH-IP] processing ${tag} <- ${cyaml}"
-
-    ensure_clash_parsed "$cyaml" "ci_${tag}"
-
-    f_ci_ipcidr="$(clash_bucket_file "ci_${tag}" ipcidr)"
-    f_ci_asn="$(clash_bucket_file "ci_${tag}" asn)"
-    [[ -f "$f_ci_ipcidr" ]] || : > "$f_ci_ipcidr"
-    [[ -f "$f_ci_asn"    ]] || : > "$f_ci_asn"
-
-    if [[ ! -s "$f_ci_ipcidr" ]] && [[ ! -s "$f_ci_asn" ]]; then
-      echo "[CLASH-IP] ${tag}: no IP entries, skip"
-      continue
-    fi
-
-    mkdir -p "$OUT_GEOIP" "$OUT_QX_GEOIP"
-    emit_clash_ip_merge "$tag" "$f_ci_ipcidr" "$f_ci_asn"
-    clash_ip_ok=$((clash_ip_ok+1))
-  done < <(find "$CLASH_IP_DIR" -maxdepth 1 -name "*.yaml" | sort)
-fi
-
-echo "[INFO] clash-ip: ok=$clash_ip_ok"
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 7. 并行编译 mrs + srs
-# ══════════════════════════════════════════════════════════════════════════════
-echo "[7/9] Parallel compile mrs + srs (jobs=$PARALLEL)..."
-
-# mrs 任务去重：同一 dst 只保留最后一条（geoip 的 clash 合并会覆盖纯 geo 的）
+# mrs 去重（同一 dst 只保留最后一条）
 MRS_DEDUP="${WORKDIR}/mrs_tasks_dedup.txt"
 if [[ -s "$MRS_TASKS" ]]; then
   awk -F'\t' '{ last[$3] = $0 } END { for (k in last) print last[k] }' \
@@ -643,9 +207,9 @@ mrs_fail="$(grep -c "^FAIL:" "$mrs_fail_log" 2>/dev/null || echo 0)"
 srs_fail="$(grep -c "^FAIL:" "$srs_fail_log" 2>/dev/null || echo 0)"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 8. 统计
+# 7. 统计
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[8/9] Final counts:"
+echo "[7/7] Final counts:"
 echo "  geo/geosite/   mrs  : $(find "$OUT_GEOSITE"    -name '*.mrs'  | wc -l | tr -d ' ')"
 echo "  geo/geosite/   yaml : $(find "$OUT_GEOSITE"    -name '*.yaml' | wc -l | tr -d ' ')"
 echo "  geo/geosite/   list : $(find "$OUT_GEOSITE"    -name '*.list' | wc -l | tr -d ' ')"
@@ -658,7 +222,6 @@ echo "  geo/geoip/     json : $(find "$OUT_GEOIP"      -name '*.json' | wc -l | 
 echo "  geo/geoip/     srs  : $(find "$OUT_GEOIP"      -name '*.srs'  | wc -l | tr -d ' ')"
 echo "  QX/geosite/    list : $(find "$OUT_QX_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
 echo "  QX/geoip/      list : $(find "$OUT_QX_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
-echo "  clash-ip merged     : $clash_ip_ok"
 
 if [[ $mrs_fail -gt 0 ]] || [[ $srs_fail -gt 0 ]]; then
   echo "[WARN] compilation failures: mrs=$mrs_fail  srs=$srs_fail"
@@ -666,4 +229,4 @@ if [[ $mrs_fail -gt 0 ]] || [[ $srs_fail -gt 0 ]]; then
   [[ $srs_fail -gt 0 ]] && cat "$srs_fail_log"
 fi
 
-echo "[9/9] Done."
+echo "Done."
