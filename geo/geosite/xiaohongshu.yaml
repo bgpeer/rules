@@ -70,6 +70,8 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)xhsurl\.com$
   - DOMAIN-REGEX,(?i)(^|\.)xhsurl\.cn$
   - PROCESS-NAME,com.xingin.xhs
+  - IP-CIDR,115.159.129.39/32
+  - IP-CIDR,43.159.95.0/24
   - IP-ASN,151281
   - IP-ASN,151282
   - IP-ASN,45090
