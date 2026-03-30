@@ -31,6 +31,73 @@
 
 ---
 
+## 自定义规则扩展（clash / clash-ip）
+
+除了 Loyalsoldier 的原始数据，你还可以通过 `clash/` 和 `clash-ip/` 目录添加自定义规则，它们会自动融合进对应的输出文件。
+
+### clash/ 目录 — 域名 + IP 混合规则
+
+在 `clash/` 下创建 `<name>.yaml`，支持以下规则类型：
+
+```yaml
+payload:
+  - DOMAIN-SUFFIX,example.com
+  - DOMAIN,api.example.com
+  - DOMAIN-KEYWORD,example
+  - DOMAIN-REGEX,(?i)(^|\.)example\.com$
+  - IP-CIDR,1.1.1.0/24
+  - IP-CIDR6,2606:4700::/32
+  - IP-ASN,13335
+  - PROCESS-NAME,com.example.app
+  - PROCESS-NAME-REGEX,(?i)^com\.example\..*$
+```
+
+**融合逻辑：**
+
+- **同名文件存在**（如 `clash/google.yaml` ↔ Loyalsoldier 的 `geosite/google`）→ 自动去重后融合，Loyalsoldier 原有数据不会被修改，只追加新条目
+- **无同名文件**（如 `clash/claude.yaml`）→ 从零创建全部格式文件
+
+**各格式的规则类型支持情况：**
+
+| 规则类型 | yaml | list | mrs | json/srs | QX list |
+|---|:---:|:---:|:---:|:---:|:---:|
+| DOMAIN-SUFFIX | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DOMAIN | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DOMAIN-KEYWORD | ✅ | ✅ | ⚠️ 跳过 | ✅ | ✅ |
+| DOMAIN-REGEX | ✅ | ✅ | ⚠️ 跳过 | ✅ | ⚠️ 跳过 |
+| IP-CIDR / IP-CIDR6 | ✅ | ✅ | ⚠️ 跳过 | ✅ | ✅ |
+| IP-ASN | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+| PROCESS-NAME | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+| PROCESS-NAME-REGEX | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+
+> ⚠️ 跳过不是丢失，是该格式/软件本身不支持该规则类型，自动过滤以确保兼容性。
+>
+> 💡 clash/ 中的 IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）会同时融合进 `geo/geosite/` 和 `geo/geoip/` 对应的同名文件。
+
+### clash-ip/ 目录 — 纯 IP 规则
+
+专门用于向 `geo/geoip/` 追加 IP 规则，只接受 IP 类条目：
+
+```yaml
+payload:
+  - IP-CIDR,103.21.244.0/22
+  - IP-CIDR6,2400:cb00::/32
+  - IP-ASN,13335
+```
+
+**融合逻辑与 clash/ 相同：** 同名文件存在则去重追加，不存在则新建。
+
+### 使用示例
+
+想给抖音补充自定义 IP 段和进程规则：
+
+1. 创建 `clash/douyin.yaml`，写入自定义条目
+2. Push 到仓库（或等每天定时任务）
+3. 工作流自动将你的条目融合进 Loyalsoldier 的 `douyin` 规则集
+4. 所有格式同步更新，无需手动处理
+
+---
+
 ## 文件目录
 
 ```
