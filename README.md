@@ -60,12 +60,12 @@ QX/
 
 ## 规则集目录有五种格式，yaml，list，mrs，json，srs，改后缀对应软件就行了
 
-**geosite 域名样板**
+## GEOSITE 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/geo/geosite)
 ```
 https://gh.example.org/rules/geo/geosite/cn.list
 ```
 
-**geoip 样板**
+## GEOIP 样板 [目录](https://github.com/bgpeer/rules/tree/main/geo/geoip)
 ```
 https://gh.example.org/rules/geo/geoip/cn.list
 ```
@@ -83,12 +83,12 @@ https://gh.example.org/rules/geo/geoip/cn.list
 
 可以在 Clash Mi → **Geo RuleSet** 中填写以下两个目录链接：
 
-### [GEOSITE 数据库](https://github.com/bgpeer/rules/tree/main/geo/geosite)
+### GEOSITE 数据库
 ```
 https://gh.example.org/rules/geo/geosite
 ```
 
-### [GEOIP 数据库](https://github.com/bgpeer/rules/tree/main/geo/geoip)
+### GEOIP 数据库
 ```
 https://gh.example.org/rules/geo/geoip
 ```
