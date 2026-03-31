@@ -58,7 +58,7 @@ payload:
 - **同名文件存在**（如 `clash/google.yaml` ↔ Loyalsoldier 的 `geosite/google`）→ 自动去重后融合，Loyalsoldier 原有数据不会被修改，只追加新条目
 - **无同名文件**（如 `clash/claude.yaml`）→ 从零创建全部格式文件
 
-**各格式的规则类型支持情况：**
+**clash 插入各格式的规则类型支持情况：**
 
 | 规则类型 | yaml | list | mrs | json/srs | QX list |
 |---|:---:|:---:|:---:|:---:|:---:|
@@ -88,6 +88,16 @@ payload:
 ```
 
 **融合逻辑与 clash/ 相同：** 同名文件存在则去重追加，不存在则新建。
+
+**clash-ip 插入各格式的规则类型支持情况：**
+
+| 规则类型 | yaml | list | mrs | json/srs | QX list |
+|---|:---:|:---:|:---:|:---:|:---:|
+| IP-CIDR / IP-CIDR6 | ✅ | ✅ | ✅ | ✅ | ✅ |
+| IP-ASN | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+
+> ⚠️ mrs 格式仅支持 IP-CIDR 类型，IP-ASN 会被跳过。
+> ⚠️ json/srs（sing-box）和 QX 同样不支持 IP-ASN，自动过滤。
 
 ### 使用示例
 
@@ -173,13 +183,6 @@ https://gh.669588.xyz/rules/geo/geoip
 ---
 
 ## [可用于 Sing-box 的样板](https://gh.669588.xyz/gist/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
-
----
-
-## [小火箭(Shadowrocket)懒人配置](https://gh.669588.xyz/gist/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
-```
-https://gh.669588.xyz/gist/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
-```
 
 ---
 
