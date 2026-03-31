@@ -45,6 +45,7 @@ payload:
   - DOMAIN,api.example.com
   - DOMAIN-KEYWORD,example
   - DOMAIN-REGEX,(?i)(^|\.)example\.com$
+  - DOMAIN-WILDCARD,*.example.com
   - IP-CIDR,1.1.1.0/24
   - IP-CIDR6,2606:4700::/32
   - IP-ASN,13335
@@ -65,6 +66,7 @@ payload:
 | DOMAIN | ✅ | ✅ | ✅ | ✅ | ✅ |
 | DOMAIN-KEYWORD | ✅ | ✅ | ⚠️ 跳过 | ✅ | ✅ |
 | DOMAIN-REGEX | ✅ | ✅ | ⚠️ 跳过 | ✅ | ⚠️ 跳过 |
+| DOMAIN-WILDCARD | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
 | IP-CIDR / IP-CIDR6 | ✅ | ✅ | ⚠️ 跳过 | ✅ | ✅ |
 | IP-ASN | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
 | PROCESS-NAME | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
