@@ -31,6 +31,14 @@ DOMAIN-REGEX,^(.*\.)?anthropic\.com$
 DOMAIN-REGEX,^(.*\.)?claude\.com$
 DOMAIN-REGEX,^[a-z0-9-]+\.mcp\.claude\.com$
 DOMAIN-REGEX,^a[0-9]?-api\.anthropic\.com$
+DOMAIN-WILDCARD,*.anthropic.com
+DOMAIN-WILDCARD,*.claude.ai
+DOMAIN-WILDCARD,*.claude.com
+DOMAIN-WILDCARD,*.claudeusercontent.com
+DOMAIN-WILDCARD,*.claudeusercontent.net
+DOMAIN-WILDCARD,*.anthropic-cdn.com
+DOMAIN-WILDCARD,*.mcp.claude.com
+DOMAIN-WILDCARD,*.modelcontextprotocol.io
 PROCESS-NAME,com.anthropic.claude
 PROCESS-NAME,Claude
 PROCESS-NAME,Claude.exe
@@ -44,6 +52,10 @@ PROCESS-NAME-WILDCARD,*Claude*
 PROCESS-NAME-WILDCARD,*claude*
 PROCESS-NAME-WILDCARD,*Anthropic*
 PROCESS-NAME-WILDCARD,*anthropic*
+PROCESS-NAME-WILDCARD,*claude-desktop*
+PROCESS-NAME-WILDCARD,*claude-code*
+PROCESS-NAME-WILDCARD,*claude_*
+PROCESS-NAME-WILDCARD,*anthropic_*
 IP-CIDR,160.79.104.0/21
 IP-CIDR,160.79.104.0/23
 IP-CIDR6,2607:6bc0::/48
