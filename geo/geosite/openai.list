@@ -137,11 +137,6 @@ DOMAIN-REGEX,(?i)(^|\.)intercom\.io$
 DOMAIN-REGEX,(?i)(^|\.)intercomcdn\.com$
 DOMAIN-REGEX,(?i)(^|\.)workos\.com$
 DOMAIN-REGEX,(?i)(^|\.)workoscdn\.com$
-PROCESS-NAME,com.openai.chatgpt
-PROCESS-NAME,com.openai.chatgpt.beta
-PROCESS-NAME,ChatGPT
-PROCESS-NAME,com.microsoft.bing
-PROCESS-NAME-REGEX,(?i)^(com\.openai\.chatgpt(\..+)?)$
 DOMAIN-WILDCARD,*.auth.openai.com
 DOMAIN-WILDCARD,*.ct.sendgrid.net
 DOMAIN-WILDCARD,*.featuregates.org
@@ -151,6 +146,11 @@ DOMAIN-WILDCARD,*.oaistatic.com
 DOMAIN-WILDCARD,*.oaiusercontent.com
 DOMAIN-WILDCARD,*.openai.com
 DOMAIN-WILDCARD,*.statsig.com
+PROCESS-NAME,com.openai.chatgpt
+PROCESS-NAME,com.openai.chatgpt.beta
+PROCESS-NAME,ChatGPT
+PROCESS-NAME,com.microsoft.bing
+PROCESS-NAME-REGEX,(?i)^(com\.openai\.chatgpt(\..+)?)$
 IP-CIDR,24.199.123.28/32
 IP-CIDR,64.23.132.171/32
 IP-ASN,20473
