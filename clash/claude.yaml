@@ -1,18 +1,4 @@
 payload:
-  # 进程
-  - PROCESS-NAME,com.anthropic.claude
-  - PROCESS-NAME,Claude
-  - PROCESS-NAME,Claude.exe
-  - PROCESS-NAME,claude
-  - PROCESS-NAME,claude.exe
-  - PROCESS-NAME,claude-desktop
-  - PROCESS-NAME,claude-desktop.exe
-  - PROCESS-NAME,Anthropic
-  - PROCESS-NAME,Anthropic.exe
-  - PROCESS-NAME-WILDCARD,*Claude*
-  - PROCESS-NAME-WILDCARD,*claude*
-  - PROCESS-NAME-WILDCARD,*Anthropic*
-  - PROCESS-NAME-WILDCARD,*anthropic*
   # 域名
   - DOMAIN,cdn.usefathom.com
   - DOMAIN,claude.ai
@@ -39,6 +25,33 @@ payload:
   - DOMAIN-SUFFIX,claudeusercontent.com
   - DOMAIN-SUFFIX,claudeusercontent.net
   - DOMAIN-SUFFIX,modelcontextprotocol.io
+  # 域名通配
+  - DOMAIN-WILDCARD,*.anthropic.com
+  - DOMAIN-WILDCARD,*.claude.ai
+  - DOMAIN-WILDCARD,*.claude.com
+  - DOMAIN-WILDCARD,*.claudeusercontent.com
+  - DOMAIN-WILDCARD,*.claudeusercontent.net
+  - DOMAIN-WILDCARD,*.anthropic-cdn.com
+  - DOMAIN-WILDCARD,*.mcp.claude.com
+  - DOMAIN-WILDCARD,*.modelcontextprotocol.io
+  # 进程
+  - PROCESS-NAME,com.anthropic.claude
+  - PROCESS-NAME,Claude
+  - PROCESS-NAME,Claude.exe
+  - PROCESS-NAME,claude
+  - PROCESS-NAME,claude.exe
+  - PROCESS-NAME,claude-desktop
+  - PROCESS-NAME,claude-desktop.exe
+  - PROCESS-NAME,Anthropic
+  - PROCESS-NAME,Anthropic.exe
+  - PROCESS-NAME-WILDCARD,*Claude*
+  - PROCESS-NAME-WILDCARD,*claude*
+  - PROCESS-NAME-WILDCARD,*Anthropic*
+  - PROCESS-NAME-WILDCARD,*anthropic*
+  - PROCESS-NAME-WILDCARD,*claude-desktop*
+  - PROCESS-NAME-WILDCARD,*claude-code*
+  - PROCESS-NAME-WILDCARD,*claude_*
+  - PROCESS-NAME-WILDCARD,*anthropic_*
   # 关键词/正则
   - DOMAIN-KEYWORD,anthropic
   - DOMAIN-KEYWORD,claude
