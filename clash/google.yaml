@@ -768,15 +768,59 @@ payload:
   - IP-ASN,396982
 
   # ==== 🤖 Gemini / Bard (Google AI) ====
-  - PROCESS-NAME,com.google.android.apps.bard
   - DOMAIN,gemini.google.com
-  - DOMAIN-SUFFIX,gemini.google
+  - DOMAIN,gemini.google
+  - DOMAIN,aistudio.google.com
+  - DOMAIN,ai.google.dev
+  - DOMAIN,alkalimakersuite-pa.clients6.google.com
+  - DOMAIN,makersuite.google.com
   - DOMAIN,generativelanguage.googleapis.com
+  - DOMAIN,aiplatform.googleapis.com
+  - DOMAIN,cloudcode-pa.googleapis.com
+  - DOMAIN,proactivebackend-pa.googleapis.com
+  - DOMAIN,deepmind.google
+  - DOMAIN,deepmind.google.com
+  - DOMAIN,deepmind.com
+  - DOMAIN,bard.google.com
+  - DOMAIN,gemini.google.com.hk
+  - DOMAIN-SUFFIX,gemini.google.com
+  - DOMAIN-SUFFIX,gemini.google
+  - DOMAIN-SUFFIX,deepmind.google
+  - DOMAIN-SUFFIX,deepmind.google.com
+  - DOMAIN-SUFFIX,deepmind.com
+  - DOMAIN-SUFFIX,ai.google.dev
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com
+  - DOMAIN-SUFFIX,aiplatform.googleapis.com
+  # 域名通配
+  - DOMAIN-WILDCARD,*.gemini.google.com
+  - DOMAIN-WILDCARD,*.gemini.google
+  - DOMAIN-WILDCARD,*.deepmind.google
+  - DOMAIN-WILDCARD,*.deepmind.google.com
+  - DOMAIN-WILDCARD,*.deepmind.com
+  - DOMAIN-WILDCARD,*.ai.google.dev
+  - DOMAIN-WILDCARD,*.generativelanguage.googleapis.com
+  - DOMAIN-WILDCARD,*.aiplatform.googleapis.com
+  # 进程
+  - PROCESS-NAME,com.google.android.apps.bard
+  - PROCESS-NAME,com.google.android.apps.gemini
+  - PROCESS-NAME,Gemini
+  - PROCESS-NAME,Gemini.exe
+  - PROCESS-NAME,gemini
+  - PROCESS-NAME,gemini.exe
+  - PROCESS-NAME-WILDCARD,*Gemini*
+  - PROCESS-NAME-WILDCARD,*gemini*
+  - PROCESS-NAME-WILDCARD,*google*bard*
+  - PROCESS-NAME-WILDCARD,*google*gemini*
+  # 关键词/正则
   - DOMAIN-KEYWORD,generativelanguage
   - DOMAIN-KEYWORD,gemini
-  - DOMAIN-REGEX,(?i)(^|\.)gemini\.google$
-  - DOMAIN-REGEX,(?i)(^|\.)gemini\.google\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)generativelanguage\.googleapis\.com$
+  - DOMAIN-REGEX,^(.*\.)?gemini\.google$
+  - DOMAIN-REGEX,^(.*\.)?gemini\.google\.com$
+  - DOMAIN-REGEX,^(.*\.)?gemini\.google\.com\.[a-z]{2,4}$
+  - DOMAIN-REGEX,^(.*\.)?generativelanguage\.googleapis\.com$
+  - DOMAIN-REGEX,^(.*\.)?aiplatform\.googleapis\.com$
+  - DOMAIN-REGEX,^(.*\.)?deepmind\.(google|com)$
+  - DOMAIN-REGEX,^(.*\.)?ai\.google\.dev$
 
   # ==== 🌐 Google 正则兜底 ====
   - DOMAIN-REGEX,(?i)(^|\.)accounts\.google\.com$
