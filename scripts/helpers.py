@@ -80,6 +80,7 @@ TYPE_TO_BUCKET = {
     "DOMAIN":              "domain",
     "DOMAIN-KEYWORD":      "keyword",
     "DOMAIN-REGEX":        "regexp",
+    "DOMAIN-WILDCARD":     "wildcard",
     "IP-CIDR":             "ipcidr",
     "IP-CIDR6":            "ipcidr",
     "PROCESS-NAME":        "process",
@@ -87,7 +88,7 @@ TYPE_TO_BUCKET = {
     "IP-ASN":              "asn",
 }
 
-QX_SKIP_TYPES = {"DOMAIN-REGEX", "PROCESS-NAME", "PROCESS-NAME-REGEX", "IP-ASN"}
+QX_SKIP_TYPES = {"DOMAIN-REGEX", "DOMAIN-WILDCARD", "PROCESS-NAME", "PROCESS-NAME-REGEX", "IP-ASN"}
 QX_TYPE_MAP = {
     "DOMAIN-SUFFIX":  "HOST-SUFFIX",
     "DOMAIN":         "HOST",
@@ -95,12 +96,13 @@ QX_TYPE_MAP = {
     "IP-CIDR":        "IP-CIDR",
     "IP-CIDR6":       "IP-CIDR6",
 }
-JSON_SKIP_TYPES = {"PROCESS-NAME", "PROCESS-NAME-REGEX", "IP-ASN"}
+JSON_SKIP_TYPES = {"DOMAIN-WILDCARD", "PROCESS-NAME", "PROCESS-NAME-REGEX", "IP-ASN"}
+MRS_SKIP_TYPES = {"DOMAIN-WILDCARD"}
 
 
 def parse_clash_to_buckets(yaml_path):
     """解析 clash yaml 并分桶返回 dict"""
-    buckets = {k: [] for k in ("suffix", "domain", "keyword", "regexp",
+    buckets = {k: [] for k in ("suffix", "domain", "keyword", "regexp", "wildcard",
                                 "ipcidr", "process", "process_re", "asn")}
     for t, v in parse_clash_entries(yaml_path):
         bucket = TYPE_TO_BUCKET.get(t)
@@ -160,7 +162,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
     """
     为一个 geosite tag 输出全部格式。
     buckets: {"suffix":[], "domain":[], "keyword":[], "regexp":[],
-              "process":[], "process_re":[]}
+              "wildcard":[], "process":[], "process_re":[]}
               注意：不含 ipcidr/asn（这些单独通过 clash_ipcidr 传入）
     clash_ipcidr: clash yaml 中解析出的 IP-CIDR 列表（用于 QX 和 json）
     clash_yaml: clash yaml 路径（用于提取 extras 追加进 yaml/list/json）
@@ -170,6 +172,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
     domain   = buckets.get("domain", [])
     keyword  = buckets.get("keyword", [])
     regexp   = buckets.get("regexp", [])
+    wildcard = buckets.get("wildcard", [])
     process  = buckets.get("process", [])
     process_re = buckets.get("process_re", [])
 
@@ -183,6 +186,8 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
         geo_seen.setdefault("DOMAIN-KEYWORD", set()).add(v)
     for v in regexp:
         geo_seen.setdefault("DOMAIN-REGEX", set()).add(v)
+    for v in wildcard:
+        geo_seen.setdefault("DOMAIN-WILDCARD", set()).add(v)
     for v in process:
         geo_seen.setdefault("PROCESS-NAME", set()).add(v)
     for v in process_re:
@@ -206,6 +211,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
         [("DOMAIN", v) for v in domain] +
         [("DOMAIN-KEYWORD", v) for v in keyword] +
         [("DOMAIN-REGEX", v) for v in regexp] +
+        [("DOMAIN-WILDCARD", v) for v in wildcard] +
         [("PROCESS-NAME", v) for v in process] +
         [("PROCESS-NAME-REGEX", v) for v in process_re]
     )
@@ -220,7 +226,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
     list_out = [f"{t},{v}" for t, v in all_lines]
     write_lines(os.path.join(out_geosite, f"{tag}.list"), list_out)
 
-    # ── QX list（跳过 DOMAIN-REGEX / PROCESS-NAME 等）─────────────────────
+    # ── QX list（跳过 DOMAIN-REGEX / DOMAIN-WILDCARD / PROCESS-NAME 等）──
     qx_out = []
     for v in suffix:
         qx_out.append(f"HOST-SUFFIX, {v.lstrip('.')}")
@@ -228,6 +234,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
         qx_out.append(f"HOST, {v}")
     for v in keyword:
         qx_out.append(f"HOST-KEYWORD, {v}")
+    # wildcard: QX 不支持，跳过
     # clash 来源的 IP 条目（用于 QX geosite）
     for v in clash_ipcidr:
         t = "IP-CIDR6" if ":" in v else "IP-CIDR"
@@ -249,6 +256,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
     j_domain = list(domain)
     j_keyword = list(keyword)
     j_regexp = list(regexp)
+    # wildcard: json/srs 不支持，跳过
     j_cidrs = []  # IP 条目从 clash_extras 获取（与 yaml/list 一致）
     for t, v in clash_extras:
         if t in JSON_SKIP_TYPES:
@@ -287,7 +295,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
                   f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
-    # ── mrs 源文件（suffix + domain，保留原始带点格式）─────────────────────
+    # ── mrs 源文件（suffix + domain，跳过 wildcard）─────────────────────
     mrs_src = os.path.join(workdir, "gs_mrs", f"{tag}.txt")
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
     mrs_lines = list(suffix) + list(domain)
@@ -378,13 +386,14 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
 
         geo_buckets = parse_geosite_txt(f)
 
-        # clash 融合（只融合 6 个域名/进程类桶，ipcidr/asn 单独缓存）
+        # clash 融合（只融合域名/进程/通配类桶，ipcidr/asn 单独缓存）
         clash_yaml = os.path.join(clash_dir, f"{tag}.yaml")
         clash_ipcidr = []
         if os.path.isfile(clash_yaml):
             print(f"[MERGE] geosite/{tag} <- {clash_yaml}")
             cb = parse_clash_to_buckets(clash_yaml)
-            for btype in ("suffix", "domain", "keyword", "regexp", "process", "process_re"):
+            for btype in ("suffix", "domain", "keyword", "regexp",
+                          "wildcard", "process", "process_re"):
                 geo_buckets.setdefault(btype, [])
                 geo_buckets[btype] = merge_dedup_lists(
                     geo_buckets[btype], cb.get(btype, []), btype)
@@ -393,12 +402,13 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
         else:
             clash_yaml = ""
 
+        geo_buckets.setdefault("wildcard", [])
         geo_buckets.setdefault("process", [])
         geo_buckets.setdefault("process_re", [])
 
         # 检查空
         has_data = any(geo_buckets.get(k) for k in
-                       ("suffix", "domain", "keyword", "regexp",
+                       ("suffix", "domain", "keyword", "regexp", "wildcard",
                         "process", "process_re")) or clash_ipcidr
         if not has_data:
             skip += 1
@@ -438,13 +448,14 @@ def cmd_batch_geosite(geosite_txt_dir, clash_dir, out_geosite, out_qx_geosite,
                 "domain": cb.get("domain", []),
                 "keyword": cb.get("keyword", []),
                 "regexp": cb.get("regexp", []),
+                "wildcard": cb.get("wildcard", []),
                 "process": cb.get("process", []),
                 "process_re": cb.get("process_re", []),
             }
             clash_ipcidr = cb.get("ipcidr", [])
 
             has_data = any(buckets.get(k) for k in
-                           ("suffix", "domain", "keyword", "regexp",
+                           ("suffix", "domain", "keyword", "regexp", "wildcard",
                             "process", "process_re")) or clash_ipcidr
             if not has_data:
                 continue
