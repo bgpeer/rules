@@ -934,7 +934,13 @@ payload:
   - DOMAIN-SUFFIX,www.pxcc.com
   - DOMAIN-SUFFIX,ytapi.com
   - DOMAIN-SUFFIX,zynamics.com
+  - DOMAIN-SUFFIX,gemini.google.com
   - DOMAIN-SUFFIX,gemini.google
+  - DOMAIN-SUFFIX,deepmind.google
+  - DOMAIN-SUFFIX,deepmind.google.com
+  - DOMAIN-SUFFIX,ai.google.dev
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com
+  - DOMAIN-SUFFIX,aiplatform.googleapis.com
   - DOMAIN,google-ohttp-relay-safebrowsing.fastly-edge.com
   - DOMAIN,alt7-mtalk.google.com
   - DOMAIN,alt8-mtalk.google.com
@@ -1201,7 +1207,17 @@ payload:
   - DOMAIN,firebase-settings.crashlytics.com
   - DOMAIN,voice.telephony.goog
   - DOMAIN,gemini.google.com
+  - DOMAIN,gemini.google
+  - DOMAIN,aistudio.google.com
+  - DOMAIN,makersuite.google.com
   - DOMAIN,generativelanguage.googleapis.com
+  - DOMAIN,aiplatform.googleapis.com
+  - DOMAIN,proactivebackend-pa.googleapis.com
+  - DOMAIN,deepmind.google
+  - DOMAIN,deepmind.google.com
+  - DOMAIN,deepmind.com
+  - DOMAIN,bard.google.com
+  - DOMAIN,gemini.google.com.hk
   - DOMAIN-KEYWORD,appspot
   - DOMAIN-KEYWORD,blogspot
   - DOMAIN-KEYWORD,gmail
@@ -1217,9 +1233,13 @@ payload:
   - DOMAIN-KEYWORD,gemini
   - DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.xn--ngstr-lra8j\.com$
   - DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.googlevideo\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)gemini\.google$
-  - DOMAIN-REGEX,(?i)(^|\.)gemini\.google\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)generativelanguage\.googleapis\.com$
+  - DOMAIN-REGEX,^(.*\.)?gemini\.google$
+  - DOMAIN-REGEX,^(.*\.)?gemini\.google\.com$
+  - DOMAIN-REGEX,^(.*\.)?gemini\.google\.com\.[a-z]{2
+  - DOMAIN-REGEX,^(.*\.)?generativelanguage\.googleapis\.com$
+  - DOMAIN-REGEX,^(.*\.)?aiplatform\.googleapis\.com$
+  - DOMAIN-REGEX,^(.*\.)?deepmind\.(google|com)$
+  - DOMAIN-REGEX,^(.*\.)?ai\.google\.dev$
   - DOMAIN-REGEX,(?i)(^|\.)accounts\.google\.com$
   - DOMAIN-REGEX,(?i)(^|\.)myaccount\.google\.com$
   - DOMAIN-REGEX,(?i)(^|\.)clients\d+\.google\.com$
@@ -1247,6 +1267,14 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)dl\.google\.com$
   - DOMAIN-REGEX,(?i)(^|\.)dl\.l\.google\.com$
   - DOMAIN-REGEX,(?i)(^|\.)update\.googleapis\.com$
+  - DOMAIN-WILDCARD,*.gemini.google.com
+  - DOMAIN-WILDCARD,*.gemini.google
+  - DOMAIN-WILDCARD,*.deepmind.google
+  - DOMAIN-WILDCARD,*.deepmind.google.com
+  - DOMAIN-WILDCARD,*.deepmind.com
+  - DOMAIN-WILDCARD,*.ai.google.dev
+  - DOMAIN-WILDCARD,*.generativelanguage.googleapis.com
+  - DOMAIN-WILDCARD,*.aiplatform.googleapis.com
   - PROCESS-NAME,BackupandSync
   - PROCESS-NAME,GoogleDriveFS.exe
   - PROCESS-NAME,com.android.vending
@@ -1274,6 +1302,11 @@ payload:
   - PROCESS-NAME,GoogleUpdate.exe
   - PROCESS-NAME,GoogleCrashHandler.exe
   - PROCESS-NAME,com.google.android.apps.bard
+  - PROCESS-NAME,com.google.android.apps.gemini
+  - PROCESS-NAME,Gemini
+  - PROCESS-NAME,Gemini.exe
+  - PROCESS-NAME,gemini
+  - PROCESS-NAME,gemini.exe
   - PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
   - PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
   - PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$
@@ -1284,3 +1317,7 @@ payload:
   - IP-CIDR6,2620:120:e000::/40
   - IP-ASN,15169
   - IP-ASN,396982
+  - PROCESS-NAME-WILDCARD,*Gemini*
+  - PROCESS-NAME-WILDCARD,*gemini*
+  - PROCESS-NAME-WILDCARD,*google*bard*
+  - PROCESS-NAME-WILDCARD,*google*gemini*
