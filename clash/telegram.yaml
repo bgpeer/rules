@@ -1,39 +1,80 @@
 payload:
-  # 域名
-  - DOMAIN,api.telegram.org
-  - DOMAIN,core.telegram.org
-  - DOMAIN,api.imem.app
-  - DOMAIN,api.swiftgram.app
+  # ==== ✈️ Telegram / 电报进程 ====
+  - PROCESS-NAME,org.telegram.messenger
+  - PROCESS-NAME,org.telegram.plus
+  - PROCESS-NAME,org.thunderdog.challegram
+  - PROCESS-NAME,org.telegram.messenger.web
+  - PROCESS-NAME,nekox.messenger
+  - PROCESS-NAME,tw.nekomimi.nekogram
+  - PROCESS-NAME,xyz.nextalone.nagram
+  - PROCESS-NAME,telegram-desktop
+  - PROCESS-NAME,Telegram.exe
+  - PROCESS-NAME,TelegramDesktop.exe
+  - PROCESS-NAME,Telegram
+  - PROCESS-NAME-REGEX,(?i)telegram
+  # ==== 🌐 核心域名 ====
   - DOMAIN-SUFFIX,t.me
-  - DOMAIN-SUFFIX,tx.me
-  - DOMAIN-SUFFIX,tg.dev
-  - DOMAIN-SUFFIX,tel.onl
   - DOMAIN-SUFFIX,telegram.me
   - DOMAIN-SUFFIX,telegram.org
-  - DOMAIN-SUFFIX,telegram.dog
-  - DOMAIN-SUFFIX,telegram.space
-  - DOMAIN-SUFFIX,telegram.video
-  - DOMAIN-SUFFIX,telegramdownload.com
-  - DOMAIN-SUFFIX,telegramusercontent.com
-  - DOMAIN-SUFFIX,telegram-store.org
+  - DOMAIN-SUFFIX,mtproto.org
+  - DOMAIN,api.telegram.org
+  - DOMAIN,core.telegram.org
   - DOMAIN-SUFFIX,my.telegram.org
   - DOMAIN-SUFFIX,web.telegram.org
-  - DOMAIN-SUFFIX,desktop.telegram.org
-  - DOMAIN-SUFFIX,media.telegram.org
-  - DOMAIN-SUFFIX,cdn-telegram.org
-  - DOMAIN-SUFFIX,telegram-cdn.org
-  - DOMAIN-SUFFIX,telegramcdn.com
   - DOMAIN-SUFFIX,tdesktop.com
-  - DOMAIN-SUFFIX,telega.one
-  - DOMAIN-SUFFIX,telesco.pe
+  - DOMAIN-SUFFIX,desktop.telegram.org
+  # ==== 📝 Telegraph / Graph / 生态 ====
   - DOMAIN-SUFFIX,telegra.ph
   - DOMAIN-SUFFIX,legra.ph
   - DOMAIN-SUFFIX,graph.org
   - DOMAIN-SUFFIX,stel.com
   - DOMAIN-SUFFIX,comments.app
   - DOMAIN-SUFFIX,contest.com
-  - DOMAIN-SUFFIX,mtproto.org
+  - DOMAIN-SUFFIX,telesco.pe
+  - DOMAIN-SUFFIX,telegram.dog
+  - DOMAIN-SUFFIX,telegram.space
+  - DOMAIN-SUFFIX,telegramdownload.com
+  - DOMAIN-SUFFIX,telega.one
+  - DOMAIN-SUFFIX,tg.dev
+  - DOMAIN-SUFFIX,tx.me
+  - DOMAIN-SUFFIX,tel.onl
+  # ==== 📦 CDN / 媒体资源 ====
+  - DOMAIN-SUFFIX,telegramusercontent.com
+  - DOMAIN-SUFFIX,cdn-telegram.org
+  - DOMAIN-SUFFIX,telegram-cdn.org
+  - DOMAIN-SUFFIX,telegramcdn.com
+  - DOMAIN-SUFFIX,media.telegram.org
+  - DOMAIN-SUFFIX,telegram.video
+  - DOMAIN-SUFFIX,telegram-store.org
   - DOMAIN-SUFFIX,tlgrm.ru
+  # ==== 🧩 第三方壳 / 客户端 API ====
+  - DOMAIN,api.imem.app
+  - DOMAIN,api.swiftgram.app
+  - DOMAIN-KEYWORD,nicegram
+  # ==== 🔑 关键词兜底 ====
+  - DOMAIN-KEYWORD,telegram
+  - DOMAIN-KEYWORD,mtproto
+  # ==== 🌍 IPv4 段 ====
+  - IP-CIDR,91.108.0.0/16,no-resolve
+  - IP-CIDR,91.105.192.0/23,no-resolve
+  - IP-CIDR,91.108.20.0/22,no-resolve
+  - IP-CIDR,149.154.160.0/20,no-resolve
+  - IP-CIDR,5.28.192.0/18,no-resolve
+  - IP-CIDR,95.161.64.0/18,no-resolve
+  - IP-CIDR,185.76.151.0/24,no-resolve
+  - IP-CIDR,109.239.140.0/24,no-resolve
+  # ==== 🌍 IPv6 段（融合补充）====
+  - IP-CIDR6,2001:67c:4e8::/48,no-resolve
+  - IP-CIDR6,2001:b28:f23c::/47,no-resolve
+  - IP-CIDR6,2001:b28:f23d::/48,no-resolve
+  - IP-CIDR6,2001:b28:f23f::/48,no-resolve
+  - IP-CIDR6,2a0a:f280::/32,no-resolve
+  # ==== 🛰️ ASN 兜底 ====
+  - IP-ASN,62041
+  - IP-ASN,59930
+  - IP-ASN,44907
+  - IP-ASN,62014
+  - IP-ASN,211157
   # 域名通配
   - DOMAIN-WILDCARD,*.telegram.org
   - DOMAIN-WILDCARD,*.telegram.me
@@ -46,61 +87,32 @@ payload:
   - DOMAIN-WILDCARD,*.telegra.ph
   - DOMAIN-WILDCARD,*.graph.org
   - DOMAIN-WILDCARD,*.mtproto.org
-  # 进程
-  - PROCESS-NAME,org.telegram.messenger
-  - PROCESS-NAME,org.telegram.messenger.web
-  - PROCESS-NAME,org.telegram.plus
-  - PROCESS-NAME,org.thunderdog.challegram
-  - PROCESS-NAME,nekox.messenger
-  - PROCESS-NAME,tw.nekomimi.nekogram
-  - PROCESS-NAME,xyz.nextalone.nagram
-  - PROCESS-NAME,telegram-desktop
-  - PROCESS-NAME,Telegram
-  - PROCESS-NAME,Telegram.exe
-  - PROCESS-NAME,TelegramDesktop.exe
-  - PROCESS-NAME-WILDCARD,*telegram*
-  - PROCESS-NAME-WILDCARD,*Telegram*
-  - PROCESS-NAME-WILDCARD,*nekogram*
-  - PROCESS-NAME-WILDCARD,*nagram*
-  - PROCESS-NAME-WILDCARD,*challegram*
-  - PROCESS-NAME-WILDCARD,*nekox*
-  # 关键词/正则
-  - DOMAIN-KEYWORD,telegram
-  - DOMAIN-KEYWORD,mtproto
-  - DOMAIN-KEYWORD,nicegram
-  - DOMAIN-REGEX,^(.*\.)?telegram\.(org|me|dog|space|video)$
-  - DOMAIN-REGEX,^(.*\.)?t\.me$
-  - DOMAIN-REGEX,^(.*\.)?tx\.me$
-  - DOMAIN-REGEX,^(.*\.)?telegra\.ph$
-  - DOMAIN-REGEX,^(.*\.)?legra\.ph$
-  - DOMAIN-REGEX,^(.*\.)?graph\.org$
-  - DOMAIN-REGEX,^(.*\.)?comments\.app$
-  - DOMAIN-REGEX,^(.*\.)?contest\.com$
-  - DOMAIN-REGEX,^(.*\.)?telesco\.pe$
-  - DOMAIN-REGEX,^(.*\.)?telegramusercontent\.com$
-  - DOMAIN-REGEX,^(.*\.)?telegram-?cdn\.(org|com)$
-  - DOMAIN-REGEX,^(.*\.)?cdn-telegram\.org$
-  - DOMAIN-REGEX,^api\.(imem|swiftgram)\.app$
-  # IP/ASN
-  - IP-CIDR,91.105.192.0/23,no-resolve
-  - IP-CIDR,91.108.4.0/22,no-resolve
-  - IP-CIDR,91.108.8.0/22,no-resolve
-  - IP-CIDR,91.108.12.0/22,no-resolve
-  - IP-CIDR,91.108.16.0/22,no-resolve
-  - IP-CIDR,91.108.20.0/22,no-resolve
-  - IP-CIDR,91.108.56.0/22,no-resolve
-  - IP-CIDR,149.154.160.0/20,no-resolve
-  - IP-CIDR,185.76.151.0/24,no-resolve
-  - IP-CIDR,5.28.192.0/18,no-resolve
-  - IP-CIDR,95.161.64.0/18,no-resolve
-  - IP-CIDR,109.239.140.0/24,no-resolve
-  - IP-CIDR6,2001:67c:4e8::/48,no-resolve
-  - IP-CIDR6,2001:b28:f23c::/48,no-resolve
-  - IP-CIDR6,2001:b28:f23d::/48,no-resolve
-  - IP-CIDR6,2001:b28:f23f::/48,no-resolve
-  - IP-CIDR6,2a0a:f280::/32,no-resolve
-  - IP-ASN,62041,no-resolve
-  - IP-ASN,59930,no-resolve
-  - IP-ASN,44907,no-resolve
-  - IP-ASN,62014,no-resolve
-  - IP-ASN,211157,no-resolve
+  # ==== ✅ 精准进程正则 ====
+  - PROCESS-NAME-REGEX,(?i)^org\.telegram(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^org\.thunderdog\.challegram(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^nekox\.messenger(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^tw\.nekomimi\.nekogram(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^xyz\.nextalone\.nagram(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^nicegram(\..+)?$
+  # ==== ✅ 域名正则兜底 ====
+  - DOMAIN-REGEX,(?i)(^|\.)t(me|g)\b
+  - DOMAIN-REGEX,(?i)(^|\.)telegram(\.org|\.me)$
+  - DOMAIN-REGEX,(?i)(^|\.)web\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)desktop\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)api\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)core\.telegram\.org$
+  # ==== Telegraph 正则兜底 ====
+  - DOMAIN-REGEX,(?i)(^|\.)telegra\.ph$
+  - DOMAIN-REGEX,(?i)(^|\.)legra\.ph$
+  - DOMAIN-REGEX,(?i)(^|\.)graph\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)comments\.app$
+  - DOMAIN-REGEX,(?i)(^|\.)contest\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)telesco\.pe$
+  # ==== CDN 正则兜底 ====
+  - DOMAIN-REGEX,(?i)(^|\.)telegramusercontent\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)cdn-telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)telegram-?cdn\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)telegramcdn\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)media\.telegram\.org$
+  # ==== 第三方客户端兜底 ====
+  - DOMAIN-REGEX,(?i)^api\.(imem|swiftgram)\.app$
