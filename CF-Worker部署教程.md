@@ -92,7 +92,6 @@ function getSecondsUntilNextBeijing0230() {
 部署完成后，将配置中的地址替换为你的域名：
 
 - 规则文件：`https://gh.你的域名/rules/路径`
-- 配置文件：`https://gh.你的域名/vps/路径`
 
 ## 举例
 GEOSITE
