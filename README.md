@@ -191,6 +191,7 @@ https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geoip
 https://cdn.gh-proxy.org/https://gist.githubusercontent.com/SHICHUNHUI88/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
 ```
 `小火箭配置自己没有测试过我不敢保证可用懂得可以自行修改`
+
 ---
 
 ## 使用方法（QuantumultX）
