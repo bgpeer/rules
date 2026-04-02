@@ -141,12 +141,12 @@ QX/
 
 ## GEOSITE 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/geo/geosite)
 ```
-https://gh.example.org/rules/geo/geosite/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/cn.list
 ```
 
 ## GEOIP 样板 [目录](https://github.com/bgpeer/rules/tree/main/geo/geoip)
 ```
-https://gh.example.org/rules/geo/geoip/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/cn.list
 ```
 
 ---
@@ -164,12 +164,12 @@ https://gh.example.org/rules/geo/geoip/cn.list
 
 **geosite**
 ```
-https://gh.example.org/rules/geo/geosite
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite
 ```
 
 **geoip**
 ```
-https://gh.example.org/rules/geo/geoip
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 ```
 
 > 说明：这是"目录链接"，Clash Mi 会按需下载其中的 `.mrs` 小文件，例如：
@@ -178,17 +178,17 @@ https://gh.example.org/rules/geo/geoip
 
 ---
 
-## [可用于 Clash Mi 的样板](https://gh.example.org/gist/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
+## [可用于 Clash Mi 的样板](https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 
 ---
 
-## [可用于 Sing-box 的样板](https://gh.example.org/gist/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
+## [可用于 Sing-box 的样板](https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
 
 ---
 
-## [小火箭(Shadowrocket)懒人配置](https://gh.example.org/gist/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
+## [小火箭(Shadowrocket)懒人配置](https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
 ```
-https://gh.example.org/gist/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
+https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
 ```
 
 ---
@@ -199,20 +199,20 @@ QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录�
 
 ### geosite 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/QX/geosite)
 ```
-https://gh.example.org/rules/QX/geosite/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geosite/cn.list
 ```
 
 ### geoip 样板 [目录](https://github.com/bgpeer/rules/tree/main/QX/geoip)
 ```
-https://gh.example.org/rules/QX/geoip/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list
 ```
 
 ### 在 filter_remote 中引用
 
 ```ini
 [filter_remote]
-https://gh.example.org/rules/QX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
-https://gh.example.org/rules/QX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
 ```
 
 > 说明：文件内不含策略名，必须通过 `force-policy` 指定走哪个策略组，否则 QX 解析失败。将 `direct` 替换为你实际的策略组名称即可。
@@ -226,3 +226,13 @@ https://gh.example.org/rules/QX/geoip/cn.list, tag=CN-IP, force-policy=direct, u
 | 域名关键字 | `HOST-KEYWORD, openai` |
 | IPv4 | `IP-CIDR, 1.1.1.1/32` |
 | IPv6 | `IP-CIDR6, 2606::/32` |
+
+---
+
+## 国内无法直连 GitHub Raw？
+
+`raw.githubusercontent.com` 在国内可能无法直接访问，你可以自建 Cloudflare Worker 做代理转发。
+
+👉 [Cloudflare Worker 部署教程](https://github.com/bgpeer/rules/blob/main/CF-Worker部署教程.md)
+
+部署完成后，将上述链接中的 `https://raw.githubusercontent.com/bgpeer/rules/main/` 替换为 `https://你的域名/rules/` 即可。
