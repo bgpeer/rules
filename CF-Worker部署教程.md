@@ -96,6 +96,16 @@ function getSecondsUntilNextBeijing0230() {
 - 规则文件：`https://gh.你的域名/rules/路径`
 - 配置文件：`https://gh.你的域名/vps/路径`
 
+## 举例
+GEOSITE
+```
+https://gh.你的域名/rules/geo/geosite/cn.list
+```
+GEOIP
+```
+https://gh.你的域名/rules/geo/geoip/cn.list
+```
+
 ## 说明
 
 - 免费额度：每天 100,000 次请求，个人使用完全够用
