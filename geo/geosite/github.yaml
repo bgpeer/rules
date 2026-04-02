@@ -1,4 +1,19 @@
 payload:
+  - DOMAIN,github-api.arkoselabs.com
+  - DOMAIN,github-cloud.s3.amazonaws.com
+  - DOMAIN,api.github.com
+  - DOMAIN,uploads.github.com
+  - DOMAIN,graphql.github.com
+  - DOMAIN,ssh.github.com
+  - DOMAIN,raw.githubusercontent.com
+  - DOMAIN,objects.githubusercontent.com
+  - DOMAIN,gist.github.com
+  - DOMAIN,gist.githubusercontent.com
+  - DOMAIN,copilot-proxy.githubusercontent.com
+  - DOMAIN,origin-tracker.githubusercontent.com
+  - DOMAIN,copilot-telemetry.githubusercontent.com
+  - DOMAIN,collector.github.com
+  - DOMAIN,default.exp-tas.com
   - DOMAIN-SUFFIX,githubnext.com
   - DOMAIN-SUFFIX,git.io
   - DOMAIN-SUFFIX,atom.io
@@ -41,22 +56,7 @@ payload:
   - DOMAIN-SUFFIX,cloud.githubusercontent.com
   - DOMAIN-SUFFIX,actions.githubusercontent.com
   - DOMAIN-SUFFIX,codespaces.githubusercontent.com
-  - DOMAIN,github-api.arkoselabs.com
-  - DOMAIN,github-cloud.s3.amazonaws.com
-  - DOMAIN,api.github.com
-  - DOMAIN,uploads.github.com
-  - DOMAIN,graphql.github.com
-  - DOMAIN,ssh.github.com
-  - DOMAIN,raw.githubusercontent.com
-  - DOMAIN,objects.githubusercontent.com
-  - DOMAIN,gist.github.com
-  - DOMAIN,gist.githubusercontent.com
-  - DOMAIN,copilot-proxy.githubusercontent.com
-  - DOMAIN,origin-tracker.githubusercontent.com
-  - DOMAIN,copilot-telemetry.githubusercontent.com
-  - DOMAIN,collector.github.com
-  - DOMAIN,default.exp-tas.com
   - DOMAIN-KEYWORD,github
-  - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$
+  - IP-ASN,36459,no-resolve
   - PROCESS-NAME,com.github.android
-  - IP-ASN,36459
+  - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$

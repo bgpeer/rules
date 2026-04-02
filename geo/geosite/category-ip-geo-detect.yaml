@@ -1,4 +1,7 @@
 payload:
+  - DOMAIN,checkip.amazonaws.com
+  - DOMAIN,ipv4-check-perf.radar.cloudflare.com
+  - DOMAIN,ipv6-check-perf.radar.cloudflare.com
   - DOMAIN-SUFFIX,ipgeolocation.io
   - DOMAIN-SUFFIX,find-my-ip.net
   - DOMAIN-SUFFIX,2ip.ua
@@ -139,6 +142,3 @@ payload:
   - DOMAIN-SUFFIX,ipw.cn
   - DOMAIN-SUFFIX,whois.pconline.com.cn
   - DOMAIN-SUFFIX,myip.la
-  - DOMAIN,checkip.amazonaws.com
-  - DOMAIN,ipv4-check-perf.radar.cloudflare.com
-  - DOMAIN,ipv6-check-perf.radar.cloudflare.com

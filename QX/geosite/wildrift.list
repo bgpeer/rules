@@ -21,6 +21,6 @@ HOST-SUFFIX, riotgamespatcher-a.akamaized.net
 HOST-KEYWORD, riot
 HOST-KEYWORD, valorant
 HOST-KEYWORD, glz
-IP-CIDR, 104.160.128.0/17
-IP-CIDR, 172.65.192.0/18
-IP-CIDR, 15.177.0.0/18
+IP-CIDR, 104.160.128.0/17, no-resolve
+IP-CIDR, 172.65.192.0/18, no-resolve
+IP-CIDR, 15.177.0.0/18, no-resolve

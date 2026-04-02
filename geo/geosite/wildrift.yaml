@@ -22,6 +22,18 @@ payload:
   - DOMAIN-KEYWORD,riot
   - DOMAIN-KEYWORD,valorant
   - DOMAIN-KEYWORD,glz
+  - IP-CIDR,104.160.128.0/17,no-resolve
+  - IP-CIDR,172.65.192.0/18,no-resolve
+  - IP-CIDR,15.177.0.0/18,no-resolve
+  - IP-ASN,6507,no-resolve
+  - PROCESS-NAME,com.riotgames.league.wildrift
+  - PROCESS-NAME,com.riotgames.league.wildrift.android
+  - PROCESS-NAME,com.riotgames.league.teamfighttactics
+  - PROCESS-NAME,RiotClientServices.exe
+  - PROCESS-NAME,LeagueClientUx.exe
+  - PROCESS-NAME,LeagueClient.exe
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.teamfighttactics(\..+)?$
   - DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
   - DOMAIN-REGEX,(?i)(^|\.)riot\.com$
   - DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
@@ -33,15 +45,3 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
   - DOMAIN-REGEX,(?i)(^|\.)riotcdn\.net$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
-  - PROCESS-NAME,com.riotgames.league.wildrift
-  - PROCESS-NAME,com.riotgames.league.wildrift.android
-  - PROCESS-NAME,com.riotgames.league.teamfighttactics
-  - PROCESS-NAME,RiotClientServices.exe
-  - PROCESS-NAME,LeagueClientUx.exe
-  - PROCESS-NAME,LeagueClient.exe
-  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.teamfighttactics(\..+)?$
-  - IP-ASN,6507
-  - IP-CIDR,104.160.128.0/17
-  - IP-CIDR,172.65.192.0/18
-  - IP-CIDR,15.177.0.0/18
