@@ -84,7 +84,7 @@ function getSecondsUntilNextBeijing0230() {
 1. 回到 `gh-raw` Worker 概述页
 2. 进入 **查看设置** → **域和路由**
 3. 点击 **+添加** → **自定义域**
-4. 输入你想要的子域名，例如 `gh.你的域名.com`
+4. 输入你想要的子域名，例如 `gh.你的域名`
 5. Cloudflare 会自动添加 DNS 记录，等待生效即可
 
 ## 五、使用方式
