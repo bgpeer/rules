@@ -30,8 +30,6 @@ export default {
 
     if (path.startsWith("/rules/")) {
       target = "https://raw.githubusercontent.com/SHICHUNHUI88/rules/main" + path.replace("/rules", "");
-    } else if (path.startsWith("/vps/")) {
-      target = "https://raw.githubusercontent.com/SHICHUNHUI88/vps-net-optimize/main" + path.replace("/vps", "");
     } else {
       return new Response("404", { status: 404 });
     }
