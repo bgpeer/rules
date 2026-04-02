@@ -237,12 +237,4 @@ https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list, tag=CN-IP,
 
 部署完成后，将上述链接中的 `https://raw.githubusercontent.com/bgpeer/rules/main/` 替换为 `https://你的域名/rules/` 即可。
 
-## 举例
-GEOSITE
-```
-https://gh.你的域名/rules/geo/geosite/cn.list
-```
-GEOIP
-```
-https://gh.你的域名/rules/geo/geoip/cn.list
-```
+
