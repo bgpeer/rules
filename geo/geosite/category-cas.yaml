@@ -1,15 +1,13 @@
 payload:
-  - DOMAIN,cdn.js7k.com
   - DOMAIN,crl.microsoft.com
   - DOMAIN,mscrl.microsoft.com
   - DOMAIN,ocsp.microsoft.com
   - DOMAIN,oneocsp.microsoft.com
+  - DOMAIN,cdn.js7k.com
   - DOMAIN,publicca.googleapis.com
   - DOMAIN,preprod-publicca.googleapis.com
   - DOMAIN,clients1.google.com
   - DOMAIN,pki.google.com
-  - DOMAIN,www.entrust.cn
-  - DOMAIN,www.microsoft.com
   - DOMAIN,certs-lb.apple.com.akadns.net
   - DOMAIN,certs.apple.com
   - DOMAIN,crl-lb.apple.com.akadns.net
@@ -20,8 +18,10 @@ payload:
   - DOMAIN,ocsp2.apple.com
   - DOMAIN,valid.apple.com
   - DOMAIN,valid.origin-apple.com.akadns.net
+  - DOMAIN,www.entrust.cn
   - DOMAIN,cdn.globalsigncdn.com.cdn.cloudflare.net
   - DOMAIN,crl.globalsign.net
+  - DOMAIN,www.microsoft.com
   - DOMAIN,pki-goog.l.google.com
   - DOMAIN,c.pki.goog
   - DOMAIN,i.pki.goog
@@ -29,11 +29,12 @@ payload:
   - DOMAIN,crl.pki.goog
   - DOMAIN,crls.pki.goog
   - DOMAIN,ocsp.pki.goog
-  - DOMAIN-SUFFIX,yahoo
   - DOMAIN-SUFFIX,godaddy
   - DOMAIN-SUFFIX,flickr
-  - DOMAIN-SUFFIX,yahoo.in
-  - DOMAIN-SUFFIX,yahoo.sr
+  - DOMAIN-SUFFIX,yahoo
+  - DOMAIN-SUFFIX,swisssigner.ch
+  - DOMAIN-SUFFIX,yahoo.mk
+  - DOMAIN-SUFFIX,e-szigno.hu
   - DOMAIN-SUFFIX,e-tugra.com
   - DOMAIN-SUFFIX,firmaprofesional.com
   - DOMAIN-SUFFIX,fnmt.es
@@ -45,46 +46,73 @@ payload:
   - DOMAIN-SUFFIX,trustcor.ca
   - DOMAIN-SUFFIX,trustcor.com
   - DOMAIN-SUFFIX,trustisfps.com
+  - DOMAIN-SUFFIX,vodafone.com
+  - DOMAIN-SUFFIX,vodafone.de
+  - DOMAIN-SUFFIX,vodafone.it
   - DOMAIN-SUFFIX,wisecoin.com
   - DOMAIN-SUFFIX,wiseid.com
   - DOMAIN-SUFFIX,wisekey.com
-  - DOMAIN-SUFFIX,digital-id.ch
-  - DOMAIN-SUFFIX,digitalid.ch
-  - DOMAIN-SUFFIX,managed-pki.ch
-  - DOMAIN-SUFFIX,managed-pki.de
-  - DOMAIN-SUFFIX,pki-post.ch
+  - DOMAIN-SUFFIX,gandi.net
+  - DOMAIN-SUFFIX,starfieldtech.com
+  - DOMAIN-SUFFIX,letsencrypt.org
+  - DOMAIN-SUFFIX,letsencrypt.com
+  - DOMAIN-SUFFIX,lencr.org
+  - DOMAIN-SUFFIX,godaddy.com
+  - DOMAIN-SUFFIX,x.co
+  - DOMAIN-SUFFIX,actalis.com
+  - DOMAIN-SUFFIX,actalis.it
+  - DOMAIN-SUFFIX,buypass-ssl.com
+  - DOMAIN-SUFFIX,buypass.com
+  - DOMAIN-SUFFIX,buypass.no
+  - DOMAIN-SUFFIX,buypass.se
+  - DOMAIN-SUFFIX,minid.no
+  - DOMAIN-SUFFIX,entrust.cn
+  - DOMAIN-SUFFIX,entrust.com
+  - DOMAIN-SUFFIX,entrust.net
+  - DOMAIN-SUFFIX,entrustdatacard.com
+  - DOMAIN-SUFFIX,affirmtrust.com
+  - DOMAIN-SUFFIX,atos.net
+  - DOMAIN-SUFFIX,myatos.net
+  - DOMAIN-SUFFIX,certificat2.com
+  - DOMAIN-SUFFIX,trendmicro.com
+  - DOMAIN-SUFFIX,secomtrust.net
   - DOMAIN-SUFFIX,pki.goog
-  - DOMAIN-SUFFIX,pki-posta.ch
-  - DOMAIN-SUFFIX,pki-poste.ch
-  - DOMAIN-SUFFIX,root-signing.ch
-  - DOMAIN-SUFFIX,rootsigning.com
-  - DOMAIN-SUFFIX,ssl-certificate.ch
-  - DOMAIN-SUFFIX,swissid.ch
-  - DOMAIN-SUFFIX,swissign.com
-  - DOMAIN-SUFFIX,swissign.li
-  - DOMAIN-SUFFIX,swisssign-group.ch
-  - DOMAIN-SUFFIX,swisssign-group.com
-  - DOMAIN-SUFFIX,swisssign-group.li
-  - DOMAIN-SUFFIX,swisssign.ch
-  - DOMAIN-SUFFIX,swisssign.com
-  - DOMAIN-SUFFIX,swisssign.li
-  - DOMAIN-SUFFIX,swisssign.net
-  - DOMAIN-SUFFIX,swisssign.org
-  - DOMAIN-SUFFIX,swisssigner.ch
-  - DOMAIN-SUFFIX,swisssigner.com
   - DOMAIN-SUFFIX,swisssigngroup.ch
-  - DOMAIN-SUFFIX,swisssigngroup.com
-  - DOMAIN-SUFFIX,swissstick.com
-  - DOMAIN-SUFFIX,swisstsa.ch
-  - DOMAIN-SUFFIX,swisstsa.li
-  - DOMAIN-SUFFIX,trustdoc.ch
-  - DOMAIN-SUFFIX,trustsign.ch
-  - DOMAIN-SUFFIX,zert.ch
-  - DOMAIN-SUFFIX,globalsign.eu
-  - DOMAIN-SUFFIX,globalsign.fr
-  - DOMAIN-SUFFIX,globalsign.be
-  - DOMAIN-SUFFIX,globalsign.net
+  - DOMAIN-SUFFIX,yahoo.in
+  - DOMAIN-SUFFIX,yahoo.im
+  - DOMAIN-SUFFIX,yahoo.ie
+  - DOMAIN-SUFFIX,yahoo.hu
+  - DOMAIN-SUFFIX,certinomis.com
+  - DOMAIN-SUFFIX,certinomis.fr
+  - DOMAIN-SUFFIX,globalsign.es
+  - DOMAIN-SUFFIX,globalsign-media.com
+  - DOMAIN-SUFFIX,globalsign.ch
+  - DOMAIN-SUFFIX,globalsign.cloud
   - DOMAIN-SUFFIX,globalsign.nl
+  - DOMAIN-SUFFIX,globalsign.net
+  - DOMAIN-SUFFIX,globalsign.be
+  - DOMAIN-SUFFIX,globalsign.fr
+  - DOMAIN-SUFFIX,globalsign.eu
+  - DOMAIN-SUFFIX,yahoo.hr
+  - DOMAIN-SUFFIX,yahoo.hk
+  - DOMAIN-SUFFIX,yahoo.gy
+  - DOMAIN-SUFFIX,yahoo.gr
+  - DOMAIN-SUFFIX,yahoo.gp
+  - DOMAIN-SUFFIX,yahoo.gm
+  - DOMAIN-SUFFIX,yahoo.gl
+  - DOMAIN-SUFFIX,yahoo.gg
+  - DOMAIN-SUFFIX,yahoo.ge
+  - DOMAIN-SUFFIX,yahoo.fr
+  - DOMAIN-SUFFIX,yahoo.fm
+  - DOMAIN-SUFFIX,identrust.com
+  - DOMAIN-SUFFIX,identrust.net
+  - DOMAIN-SUFFIX,yahoo.fi
+  - DOMAIN-SUFFIX,ssl.com
+  - DOMAIN-SUFFIX,telekom.com
+  - DOMAIN-SUFFIX,telekom.de
+  - DOMAIN-SUFFIX,telesec.de
+  - DOMAIN-SUFFIX,yahoo.es
+  - DOMAIN-SUFFIX,yahoo.ee
   - DOMAIN-SUFFIX,enterprisessl.com
   - DOMAIN-SUFFIX,hackerguardian.com
   - DOMAIN-SUFFIX,instantssl.com
@@ -101,16 +129,119 @@ payload:
   - DOMAIN-SUFFIX,comodoca2.com
   - DOMAIN-SUFFIX,comodoca3.com
   - DOMAIN-SUFFIX,comodoca4.com
-  - DOMAIN-SUFFIX,certinomis.com
-  - DOMAIN-SUFFIX,certinomis.fr
-  - DOMAIN-SUFFIX,secomtrust.net
-  - DOMAIN-SUFFIX,globalsign.cloud
-  - DOMAIN-SUFFIX,globalsign.ch
-  - DOMAIN-SUFFIX,globalsign-media.com
-  - DOMAIN-SUFFIX,globalsign.es
-  - DOMAIN-SUFFIX,starfieldtech.com
+  - DOMAIN-SUFFIX,trustwave.com
+  - DOMAIN-SUFFIX,amazontrust.com
+  - DOMAIN-SUFFIX,awstrust.com
+  - DOMAIN-SUFFIX,ss2.us
+  - DOMAIN-SUFFIX,certum.pl
+  - DOMAIN-SUFFIX,ocsp-certum.com
+  - DOMAIN-SUFFIX,ocsp-responder.com
+  - DOMAIN-SUFFIX,digicert-cn.com
+  - DOMAIN-SUFFIX,digicert-validation.com
+  - DOMAIN-SUFFIX,digicert.com
+  - DOMAIN-SUFFIX,digicert.eu
+  - DOMAIN-SUFFIX,digitalcertvalidation.com
+  - DOMAIN-SUFFIX,freessl.com
+  - DOMAIN-SUFFIX,geotrust.com
+  - DOMAIN-SUFFIX,rapidssl.com
+  - DOMAIN-SUFFIX,thawte.com
+  - DOMAIN-SUFFIX,thawte.de
+  - DOMAIN-SUFFIX,thawte.fr
+  - DOMAIN-SUFFIX,quovadisglobal.com
+  - DOMAIN-SUFFIX,public-trust.com
+  - DOMAIN-SUFFIX,omniroot.com
+  - DOMAIN-SUFFIX,symauth.com
+  - DOMAIN-SUFFIX,symcb.com
+  - DOMAIN-SUFFIX,symcd.com
+  - DOMAIN-SUFFIX,yahoo.dm
+  - DOMAIN-SUFFIX,yahoo.sh
+  - DOMAIN-SUFFIX,yahoo.it
+  - DOMAIN-SUFFIX,yahoo.je
+  - DOMAIN-SUFFIX,yahoo.cz
+  - DOMAIN-SUFFIX,yahoo.jo
+  - DOMAIN-SUFFIX,yahoo.la
+  - DOMAIN-SUFFIX,yahoo.lt
+  - DOMAIN-SUFFIX,yahoo.lu
+  - DOMAIN-SUFFIX,yahoo.lv
+  - DOMAIN-SUFFIX,yahoo.md
+  - DOMAIN-SUFFIX,yahoo.me
   - DOMAIN-SUFFIX,d-trust.net
+  - DOMAIN-SUFFIX,yahoo.mw
+  - DOMAIN-SUFFIX,yahoo.mx
+  - DOMAIN-SUFFIX,yahoo.net
+  - DOMAIN-SUFFIX,yahoo.nl
+  - DOMAIN-SUFFIX,yahoo.no
+  - DOMAIN-SUFFIX,yahoo.nu
+  - DOMAIN-SUFFIX,yahoo.ph
+  - DOMAIN-SUFFIX,yahoo.pl
+  - DOMAIN-SUFFIX,yahoo.pn
+  - DOMAIN-SUFFIX,swisssigngroup.com
+  - DOMAIN-SUFFIX,yahoo.am
+  - DOMAIN-SUFFIX,yahoo.pt
+  - DOMAIN-SUFFIX,yahoo.ro
+  - DOMAIN-SUFFIX,yahoo.ru
+  - DOMAIN-SUFFIX,yahoo.rw
+  - DOMAIN-SUFFIX,yahoo.se
+  - DOMAIN-SUFFIX,yahoo.dj
+  - DOMAIN-SUFFIX,yahoo.sg
+  - DOMAIN-SUFFIX,yahoo.dk
+  - DOMAIN-SUFFIX,yahoo.si
+  - DOMAIN-SUFFIX,yahoo.sk
+  - DOMAIN-SUFFIX,swisssigner.com
+  - DOMAIN-SUFFIX,yahoo.is
+  - DOMAIN-SUFFIX,yahoo.so
+  - DOMAIN-SUFFIX,yahoo.sr
+  - DOMAIN-SUFFIX,yahoo.st
+  - DOMAIN-SUFFIX,yahoo.tg
+  - DOMAIN-SUFFIX,yahoo.tk
+  - DOMAIN-SUFFIX,yahoo.de
+  - DOMAIN-SUFFIX,yahoo.tl
+  - DOMAIN-SUFFIX,yahoo.tm
+  - DOMAIN-SUFFIX,yahoo.as
+  - DOMAIN-SUFFIX,yahoo.tn
+  - DOMAIN-SUFFIX,yahoo.vg
+  - DOMAIN-SUFFIX,yahoo.ws
+  - DOMAIN-SUFFIX,maktoob.com
+  - DOMAIN-SUFFIX,myguide.hk
+  - DOMAIN-SUFFIX,yahoo.com
+  - DOMAIN-SUFFIX,techcrunch.com
+  - DOMAIN-SUFFIX,yahooapis.com
+  - DOMAIN-SUFFIX,yahoodns.net
+  - DOMAIN-SUFFIX,yahoofinance.com
+  - DOMAIN-SUFFIX,digital-id.ch
+  - DOMAIN-SUFFIX,digitalid.ch
+  - DOMAIN-SUFFIX,managed-pki.ch
+  - DOMAIN-SUFFIX,managed-pki.de
+  - DOMAIN-SUFFIX,pki-post.ch
+  - DOMAIN-SUFFIX,pki-posta.ch
+  - DOMAIN-SUFFIX,pki-poste.ch
+  - DOMAIN-SUFFIX,root-signing.ch
+  - DOMAIN-SUFFIX,rootsigning.com
+  - DOMAIN-SUFFIX,ssl-certificate.ch
+  - DOMAIN-SUFFIX,swissid.ch
+  - DOMAIN-SUFFIX,swissign.com
+  - DOMAIN-SUFFIX,swissign.li
+  - DOMAIN-SUFFIX,swisssign-group.ch
+  - DOMAIN-SUFFIX,swisssign-group.com
+  - DOMAIN-SUFFIX,swisssign-group.li
+  - DOMAIN-SUFFIX,swisssign.ch
+  - DOMAIN-SUFFIX,swisssign.com
+  - DOMAIN-SUFFIX,swisssign.li
+  - DOMAIN-SUFFIX,swisssign.net
+  - DOMAIN-SUFFIX,swisssign.org
   - DOMAIN-SUFFIX,certsign.ro
+  - DOMAIN-SUFFIX,yahoo.sm
+  - DOMAIN-SUFFIX,yahoohealth.com
+  - DOMAIN-SUFFIX,yahoomusic.com
+  - DOMAIN-SUFFIX,swissstick.com
+  - DOMAIN-SUFFIX,swisstsa.ch
+  - DOMAIN-SUFFIX,swisstsa.li
+  - DOMAIN-SUFFIX,trustdoc.ch
+  - DOMAIN-SUFFIX,trustsign.ch
+  - DOMAIN-SUFFIX,zert.ch
+  - DOMAIN-SUFFIX,msocsp.com
+  - DOMAIN-SUFFIX,camerfirma.com
+  - DOMAIN-SUFFIX,accv.es
   - DOMAIN-SUFFIX,oath.cloud
   - DOMAIN-SUFFIX,oath.com
   - DOMAIN-SUFFIX,ouroath.com
@@ -156,292 +287,161 @@ payload:
   - DOMAIN-SUFFIX,yho.com
   - DOMAIN-SUFFIX,yahoosportsbook.com
   - DOMAIN-SUFFIX,yahoosandbox.com
-  - DOMAIN-SUFFIX,yahoomusic.com
-  - DOMAIN-SUFFIX,yahoohealth.com
-  - DOMAIN-SUFFIX,yahoofinance.com
-  - DOMAIN-SUFFIX,yahoodns.net
-  - DOMAIN-SUFFIX,yahooapis.com
-  - DOMAIN-SUFFIX,techcrunch.com
-  - DOMAIN-SUFFIX,yahoo.com
-  - DOMAIN-SUFFIX,myguide.hk
-  - DOMAIN-SUFFIX,maktoob.com
-  - DOMAIN-SUFFIX,yahoo.ws
-  - DOMAIN-SUFFIX,yahoo.vg
-  - DOMAIN-SUFFIX,yahoo.tn
-  - DOMAIN-SUFFIX,yahoo.as
-  - DOMAIN-SUFFIX,yahoo.tm
-  - DOMAIN-SUFFIX,yahoo.tl
-  - DOMAIN-SUFFIX,yahoo.de
-  - DOMAIN-SUFFIX,yahoo.tk
-  - DOMAIN-SUFFIX,yahoo.tg
-  - DOMAIN-SUFFIX,yahoo.st
-  - DOMAIN-SUFFIX,trustwave.com
-  - DOMAIN-SUFFIX,yahoo.so
-  - DOMAIN-SUFFIX,yahoo.is
-  - DOMAIN-SUFFIX,yahoo.sm
-  - DOMAIN-SUFFIX,yahoo.sk
-  - DOMAIN-SUFFIX,yahoo.si
-  - DOMAIN-SUFFIX,yahoo.dk
-  - DOMAIN-SUFFIX,yahoo.sg
-  - DOMAIN-SUFFIX,yahoo.dj
-  - DOMAIN-SUFFIX,yahoo.se
-  - DOMAIN-SUFFIX,yahoo.rw
-  - DOMAIN-SUFFIX,yahoo.ru
-  - DOMAIN-SUFFIX,yahoo.ro
-  - DOMAIN-SUFFIX,yahoo.pt
-  - DOMAIN-SUFFIX,yahoo.am
-  - DOMAIN-SUFFIX,yahoo.pn
-  - DOMAIN-SUFFIX,yahoo.pl
-  - DOMAIN-SUFFIX,yahoo.ph
-  - DOMAIN-SUFFIX,yahoo.nu
-  - DOMAIN-SUFFIX,yahoo.no
-  - DOMAIN-SUFFIX,yahoo.nl
-  - DOMAIN-SUFFIX,yahoo.net
-  - DOMAIN-SUFFIX,yahoo.mx
-  - DOMAIN-SUFFIX,yahoo.mw
-  - DOMAIN-SUFFIX,yahoo.mk
-  - DOMAIN-SUFFIX,yahoo.me
-  - DOMAIN-SUFFIX,yahoo.md
-  - DOMAIN-SUFFIX,yahoo.lv
-  - DOMAIN-SUFFIX,yahoo.lu
-  - DOMAIN-SUFFIX,yahoo.lt
-  - DOMAIN-SUFFIX,yahoo.la
-  - DOMAIN-SUFFIX,yahoo.jo
-  - DOMAIN-SUFFIX,yahoo.cz
-  - DOMAIN-SUFFIX,yahoo.je
-  - DOMAIN-SUFFIX,yahoo.it
-  - DOMAIN-SUFFIX,yahoo.sh
-  - DOMAIN-SUFFIX,yahoo.dm
-  - DOMAIN-SUFFIX,yahoo.ee
-  - DOMAIN-SUFFIX,yahoo.es
-  - DOMAIN-SUFFIX,yahoo.fi
-  - DOMAIN-SUFFIX,yahoo.fm
-  - DOMAIN-SUFFIX,yahoo.fr
-  - DOMAIN-SUFFIX,yahoo.ge
-  - DOMAIN-SUFFIX,yahoo.gg
-  - DOMAIN-SUFFIX,yahoo.gl
-  - DOMAIN-SUFFIX,yahoo.gm
-  - DOMAIN-SUFFIX,yahoo.gp
-  - DOMAIN-SUFFIX,yahoo.gr
-  - DOMAIN-SUFFIX,yahoo.gy
-  - DOMAIN-SUFFIX,yahoo.hk
-  - DOMAIN-SUFFIX,yahoo.hr
-  - DOMAIN-SUFFIX,yahoo.hu
-  - DOMAIN-SUFFIX,yahoo.ie
-  - DOMAIN-SUFFIX,yahoo.im
-  - DOMAIN-SUFFIX,accv.es
-  - DOMAIN-SUFFIX,lencr.org
-  - DOMAIN-SUFFIX,telesec.de
-  - DOMAIN-SUFFIX,e-szigno.hu
-  - DOMAIN-SUFFIX,telekom.de
-  - DOMAIN-SUFFIX,telekom.com
-  - DOMAIN-SUFFIX,gandi.net
-  - DOMAIN-SUFFIX,actalis.it
-  - DOMAIN-SUFFIX,actalis.com
-  - DOMAIN-SUFFIX,ocsp-responder.com
-  - DOMAIN-SUFFIX,ocsp-certum.com
-  - DOMAIN-SUFFIX,certum.pl
-  - DOMAIN-SUFFIX,msocsp.com
-  - DOMAIN-SUFFIX,x.co
-  - DOMAIN-SUFFIX,godaddy.com
-  - DOMAIN-SUFFIX,camerfirma.com
-  - DOMAIN-SUFFIX,trendmicro.com
-  - DOMAIN-SUFFIX,certificat2.com
-  - DOMAIN-SUFFIX,myatos.net
-  - DOMAIN-SUFFIX,atos.net
-  - DOMAIN-SUFFIX,affirmtrust.com
-  - DOMAIN-SUFFIX,entrustdatacard.com
-  - DOMAIN-SUFFIX,entrust.net
-  - DOMAIN-SUFFIX,entrust.com
-  - DOMAIN-SUFFIX,entrust.cn
-  - DOMAIN-SUFFIX,identrust.net
-  - DOMAIN-SUFFIX,identrust.com
-  - DOMAIN-SUFFIX,symcd.com
-  - DOMAIN-SUFFIX,symcb.com
-  - DOMAIN-SUFFIX,symauth.com
-  - DOMAIN-SUFFIX,omniroot.com
-  - DOMAIN-SUFFIX,public-trust.com
-  - DOMAIN-SUFFIX,quovadisglobal.com
-  - DOMAIN-SUFFIX,thawte.fr
-  - DOMAIN-SUFFIX,thawte.de
-  - DOMAIN-SUFFIX,thawte.com
-  - DOMAIN-SUFFIX,rapidssl.com
-  - DOMAIN-SUFFIX,geotrust.com
-  - DOMAIN-SUFFIX,freessl.com
-  - DOMAIN-SUFFIX,digitalcertvalidation.com
-  - DOMAIN-SUFFIX,digicert.eu
-  - DOMAIN-SUFFIX,digicert.com
-  - DOMAIN-SUFFIX,digicert-validation.com
-  - DOMAIN-SUFFIX,digicert-cn.com
-  - DOMAIN-SUFFIX,ssl.com
-  - DOMAIN-SUFFIX,letsencrypt.org
-  - DOMAIN-SUFFIX,letsencrypt.com
-  - DOMAIN-SUFFIX,minid.no
-  - DOMAIN-SUFFIX,buypass.se
-  - DOMAIN-SUFFIX,buypass.no
-  - DOMAIN-SUFFIX,buypass.com
-  - DOMAIN-SUFFIX,buypass-ssl.com
-  - DOMAIN-SUFFIX,ss2.us
-  - DOMAIN-SUFFIX,awstrust.com
-  - DOMAIN-SUFFIX,amazontrust.com
-  - DOMAIN-SUFFIX,vodafone.it
-  - DOMAIN-SUFFIX,vodafone.de
-  - DOMAIN-SUFFIX,vodafone.com
-  - DOMAIN-SUFFIX,yahoo.co.kr
-  - DOMAIN-SUFFIX,myvodafone.com.au
-  - DOMAIN-SUFFIX,yahoo.co.cr
-  - DOMAIN-SUFFIX,yahoo.co.ck
-  - DOMAIN-SUFFIX,yahoo.co.bw
-  - DOMAIN-SUFFIX,yahoo.co.ao
-  - DOMAIN-SUFFIX,orgc3-crl.verisign.com
-  - DOMAIN-SUFFIX,yahoo.co.jp
-  - DOMAIN-SUFFIX,ocsp.verisign.com
-  - DOMAIN-SUFFIX,yahoo.co.in
-  - DOMAIN-SUFFIX,myvodafone.com.ws
-  - DOMAIN-SUFFIX,vodafone.co.uk
-  - DOMAIN-SUFFIX,vodafone.com.au
-  - DOMAIN-SUFFIX,vodafone.com.tr
-  - DOMAIN-SUFFIX,yahoo.co.mz
-  - DOMAIN-SUFFIX,yahoo.co.nz
-  - DOMAIN-SUFFIX,yahoo.co.th
-  - DOMAIN-SUFFIX,yahoo.co.tz
-  - DOMAIN-SUFFIX,yahoo.co.uk
-  - DOMAIN-SUFFIX,yahoo.co.uz
-  - DOMAIN-SUFFIX,yahoo.co.ve
-  - DOMAIN-SUFFIX,yahoo.co.vi
-  - DOMAIN-SUFFIX,yahoo.com.bd
-  - DOMAIN-SUFFIX,yahoo-news.com.hk
-  - DOMAIN-SUFFIX,yahoo.co.za
-  - DOMAIN-SUFFIX,yahoo.com.af
-  - DOMAIN-SUFFIX,yahoo.com.ag
-  - DOMAIN-SUFFIX,yahoo.com.ai
-  - DOMAIN-SUFFIX,yahoo.com.ar
-  - DOMAIN-SUFFIX,yahoo.com.au
-  - DOMAIN-SUFFIX,yahoo.com.bo
-  - DOMAIN-SUFFIX,yahoo.com.br
-  - DOMAIN-SUFFIX,yahoo.com.co
-  - DOMAIN-SUFFIX,yahoo.com.do
-  - DOMAIN-SUFFIX,yahoo.com.ec
-  - DOMAIN-SUFFIX,yahoo.com.eg
-  - DOMAIN-SUFFIX,yahoo.com.es
-  - DOMAIN-SUFFIX,yahoo.com.fj
-  - DOMAIN-SUFFIX,yahoo.co.il
-  - DOMAIN-SUFFIX,yahoo.com.gt
-  - DOMAIN-SUFFIX,yahoo.com.hk
-  - DOMAIN-SUFFIX,yahoo.com.kw
-  - DOMAIN-SUFFIX,yahoo.com.lb
-  - DOMAIN-SUFFIX,digicert.co.jp
-  - DOMAIN-SUFFIX,cybertrust.co.jp
+  - DOMAIN-SUFFIX,svrsecure-oracle-ocsp.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-oracle-crl.verisign.com
+  - DOMAIN-SUFFIX,ws.symantec.com
+  - DOMAIN-SUFFIX,pki.symantec.com
+  - DOMAIN-SUFFIX,svrtrial-g2-crl.verisign.com
+  - DOMAIN-SUFFIX,svrtrial-g2-aia.verisign.com
   - DOMAIN-SUFFIX,cybertrust.ne.jp
-  - DOMAIN-SUFFIX,adobe-crl.verisign.com
-  - DOMAIN-SUFFIX,certipath-aia.verisign.com
-  - DOMAIN-SUFFIX,certipath-crl.verisign.com
-  - DOMAIN-SUFFIX,crl.verisign.com
-  - DOMAIN-SUFFIX,csc3-2004-aia.verisign.com
-  - DOMAIN-SUFFIX,csc3-2004-crl.verisign.com
-  - DOMAIN-SUFFIX,csc3-2009-2-aia.verisign.com
-  - DOMAIN-SUFFIX,csc3-2009-2-crl.verisign.com
-  - DOMAIN-SUFFIX,csc3-2009-aia.verisign.com
-  - DOMAIN-SUFFIX,csc3-2009-crl.verisign.com
-  - DOMAIN-SUFFIX,csc3-2010-aia.verisign.com
-  - DOMAIN-SUFFIX,csc3-2010-crl.verisign.com
-  - DOMAIN-SUFFIX,eca-client-crl.verisign.com
-  - DOMAIN-SUFFIX,eca-client-ocsp.verisign.com
-  - DOMAIN-SUFFIX,evintl-aia.verisign.com
-  - DOMAIN-SUFFIX,evintl-crl.verisign.com
-  - DOMAIN-SUFFIX,evintl-ocsp.verisign.com
-  - DOMAIN-SUFFIX,evintl-t1-crl.verisign.com
-  - DOMAIN-SUFFIX,evsecure-aia.verisign.com
-  - DOMAIN-SUFFIX,evsecure-crl.verisign.com
-  - DOMAIN-SUFFIX,evsecure-ocsp.verisign.com
-  - DOMAIN-SUFFIX,evsecure-t1-aia.verisign.com
-  - DOMAIN-SUFFIX,evsecure-t1-crl.verisign.com
-  - DOMAIN-SUFFIX,onsitecrl.verisign.com
-  - DOMAIN-SUFFIX,yahoo.com.gi
-  - DOMAIN-SUFFIX,yahoo.co.id
+  - DOMAIN-SUFFIX,svrsecure-t1-aia.verisign.com
+  - DOMAIN-SUFFIX,globalsign.com.br
+  - DOMAIN-SUFFIX,svrsecure-t1-crl.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-oracle-aia.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-g3-crl.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-g3-aia.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-g2-crl.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-g2-aia.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-crl.verisign.com
+  - DOMAIN-SUFFIX,svrsecure-aia.verisign.com
+  - DOMAIN-SUFFIX,svrintl-t1-crl.verisign.com
+  - DOMAIN-SUFFIX,svrintl-t1-aia.verisign.com
+  - DOMAIN-SUFFIX,svrintl-g3-crl.verisign.com
+  - DOMAIN-SUFFIX,svrintl-g3-aia.verisign.com
+  - DOMAIN-SUFFIX,svrintl-crl.verisign.com
+  - DOMAIN-SUFFIX,svrintl-aia.verisign.com
+  - DOMAIN-SUFFIX,svr-wimax-ocsp.verisign.com
+  - DOMAIN-SUFFIX,ssp-ocsp.verisign.com
   - DOMAIN-SUFFIX,ssp-crl.verisign.com
   - DOMAIN-SUFFIX,ssp-aia.verisign.com
   - DOMAIN-SUFFIX,pki-ocsp.verisign.com
-  - DOMAIN-SUFFIX,ssp-ocsp.verisign.com
-  - DOMAIN-SUFFIX,svr-wimax-ocsp.verisign.com
-  - DOMAIN-SUFFIX,svrintl-aia.verisign.com
-  - DOMAIN-SUFFIX,svrintl-crl.verisign.com
-  - DOMAIN-SUFFIX,svrintl-g3-aia.verisign.com
-  - DOMAIN-SUFFIX,svrintl-g3-crl.verisign.com
-  - DOMAIN-SUFFIX,svrintl-t1-aia.verisign.com
-  - DOMAIN-SUFFIX,svrintl-t1-crl.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-aia.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-crl.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-g2-aia.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-g2-crl.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-g3-aia.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-g3-crl.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-oracle-aia.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-oracle-crl.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-oracle-ocsp.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-t1-aia.verisign.com
-  - DOMAIN-SUFFIX,svrsecure-t1-crl.verisign.com
-  - DOMAIN-SUFFIX,svrtrial-g2-aia.verisign.com
-  - DOMAIN-SUFFIX,svrtrial-g2-crl.verisign.com
-  - DOMAIN-SUFFIX,pki.symantec.com
-  - DOMAIN-SUFFIX,ws.symantec.com
-  - DOMAIN-SUFFIX,yahoo.com.mt
-  - DOMAIN-SUFFIX,yahoo.com.mx
-  - DOMAIN-SUFFIX,identrust.co.uk
-  - DOMAIN-SUFFIX,yahoo.com.my
-  - DOMAIN-SUFFIX,yahoo.com.na
-  - DOMAIN-SUFFIX,yahoo.com.nf
-  - DOMAIN-SUFFIX,yahoo.com.om
-  - DOMAIN-SUFFIX,yahoo.com.pa
-  - DOMAIN-SUFFIX,yahoo.com.pe
-  - DOMAIN-SUFFIX,yahoo.com.ph
-  - DOMAIN-SUFFIX,yahoo.com.pk
-  - DOMAIN-SUFFIX,yahoo.com.pr
-  - DOMAIN-SUFFIX,yahoo.com.py
-  - DOMAIN-SUFFIX,yahoo.com.sa
-  - DOMAIN-SUFFIX,yahoo.com.sb
-  - DOMAIN-SUFFIX,yahoo.com.sg
-  - DOMAIN-SUFFIX,yahoo.com.sv
-  - DOMAIN-SUFFIX,yahoo.com.tj
-  - DOMAIN-SUFFIX,yahoo.com.tr
-  - DOMAIN-SUFFIX,hongkongpost.gov.hk
+  - DOMAIN-SUFFIX,orgc3-crl.verisign.com
+  - DOMAIN-SUFFIX,onsitecrl.verisign.com
+  - DOMAIN-SUFFIX,ocsp.verisign.com
+  - DOMAIN-SUFFIX,evsecure-t1-crl.verisign.com
+  - DOMAIN-SUFFIX,evsecure-t1-aia.verisign.com
+  - DOMAIN-SUFFIX,evsecure-ocsp.verisign.com
+  - DOMAIN-SUFFIX,evsecure-aia.verisign.com
+  - DOMAIN-SUFFIX,evintl-t1-crl.verisign.com
+  - DOMAIN-SUFFIX,evintl-ocsp.verisign.com
+  - DOMAIN-SUFFIX,evintl-crl.verisign.com
+  - DOMAIN-SUFFIX,evsecure-crl.verisign.com
+  - DOMAIN-SUFFIX,eca-client-ocsp.verisign.com
+  - DOMAIN-SUFFIX,eca-client-crl.verisign.com
+  - DOMAIN-SUFFIX,csc3-2010-crl.verisign.com
+  - DOMAIN-SUFFIX,csc3-2010-aia.verisign.com
+  - DOMAIN-SUFFIX,csc3-2009-crl.verisign.com
+  - DOMAIN-SUFFIX,csc3-2009-aia.verisign.com
+  - DOMAIN-SUFFIX,csc3-2009-2-crl.verisign.com
+  - DOMAIN-SUFFIX,csc3-2009-2-aia.verisign.com
+  - DOMAIN-SUFFIX,csc3-2004-crl.verisign.com
+  - DOMAIN-SUFFIX,csc3-2004-aia.verisign.com
+  - DOMAIN-SUFFIX,crl.verisign.com
+  - DOMAIN-SUFFIX,certipath-crl.verisign.com
+  - DOMAIN-SUFFIX,certipath-aia.verisign.com
+  - DOMAIN-SUFFIX,adobe-crl.verisign.com
+  - DOMAIN-SUFFIX,cybertrust.co.jp
+  - DOMAIN-SUFFIX,digicert.co.jp
   - DOMAIN-SUFFIX,ecert.gov.hk
-  - DOMAIN-SUFFIX,yahoo.com.tw
-  - DOMAIN-SUFFIX,yahoo.com.ua
-  - DOMAIN-SUFFIX,yahoo.com.uy
-  - DOMAIN-SUFFIX,yahoo.com.vc
-  - DOMAIN-SUFFIX,yahoo.com.vn
-  - DOMAIN-SUFFIX,globalsign.com.br
-  - DOMAIN-SUFFIX,yahoo.com.bz
-  - DOMAIN-SUFFIX,managedpki.ne.jp
-  - DOMAIN-SUFFIX,secom.co.jp
+  - DOMAIN-SUFFIX,hongkongpost.gov.hk
+  - DOMAIN-SUFFIX,identrust.co.uk
   - DOMAIN-SUFFIX,twca.com.tw
+  - DOMAIN-SUFFIX,myvodafone.com.au
   - DOMAIN-SUFFIX,tls.hinet.net
   - DOMAIN-SUFFIX,publicca.hinet.net
   - DOMAIN-SUFFIX,pki.hinet.net
   - DOMAIN-SUFFIX,eca.hinet.net
-  - DOMAIN-SUFFIX,yahoo.com.ly
-  - DOMAIN-SUFFIX,globalsign.com.sg
-  - DOMAIN-SUFFIX,globalsign.com.hk
-  - DOMAIN-SUFFIX,globalsign.com.au
   - DOMAIN-SUFFIX,globalsign.co.uk
+  - DOMAIN-SUFFIX,globalsign.com.au
+  - DOMAIN-SUFFIX,globalsign.com.hk
+  - DOMAIN-SUFFIX,globalsign.com.sg
+  - DOMAIN-SUFFIX,managedpki.ne.jp
+  - DOMAIN-SUFFIX,evintl-aia.verisign.com
+  - DOMAIN-SUFFIX,yahoo.co.bw
+  - DOMAIN-SUFFIX,yahoo.com.bd
+  - DOMAIN-SUFFIX,secom.co.jp
+  - DOMAIN-SUFFIX,yahoo.com.ly
+  - DOMAIN-SUFFIX,yahoo.com.bz
+  - DOMAIN-SUFFIX,yahoo.com.vn
+  - DOMAIN-SUFFIX,yahoo.com.vc
+  - DOMAIN-SUFFIX,yahoo.com.uy
+  - DOMAIN-SUFFIX,yahoo.com.ua
+  - DOMAIN-SUFFIX,yahoo.com.tw
+  - DOMAIN-SUFFIX,yahoo.com.tr
+  - DOMAIN-SUFFIX,yahoo.com.tj
+  - DOMAIN-SUFFIX,yahoo.com.sv
+  - DOMAIN-SUFFIX,yahoo.com.sg
+  - DOMAIN-SUFFIX,yahoo.com.sb
+  - DOMAIN-SUFFIX,yahoo.com.sa
+  - DOMAIN-SUFFIX,yahoo.com.py
+  - DOMAIN-SUFFIX,yahoo.com.pr
+  - DOMAIN-SUFFIX,yahoo.com.pk
+  - DOMAIN-SUFFIX,yahoo.com.ph
+  - DOMAIN-SUFFIX,yahoo.com.pe
+  - DOMAIN-SUFFIX,yahoo.com.pa
+  - DOMAIN-SUFFIX,yahoo.com.om
+  - DOMAIN-SUFFIX,yahoo.com.nf
+  - DOMAIN-SUFFIX,yahoo.com.na
+  - DOMAIN-SUFFIX,yahoo.com.my
+  - DOMAIN-SUFFIX,yahoo.com.mx
+  - DOMAIN-SUFFIX,yahoo.com.mt
+  - DOMAIN-SUFFIX,yahoo.com.lb
+  - DOMAIN-SUFFIX,yahoo.com.kw
+  - DOMAIN-SUFFIX,yahoo.com.hk
+  - DOMAIN-SUFFIX,yahoo.com.gt
+  - DOMAIN-SUFFIX,yahoo.com.gi
+  - DOMAIN-SUFFIX,yahoo.com.fj
+  - DOMAIN-SUFFIX,yahoo.com.es
+  - DOMAIN-SUFFIX,yahoo.com.eg
+  - DOMAIN-SUFFIX,yahoo.com.ec
+  - DOMAIN-SUFFIX,yahoo.com.do
+  - DOMAIN-SUFFIX,yahoo.com.co
+  - DOMAIN-SUFFIX,yahoo.com.br
+  - DOMAIN-SUFFIX,yahoo.com.bo
+  - DOMAIN-SUFFIX,yahoo.com.au
+  - DOMAIN-SUFFIX,yahoo.com.ar
+  - DOMAIN-SUFFIX,yahoo.com.ai
+  - DOMAIN-SUFFIX,yahoo.com.ag
+  - DOMAIN-SUFFIX,yahoo.com.af
+  - DOMAIN-SUFFIX,yahoo.co.za
+  - DOMAIN-SUFFIX,yahoo-news.com.hk
+  - DOMAIN-SUFFIX,yahoo.co.vi
+  - DOMAIN-SUFFIX,yahoo.co.ve
+  - DOMAIN-SUFFIX,yahoo.co.uz
+  - DOMAIN-SUFFIX,yahoo.co.uk
+  - DOMAIN-SUFFIX,yahoo.co.tz
+  - DOMAIN-SUFFIX,yahoo.co.th
+  - DOMAIN-SUFFIX,yahoo.co.nz
+  - DOMAIN-SUFFIX,yahoo.co.mz
+  - DOMAIN-SUFFIX,yahoo.co.kr
+  - DOMAIN-SUFFIX,yahoo.co.jp
+  - DOMAIN-SUFFIX,yahoo.co.in
+  - DOMAIN-SUFFIX,yahoo.co.il
+  - DOMAIN-SUFFIX,yahoo.co.id
+  - DOMAIN-SUFFIX,yahoo.co.cr
+  - DOMAIN-SUFFIX,yahoo.co.ck
   - DOMAIN-SUFFIX,wisekey.com.hk
+  - DOMAIN-SUFFIX,yahoo.co.ao
+  - DOMAIN-SUFFIX,vodafone.com.tr
+  - DOMAIN-SUFFIX,vodafone.com.au
+  - DOMAIN-SUFFIX,vodafone.co.uk
+  - DOMAIN-SUFFIX,myvodafone.com.ws
   - DOMAIN-SUFFIX,gtlsca.nat.gov.tw
-  - DOMAIN-SUFFIX,oemssl.cn
-  - DOMAIN-SUFFIX,oemssl.cn.cdn.cloudflare.net
-  - DOMAIN-SUFFIX,sectigochina.com
-  - DOMAIN-SUFFIX,sectigochina.com.cdn.cloudflare.net
-  - DOMAIN-SUFFIX,trust-provider.cn
-  - DOMAIN-SUFFIX,yahoo.cn
-  - DOMAIN-SUFFIX,yahoo.com.cn
-  - DOMAIN-SUFFIX,ads.yahoo.com
-  - DOMAIN-SUFFIX,gemini.yahoo.com
-  - DOMAIN-SUFFIX,ysm.yahoo.com
-  - DOMAIN-SUFFIX,sslcom.cn
-  - DOMAIN-SUFFIX,dcocsp.cn
-  - DOMAIN-SUFFIX,digicert.cn
   - DOMAIN-SUFFIX,alphassl.com
   - DOMAIN-SUFFIX,easy-signing.com
   - DOMAIN-SUFFIX,globalsign.cn
   - DOMAIN-SUFFIX,globalsign.com
   - DOMAIN-SUFFIX,globalsigncdn.com
+  - DOMAIN-SUFFIX,sslcom.cn
+  - DOMAIN-SUFFIX,oemssl.cn
+  - DOMAIN-SUFFIX,oemssl.cn.cdn.cloudflare.net
+  - DOMAIN-SUFFIX,sectigochina.com
+  - DOMAIN-SUFFIX,sectigochina.com.cdn.cloudflare.net
+  - DOMAIN-SUFFIX,trust-provider.cn
+  - DOMAIN-SUFFIX,dcocsp.cn
+  - DOMAIN-SUFFIX,digicert.cn
+  - DOMAIN-SUFFIX,yahoo.cn
+  - DOMAIN-SUFFIX,yahoo.com.cn
+  - DOMAIN-SUFFIX,ads.yahoo.com
+  - DOMAIN-SUFFIX,gemini.yahoo.com
+  - DOMAIN-SUFFIX,ysm.yahoo.com
