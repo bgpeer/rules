@@ -398,12 +398,12 @@ def emit_geoip_tag(tag, ipcidr_lines, asn_lines, out_geoip, out_qx_geoip,
     list_out = [f"{t},{v}" for t, v in typed]
     write_lines(os.path.join(out_geoip, f"{tag}.list"), list_out)
 
-    # ── QX list（跳过 ASN，geoip 不加 no-resolve）──
+    # ── QX list（跳过 ASN，加 no-resolve）──
     qx_out = []
     for t, v in typed:
         if t == "IP-ASN":
             continue
-        qx_out.append(f"{t}, {v}")
+        qx_out.append(f"{t}, {v}, no-resolve")
     write_lines(os.path.join(out_qx_geoip, f"{tag}.list"), qx_out)
 
     # ── json ──
@@ -777,11 +777,11 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             write_lines(mrs_src, all_cidr_list)
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
 
-        # QX list 追加（跳过 ASN，geoip 不加 no-resolve）
+        # QX list 追加（跳过 ASN，加 no-resolve）
         qx_append = []
         for v in new_cidr:
             t = "IP-CIDR6" if ":" in v else "IP-CIDR"
-            qx_append.append(f"{t}, {v}")
+            qx_append.append(f"{t}, {v}, no-resolve")
         if qx_append:
             with open(dst_qx, "a", encoding="utf-8") as f:
                 for line in qx_append:
