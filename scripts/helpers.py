@@ -356,7 +356,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, clash_ipcidr, out_geosite,
     # mrs 排序：domain 在前，suffix 在后
     mrs_src = os.path.join(workdir, "gs_mrs", f"{tag}.txt")
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-    mrs_lines = list(domain) + list(suffix)
+    mrs_lines = list(domain) + [v if v.startswith(".") else "." + v for v in suffix]
     if mrs_lines:
         write_lines(mrs_src, mrs_lines)
         mrs_tasks.append(f"domain\t{mrs_src}\t{os.path.join(out_geosite, f'{tag}.mrs')}")
