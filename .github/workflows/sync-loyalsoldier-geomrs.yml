@@ -45,7 +45,17 @@ jobs:
       - name: Install mihomo
         run: |
           set -eux
-          MIHOMO_VERSION="1.19.10"
+          MIHOMO_VERSION="$(curl -fsSL \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
+            | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')"
+
+          if [ -z "$MIHOMO_VERSION" ]; then
+            echo "::error::Failed to fetch mihomo version"
+            exit 1
+          fi
+
+          echo "mihomo version: $MIHOMO_VERSION"
           ARCH="amd64"
           URL_TGZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.tar.gz"
           URL_GZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.gz"
@@ -65,8 +75,16 @@ jobs:
       - name: Install sing-box
         run: |
           set -eux
-          SINGBOX_VERSION="$(curl -fsSL https://api.github.com/repos/SagerNet/sing-box/releases/latest \
+          SINGBOX_VERSION="$(curl -fsSL \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/SagerNet/sing-box/releases/latest \
             | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')"
+
+          if [ -z "$SINGBOX_VERSION" ]; then
+            echo "::error::Failed to fetch sing-box version"
+            exit 1
+          fi
+
           echo "sing-box version: $SINGBOX_VERSION"
           ARCH="amd64"
           URL="https://github.com/SagerNet/sing-box/releases/download/v${SINGBOX_VERSION}/sing-box-${SINGBOX_VERSION}-linux-${ARCH}.tar.gz"
