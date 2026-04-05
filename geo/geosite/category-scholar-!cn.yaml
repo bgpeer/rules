@@ -90,8 +90,8 @@ payload:
   - DOMAIN,scholar.l.google.com
   - DOMAIN,imperial.insendi.com
   - DOMAIN-SUFFIX,mit
-  - DOMAIN-SUFFIX,art1lib.com
-  - DOMAIN-SUFFIX,blackstonespoliceservice.com
+  - DOMAIN-SUFFIX,ieee-region6.org
+  - DOMAIN-SUFFIX,taylorandfrancis.com
   - DOMAIN-SUFFIX,acs.org
   - DOMAIN-SUFFIX,agu.org
   - DOMAIN-SUFFIX,aiaa.org
@@ -165,14 +165,14 @@ payload:
   - DOMAIN-SUFFIX,hindawi.com
   - DOMAIN-SUFFIX,hotcrp.com
   - DOMAIN-SUFFIX,icevirtuallibrary.com
-  - DOMAIN-SUFFIX,wkap.nl
-  - DOMAIN-SUFFIX,springernature.com
-  - DOMAIN-SUFFIX,springerlink.com
-  - DOMAIN-SUFFIX,springer.com
+  - DOMAIN-SUFFIX,doi.info
+  - DOMAIN-SUFFIX,doi.org
+  - DOMAIN-SUFFIX,anb.org
+  - DOMAIN-SUFFIX,oxfordreference.com
   - DOMAIN-SUFFIX,igi-global.com
   - DOMAIN-SUFFIX,igpublish.com
-  - DOMAIN-SUFFIX,apress.com
-  - DOMAIN-SUFFIX,sci-hub.st
+  - DOMAIN-SUFFIX,oxfordre.com
+  - DOMAIN-SUFFIX,ac.uk
   - DOMAIN-SUFFIX,informs.org
   - DOMAIN-SUFFIX,ioinformatics.org
   - DOMAIN-SUFFIX,iop.org
@@ -184,11 +184,11 @@ payload:
   - DOMAIN-SUFFIX,jmlr.org
   - DOMAIN-SUFFIX,jneurosci.org
   - DOMAIN-SUFFIX,jove.com
-  - DOMAIN-SUFFIX,sci-hub.ee
+  - DOMAIN-SUFFIX,oxfordmusiconline.com
   - DOMAIN-SUFFIX,jstor.org
   - DOMAIN-SUFFIX,karger.com
   - DOMAIN-SUFFIX,kuke.com
-  - DOMAIN-SUFFIX,sci-hub.se
+  - DOMAIN-SUFFIX,cambridge.org
   - DOMAIN-SUFFIX,lexisnexis.com
   - DOMAIN-SUFFIX,literatumonline.com
   - DOMAIN-SUFFIX,mdpi.com
@@ -196,16 +196,16 @@ payload:
   - DOMAIN-SUFFIX,morganclaypool.com
   - DOMAIN-SUFFIX,nature.com
   - DOMAIN-SUFFIX,naturemag.org
-  - DOMAIN-SUFFIX,mitpressjournals.org
+  - DOMAIN-SUFFIX,oxfordbibliographies.com
   - DOMAIN-SUFFIX,nejm.org
   - DOMAIN-SUFFIX,neurology.org
-  - DOMAIN-SUFFIX,mit.net
+  - DOMAIN-SUFFIX,oed.com
   - DOMAIN-SUFFIX,oecd-ilibrary.org
   - DOMAIN-SUFFIX,openreview.net
   - DOMAIN-SUFFIX,optica.org
   - DOMAIN-SUFFIX,osapublishing.org
   - DOMAIN-SUFFIX,ovid.com
-  - DOMAIN-SUFFIX,3lib.net
+  - DOMAIN-SUFFIX,standardsuniversity.org
   - DOMAIN-SUFFIX,physiology.org
   - DOMAIN-SUFFIX,plos.org
   - DOMAIN-SUFFIX,pnas.org
@@ -249,141 +249,26 @@ payload:
   - DOMAIN-SUFFIX,worldscientific.com
   - DOMAIN-SUFFIX,yale.edu
   - DOMAIN-SUFFIX,zenodo.org
-  - DOMAIN-SUFFIX,doi.org
-  - DOMAIN-SUFFIX,doi.info
-  - DOMAIN-SUFFIX,tandfonline.com
-  - DOMAIN-SUFFIX,taylorandfrancis.com
-  - DOMAIN-SUFFIX,taylorfrancis.com
-  - DOMAIN-SUFFIX,mit.edu
-  - DOMAIN-SUFFIX,bookshome.info
-  - DOMAIN-SUFFIX,z-lib.org
-  - DOMAIN-SUFFIX,1lib.domains
-  - DOMAIN-SUFFIX,1lib.education
-  - DOMAIN-SUFFIX,1lib.eu
-  - DOMAIN-SUFFIX,1lib.limited
-  - DOMAIN-SUFFIX,1lib.pl
-  - DOMAIN-SUFFIX,1lib.sk
-  - DOMAIN-SUFFIX,1lib.to
-  - DOMAIN-SUFFIX,1lib.tw
-  - DOMAIN-SUFFIX,2lib.org
-  - DOMAIN-SUFFIX,peerj.com
-  - DOMAIN-SUFFIX,acm.org
-  - DOMAIN-SUFFIX,booksc.me
-  - DOMAIN-SUFFIX,booksc.org
-  - DOMAIN-SUFFIX,b-ok.cc
-  - DOMAIN-SUFFIX,b-ok.global
-  - DOMAIN-SUFFIX,b-ok.org
-  - DOMAIN-SUFFIX,book4you.org
-  - DOMAIN-SUFFIX,bookfi.net
-  - DOMAIN-SUFFIX,booksc.eu
-  - DOMAIN-SUFFIX,b-ok.africa
-  - DOMAIN-SUFFIX,b-ok.asia
-  - DOMAIN-SUFFIX,1lib.cz
-  - DOMAIN-SUFFIX,libsolutions.net
-  - DOMAIN-SUFFIX,bookshome.net
-  - DOMAIN-SUFFIX,bookshome.world
-  - DOMAIN-SUFFIX,de1lib.org
-  - DOMAIN-SUFFIX,zlibcdn2.com
-  - DOMAIN-SUFFIX,hk1lib.org
-  - DOMAIN-SUFFIX,libsolutions.app
-  - DOMAIN-SUFFIX,libsolutions.domains
-  - DOMAIN-SUFFIX,1lib.cloud
-  - DOMAIN-SUFFIX,ma1lib.org
-  - DOMAIN-SUFFIX,sg1lib.org
-  - DOMAIN-SUFFIX,singlelogin.app
-  - DOMAIN-SUFFIX,singlelogin.me
-  - DOMAIN-SUFFIX,singlelogin.re
-  - DOMAIN-SUFFIX,singlelogin.site
-  - DOMAIN-SUFFIX,z-lib.fm
-  - DOMAIN-SUFFIX,z-lib.gd
-  - DOMAIN-SUFFIX,z-lib.gl
-  - DOMAIN-SUFFIX,booksc.xyz
-  - DOMAIN-SUFFIX,z-library.sk
-  - DOMAIN-SUFFIX,z-library.se
-  - DOMAIN-SUFFIX,zlib.life
-  - DOMAIN-SUFFIX,zlibcdn.com
-  - DOMAIN-SUFFIX,aclweb.org
-  - DOMAIN-SUFFIX,serialssolutions.com
-  - DOMAIN-SUFFIX,proquest.com
-  - DOMAIN-SUFFIX,ac.ir
-  - DOMAIN-SUFFIX,edu.ir
-  - DOMAIN-SUFFIX,iranlms.ir
-  - DOMAIN-SUFFIX,jtt.ir
-  - DOMAIN-SUFFIX,sanjesh.org
-  - DOMAIN-SUFFIX,sharif.edu
-  - DOMAIN-SUFFIX,sharif.ir
-  - DOMAIN-SUFFIX,srttu.edu
-  - DOMAIN-SUFFIX,sciencedirectassets.com
-  - DOMAIN-SUFFIX,oxfordpoliticstrove.com
-  - DOMAIN-SUFFIX,oxfordmedicine.com
-  - DOMAIN-SUFFIX,cambridgeschoolshakespeare.com
-  - DOMAIN-SUFFIX,cambridgedigital.net
-  - DOMAIN-SUFFIX,cambridgemaths.org
-  - DOMAIN-SUFFIX,universitypressscholarship.com
-  - DOMAIN-SUFFIX,ouplaw.com
-  - DOMAIN-SUFFIX,ukwhoswho.com
-  - DOMAIN-SUFFIX,imperialbusiness.school
-  - DOMAIN-SUFFIX,sipriyearbook.org
-  - DOMAIN-SUFFIX,oxfordwesternmusic.com
-  - DOMAIN-SUFFIX,oxfordfirstsource.com
-  - DOMAIN-SUFFIX,oxfordscholarlyeditions.com
-  - DOMAIN-SUFFIX,amamanualofstyle.com
-  - DOMAIN-SUFFIX,epigeum.com
-  - DOMAIN-SUFFIX,oxfordhandbooks.com
-  - DOMAIN-SUFFIX,omscr.com
-  - DOMAIN-SUFFIX,oxfordaasc.com
-  - DOMAIN-SUFFIX,veryshortintroductions.com
-  - DOMAIN-SUFFIX,oxfordscholarship.com
-  - DOMAIN-SUFFIX,oup.com
-  - DOMAIN-SUFFIX,oxfordartonline.com
-  - DOMAIN-SUFFIX,oxfordlawtrove.com
-  - DOMAIN-SUFFIX,oxfordclinicalpsych.com
-  - DOMAIN-SUFFIX,oxforddnb.com
-  - DOMAIN-SUFFIX,aacrjournals.org
-  - DOMAIN-SUFFIX,oed.com
-  - DOMAIN-SUFFIX,oxfordbibliographies.com
-  - DOMAIN-SUFFIX,cambridge.org
-  - DOMAIN-SUFFIX,oxfordmusiconline.com
-  - DOMAIN-SUFFIX,ac.uk
-  - DOMAIN-SUFFIX,oxfordre.com
-  - DOMAIN-SUFFIX,oxfordreference.com
-  - DOMAIN-SUFFIX,anb.org
-  - DOMAIN-SUFFIX,sciencedirect.com
-  - DOMAIN-SUFFIX,vtsociety.org
-  - DOMAIN-SUFFIX,technologyandsociety.org
-  - DOMAIN-SUFFIX,signalprocessingsociety.org
-  - DOMAIN-SUFFIX,photonicssociety.org
-  - DOMAIN-SUFFIX,mtt.org
   - DOMAIN-SUFFIX,apa.org
   - DOMAIN-SUFFIX,psyccareers.com
-  - DOMAIN-SUFFIX,cell.com
-  - DOMAIN-SUFFIX,clinicalkey.com
-  - DOMAIN-SUFFIX,els-cdn.com
-  - DOMAIN-SUFFIX,elsevier-ae.com
-  - DOMAIN-SUFFIX,elsevier.com
-  - DOMAIN-SUFFIX,elsevier.io
-  - DOMAIN-SUFFIX,engineeringvillage.com
-  - DOMAIN-SUFFIX,evise.com
-  - DOMAIN-SUFFIX,fundinginstitutional.com
-  - DOMAIN-SUFFIX,knovel.com
-  - DOMAIN-SUFFIX,mendeley.com
-  - DOMAIN-SUFFIX,reaxys.com
-  - DOMAIN-SUFFIX,scival.com
-  - DOMAIN-SUFFIX,scopus.com
-  - DOMAIN-SUFFIX,clarivate.com
-  - DOMAIN-SUFFIX,webofknowledge.com
-  - DOMAIN-SUFFIX,webofscience.com
-  - DOMAIN-SUFFIX,newisiknowledge.com
-  - DOMAIN-SUFFIX,isiknowledge.com
+  - DOMAIN-SUFFIX,aclweb.org
+  - DOMAIN-SUFFIX,mit.edu
+  - DOMAIN-SUFFIX,mit.net
+  - DOMAIN-SUFFIX,mitpressjournals.org
+  - DOMAIN-SUFFIX,apress.com
+  - DOMAIN-SUFFIX,springer.com
+  - DOMAIN-SUFFIX,springerlink.com
+  - DOMAIN-SUFFIX,springernature.com
+  - DOMAIN-SUFFIX,wkap.nl
   - DOMAIN-SUFFIX,ieee.org
   - DOMAIN-SUFFIX,ieee.tv
   - DOMAIN-SUFFIX,tryengineering.org
   - DOMAIN-SUFFIX,ieee-ccnc.org
   - DOMAIN-SUFFIX,ieee-ecce.org
   - DOMAIN-SUFFIX,ieeemce.org
-  - DOMAIN-SUFFIX,standardsuniversity.org
-  - DOMAIN-SUFFIX,ieee-region6.org
-  - DOMAIN-SUFFIX,ieee.ca
+  - DOMAIN-SUFFIX,peerj.com
+  - DOMAIN-SUFFIX,acm.org
+  - DOMAIN-SUFFIX,ieeeday.org
   - DOMAIN-SUFFIX,ieeer10.org
   - DOMAIN-SUFFIX,ieeer5.org
   - DOMAIN-SUFFIX,ieeer8.org
@@ -391,7 +276,7 @@ payload:
   - DOMAIN-SUFFIX,ieeefoundation.org
   - DOMAIN-SUFFIX,ieee-into-focus.org
   - DOMAIN-SUFFIX,ieee-vics.org
-  - DOMAIN-SUFFIX,ieeeday.org
+  - DOMAIN-SUFFIX,ieee.ca
   - DOMAIN-SUFFIX,datasheets360.com
   - DOMAIN-SUFFIX,globalspec.com
   - DOMAIN-SUFFIX,ieee-isto.org
@@ -424,19 +309,134 @@ payload:
   - DOMAIN-SUFFIX,ieeesmc.org
   - DOMAIN-SUFFIX,ieeesystemscouncil.org
   - DOMAIN-SUFFIX,itsoc.org
+  - DOMAIN-SUFFIX,mtt.org
+  - DOMAIN-SUFFIX,photonicssociety.org
+  - DOMAIN-SUFFIX,signalprocessingsociety.org
+  - DOMAIN-SUFFIX,technologyandsociety.org
+  - DOMAIN-SUFFIX,vtsociety.org
+  - DOMAIN-SUFFIX,cell.com
+  - DOMAIN-SUFFIX,clinicalkey.com
+  - DOMAIN-SUFFIX,els-cdn.com
+  - DOMAIN-SUFFIX,elsevier-ae.com
+  - DOMAIN-SUFFIX,elsevier.com
+  - DOMAIN-SUFFIX,elsevier.io
+  - DOMAIN-SUFFIX,engineeringvillage.com
+  - DOMAIN-SUFFIX,evise.com
+  - DOMAIN-SUFFIX,fundinginstitutional.com
+  - DOMAIN-SUFFIX,knovel.com
+  - DOMAIN-SUFFIX,mendeley.com
+  - DOMAIN-SUFFIX,reaxys.com
+  - DOMAIN-SUFFIX,scival.com
+  - DOMAIN-SUFFIX,scopus.com
+  - DOMAIN-SUFFIX,serialssolutions.com
+  - DOMAIN-SUFFIX,proquest.com
+  - DOMAIN-SUFFIX,sci-hub.se
+  - DOMAIN-SUFFIX,sci-hub.ee
+  - DOMAIN-SUFFIX,sci-hub.st
+  - DOMAIN-SUFFIX,blackstonespoliceservice.com
+  - DOMAIN-SUFFIX,oxforddnb.com
+  - DOMAIN-SUFFIX,oxfordclinicalpsych.com
+  - DOMAIN-SUFFIX,sciencedirect.com
+  - DOMAIN-SUFFIX,sciencedirectassets.com
+  - DOMAIN-SUFFIX,tandfonline.com
+  - DOMAIN-SUFFIX,aacrjournals.org
+  - DOMAIN-SUFFIX,taylorfrancis.com
+  - DOMAIN-SUFFIX,oxfordlawtrove.com
+  - DOMAIN-SUFFIX,ac.ir
+  - DOMAIN-SUFFIX,edu.ir
+  - DOMAIN-SUFFIX,iranlms.ir
+  - DOMAIN-SUFFIX,jtt.ir
+  - DOMAIN-SUFFIX,sanjesh.org
+  - DOMAIN-SUFFIX,sharif.edu
+  - DOMAIN-SUFFIX,sharif.ir
+  - DOMAIN-SUFFIX,srttu.edu
+  - DOMAIN-SUFFIX,oxfordartonline.com
+  - DOMAIN-SUFFIX,clarivate.com
+  - DOMAIN-SUFFIX,webofknowledge.com
+  - DOMAIN-SUFFIX,webofscience.com
+  - DOMAIN-SUFFIX,newisiknowledge.com
+  - DOMAIN-SUFFIX,isiknowledge.com
+  - DOMAIN-SUFFIX,bookshome.info
+  - DOMAIN-SUFFIX,z-lib.org
+  - DOMAIN-SUFFIX,1lib.domains
+  - DOMAIN-SUFFIX,1lib.education
+  - DOMAIN-SUFFIX,1lib.eu
+  - DOMAIN-SUFFIX,1lib.limited
+  - DOMAIN-SUFFIX,1lib.pl
+  - DOMAIN-SUFFIX,1lib.sk
+  - DOMAIN-SUFFIX,1lib.to
+  - DOMAIN-SUFFIX,1lib.tw
+  - DOMAIN-SUFFIX,2lib.org
+  - DOMAIN-SUFFIX,3lib.net
+  - DOMAIN-SUFFIX,art1lib.com
+  - DOMAIN-SUFFIX,b-ok.africa
+  - DOMAIN-SUFFIX,booksc.org
+  - DOMAIN-SUFFIX,b-ok.cc
+  - DOMAIN-SUFFIX,b-ok.global
+  - DOMAIN-SUFFIX,b-ok.org
+  - DOMAIN-SUFFIX,book4you.org
+  - DOMAIN-SUFFIX,bookfi.net
+  - DOMAIN-SUFFIX,booksc.eu
+  - DOMAIN-SUFFIX,booksc.me
+  - DOMAIN-SUFFIX,b-ok.asia
+  - DOMAIN-SUFFIX,1lib.cz
+  - DOMAIN-SUFFIX,libsolutions.net
+  - DOMAIN-SUFFIX,bookshome.net
+  - DOMAIN-SUFFIX,bookshome.world
+  - DOMAIN-SUFFIX,de1lib.org
+  - DOMAIN-SUFFIX,zlibcdn2.com
+  - DOMAIN-SUFFIX,hk1lib.org
+  - DOMAIN-SUFFIX,libsolutions.app
+  - DOMAIN-SUFFIX,libsolutions.domains
+  - DOMAIN-SUFFIX,1lib.cloud
+  - DOMAIN-SUFFIX,ma1lib.org
+  - DOMAIN-SUFFIX,sg1lib.org
+  - DOMAIN-SUFFIX,singlelogin.app
+  - DOMAIN-SUFFIX,singlelogin.me
+  - DOMAIN-SUFFIX,singlelogin.re
+  - DOMAIN-SUFFIX,singlelogin.site
+  - DOMAIN-SUFFIX,z-lib.fm
+  - DOMAIN-SUFFIX,z-lib.gd
+  - DOMAIN-SUFFIX,z-lib.gl
+  - DOMAIN-SUFFIX,booksc.xyz
+  - DOMAIN-SUFFIX,z-library.sk
+  - DOMAIN-SUFFIX,z-library.se
+  - DOMAIN-SUFFIX,zlib.life
+  - DOMAIN-SUFFIX,zlibcdn.com
+  - DOMAIN-SUFFIX,oup.com
+  - DOMAIN-SUFFIX,oxfordpoliticstrove.com
+  - DOMAIN-SUFFIX,oxfordmedicine.com
+  - DOMAIN-SUFFIX,cambridgeschoolshakespeare.com
+  - DOMAIN-SUFFIX,cambridgedigital.net
+  - DOMAIN-SUFFIX,cambridgemaths.org
+  - DOMAIN-SUFFIX,universitypressscholarship.com
+  - DOMAIN-SUFFIX,ouplaw.com
+  - DOMAIN-SUFFIX,ukwhoswho.com
+  - DOMAIN-SUFFIX,imperialbusiness.school
+  - DOMAIN-SUFFIX,sipriyearbook.org
+  - DOMAIN-SUFFIX,oxfordwesternmusic.com
+  - DOMAIN-SUFFIX,oxfordfirstsource.com
+  - DOMAIN-SUFFIX,oxfordscholarlyeditions.com
+  - DOMAIN-SUFFIX,amamanualofstyle.com
+  - DOMAIN-SUFFIX,epigeum.com
+  - DOMAIN-SUFFIX,oxfordhandbooks.com
+  - DOMAIN-SUFFIX,omscr.com
+  - DOMAIN-SUFFIX,oxfordaasc.com
+  - DOMAIN-SUFFIX,veryshortintroductions.com
+  - DOMAIN-SUFFIX,oxfordscholarship.com
   - DOMAIN-SUFFIX,academic.eb.com
   - DOMAIN-SUFFIX,tandf.co.uk
-  - DOMAIN-SUFFIX,dlib.eastview.com
-  - DOMAIN-SUFFIX,dln1.ncdn.ec
-  - DOMAIN-SUFFIX,acaric.co.jp
-  - DOMAIN-SUFFIX,ncl.edu.tw
-  - DOMAIN-SUFFIX,nii.ac.jp
   - DOMAIN-SUFFIX,lawdata.com.tw
-  - DOMAIN-SUFFIX,infolinker.com.tw
-  - DOMAIN-SUFFIX,sci-hub.it.nf
-  - DOMAIN-SUFFIX,sci-hub.mksa.top
   - DOMAIN-SUFFIX,sci.hubg.org
-  - DOMAIN-SUFFIX,hanzhen.xmulib.org
+  - DOMAIN-SUFFIX,sci-hub.mksa.top
+  - DOMAIN-SUFFIX,sci-hub.it.nf
+  - DOMAIN-SUFFIX,nii.ac.jp
+  - DOMAIN-SUFFIX,ncl.edu.tw
   - DOMAIN-SUFFIX,icsd.fiz-karlsruhe.de
+  - DOMAIN-SUFFIX,infolinker.com.tw
+  - DOMAIN-SUFFIX,dln1.ncdn.ec
+  - DOMAIN-SUFFIX,hanzhen.xmulib.org
   - DOMAIN-SUFFIX,amdigital.co.uk
+  - DOMAIN-SUFFIX,dlib.eastview.com
+  - DOMAIN-SUFFIX,acaric.co.jp
   - DOMAIN-SUFFIX,jstage.jst.go.jp
