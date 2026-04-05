@@ -139,14 +139,14 @@ QX/
 
 ## 规则集目录有五种格式，yaml，list，mrs，json，srs，改后缀对应软件就行了
 
-## GEOSITE 域名样板 [目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/geosite)
+## GEOSITE 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/geo/geosite)
 ```
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geosite/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/cn.list
 ```
 
-## GEOIP 样板 [目录](https://github.com/SHICHUNHUI88/rules/tree/main/geo/geoip)
+## GEOIP 样板 [目录](https://github.com/bgpeer/rules/tree/main/geo/geoip)
 ```
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geoip/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/cn.list
 ```
 
 ---
@@ -164,12 +164,12 @@ https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geoip/cn.list
 
 **geosite**
 ```
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geosite
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite
 ```
 
 **geoip**
 ```
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geoip
+https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 ```
 
 > 说明：这是"目录链接"，Clash Mi 会按需下载其中的 `.mrs` 小文件，例如：
@@ -178,17 +178,17 @@ https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/geo/geoip
 
 ---
 
-## [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/SHICHUNHUI88/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
+## [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 
 ---
 
-## [可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/SHICHUNHUI88/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
+## [可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
 
 ---
 
-## [小火箭(Shadowrocket)懒人配置](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/SHICHUNHUI88/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
+## [小火箭(Shadowrocket)懒人配置](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
 ```
-https://cdn.gh-proxy.org/https://gist.githubusercontent.com/SHICHUNHUI88/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
+https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
 ```
 `小火箭配置自己没有测试过我不敢保证可用懂得可以自行修改`
 
@@ -198,22 +198,22 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/SHICHUNHUI88/b0400d5
 
 QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
 
-### geosite 域名样板 [目录](https://github.com/SHICHUNHUI88/rules/tree/main/QX/geosite)
+### geosite 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/QX/geosite)
 ```
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/QX/geosite/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geosite/cn.list
 ```
 
-### geoip 样板 [目录](https://github.com/SHICHUNHUI88/rules/tree/main/QX/geoip)
+### geoip 样板 [目录](https://github.com/bgpeer/rules/tree/main/QX/geoip)
 ```
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/QX/geoip/cn.list
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list
 ```
 
 ### 在 filter_remote 中引用
 
 ```ini
 [filter_remote]
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/QX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
-https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/QX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geosite/cn.list, tag=CN, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list, tag=CN-IP, force-policy=direct, update-interval=86400, opt-parser=false, enabled=true
 ```
 
 > 说明：文件内不含策略名，必须通过 `force-policy` 指定走哪个策略组，否则 QX 解析失败。将 `direct` 替换为你实际的策略组名称即可。
@@ -234,8 +234,6 @@ https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/QX/geoip/cn.list, tag=
 
 `raw.githubusercontent.com` 在国内可能无法直接访问，你可以自建 Cloudflare Worker 做代理转发。
 
-👉 [Cloudflare Worker 部署教程](https://github.com/SHICHUNHUI88/rules/blob/main/CF-Worker部署教程.md)
+👉 [Cloudflare Worker 部署教程](https://github.com/bgpeer/rules/blob/main/CF-Worker部署教程.md)
 
-部署完成后，将上述链接中的 `https://raw.githubusercontent.com/SHICHUNHUI88/rules/main/` 替换为 `https://你的域名/rules/` 即可。
-
-
+部署完成后，将上述链接中的 `https://raw.githubusercontent.com/bgpeer/rules/main/` 替换为 `https://你的域名/rules/` 即可。
