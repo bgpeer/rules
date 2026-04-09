@@ -1,16 +1,85 @@
 payload:
-  - DOMAIN,st-ok-pts.cdn-vk.ru
-  - DOMAIN,st-ok.cdn-vk.ru
-  - DOMAIN,fbcdn-a.akamaihd.net
   - DOMAIN,e122475.dscg.akamaiedge.net
   - DOMAIN,licdn.cn.cdn20.com
   - DOMAIN,linkedin.sc.omtrdc.net
-  - DOMAIN-SUFFIX,facebooklive.com
-  - DOMAIN-SUFFIX,facebyook.com
+  - DOMAIN,st-ok-pts.cdn-vk.ru
+  - DOMAIN,st-ok.cdn-vk.ru
+  - DOMAIN,fbcdn-a.akamaihd.net
+  - DOMAIN-SUFFIX,facebook.shop
+  - DOMAIN-SUFFIX,facebookpmdcenter.com
   - DOMAIN-SUFFIX,joinmastodon.org
   - DOMAIN-SUFFIX,mastodon.online
   - DOMAIN-SUFFIX,mastodon.social
   - DOMAIN-SUFFIX,pawoo.net
+  - DOMAIN-SUFFIX,bizographics.com
+  - DOMAIN-SUFFIX,licdn.com
+  - DOMAIN-SUFFIX,linkedin.at
+  - DOMAIN-SUFFIX,linkedin.com
+  - DOMAIN-SUFFIX,lnkd.in
+  - DOMAIN-SUFFIX,misskey.io
+  - DOMAIN-SUFFIX,misskeyusercontent.jp
+  - DOMAIN-SUFFIX,oekakiskey.com
+  - DOMAIN-SUFFIX,maniakey.homes
+  - DOMAIN-SUFFIX,misskey.gg
+  - DOMAIN-SUFFIX,trpger.us
+  - DOMAIN-SUFFIX,misskey-square.net
+  - DOMAIN-SUFFIX,mfmf.club
+  - DOMAIN-SUFFIX,sushi.ski
+  - DOMAIN-SUFFIX,nijimiss.moe
+  - DOMAIN-SUFFIX,gyutte.site
+  - DOMAIN-SUFFIX,buicha.social
+  - DOMAIN-SUFFIX,submarin.online
+  - DOMAIN-SUFFIX,misskey.stream
+  - DOMAIN-SUFFIX,misskey.art
+  - DOMAIN-SUFFIX,misskey.cloud
+  - DOMAIN-SUFFIX,misskey.design
+  - DOMAIN-SUFFIX,misskey.flowers
+  - DOMAIN-SUFFIX,9ineverse.com
+  - DOMAIN-SUFFIX,mixi.jp
+  - DOMAIN-SUFFIX,mixi.net
+  - DOMAIN-SUFFIX,threads.com
+  - DOMAIN-SUFFIX,mail.ru
+  - DOMAIN-SUFFIX,imgsmail.ru
+  - DOMAIN-SUFFIX,workplaceusecases.com
+  - DOMAIN-SUFFIX,workplace.com
+  - DOMAIN-SUFFIX,redkix.com
+  - DOMAIN-SUFFIX,facebookwork.com
+  - DOMAIN-SUFFIX,zuckerberg.net
+  - DOMAIN-SUFFIX,zuckerberg.com
+  - DOMAIN-SUFFIX,wwwmfacebook.com
+  - DOMAIN-SUFFIX,wwwfacebook.com
+  - DOMAIN-SUFFIX,wwwfacebok.com
+  - DOMAIN-SUFFIX,www-facebook.com
+  - DOMAIN-SUFFIX,worldhack.com
+  - DOMAIN-SUFFIX,whyfacebook.com
+  - DOMAIN-SUFFIX,viewpointsfromfacebook.com
+  - DOMAIN-SUFFIX,toplayerserver.com
+  - DOMAIN-SUFFIX,thefind.com
+  - DOMAIN-SUFFIX,threads.net
+  - DOMAIN-SUFFIX,twitter.jp
+  - DOMAIN-SUFFIX,x.com
+  - DOMAIN-SUFFIX,cms-twdigitalassets.com
+  - DOMAIN-SUFFIX,t.co
+  - DOMAIN-SUFFIX,tellapart.com
+  - DOMAIN-SUFFIX,tweetdeck.com
+  - DOMAIN-SUFFIX,twimg.com
+  - DOMAIN-SUFFIX,twitpic.com
+  - DOMAIN-SUFFIX,twitter.biz
+  - DOMAIN-SUFFIX,twittercommunity.com
+  - DOMAIN-SUFFIX,pscp.tv
+  - DOMAIN-SUFFIX,periscope.tv
+  - DOMAIN-SUFFIX,twitter.com
+  - DOMAIN-SUFFIX,twitterflightschool.com
+  - DOMAIN-SUFFIX,twitterinc.com
+  - DOMAIN-SUFFIX,twitteroauth.com
+  - DOMAIN-SUFFIX,twitterstat.us
+  - DOMAIN-SUFFIX,twtrdns.net
+  - DOMAIN-SUFFIX,twttr.com
+  - DOMAIN-SUFFIX,twttr.net
+  - DOMAIN-SUFFIX,twvid.com
+  - DOMAIN-SUFFIX,vine.co
+  - DOMAIN-SUFFIX,thefacebook.net
+  - DOMAIN-SUFFIX,thefacebook.com
   - DOMAIN-SUFFIX,bsky.app
   - DOMAIN-SUFFIX,bsky.network
   - DOMAIN-SUFFIX,bsky.social
@@ -86,33 +155,9 @@ payload:
   - DOMAIN-SUFFIX,onlineinstagram.com
   - DOMAIN-SUFFIX,web-instagram.net
   - DOMAIN-SUFFIX,wwwinstagram.com
-  - DOMAIN-SUFFIX,threads.com
-  - DOMAIN-SUFFIX,threads.net
   - DOMAIN-SUFFIX,ok.ru
   - DOMAIN-SUFFIX,okcdn.ru
   - DOMAIN-SUFFIX,mycdn.me
-  - DOMAIN-SUFFIX,twitter.jp
-  - DOMAIN-SUFFIX,x.com
-  - DOMAIN-SUFFIX,cms-twdigitalassets.com
-  - DOMAIN-SUFFIX,t.co
-  - DOMAIN-SUFFIX,tellapart.com
-  - DOMAIN-SUFFIX,tweetdeck.com
-  - DOMAIN-SUFFIX,twimg.com
-  - DOMAIN-SUFFIX,twitpic.com
-  - DOMAIN-SUFFIX,twitter.biz
-  - DOMAIN-SUFFIX,twittercommunity.com
-  - DOMAIN-SUFFIX,pscp.tv
-  - DOMAIN-SUFFIX,periscope.tv
-  - DOMAIN-SUFFIX,twitter.com
-  - DOMAIN-SUFFIX,twitterflightschool.com
-  - DOMAIN-SUFFIX,twitterinc.com
-  - DOMAIN-SUFFIX,twitteroauth.com
-  - DOMAIN-SUFFIX,twitterstat.us
-  - DOMAIN-SUFFIX,twtrdns.net
-  - DOMAIN-SUFFIX,twttr.com
-  - DOMAIN-SUFFIX,twttr.net
-  - DOMAIN-SUFFIX,twvid.com
-  - DOMAIN-SUFFIX,vine.co
   - DOMAIN-SUFFIX,cdn-vk.ru
   - DOMAIN-SUFFIX,mradx.net
   - DOMAIN-SUFFIX,mvk.com
@@ -153,7 +198,7 @@ payload:
   - DOMAIN-SUFFIX,accessfacebookfromschool.com
   - DOMAIN-SUFFIX,acebooik.com
   - DOMAIN-SUFFIX,acebook.com
-  - DOMAIN-SUFFIX,advancediddetection.com
+  - DOMAIN-SUFFIX,onlyfans.com
   - DOMAIN-SUFFIX,askfacebook.net
   - DOMAIN-SUFFIX,askfacebook.org
   - DOMAIN-SUFFIX,atdmt2.com
@@ -198,7 +243,7 @@ payload:
   - DOMAIN-SUFFIX,faceboak.com
   - DOMAIN-SUFFIX,facebock.com
   - DOMAIN-SUFFIX,facebocke.com
-  - DOMAIN-SUFFIX,onlyfans.com
+  - DOMAIN-SUFFIX,facebof.com
   - DOMAIN-SUFFIX,faceboik.com
   - DOMAIN-SUFFIX,facebok.com
   - DOMAIN-SUFFIX,facebokbook.com
@@ -250,9 +295,9 @@ payload:
   - DOMAIN-SUFFIX,facebook.in
   - DOMAIN-SUFFIX,fecebook.net
   - DOMAIN-SUFFIX,facebook.nl
-  - DOMAIN-SUFFIX,facebook.org
-  - DOMAIN-SUFFIX,facebook.se
-  - DOMAIN-SUFFIX,facebook.shop
+  - DOMAIN-SUFFIX,freefacebookads.net
+  - DOMAIN-SUFFIX,truthsocial.com
+  - DOMAIN-SUFFIX,advancediddetection.com
   - DOMAIN-SUFFIX,facebook.tv
   - DOMAIN-SUFFIX,facebook.us
   - DOMAIN-SUFFIX,facebook.wang
@@ -295,9 +340,9 @@ payload:
   - DOMAIN-SUFFIX,facebookhub.com
   - DOMAIN-SUFFIX,facebooki.com
   - DOMAIN-SUFFIX,facebookinc.com
-  - DOMAIN-SUFFIX,sportsfacebook.com
-  - DOMAIN-SUFFIX,truthsocial.com
-  - DOMAIN-SUFFIX,facebof.com
+  - DOMAIN-SUFFIX,facebookland.com
+  - DOMAIN-SUFFIX,facebooklikeexchange.com
+  - DOMAIN-SUFFIX,facebooklive.com
   - DOMAIN-SUFFIX,facebooklivestaging.net
   - DOMAIN-SUFFIX,facebooklivestaging.org
   - DOMAIN-SUFFIX,facebooklogin.com
@@ -322,7 +367,7 @@ payload:
   - DOMAIN-SUFFIX,facebookphonenumber.net
   - DOMAIN-SUFFIX,facebookphoto.com
   - DOMAIN-SUFFIX,facebookphotos.com
-  - DOMAIN-SUFFIX,facebookpmdcenter.com
+  - DOMAIN-SUFFIX,facebook.se
   - DOMAIN-SUFFIX,facebookpoke.net
   - DOMAIN-SUFFIX,facebookpoke.org
   - DOMAIN-SUFFIX,facebookpoker.info
@@ -367,7 +412,7 @@ payload:
   - DOMAIN-SUFFIX,facebuk.com
   - DOMAIN-SUFFIX,facebuok.com
   - DOMAIN-SUFFIX,facebvook.com
-  - DOMAIN-SUFFIX,facebooklikeexchange.com
+  - DOMAIN-SUFFIX,facebyook.com
   - DOMAIN-SUFFIX,facebzook.com
   - DOMAIN-SUFFIX,facecbgook.com
   - DOMAIN-SUFFIX,facecbook.com
@@ -476,7 +521,7 @@ payload:
   - DOMAIN-SUFFIX,freebs.com
   - DOMAIN-SUFFIX,freefacebook.com
   - DOMAIN-SUFFIX,freefacebook.net
-  - DOMAIN-SUFFIX,freefacebookads.net
+  - DOMAIN-SUFFIX,facebook.org
   - DOMAIN-SUFFIX,freefblikes.com
   - DOMAIN-SUFFIX,freindfeed.com
   - DOMAIN-SUFFIX,friendbook.info
@@ -521,79 +566,34 @@ payload:
   - DOMAIN-SUFFIX,reachtheworldonfacebook.com
   - DOMAIN-SUFFIX,rocksdb.org
   - DOMAIN-SUFFIX,shopfacebook.com
-  - DOMAIN-SUFFIX,facebookland.com
+  - DOMAIN-SUFFIX,sportsfacebook.com
   - DOMAIN-SUFFIX,sportstream.com
   - DOMAIN-SUFFIX,supportfacebook.com
   - DOMAIN-SUFFIX,terragraph.com
-  - DOMAIN-SUFFIX,thefacebook.com
-  - DOMAIN-SUFFIX,thefacebook.net
-  - DOMAIN-SUFFIX,thefind.com
-  - DOMAIN-SUFFIX,toplayerserver.com
-  - DOMAIN-SUFFIX,viewpointsfromfacebook.com
-  - DOMAIN-SUFFIX,whyfacebook.com
-  - DOMAIN-SUFFIX,worldhack.com
-  - DOMAIN-SUFFIX,www-facebook.com
-  - DOMAIN-SUFFIX,wwwfacebok.com
-  - DOMAIN-SUFFIX,wwwfacebook.com
-  - DOMAIN-SUFFIX,wwwmfacebook.com
-  - DOMAIN-SUFFIX,zuckerberg.com
-  - DOMAIN-SUFFIX,zuckerberg.net
-  - DOMAIN-SUFFIX,facebookwork.com
-  - DOMAIN-SUFFIX,redkix.com
-  - DOMAIN-SUFFIX,workplace.com
-  - DOMAIN-SUFFIX,workplaceusecases.com
-  - DOMAIN-SUFFIX,bizographics.com
-  - DOMAIN-SUFFIX,licdn.com
-  - DOMAIN-SUFFIX,linkedin.at
-  - DOMAIN-SUFFIX,linkedin.com
-  - DOMAIN-SUFFIX,lnkd.in
-  - DOMAIN-SUFFIX,imgsmail.ru
-  - DOMAIN-SUFFIX,mail.ru
-  - DOMAIN-SUFFIX,misskey.io
-  - DOMAIN-SUFFIX,misskeyusercontent.jp
-  - DOMAIN-SUFFIX,oekakiskey.com
-  - DOMAIN-SUFFIX,maniakey.homes
-  - DOMAIN-SUFFIX,misskey.gg
-  - DOMAIN-SUFFIX,trpger.us
-  - DOMAIN-SUFFIX,misskey-square.net
-  - DOMAIN-SUFFIX,mfmf.club
-  - DOMAIN-SUFFIX,sushi.ski
-  - DOMAIN-SUFFIX,nijimiss.moe
-  - DOMAIN-SUFFIX,gyutte.site
-  - DOMAIN-SUFFIX,buicha.social
-  - DOMAIN-SUFFIX,submarin.online
-  - DOMAIN-SUFFIX,misskey.stream
-  - DOMAIN-SUFFIX,misskey.art
-  - DOMAIN-SUFFIX,misskey.cloud
-  - DOMAIN-SUFFIX,misskey.design
-  - DOMAIN-SUFFIX,misskey.flowers
-  - DOMAIN-SUFFIX,9ineverse.com
-  - DOMAIN-SUFFIX,mixi.jp
-  - DOMAIN-SUFFIX,mixi.net
-  - DOMAIN-SUFFIX,labo.wovs.tk
-  - DOMAIN-SUFFIX,mk.shrimpia.network
-  - DOMAIN-SUFFIX,l-0005.dc-msedge.net
-  - DOMAIN-SUFFIX,misskey.noellabo.jp
-  - DOMAIN-SUFFIX,misskey.ranranhome.info
-  - DOMAIN-SUFFIX,misskey.always-we-need.games
-  - DOMAIN-SUFFIX,mof.kemomi.me
-  - DOMAIN-SUFFIX,misskey.yukineko.me
   - DOMAIN-SUFFIX,misskey.gamelore.fun
-  - DOMAIN-SUFFIX,l-0005.l-msedge.net
   - DOMAIN-SUFFIX,msk.kitazawa.me
-  - DOMAIN-SUFFIX,msk.ilnk.info
   - DOMAIN-SUFFIX,misskey.04.si
-  - DOMAIN-SUFFIX,mi.nakn.jp
-  - DOMAIN-SUFFIX,mi.mashiro.site
   - DOMAIN-SUFFIX,mi.kochudaho.me
-  - DOMAIN-SUFFIX,mk.yopo.work
+  - DOMAIN-SUFFIX,mi.mashiro.site
+  - DOMAIN-SUFFIX,mi.nakn.jp
+  - DOMAIN-SUFFIX,mof.kemomi.me
+  - DOMAIN-SUFFIX,l-0005.dc-msedge.net
+  - DOMAIN-SUFFIX,labo.wovs.tk
   - DOMAIN-SUFFIX,mixi.co.jp
+  - DOMAIN-SUFFIX,mk.shrimpia.network
+  - DOMAIN-SUFFIX,mk.yopo.work
+  - DOMAIN-SUFFIX,misskey.yukineko.me
+  - DOMAIN-SUFFIX,misskey.always-we-need.games
+  - DOMAIN-SUFFIX,misskey.ranranhome.info
+  - DOMAIN-SUFFIX,misskey.noellabo.jp
+  - DOMAIN-SUFFIX,msk.ilnk.info
+  - DOMAIN-SUFFIX,l-0005.l-msedge.net
   - DOMAIN-SUFFIX,twitter.map.fastly.net
+  - DOMAIN-SUFFIX,licdn.cn
+  - DOMAIN-SUFFIX,linkedin.cn
+  - DOMAIN-SUFFIX,ads-twitter.com
   - DOMAIN-SUFFIX,graph.instagram.com
   - DOMAIN-SUFFIX,graph-fallback.instagram.com
-  - DOMAIN-SUFFIX,ads-twitter.com
   - DOMAIN-SUFFIX,analytics.facebook.com
   - DOMAIN-SUFFIX,facebookads.com
   - DOMAIN-SUFFIX,pixel.facebook.com
-  - DOMAIN-SUFFIX,licdn.cn
-  - DOMAIN-SUFFIX,linkedin.cn

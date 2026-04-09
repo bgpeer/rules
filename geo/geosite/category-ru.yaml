@@ -1,4 +1,10 @@
 payload:
+  - DOMAIN,youla-web-static.mrgcdn.ru
+  - DOMAIN,st-ok-pts.cdn-vk.ru
+  - DOMAIN,st-ok.cdn-vk.ru
+  - DOMAIN,sberpro.vedomosti.ru
+  - DOMAIN,edu.tinkoff.ru
+  - DOMAIN,education.tbank.ru
   - DOMAIN,bilet.nspk.ru
   - DOMAIN,metro.spb.ru
   - DOMAIN,mos.transport.vtb.ru
@@ -6,12 +12,6 @@ payload:
   - DOMAIN,transport.mos.ru
   - DOMAIN,arenda.yandex.ru
   - DOMAIN,taxi.yandex.ru
-  - DOMAIN,sberpro.vedomosti.ru
-  - DOMAIN,edu.tinkoff.ru
-  - DOMAIN,education.tbank.ru
-  - DOMAIN,youla-web-static.mrgcdn.ru
-  - DOMAIN,st-ok-pts.cdn-vk.ru
-  - DOMAIN,st-ok.cdn-vk.ru
   - DOMAIN,adfox.yandex.ru
   - DOMAIN,adfstat.yandex.ru
   - DOMAIN,ads.yandex.com
@@ -44,8 +44,8 @@ payload:
   - DOMAIN,sentry.sberauto.com
   - DOMAIN,tracing-http.megamarket.tech
   - DOMAIN,visor.sberbank.ru
-  - DOMAIN-SUFFIX,psk
   - DOMAIN-SUFFIX,yandex
+  - DOMAIN-SUFFIX,psk
   - DOMAIN-SUFFIX,xn--p1ai
   - DOMAIN-SUFFIX,xn--p1acf
   - DOMAIN-SUFFIX,xn--d1acj3b
@@ -57,18 +57,67 @@ payload:
   - DOMAIN-SUFFIX,su
   - DOMAIN-SUFFIX,ru
   - DOMAIN-SUFFIX,moscow
+  - DOMAIN-SUFFIX,vk-portal.net
   - DOMAIN-SUFFIX,ngenix.net
   - DOMAIN-SUFFIX,t1.cloud
   - DOMAIN-SUFFIX,taxsee.com
   - DOMAIN-SUFFIX,yclients.com
   - DOMAIN-SUFFIX,ideco.dev
-  - DOMAIN-SUFFIX,emias.info
-  - DOMAIN-SUFFIX,medsi.com
-  - DOMAIN-SUFFIX,medsi.pro
-  - DOMAIN-SUFFIX,smartmed.pro
-  - DOMAIN-SUFFIX,avs.io
-  - DOMAIN-SUFFIX,aviasales.com
-  - DOMAIN-SUFFIX,mosmetro.tech
+  - DOMAIN-SUFFIX,dodois.com
+  - DOMAIN-SUFFIX,dodois.io
+  - DOMAIN-SUFFIX,dodopizza.com
+  - DOMAIN-SUFFIX,dodostatic.net
+  - DOMAIN-SUFFIX,evrasia.rest
+  - DOMAIN-SUFFIX,fix-price.com
+  - DOMAIN-SUFFIX,lenta.com
+  - DOMAIN-SUFFIX,lenta.tech
+  - DOMAIN-SUFFIX,uni.rest
+  - DOMAIN-SUFFIX,unirest.tech
+  - DOMAIN-SUFFIX,5post.market
+  - DOMAIN-SUFFIX,chizhik.club
+  - DOMAIN-SUFFIX,okolo.app
+  - DOMAIN-SUFFIX,perekrestok.com
+  - DOMAIN-SUFFIX,x5.ai
+  - DOMAIN-SUFFIX,x5.com
+  - DOMAIN-SUFFIX,x5.digital
+  - DOMAIN-SUFFIX,x5.group
+  - DOMAIN-SUFFIX,x5.media
+  - DOMAIN-SUFFIX,x5.team
+  - DOMAIN-SUFFIX,x5.tech
+  - DOMAIN-SUFFIX,x5static.net
+  - DOMAIN-SUFFIX,boosty.to
+  - DOMAIN-SUFFIX,donationalerts.com
+  - DOMAIN-SUFFIX,memealerts.com
+  - DOMAIN-SUFFIX,tamtam.chat
+  - DOMAIN-SUFFIX,telega.info
+  - DOMAIN-SUFFIX,telega.me
+  - DOMAIN-SUFFIX,youla.io
+  - DOMAIN-SUFFIX,mycdn.me
+  - DOMAIN-SUFFIX,mradx.net
+  - DOMAIN-SUFFIX,mvk.com
+  - DOMAIN-SUFFIX,userapi.com
+  - DOMAIN-SUFFIX,vk-apps.com
+  - DOMAIN-SUFFIX,vk-cdn.me
+  - DOMAIN-SUFFIX,vk-cdn.net
+  - DOMAIN-SUFFIX,zvuk.com
+  - DOMAIN-SUFFIX,vk.cc
+  - DOMAIN-SUFFIX,vk.com
+  - DOMAIN-SUFFIX,vk.company
+  - DOMAIN-SUFFIX,vk.design
+  - DOMAIN-SUFFIX,vk.link
+  - DOMAIN-SUFFIX,vk.me
+  - DOMAIN-SUFFIX,vk.team
+  - DOMAIN-SUFFIX,vkcache.com
+  - DOMAIN-SUFFIX,vkgo.app
+  - DOMAIN-SUFFIX,vklive.app
+  - DOMAIN-SUFFIX,vkmessenger.app
+  - DOMAIN-SUFFIX,vkmessenger.com
+  - DOMAIN-SUFFIX,vkuser.net
+  - DOMAIN-SUFFIX,vkuseraudio.com
+  - DOMAIN-SUFFIX,vkuseraudio.net
+  - DOMAIN-SUFFIX,vkuserlive.net
+  - DOMAIN-SUFFIX,vkuservideo.com
+  - DOMAIN-SUFFIX,vkuservideo.net
   - DOMAIN-SUFFIX,yandex.kz
   - DOMAIN-SUFFIX,clstorage.net
   - DOMAIN-SUFFIX,meteum.ai
@@ -115,14 +164,11 @@ payload:
   - DOMAIN-SUFFIX,yastat.net
   - DOMAIN-SUFFIX,yastatic.net
   - DOMAIN-SUFFIX,alfabank.st
-  - DOMAIN-SUFFIX,ozonusercontent.com
-  - DOMAIN-SUFFIX,ozonru.me
-  - DOMAIN-SUFFIX,ozon.tm
   - DOMAIN-SUFFIX,gazprombank.com
   - DOMAIN-SUFFIX,gazprombank.investments
-  - DOMAIN-SUFFIX,netmonet.co
+  - DOMAIN-SUFFIX,mosmetro.tech
+  - DOMAIN-SUFFIX,aviasales.com
   - DOMAIN-SUFFIX,dbo-dengi.online
-  - DOMAIN-SUFFIX,tips.tips
   - DOMAIN-SUFFIX,tochka-tech.com
   - DOMAIN-SUFFIX,tochka.com
   - DOMAIN-SUFFIX,bps-sberbank.by
@@ -132,9 +178,8 @@ payload:
   - DOMAIN-SUFFIX,megamarket.tech
   - DOMAIN-SUFFIX,sberauto.com
   - DOMAIN-SUFFIX,sbercloud.tech
-  - DOMAIN-SUFFIX,zvuk-b2b.com
-  - DOMAIN-SUFFIX,zvuk.com
-  - DOMAIN-SUFFIX,sber.pro
+  - DOMAIN-SUFFIX,tips.tips
+  - DOMAIN-SUFFIX,avito.st
   - DOMAIN-SUFFIX,2gis.cz
   - DOMAIN-SUFFIX,2gis.ae
   - DOMAIN-SUFFIX,2gis.az
@@ -152,13 +197,19 @@ payload:
   - DOMAIN-SUFFIX,tbank-online.com
   - DOMAIN-SUFFIX,tinkoff-group.com
   - DOMAIN-SUFFIX,unidraw.io
-  - DOMAIN-SUFFIX,ozon.kz
-  - DOMAIN-SUFFIX,ozon.com
-  - DOMAIN-SUFFIX,ozon.by
+  - DOMAIN-SUFFIX,avs.io
+  - DOMAIN-SUFFIX,netmonet.co
   - DOMAIN-SUFFIX,sistema-capital.com
   - DOMAIN-SUFFIX,moex.com
   - DOMAIN-SUFFIX,ru.net
-  - DOMAIN-SUFFIX,ru.com
+  - DOMAIN-SUFFIX,ozon.kz
+  - DOMAIN-SUFFIX,ozon.tm
+  - DOMAIN-SUFFIX,ozonru.me
+  - DOMAIN-SUFFIX,ozonusercontent.com
+  - DOMAIN-SUFFIX,ozon.by
+  - DOMAIN-SUFFIX,sber.pro
+  - DOMAIN-SUFFIX,ozon.com
+  - DOMAIN-SUFFIX,paywb.com
   - DOMAIN-SUFFIX,kinorium.com
   - DOMAIN-SUFFIX,24h.tv
   - DOMAIN-SUFFIX,beeline.tv
@@ -167,71 +218,20 @@ payload:
   - DOMAIN-SUFFIX,cdnvideohub.com
   - DOMAIN-SUFFIX,smotreshka.tv
   - DOMAIN-SUFFIX,restream-media.net
-  - DOMAIN-SUFFIX,avito.st
-  - DOMAIN-SUFFIX,dodois.com
-  - DOMAIN-SUFFIX,dodois.io
-  - DOMAIN-SUFFIX,dodopizza.com
-  - DOMAIN-SUFFIX,dodostatic.net
-  - DOMAIN-SUFFIX,evrasia.rest
-  - DOMAIN-SUFFIX,fix-price.com
-  - DOMAIN-SUFFIX,lenta.com
-  - DOMAIN-SUFFIX,lenta.tech
-  - DOMAIN-SUFFIX,uni.rest
-  - DOMAIN-SUFFIX,unirest.tech
-  - DOMAIN-SUFFIX,5post.market
-  - DOMAIN-SUFFIX,chizhik.club
-  - DOMAIN-SUFFIX,okolo.app
-  - DOMAIN-SUFFIX,perekrestok.com
-  - DOMAIN-SUFFIX,x5.ai
-  - DOMAIN-SUFFIX,x5.com
-  - DOMAIN-SUFFIX,x5.digital
-  - DOMAIN-SUFFIX,x5.group
-  - DOMAIN-SUFFIX,x5.media
-  - DOMAIN-SUFFIX,x5.team
-  - DOMAIN-SUFFIX,x5.tech
-  - DOMAIN-SUFFIX,x5static.net
-  - DOMAIN-SUFFIX,boosty.to
-  - DOMAIN-SUFFIX,donationalerts.com
-  - DOMAIN-SUFFIX,memealerts.com
-  - DOMAIN-SUFFIX,tamtam.chat
-  - DOMAIN-SUFFIX,telega.info
-  - DOMAIN-SUFFIX,telega.me
-  - DOMAIN-SUFFIX,youla.io
-  - DOMAIN-SUFFIX,mycdn.me
-  - DOMAIN-SUFFIX,mradx.net
-  - DOMAIN-SUFFIX,mvk.com
-  - DOMAIN-SUFFIX,userapi.com
-  - DOMAIN-SUFFIX,vk-apps.com
-  - DOMAIN-SUFFIX,vk-cdn.me
-  - DOMAIN-SUFFIX,vk-cdn.net
-  - DOMAIN-SUFFIX,vk-portal.net
-  - DOMAIN-SUFFIX,vk.cc
-  - DOMAIN-SUFFIX,vk.com
-  - DOMAIN-SUFFIX,vk.company
-  - DOMAIN-SUFFIX,vk.design
-  - DOMAIN-SUFFIX,vk.link
-  - DOMAIN-SUFFIX,vk.me
-  - DOMAIN-SUFFIX,vk.team
-  - DOMAIN-SUFFIX,vkcache.com
-  - DOMAIN-SUFFIX,vkgo.app
-  - DOMAIN-SUFFIX,vklive.app
-  - DOMAIN-SUFFIX,vkmessenger.app
-  - DOMAIN-SUFFIX,vkmessenger.com
-  - DOMAIN-SUFFIX,vkuser.net
-  - DOMAIN-SUFFIX,vkuseraudio.com
-  - DOMAIN-SUFFIX,vkuseraudio.net
-  - DOMAIN-SUFFIX,vkuserlive.net
-  - DOMAIN-SUFFIX,vkuservideo.com
-  - DOMAIN-SUFFIX,vkuservideo.net
-  - DOMAIN-SUFFIX,paywb.com
+  - DOMAIN-SUFFIX,ru.com
+  - DOMAIN-SUFFIX,emias.info
+  - DOMAIN-SUFFIX,zvuk-b2b.com
+  - DOMAIN-SUFFIX,medsi.com
+  - DOMAIN-SUFFIX,medsi.pro
+  - DOMAIN-SUFFIX,smartmed.pro
+  - DOMAIN-SUFFIX,ozon.com.by
+  - DOMAIN-SUFFIX,ozon.com.kz
   - DOMAIN-SUFFIX,2gis.com.cy
   - DOMAIN-SUFFIX,yandex.com.ua
   - DOMAIN-SUFFIX,yandex.co.il
   - DOMAIN-SUFFIX,yandex.com.ge
   - DOMAIN-SUFFIX,yandex.com.am
   - DOMAIN-SUFFIX,yandex.com.tr
-  - DOMAIN-SUFFIX,ozon.com.by
-  - DOMAIN-SUFFIX,ozon.com.kz
   - DOMAIN-SUFFIX,adfox.ru
   - DOMAIN-SUFFIX,admetrica.ru
   - DOMAIN-SUFFIX,ads.yandex
