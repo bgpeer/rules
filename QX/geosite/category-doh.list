@@ -9,15 +9,9 @@ HOST, dns.bebasid.com
 HOST, antivirus.bebasid.com
 HOST, internetsehat.bebasid.com
 HOST, dns.cfiec.net
-HOST, doh.opendns.com
-HOST, doh.familyshield.opendns.com
-HOST, doh.sandbox.opendns.com
 HOST, doh.cleanbrowsing.org
 HOST, one.one.one.one
 HOST, dns.cloudflare.com
-HOST, cloudflare-dns.com
-HOST, security.cloudflare-dns.com
-HOST, family.cloudflare-dns.com
 HOST, freedns.controld.com
 HOST, dns.decloudus.com
 HOST, futuredns.eu.org
@@ -56,8 +50,6 @@ HOST, base.dns.mullvad.net
 HOST, extended.dns.mullvad.net
 HOST, family.dns.mullvad.net
 HOST, all.dns.mullvad.net
-HOST, dns.nextdns.io
-HOST, anycast.dns.nextdns.io
 HOST, ada.openbld.net
 HOST, ric.openbld.net
 HOST, dns.quad9.net
@@ -122,3 +114,6 @@ HOST, kids.ns.nwps.fi
 HOST, frd4wvnobp.cloudflare-gateway.com
 HOST, dnsguard.pub
 HOST, doh.18bit.cn
+HOST-SUFFIX, opendns.com
+HOST-SUFFIX, cloudflare-dns.com
+HOST-SUFFIX, nextdns.io
