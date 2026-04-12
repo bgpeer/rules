@@ -1,7 +1,4 @@
 payload:
-  - DOMAIN,youla-web-static.mrgcdn.ru
-  - DOMAIN,st-ok-pts.cdn-vk.ru
-  - DOMAIN,st-ok.cdn-vk.ru
   - DOMAIN,bilet.nspk.ru
   - DOMAIN,metro.spb.ru
   - DOMAIN,mos.transport.vtb.ru
@@ -9,15 +6,111 @@ payload:
   - DOMAIN,transport.mos.ru
   - DOMAIN,arenda.yandex.ru
   - DOMAIN,taxi.yandex.ru
+  - DOMAIN,sberpro.vedomosti.ru
   - DOMAIN,edu.tinkoff.ru
   - DOMAIN,education.tbank.ru
-  - DOMAIN,sberpro.vedomosti.ru
-  - DOMAIN,clickstream.sberbank.ru
-  - DOMAIN,error-tracking.megamarket.tech
-  - DOMAIN,sentry.sberauto.com
-  - DOMAIN,tracing-http.megamarket.tech
-  - DOMAIN,visor.sberbank.ru
+  - DOMAIN,youla-web-static.mrgcdn.ru
+  - DOMAIN,st-ok-pts.cdn-vk.ru
+  - DOMAIN,st-ok.cdn-vk.ru
+  - DOMAIN,activation-v2.kaspersky.com
+  - DOMAIN,activation-v2.geo.kaspersky.com
+  - DOMAIN,activate.activation-v2.kaspersky.com
+  - DOMAIN,refresh-bkg.activation-v2.kaspersky.com
+  - DOMAIN,crl.kaspersky.com
+  - DOMAIN,dc1.ksn.kaspersky-labs.com
+  - DOMAIN,dc1-cert.ksn.kaspersky-labs.com
+  - DOMAIN,dc1-file.ksn.kaspersky-labs.com
+  - DOMAIN,dc1-pp.ksn.kaspersky-labs.com
+  - DOMAIN,dc1-st.ksn.kaspersky-labs.com
+  - DOMAIN,dnl-00.geo.kaspersky.com
+  - DOMAIN,dnl-01.geo.kaspersky.com
+  - DOMAIN,dnl-02.geo.kaspersky.com
+  - DOMAIN,dnl-03.geo.kaspersky.com
+  - DOMAIN,dnl-04.geo.kaspersky.com
+  - DOMAIN,dnl-05.geo.kaspersky.com
+  - DOMAIN,dnl-06.geo.kaspersky.com
+  - DOMAIN,dnl-07.geo.kaspersky.com
+  - DOMAIN,dnl-08.geo.kaspersky.com
+  - DOMAIN,dnl-09.geo.kaspersky.com
+  - DOMAIN,dnl-10.geo.kaspersky.com
+  - DOMAIN,dnl-11.geo.kaspersky.com
+  - DOMAIN,dnl-12.geo.kaspersky.com
+  - DOMAIN,dnl-13.geo.kaspersky.com
+  - DOMAIN,dnl-14.geo.kaspersky.com
+  - DOMAIN,dnl-15.geo.kaspersky.com
+  - DOMAIN,dnl-16.geo.kaspersky.com
+  - DOMAIN,dnl-17.geo.kaspersky.com
+  - DOMAIN,dnl-18.geo.kaspersky.com
+  - DOMAIN,dnl-19.geo.kaspersky.com
+  - DOMAIN,edge.geo.kaspersky.com
+  - DOMAIN,ksn-cinfo.geoksn.kaspersky.com
+  - DOMAIN,ksn-cinfo-geo.kaspersky-labs.com
+  - DOMAIN,ksn-crypto-info-geo.kaspersky-labs.com
+  - DOMAIN,ksn-crypto-kas-geo.kaspersky-labs.com
+  - DOMAIN,ksn-crypto-tcert-geo.kaspersky-labs.com
+  - DOMAIN,ksn-crypto-url-geo.kaspersky-labs.com
+  - DOMAIN,ksn-crypto-verdict-geo.kaspersky-labs.com
+  - DOMAIN,ksn-crypto-wifiplus.geoksn.kaspersky.com
+  - DOMAIN,ksn-crypto-wifiplus-geo.kaspersky-labs.com
+  - DOMAIN,ksn-dc1.geoksn.kaspersky.com
+  - DOMAIN,ksn-dc1-cert.geoksn.kaspersky.com
+  - DOMAIN,ksn-dc1-file.geoksn.kaspersky.com
+  - DOMAIN,ksn-file.geoksn.kaspersky.com
+  - DOMAIN,ksn-file-geo.kaspersky-labs.com
+  - DOMAIN,ksn-info.geoksn.kaspersky.com
+  - DOMAIN,ksn-info-geo.kaspersky-labs.com
+  - DOMAIN,ksn-kas.geoksn.kaspersky.com
+  - DOMAIN,ksn-mdr.geoksn.kaspersky.com
+  - DOMAIN,ksn-tcert.geoksn.kaspersky.com
+  - DOMAIN,ksn-tcert-geo.kaspersky-labs.com
+  - DOMAIN,ksn-url.geoksn.kaspersky.com
+  - DOMAIN,ksn-url-geo.kaspersky-labs.com
+  - DOMAIN,ksn-verdict.geoksn.kaspersky.com
+  - DOMAIN,ksn-verdict-geo.kaspersky-labs.com
+  - DOMAIN,mdr.ksn.kaspersky-labs.com
+  - DOMAIN,p00.upd.kaspersky.com
+  - DOMAIN,p01.upd.kaspersky.com
+  - DOMAIN,p02.upd.kaspersky.com
+  - DOMAIN,p03.upd.kaspersky.com
+  - DOMAIN,p04.upd.kaspersky.com
+  - DOMAIN,p05.upd.kaspersky.com
+  - DOMAIN,p06.upd.kaspersky.com
+  - DOMAIN,p07.upd.kaspersky.com
+  - DOMAIN,p08.upd.kaspersky.com
+  - DOMAIN,p09.upd.kaspersky.com
+  - DOMAIN,p10.upd.kaspersky.com
+  - DOMAIN,p11.upd.kaspersky.com
+  - DOMAIN,p12.upd.kaspersky.com
+  - DOMAIN,p13.upd.kaspersky.com
+  - DOMAIN,p14.upd.kaspersky.com
+  - DOMAIN,p15.upd.kaspersky.com
+  - DOMAIN,p16.upd.kaspersky.com
+  - DOMAIN,p17.upd.kaspersky.com
+  - DOMAIN,p18.upd.kaspersky.com
+  - DOMAIN,p19.upd.kaspersky.com
+  - DOMAIN,s00.upd.kaspersky.com
+  - DOMAIN,s01.upd.kaspersky.com
+  - DOMAIN,s02.upd.kaspersky.com
+  - DOMAIN,s03.upd.kaspersky.com
+  - DOMAIN,s04.upd.kaspersky.com
+  - DOMAIN,s05.upd.kaspersky.com
+  - DOMAIN,s06.upd.kaspersky.com
+  - DOMAIN,s07.upd.kaspersky.com
+  - DOMAIN,s08.upd.kaspersky.com
+  - DOMAIN,s09.upd.kaspersky.com
+  - DOMAIN,s10.upd.kaspersky.com
+  - DOMAIN,s11.upd.kaspersky.com
+  - DOMAIN,s12.upd.kaspersky.com
+  - DOMAIN,s13.upd.kaspersky.com
+  - DOMAIN,s14.upd.kaspersky.com
+  - DOMAIN,s15.upd.kaspersky.com
+  - DOMAIN,s16.upd.kaspersky.com
+  - DOMAIN,s17.upd.kaspersky.com
+  - DOMAIN,s18.upd.kaspersky.com
+  - DOMAIN,s19.upd.kaspersky.com
+  - DOMAIN-SUFFIX,moscow
   - DOMAIN-SUFFIX,psk
+  - DOMAIN-SUFFIX,yandex
   - DOMAIN-SUFFIX,xn--p1ai
   - DOMAIN-SUFFIX,xn--p1acf
   - DOMAIN-SUFFIX,xn--d1acj3b
@@ -28,100 +121,61 @@ payload:
   - DOMAIN-SUFFIX,tatar
   - DOMAIN-SUFFIX,su
   - DOMAIN-SUFFIX,ru
-  - DOMAIN-SUFFIX,moscow
-  - DOMAIN-SUFFIX,yandex
+  - DOMAIN-SUFFIX,avito.st
+  - DOMAIN-SUFFIX,megafon.com
+  - DOMAIN-SUFFIX,apptrackpets.com
   - DOMAIN-SUFFIX,ngenix.net
+  - DOMAIN-SUFFIX,srv-hub.org
   - DOMAIN-SUFFIX,t1.cloud
   - DOMAIN-SUFFIX,taxsee.com
   - DOMAIN-SUFFIX,yclients.com
+  - DOMAIN-SUFFIX,comss.club
+  - DOMAIN-SUFFIX,comss.info
+  - DOMAIN-SUFFIX,comss.me
+  - DOMAIN-SUFFIX,comss.net
+  - DOMAIN-SUFFIX,comss.news
+  - DOMAIN-SUFFIX,comss.one
+  - DOMAIN-SUFFIX,comss.online
+  - DOMAIN-SUFFIX,comss.org
+  - DOMAIN-SUFFIX,eligens.cl
+  - DOMAIN-SUFFIX,eligens.io
+  - DOMAIN-SUFFIX,genetic-technologies.am
+  - DOMAIN-SUFFIX,genotek.am
+  - DOMAIN-SUFFIX,genotek.health
   - DOMAIN-SUFFIX,ideco.dev
-  - DOMAIN-SUFFIX,kinorium.com
-  - DOMAIN-SUFFIX,24h.tv
-  - DOMAIN-SUFFIX,beeline.tv
-  - DOMAIN-SUFFIX,premier.one
-  - DOMAIN-SUFFIX,trbcdn.net
-  - DOMAIN-SUFFIX,cdnvideohub.com
-  - DOMAIN-SUFFIX,smotreshka.tv
-  - DOMAIN-SUFFIX,okko.sport
-  - DOMAIN-SUFFIX,okko.tv
-  - DOMAIN-SUFFIX,restream-media.net
-  - DOMAIN-SUFFIX,dodois.com
-  - DOMAIN-SUFFIX,dodois.io
-  - DOMAIN-SUFFIX,dodopizza.com
-  - DOMAIN-SUFFIX,evrasia.rest
-  - DOMAIN-SUFFIX,fix-price.com
-  - DOMAIN-SUFFIX,lenta.com
-  - DOMAIN-SUFFIX,lenta.tech
-  - DOMAIN-SUFFIX,uni.rest
-  - DOMAIN-SUFFIX,unirest.tech
-  - DOMAIN-SUFFIX,5post.market
-  - DOMAIN-SUFFIX,chizhik.club
-  - DOMAIN-SUFFIX,okolo.app
-  - DOMAIN-SUFFIX,perekrestok.com
-  - DOMAIN-SUFFIX,x5.ai
-  - DOMAIN-SUFFIX,x5.com
-  - DOMAIN-SUFFIX,x5.digital
-  - DOMAIN-SUFFIX,x5.group
-  - DOMAIN-SUFFIX,x5.media
-  - DOMAIN-SUFFIX,x5.team
-  - DOMAIN-SUFFIX,x5.tech
-  - DOMAIN-SUFFIX,x5static.net
-  - DOMAIN-SUFFIX,boosty.to
-  - DOMAIN-SUFFIX,donationalerts.com
-  - DOMAIN-SUFFIX,memealerts.com
-  - DOMAIN-SUFFIX,tamtam.chat
-  - DOMAIN-SUFFIX,telega.info
-  - DOMAIN-SUFFIX,telega.me
-  - DOMAIN-SUFFIX,youla.io
-  - DOMAIN-SUFFIX,mycdn.me
-  - DOMAIN-SUFFIX,mradx.net
-  - DOMAIN-SUFFIX,mvk.com
-  - DOMAIN-SUFFIX,userapi.com
-  - DOMAIN-SUFFIX,vk-apps.com
-  - DOMAIN-SUFFIX,vk-cdn.me
-  - DOMAIN-SUFFIX,vk-cdn.net
-  - DOMAIN-SUFFIX,vk-portal.net
-  - DOMAIN-SUFFIX,vk.cc
-  - DOMAIN-SUFFIX,vk.com
-  - DOMAIN-SUFFIX,vk.company
-  - DOMAIN-SUFFIX,vk.design
-  - DOMAIN-SUFFIX,vk.link
-  - DOMAIN-SUFFIX,vk.me
-  - DOMAIN-SUFFIX,vk.team
-  - DOMAIN-SUFFIX,vkcache.com
-  - DOMAIN-SUFFIX,vkgo.app
-  - DOMAIN-SUFFIX,vklive.app
-  - DOMAIN-SUFFIX,vkmessenger.app
-  - DOMAIN-SUFFIX,vkmessenger.com
-  - DOMAIN-SUFFIX,vkuser.net
-  - DOMAIN-SUFFIX,vkuseraudio.com
-  - DOMAIN-SUFFIX,vkuseraudio.net
-  - DOMAIN-SUFFIX,vkuserlive.net
-  - DOMAIN-SUFFIX,vkuservideo.com
-  - DOMAIN-SUFFIX,vkuservideo.net
-  - DOMAIN-SUFFIX,ozon.kz
-  - DOMAIN-SUFFIX,ozon.tm
-  - DOMAIN-SUFFIX,ozonru.me
-  - DOMAIN-SUFFIX,ozonusercontent.com
-  - DOMAIN-SUFFIX,ozon.by
-  - DOMAIN-SUFFIX,avito.st
-  - DOMAIN-SUFFIX,ozon.com
-  - DOMAIN-SUFFIX,paywb.com
-  - DOMAIN-SUFFIX,emias.info
-  - DOMAIN-SUFFIX,tips.tips
-  - DOMAIN-SUFFIX,dodostatic.net
-  - DOMAIN-SUFFIX,medsi.com
-  - DOMAIN-SUFFIX,medsi.pro
-  - DOMAIN-SUFFIX,smartmed.pro
-  - DOMAIN-SUFFIX,ru.com
-  - DOMAIN-SUFFIX,ru.net
   - DOMAIN-SUFFIX,avs.io
   - DOMAIN-SUFFIX,aviasales.com
   - DOMAIN-SUFFIX,mosmetro.tech
-  - DOMAIN-SUFFIX,netmonet.co
+  - DOMAIN-SUFFIX,kaspersky.kz
+  - DOMAIN-SUFFIX,kaspersky.gr
+  - DOMAIN-SUFFIX,kaspersky.se
+  - DOMAIN-SUFFIX,kaspersky.rs
+  - DOMAIN-SUFFIX,kaspersky.ro
+  - DOMAIN-SUFFIX,kaspersky.pt
+  - DOMAIN-SUFFIX,kaspersky.nl
+  - DOMAIN-SUFFIX,kaspersky.my
+  - DOMAIN-SUFFIX,kaspersky.ma
+  - DOMAIN-SUFFIX,kaspersky-labs.com
+  - DOMAIN-SUFFIX,kaspersky.it
+  - DOMAIN-SUFFIX,kaspersky.cz
+  - DOMAIN-SUFFIX,kaspersky.fr
+  - DOMAIN-SUFFIX,kaspersky.fi
+  - DOMAIN-SUFFIX,kaspersky.es
+  - DOMAIN-SUFFIX,kaspersky.be
+  - DOMAIN-SUFFIX,kaspersky.ca
+  - DOMAIN-SUFFIX,kaspersky.com
+  - DOMAIN-SUFFIX,kaspersky.de
+  - DOMAIN-SUFFIX,kaspersky.dk
+  - DOMAIN-SUFFIX,kaspersky.dz
   - DOMAIN-SUFFIX,yandex.lv
   - DOMAIN-SUFFIX,yandex.aero
   - DOMAIN-SUFFIX,cabconnect.org
+  - DOMAIN-SUFFIX,vkuservideo.net
+  - DOMAIN-SUFFIX,vkuservideo.com
+  - DOMAIN-SUFFIX,vkuserlive.net
+  - DOMAIN-SUFFIX,vkuseraudio.net
+  - DOMAIN-SUFFIX,vkuseraudio.com
+  - DOMAIN-SUFFIX,vkuser.net
   - DOMAIN-SUFFIX,clstorage.net
   - DOMAIN-SUFFIX,driveawaytaxi.org
   - DOMAIN-SUFFIX,gogettaxi.org
@@ -187,32 +241,95 @@ payload:
   - DOMAIN-SUFFIX,yango.fi
   - DOMAIN-SUFFIX,yango.qa
   - DOMAIN-SUFFIX,yango.taxi
-  - DOMAIN-SUFFIX,moex.com
+  - DOMAIN-SUFFIX,vkmessenger.com
+  - DOMAIN-SUFFIX,vkmessenger.app
+  - DOMAIN-SUFFIX,vklive.app
+  - DOMAIN-SUFFIX,vkgo.app
+  - DOMAIN-SUFFIX,vkcache.com
+  - DOMAIN-SUFFIX,vk.team
+  - DOMAIN-SUFFIX,vk.me
+  - DOMAIN-SUFFIX,vk.link
+  - DOMAIN-SUFFIX,vk.design
+  - DOMAIN-SUFFIX,vk.company
+  - DOMAIN-SUFFIX,carrot-mail.io
+  - DOMAIN-SUFFIX,carrotquest-mail.io
+  - DOMAIN-SUFFIX,carrotquest.app
+  - DOMAIN-SUFFIX,carrotquest.io
+  - DOMAIN-SUFFIX,carrottrack.app
+  - DOMAIN-SUFFIX,dashly.app
+  - DOMAIN-SUFFIX,dashly.help
+  - DOMAIN-SUFFIX,dashly.io
+  - DOMAIN-SUFFIX,dashly.me
+  - DOMAIN-SUFFIX,dashlytrack.app
+  - DOMAIN-SUFFIX,mail-carrotquest.io
+  - DOMAIN-SUFFIX,pushgrow.io
+  - DOMAIN-SUFFIX,chipcore.com
+  - DOMAIN-SUFFIX,haicomdc.com
+  - DOMAIN-SUFFIX,selcdn.net
+  - DOMAIN-SUFFIX,selectel.academy
+  - DOMAIN-SUFFIX,selectel.blog
+  - DOMAIN-SUFFIX,selectel.com
+  - DOMAIN-SUFFIX,selectel.dev
+  - DOMAIN-SUFFIX,selectel.info
+  - DOMAIN-SUFFIX,selectel.io
+  - DOMAIN-SUFFIX,selectel.live
+  - DOMAIN-SUFFIX,servercore.com
+  - DOMAIN-SUFFIX,servercore.live
+  - DOMAIN-SUFFIX,slc.tl
+  - DOMAIN-SUFFIX,tehnodom.com
+  - DOMAIN-SUFFIX,vscale.blog
+  - DOMAIN-SUFFIX,vscale.io
+  - DOMAIN-SUFFIX,tips.tips
+  - DOMAIN-SUFFIX,netmonet.co
   - DOMAIN-SUFFIX,sistema-capital.com
-  - DOMAIN-SUFFIX,alfabank.st
+  - DOMAIN-SUFFIX,moex.com
+  - DOMAIN-SUFFIX,dodois.com
+  - DOMAIN-SUFFIX,dodois.io
+  - DOMAIN-SUFFIX,dodopizza.com
+  - DOMAIN-SUFFIX,dodostatic.net
+  - DOMAIN-SUFFIX,evrasia.rest
+  - DOMAIN-SUFFIX,fix-price.com
+  - DOMAIN-SUFFIX,lenta.com
+  - DOMAIN-SUFFIX,lenta.tech
+  - DOMAIN-SUFFIX,uni.rest
+  - DOMAIN-SUFFIX,unirest.tech
+  - DOMAIN-SUFFIX,5post.market
+  - DOMAIN-SUFFIX,chizhik.club
+  - DOMAIN-SUFFIX,okolo.app
+  - DOMAIN-SUFFIX,perekrestok.com
+  - DOMAIN-SUFFIX,x5.ai
+  - DOMAIN-SUFFIX,x5.com
+  - DOMAIN-SUFFIX,x5.digital
+  - DOMAIN-SUFFIX,x5.group
+  - DOMAIN-SUFFIX,x5.media
+  - DOMAIN-SUFFIX,x5.team
+  - DOMAIN-SUFFIX,x5.tech
+  - DOMAIN-SUFFIX,x5static.net
   - DOMAIN-SUFFIX,gazprombank.com
   - DOMAIN-SUFFIX,gazprombank.investments
   - DOMAIN-SUFFIX,dbo-dengi.online
   - DOMAIN-SUFFIX,tochka-tech.com
   - DOMAIN-SUFFIX,tochka.com
-  - DOMAIN-SUFFIX,tbank-online.com
-  - DOMAIN-SUFFIX,tinkoff-group.com
-  - DOMAIN-SUFFIX,unidraw.io
-  - DOMAIN-SUFFIX,zvuk-b2b.com
   - DOMAIN-SUFFIX,sberbank.com
-  - DOMAIN-SUFFIX,zvuk.com
-  - DOMAIN-SUFFIX,sber.pro
+  - DOMAIN-SUFFIX,cloudru.cn
+  - DOMAIN-SUFFIX,eaptechka.online
   - DOMAIN-SUFFIX,giga.chat
   - DOMAIN-SUFFIX,megamarket.tech
+  - DOMAIN-SUFFIX,neon.click
   - DOMAIN-SUFFIX,sberauto.com
   - DOMAIN-SUFFIX,sbercloud.tech
+  - DOMAIN-SUFFIX,bps-sberbank.by
   - DOMAIN-SUFFIX,sber-bank.by
+  - DOMAIN-SUFFIX,zvuk-b2b.com
+  - DOMAIN-SUFFIX,zvuk.com
+  - DOMAIN-SUFFIX,sber.pro
   - DOMAIN-SUFFIX,jivo.chat
   - DOMAIN-SUFFIX,jivochat.com
   - DOMAIN-SUFFIX,jivochat.de
   - DOMAIN-SUFFIX,jivochat.es
   - DOMAIN-SUFFIX,jivochat.ng
   - DOMAIN-SUFFIX,jivosite.com
+  - DOMAIN-SUFFIX,okko.tv
   - DOMAIN-SUFFIX,2gis.cz
   - DOMAIN-SUFFIX,2gis.ae
   - DOMAIN-SUFFIX,2gis.az
@@ -225,22 +342,163 @@ payload:
   - DOMAIN-SUFFIX,2gis.kg
   - DOMAIN-SUFFIX,2gis.tj
   - DOMAIN-SUFFIX,2gis.ua
-  - DOMAIN-SUFFIX,bps-sberbank.by
+  - DOMAIN-SUFFIX,okko.sport
+  - DOMAIN-SUFFIX,prodcontest.com
+  - DOMAIN-SUFFIX,4epenaxa.com
+  - DOMAIN-SUFFIX,atomyze.tech
+  - DOMAIN-SUFFIX,alfabank.st
+  - DOMAIN-SUFFIX,etna.ai
+  - DOMAIN-SUFFIX,jump.taxi
+  - DOMAIN-SUFFIX,codeseason.by
+  - DOMAIN-SUFFIX,koshelek.app
+  - DOMAIN-SUFFIX,rosbank-credit.com
+  - DOMAIN-SUFFIX,safeliner.tech
+  - DOMAIN-SUFFIX,sage-observability.tech
+  - DOMAIN-SUFFIX,t-bank.by
+  - DOMAIN-SUFFIX,t-finance.group
+  - DOMAIN-SUFFIX,ru.net
+  - DOMAIN-SUFFIX,t-tech.dev
+  - DOMAIN-SUFFIX,t-tech.team
+  - DOMAIN-SUFFIX,gerronfox.com
+  - DOMAIN-SUFFIX,tamtam.chat
+  - DOMAIN-SUFFIX,tbank-online.com
+  - DOMAIN-SUFFIX,tdev.by
+  - DOMAIN-SUFFIX,tinkoff-group.com
+  - DOMAIN-SUFFIX,tinkoff.ai
+  - DOMAIN-SUFFIX,tinkoffmobile.com
+  - DOMAIN-SUFFIX,unidraw.io
+  - DOMAIN-SUFFIX,xn--90aifd0az.shop
+  - DOMAIN-SUFFIX,xn--b1aechhj6bof8g5a.site
+  - DOMAIN-SUFFIX,xn--d1abkf4ap.fun
+  - DOMAIN-SUFFIX,xn--h1ao.site
+  - DOMAIN-SUFFIX,vk.com
+  - DOMAIN-SUFFIX,vk.cc
+  - DOMAIN-SUFFIX,vk-portal.net
+  - DOMAIN-SUFFIX,vk-cdn.net
+  - DOMAIN-SUFFIX,vk-cdn.me
+  - DOMAIN-SUFFIX,botmechanic.io
+  - DOMAIN-SUFFIX,mindbox.cloud
+  - DOMAIN-SUFFIX,mindbox.group
+  - DOMAIN-SUFFIX,mindbox.site
+  - DOMAIN-SUFFIX,mindbox.so
+  - DOMAIN-SUFFIX,popmechanic.io
+  - DOMAIN-SUFFIX,t.finance
+  - DOMAIN-SUFFIX,ozon.travel
+  - DOMAIN-SUFFIX,ozoncamp.pro
+  - DOMAIN-SUFFIX,ozon.tech
+  - DOMAIN-SUFFIX,ozon.by
+  - DOMAIN-SUFFIX,ozon.com
+  - DOMAIN-SUFFIX,xn--e1adjldbbpv.xn--90ais
+  - DOMAIN-SUFFIX,ozon.dev
+  - DOMAIN-SUFFIX,ozon.express
+  - DOMAIN-SUFFIX,ozon.kz
+  - DOMAIN-SUFFIX,ozon.li
+  - DOMAIN-SUFFIX,rocketozon.by
+  - DOMAIN-SUFFIX,ozoncom.by
+  - DOMAIN-SUFFIX,ozonglobalevents.com
+  - DOMAIN-SUFFIX,ozonpartners.by
+  - DOMAIN-SUFFIX,ozonrocet.by
+  - DOMAIN-SUFFIX,ozonroket.by
+  - DOMAIN-SUFFIX,ozonru.com
+  - DOMAIN-SUFFIX,ozonru.eu
+  - DOMAIN-SUFFIX,ozonru.me
+  - DOMAIN-SUFFIX,ozon.tm
+  - DOMAIN-SUFFIX,ozonusercontent.com
+  - DOMAIN-SUFFIX,mp.world
+  - DOMAIN-SUFFIX,paywb.com
+  - DOMAIN-SUFFIX,rwbautomation.tech
+  - DOMAIN-SUFFIX,warehouse.domains
+  - DOMAIN-SUFFIX,wb.am
+  - DOMAIN-SUFFIX,wb.kg
+  - DOMAIN-SUFFIX,wb.kz
+  - DOMAIN-SUFFIX,wbautomation.tech
+  - DOMAIN-SUFFIX,wbr.by
+  - DOMAIN-SUFFIX,wbstatic.net
+  - DOMAIN-SUFFIX,wbwh.tech
+  - DOMAIN-SUFFIX,wibes.com
+  - DOMAIN-SUFFIX,wildberries.am
+  - DOMAIN-SUFFIX,wildberries.by
+  - DOMAIN-SUFFIX,wildberries.es
+  - DOMAIN-SUFFIX,wildberries.eu
+  - DOMAIN-SUFFIX,wildberries.ge
+  - DOMAIN-SUFFIX,wildberries.kg
+  - DOMAIN-SUFFIX,wildberries.kz
+  - DOMAIN-SUFFIX,wildberries.lt
+  - DOMAIN-SUFFIX,wildberries.tj
+  - DOMAIN-SUFFIX,wildberries.tm
+  - DOMAIN-SUFFIX,wildberries.uz
+  - DOMAIN-SUFFIX,xn--90ab.com
+  - DOMAIN-SUFFIX,bonbon.am
+  - DOMAIN-SUFFIX,caronino.com
+  - DOMAIN-SUFFIX,foralice.online
+  - DOMAIN-SUFFIX,jieshang.online
+  - DOMAIN-SUFFIX,jieshang.shop
+  - DOMAIN-SUFFIX,jieshang.store
+  - DOMAIN-SUFFIX,lizageld.de
+  - DOMAIN-SUFFIX,megapolis.llc
+  - DOMAIN-SUFFIX,nuwjon.online
+  - DOMAIN-SUFFIX,nuwjon.shop
+  - DOMAIN-SUFFIX,nuwjon.store
+  - DOMAIN-SUFFIX,papertole.by
+  - DOMAIN-SUFFIX,tigrenok.toys
+  - DOMAIN-SUFFIX,vk-apps.com
+  - DOMAIN-SUFFIX,userapi.com
+  - DOMAIN-SUFFIX,mvk.com
+  - DOMAIN-SUFFIX,mradx.net
+  - DOMAIN-SUFFIX,kinorium.com
+  - DOMAIN-SUFFIX,24h.tv
+  - DOMAIN-SUFFIX,beeline.tv
+  - DOMAIN-SUFFIX,premier.one
+  - DOMAIN-SUFFIX,trbcdn.net
+  - DOMAIN-SUFFIX,cdnvideohub.com
+  - DOMAIN-SUFFIX,smotreshka.tv
+  - DOMAIN-SUFFIX,restream-media.net
+  - DOMAIN-SUFFIX,ru.com
+  - DOMAIN-SUFFIX,emias.info
+  - DOMAIN-SUFFIX,medsi.com
+  - DOMAIN-SUFFIX,medsi.pro
+  - DOMAIN-SUFFIX,smartmed.pro
+  - DOMAIN-SUFFIX,mycdn.me
+  - DOMAIN-SUFFIX,boosty.to
+  - DOMAIN-SUFFIX,donationalerts.com
+  - DOMAIN-SUFFIX,memealerts.com
+  - DOMAIN-SUFFIX,telega.info
+  - DOMAIN-SUFFIX,telega.me
+  - DOMAIN-SUFFIX,youla.io
+  - DOMAIN-SUFFIX,kaspersky.co.uk
+  - DOMAIN-SUFFIX,wildberries.co.il
+  - DOMAIN-SUFFIX,eligens.com.br
   - DOMAIN-SUFFIX,ozon.com.kz
-  - DOMAIN-SUFFIX,jivochat.com.co
-  - DOMAIN-SUFFIX,jivochat.com.br
+  - DOMAIN-SUFFIX,ozonru.co.il
+  - DOMAIN-SUFFIX,ozon.com.by
+  - DOMAIN-SUFFIX,yandex.com.ge
   - DOMAIN-SUFFIX,jivochat.co.za
-  - DOMAIN-SUFFIX,jivochat.co.in
-  - DOMAIN-SUFFIX,yandex.com.am
+  - DOMAIN-SUFFIX,jivochat.com.br
   - DOMAIN-SUFFIX,2gis.com.cy
   - DOMAIN-SUFFIX,jivochat.com.tr
+  - DOMAIN-SUFFIX,jivochat.com.co
   - DOMAIN-SUFFIX,jivochat.com.pe
-  - DOMAIN-SUFFIX,yandex.com.ge
-  - DOMAIN-SUFFIX,yandex.com.tr
-  - DOMAIN-SUFFIX,yandex.com.ua
-  - DOMAIN-SUFFIX,yango.co.il
-  - DOMAIN-SUFFIX,ozon.com.by
   - DOMAIN-SUFFIX,yandex.co.il
+  - DOMAIN-SUFFIX,yandex.com.am
+  - DOMAIN-SUFFIX,jivochat.co.in
+  - DOMAIN-SUFFIX,ewisdom.us.kg
+  - DOMAIN-SUFFIX,yango.co.il
+  - DOMAIN-SUFFIX,yandex.com.ua
+  - DOMAIN-SUFFIX,kaspersky.com.tw
+  - DOMAIN-SUFFIX,kaspersky.com.vn
+  - DOMAIN-SUFFIX,yandex.com.tr
+  - DOMAIN-SUFFIX,kaspersky.co.th
+  - DOMAIN-SUFFIX,kaspersky.co.kr
+  - DOMAIN-SUFFIX,kaspersky.co.jp
+  - DOMAIN-SUFFIX,kaspersky.com.au
+  - DOMAIN-SUFFIX,kaspersky.com.pl
+  - DOMAIN-SUFFIX,kaspersky.com.tr
+  - DOMAIN-SUFFIX,kaspersky.com.br
+  - DOMAIN-SUFFIX,kaspersky.com.hk
+  - DOMAIN-SUFFIX,kaspersky.co.za
+  - DOMAIN-SUFFIX,kaspersky.co.in
+  - DOMAIN-SUFFIX,roistat.com
+  - DOMAIN-SUFFIX,kaspersky.com.cn
   - DOMAIN-SUFFIX,adfox.ru
   - DOMAIN-SUFFIX,admetrica.ru
   - DOMAIN-SUFFIX,ads.yandex
@@ -283,5 +541,66 @@ payload:
   - DOMAIN-SUFFIX,pixel.yandex.net
   - DOMAIN-SUFFIX,report.ap.yandex-net.ru
   - DOMAIN-SUFFIX,yabs.yandex.ru
-  - DOMAIN-SUFFIX,cloudru.cn
+  - DOMAIN-SUFFIX,api-eu.carrotquest.app
+  - DOMAIN-SUFFIX,api-eu.carrotquest.io
+  - DOMAIN-SUFFIX,api-ru.carrotquest.app
+  - DOMAIN-SUFFIX,api-ru.carrotquest.io
+  - DOMAIN-SUFFIX,api-secure.carrotquest.app
+  - DOMAIN-SUFFIX,api-secure.carrottrack.app
+  - DOMAIN-SUFFIX,api.carrotquest.app
+  - DOMAIN-SUFFIX,api.carrotquest.io
+  - DOMAIN-SUFFIX,api.carrottrack.app
+  - DOMAIN-SUFFIX,api.dashly.app
+  - DOMAIN-SUFFIX,api.dashlytrack.app
+  - DOMAIN-SUFFIX,ads.x5media.ru
+  - DOMAIN-SUFFIX,sentry.x5.ru
   - DOMAIN-SUFFIX,sbermarketing.ru
+  - DOMAIN-SUFFIX,ads.neon.click
+  - DOMAIN-SUFFIX,clickstream.sberbank.ru
+  - DOMAIN-SUFFIX,error-tracking.megamarket.tech
+  - DOMAIN-SUFFIX,sentry.sberauto.com
+  - DOMAIN-SUFFIX,tracing-http.megamarket.tech
+  - DOMAIN-SUFFIX,visor.sberbank.ru
+  - DOMAIN-SUFFIX,api-js.mindbox.ru
+  - DOMAIN-SUFFIX,api-ru.mindbox.cloud
+  - DOMAIN-SUFFIX,api-staging.mindbox.ru
+  - DOMAIN-SUFFIX,api.mindbox.cloud
+  - DOMAIN-SUFFIX,api.mindbox.ru
+  - DOMAIN-SUFFIX,api.e.mindbox.ru
+  - DOMAIN-SUFFIX,api.s.mindbox.ru
+  - DOMAIN-SUFFIX,sentry.mindbox.ru
+  - DOMAIN-SUFFIX,sentry.popmechanic.ru
+  - DOMAIN-SUFFIX,ad.ozone.ru
+  - DOMAIN-SUFFIX,adv.ozon.ru
+  - DOMAIN-SUFFIX,agency-adv.ozon.ru
+  - DOMAIN-SUFFIX,analytics-adv.ozon.ru
+  - DOMAIN-SUFFIX,beginners-adv.ozon.ru
+  - DOMAIN-SUFFIX,google-analytics-suite.ozon.ru
+  - DOMAIN-SUFFIX,loyalnost-adv.ozon.ru
+  - DOMAIN-SUFFIX,new-adv.ozon.ru
+  - DOMAIN-SUFFIX,prodvizhenie-adv.ozon.ru
+  - DOMAIN-SUFFIX,questions-adv.ozon.ru
+  - DOMAIN-SUFFIX,sentry.ozon.ru
+  - DOMAIN-SUFFIX,tracking.ocourier.ru
+  - DOMAIN-SUFFIX,tracking.ozon-dostavka.ru
+  - DOMAIN-SUFFIX,tracking.ozon.ru
+  - DOMAIN-SUFFIX,xapi.ozon.by
+  - DOMAIN-SUFFIX,xapi.ozon.com
+  - DOMAIN-SUFFIX,xapi.ozon.com.by
+  - DOMAIN-SUFFIX,xapi.ozon.com.kz
+  - DOMAIN-SUFFIX,xapi.ozon.kz
+  - DOMAIN-SUFFIX,xapi.ozon.ru
+  - DOMAIN-SUFFIX,xapi.ozonru.me
+  - DOMAIN-SUFFIX,ads-gate.wildberries.ru
+  - DOMAIN-SUFFIX,ads-media.wildberries.ru
+  - DOMAIN-SUFFIX,ads.wildberries.ru
+  - DOMAIN-SUFFIX,advert-api.wb.ru
+  - DOMAIN-SUFFIX,advert-api-sandbox.wb.ru
+  - DOMAIN-SUFFIX,advert-media-api.wb.ru
+  - DOMAIN-SUFFIX,advert-api.wildberries.ru
+  - DOMAIN-SUFFIX,advert-api-sandbox.wildberries.ru
+  - DOMAIN-SUFFIX,advert-media-api.wildberries.ru
+  - DOMAIN-SUFFIX,analytics-stage.wildberries.ru
+  - DOMAIN-SUFFIX,analytics.wildberries.ru
+  - DOMAIN-SUFFIX,sentry.wb.ru
+  - DOMAIN-SUFFIX,web-analytics.wildberries.ru
