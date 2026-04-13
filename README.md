@@ -41,15 +41,15 @@
 
 ```yaml
 payload:
-  - DOMAIN-SUFFIX,example.com
   - DOMAIN,api.example.com
+  - DOMAIN-SUFFIX,example.com
   - DOMAIN-KEYWORD,example
-  - DOMAIN-REGEX,(?i)(^|\.)example\.com$
   - DOMAIN-WILDCARD,*.example.com
   - IP-CIDR,1.1.1.0/24
   - IP-CIDR6,2606:4700::/32
   - IP-ASN,13335
   - PROCESS-NAME,com.example.app
+  - DOMAIN-REGEX,(?i)(^|\.)example\.com$
   - PROCESS-NAME-REGEX,(?i)^com\.example\..*$
 ```
 
