@@ -2,12 +2,19 @@ payload:
   - DOMAIN,sberpro.vedomosti.ru
   - DOMAIN,edu.tinkoff.ru
   - DOMAIN,education.tbank.ru
-  - DOMAIN-SUFFIX,cardsmobile.ru
-  - DOMAIN-SUFFIX,rshb.ru
+  - DOMAIN-SUFFIX,rusfinancebank.ru
+  - DOMAIN-SUFFIX,it-piknik.ru
+  - DOMAIN-SUFFIX,alfadirect.ru
+  - DOMAIN-SUFFIX,xn----8sbkfzespdwig.xn--p1ai
+  - DOMAIN-SUFFIX,tinkoff-edu.ru
+  - DOMAIN-SUFFIX,bcs.ru
+  - DOMAIN-SUFFIX,bcs-bank.ru
+  - DOMAIN-SUFFIX,broker.ru
   - DOMAIN-SUFFIX,gazprombank.com
   - DOMAIN-SUFFIX,gazprombank.investments
   - DOMAIN-SUFFIX,gazprombank.ru
   - DOMAIN-SUFFIX,gpb.ru
+  - DOMAIN-SUFFIX,mkb.ru
   - DOMAIN-SUFFIX,dbo-dengi.online
   - DOMAIN-SUFFIX,mtsdengi.ru
   - DOMAIN-SUFFIX,payment.ru
@@ -15,38 +22,29 @@ payload:
   - DOMAIN-SUFFIX,psb.ru
   - DOMAIN-SUFFIX,psbank.ru
   - DOMAIN-SUFFIX,abr.ru
-  - DOMAIN-SUFFIX,cdn-tinkoff.ru
+  - DOMAIN-SUFFIX,rshb.ru
   - DOMAIN-SUFFIX,tochka-tech.com
-  - DOMAIN-SUFFIX,tochka.com
+  - DOMAIN-SUFFIX,prodcontest.com
   - DOMAIN-SUFFIX,pochtabank.ru
   - DOMAIN-SUFFIX,vtb.ru
   - DOMAIN-SUFFIX,spasibosberbank.ru
-  - DOMAIN-SUFFIX,21-school.ru
+  - DOMAIN-SUFFIX,citydrive.ru
   - DOMAIN-SUFFIX,sber.ru
   - DOMAIN-SUFFIX,sberbank.com
-  - DOMAIN-SUFFIX,sbertroika.ru
-  - DOMAIN-SUFFIX,spasibosb.ru
-  - DOMAIN-SUFFIX,afisha.ru
-  - DOMAIN-SUFFIX,citydrive.ru
-  - DOMAIN-SUFFIX,cloud.ru
-  - DOMAIN-SUFFIX,cloudru.cn
-  - DOMAIN-SUFFIX,eaptechka.online
-  - DOMAIN-SUFFIX,eapteka.ru
-  - DOMAIN-SUFFIX,giga.chat
+  - DOMAIN-SUFFIX,sberbank.ru
+  - DOMAIN-SUFFIX,sbrf.ru
   - DOMAIN-SUFFIX,id.ru
-  - DOMAIN-SUFFIX,kuper.ru
   - DOMAIN-SUFFIX,megamarket.ru
   - DOMAIN-SUFFIX,megamarket.tech
-  - DOMAIN-SUFFIX,neon.click
-  - DOMAIN-SUFFIX,otello.ru
-  - DOMAIN-SUFFIX,samokat.ru
   - DOMAIN-SUFFIX,sberauto.com
   - DOMAIN-SUFFIX,sberbank-insurance.ru
-  - DOMAIN-SUFFIX,sbercloud.ru
+  - DOMAIN-SUFFIX,2gis.ua
   - DOMAIN-SUFFIX,sbercloud.tech
   - DOMAIN-SUFFIX,sberdevices.ru
   - DOMAIN-SUFFIX,sberdisk.ru
+  - DOMAIN-SUFFIX,sberfactoring.ru
   - DOMAIN-SUFFIX,sberindex.ru
+  - DOMAIN-SUFFIX,sberbankaktivno.ru
   - DOMAIN-SUFFIX,sberbankins.ru
   - DOMAIN-SUFFIX,sberhealth.ru
   - DOMAIN-SUFFIX,sberleasing.ru
@@ -54,22 +52,53 @@ payload:
   - DOMAIN-SUFFIX,sbermegamarket.ru
   - DOMAIN-SUFFIX,sbermobile.ru
   - DOMAIN-SUFFIX,sberpb.ru
-  - DOMAIN-SUFFIX,bps-sberbank.by
-  - DOMAIN-SUFFIX,sber-bank.by
-  - DOMAIN-SUFFIX,sberbank.ru
-  - DOMAIN-SUFFIX,zvuk-b2b.com
-  - DOMAIN-SUFFIX,zvuk.com
-  - DOMAIN-SUFFIX,sber.pro
+  - DOMAIN-SUFFIX,sbertroika.ru
+  - DOMAIN-SUFFIX,afisha.ru
+  - DOMAIN-SUFFIX,2gis.tj
+  - DOMAIN-SUFFIX,cloud.ru
+  - DOMAIN-SUFFIX,cloudru.cn
+  - DOMAIN-SUFFIX,eaptechka.online
+  - DOMAIN-SUFFIX,eapteka.ru
+  - DOMAIN-SUFFIX,21-school.ru
+  - DOMAIN-SUFFIX,kuper.ru
+  - DOMAIN-SUFFIX,restnproducts.ru
+  - DOMAIN-SUFFIX,samokat.ru
+  - DOMAIN-SUFFIX,giga.chat
+  - DOMAIN-SUFFIX,gitverse.ru
   - DOMAIN-SUFFIX,jivo.chat
   - DOMAIN-SUFFIX,jivo.ru
+  - DOMAIN-SUFFIX,2gis.kg
   - DOMAIN-SUFFIX,jivochat.com
+  - DOMAIN-SUFFIX,2gis.kz
+  - DOMAIN-SUFFIX,sber-bank.by
+  - DOMAIN-SUFFIX,sbercloud.ru
+  - DOMAIN-SUFFIX,2gis.ru
+  - DOMAIN-SUFFIX,2gis.ge
   - DOMAIN-SUFFIX,jivochat.de
   - DOMAIN-SUFFIX,jivochat.es
   - DOMAIN-SUFFIX,jivochat.ng
   - DOMAIN-SUFFIX,jivochat.ru
   - DOMAIN-SUFFIX,jivosite.com
-  - DOMAIN-SUFFIX,okko.tv
   - DOMAIN-SUFFIX,jivosite.ru
+  - DOMAIN-SUFFIX,payecom.ru
+  - DOMAIN-SUFFIX,platiecom.ru
+  - DOMAIN-SUFFIX,otello.ru
+  - DOMAIN-SUFFIX,sber.pro
+  - DOMAIN-SUFFIX,cplsb.ru
+  - DOMAIN-SUFFIX,sberspasibo.ru
+  - DOMAIN-SUFFIX,spasibo.digital
+  - DOMAIN-SUFFIX,spasibo.market
+  - DOMAIN-SUFFIX,spasibobonus.ru
+  - DOMAIN-SUFFIX,spasibosb.ru
+  - DOMAIN-SUFFIX,bps-sberbank.by
+  - DOMAIN-SUFFIX,accesspoint.uz
+  - DOMAIN-SUFFIX,getsynapse.io
+  - DOMAIN-SUFFIX,sbertech.ru
+  - DOMAIN-SUFFIX,zvuk-b2b.com
+  - DOMAIN-SUFFIX,zvuk.com
+  - DOMAIN-SUFFIX,playfamily.ru
+  - DOMAIN-SUFFIX,okko.sport
+  - DOMAIN-SUFFIX,okko.tv
   - DOMAIN-SUFFIX,2gis.cz
   - DOMAIN-SUFFIX,2gis.ae
   - DOMAIN-SUFFIX,2gis.az
@@ -77,21 +106,18 @@ payload:
   - DOMAIN-SUFFIX,2gis.com
   - DOMAIN-SUFFIX,2gis.uz
   - DOMAIN-SUFFIX,2gis.am
-  - DOMAIN-SUFFIX,2gis.ge
-  - DOMAIN-SUFFIX,2gis.ru
-  - DOMAIN-SUFFIX,2gis.kz
-  - DOMAIN-SUFFIX,2gis.kg
-  - DOMAIN-SUFFIX,2gis.tj
-  - DOMAIN-SUFFIX,2gis.ua
-  - DOMAIN-SUFFIX,okko.sport
-  - DOMAIN-SUFFIX,playfamily.ru
-  - DOMAIN-SUFFIX,xn----7sbhmncai5a0arm7c1e.xn--p1ai
-  - DOMAIN-SUFFIX,xn----8sbkfzespdwig.xn--p1ai
+  - DOMAIN-SUFFIX,cu.ru
+  - DOMAIN-SUFFIX,centraluniversity.ru
+  - DOMAIN-SUFFIX,xn--h1ao.site
+  - DOMAIN-SUFFIX,xn--d1abkf4ap.fun
+  - DOMAIN-SUFFIX,xn--b1aechhj6bof8g5a.site
+  - DOMAIN-SUFFIX,xn--90aifd0az.shop
+  - DOMAIN-SUFFIX,tochka.com
+  - DOMAIN-SUFFIX,alfabank.st
+  - DOMAIN-SUFFIX,myapelsin.ru
   - DOMAIN-SUFFIX,xn----8sbwjbxyd.xn--p1ai
   - DOMAIN-SUFFIX,xn--90aifd0azb.xn--p1acf
   - DOMAIN-SUFFIX,2w.ru
-  - DOMAIN-SUFFIX,tinkoff-edu.ru
-  - DOMAIN-SUFFIX,prodcontest.com
   - DOMAIN-SUFFIX,4c.ru
   - DOMAIN-SUFFIX,4epenaxa.com
   - DOMAIN-SUFFIX,atomyze.ru
@@ -100,9 +126,9 @@ payload:
   - DOMAIN-SUFFIX,bankline.ru
   - DOMAIN-SUFFIX,booking-tec.ru
   - DOMAIN-SUFFIX,capitalt.ru
-  - DOMAIN-SUFFIX,rusfinancebank.ru
-  - DOMAIN-SUFFIX,alfabank.st
-  - DOMAIN-SUFFIX,karmahelp.ru
+  - DOMAIN-SUFFIX,cardsmobile.ru
+  - DOMAIN-SUFFIX,cdn-tinkoff.ru
+  - DOMAIN-SUFFIX,codeseason.by
   - DOMAIN-SUFFIX,custody.ru
   - DOMAIN-SUFFIX,data-tscbank.ru
   - DOMAIN-SUFFIX,deltacredit.ru
@@ -116,12 +142,12 @@ payload:
   - DOMAIN-SUFFIX,gosdolgi.ru
   - DOMAIN-SUFFIX,it-katok.ru
   - DOMAIN-SUFFIX,it-picnic.ru
-  - DOMAIN-SUFFIX,it-piknik.ru
+  - DOMAIN-SUFFIX,xn----7sbhmncai5a0arm7c1e.xn--p1ai
   - DOMAIN-SUFFIX,jfn.su
   - DOMAIN-SUFFIX,jira-tcsbank.ru
   - DOMAIN-SUFFIX,jump.taxi
   - DOMAIN-SUFFIX,jumpwork.ru
-  - DOMAIN-SUFFIX,codeseason.by
+  - DOMAIN-SUFFIX,karmahelp.ru
   - DOMAIN-SUFFIX,karta-banka-rf.ru
   - DOMAIN-SUFFIX,koshelek.app
   - DOMAIN-SUFFIX,lifestyle-tec.ru
@@ -147,6 +173,7 @@ payload:
   - DOMAIN-SUFFIX,sgcheck.ru
   - DOMAIN-SUFFIX,t-access.ru
   - DOMAIN-SUFFIX,t-bank-app.ru
+  - DOMAIN-SUFFIX,t-bank-app.su
   - DOMAIN-SUFFIX,t-bank.by
   - DOMAIN-SUFFIX,t-calls.ru
   - DOMAIN-SUFFIX,t-capital-funds.ru
@@ -188,23 +215,20 @@ payload:
   - DOMAIN-SUFFIX,tpension.ru
   - DOMAIN-SUFFIX,travel-tec.ru
   - DOMAIN-SUFFIX,unidraw.io
-  - DOMAIN-SUFFIX,xn--90aifd0az.shop
-  - DOMAIN-SUFFIX,xn--b1aechhj6bof8g5a.site
-  - DOMAIN-SUFFIX,xn--d1abkf4ap.fun
-  - DOMAIN-SUFFIX,xn--h1ao.site
-  - DOMAIN-SUFFIX,centraluniversity.ru
-  - DOMAIN-SUFFIX,cu.ru
-  - DOMAIN-SUFFIX,jivochat.com.pe
   - DOMAIN-SUFFIX,jivochat.com.co
+  - DOMAIN-SUFFIX,jivochat.com.br
+  - DOMAIN-SUFFIX,jivochat.co.in
+  - DOMAIN-SUFFIX,jivochat.co.za
+  - DOMAIN-SUFFIX,jivochat.com.pe
   - DOMAIN-SUFFIX,jivochat.com.tr
   - DOMAIN-SUFFIX,2gis.com.cy
-  - DOMAIN-SUFFIX,jivochat.com.br
-  - DOMAIN-SUFFIX,jivochat.co.za
-  - DOMAIN-SUFFIX,jivochat.co.in
+  - DOMAIN-SUFFIX,alfabank.oavdo.amc
+  - DOMAIN-SUFFIX,neon.click
   - DOMAIN-SUFFIX,sbermarketing.ru
-  - DOMAIN-SUFFIX,ads.neon.click
+  - DOMAIN-SUFFIX,ads.sber.ru
   - DOMAIN-SUFFIX,clickstream.sberbank.ru
   - DOMAIN-SUFFIX,error-tracking.megamarket.tech
+  - DOMAIN-SUFFIX,metrics.21-school.ru
   - DOMAIN-SUFFIX,sentry.sberauto.com
   - DOMAIN-SUFFIX,tracing-http.megamarket.tech
   - DOMAIN-SUFFIX,visor.sberbank.ru
