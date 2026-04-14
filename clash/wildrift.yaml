@@ -1,60 +1,64 @@
 payload:
-  # ==== 🎮 Wildrift/ 游戏核心服务 ====
+  # ==== [登录与鉴权] (关键：解决登录转圈) ====
+  - DOMAIN-SUFFIX,riotgames.com
+  - DOMAIN-SUFFIX,riot.com
+  - DOMAIN-SUFFIX,rgpub.io
+  - DOMAIN-SUFFIX,rdatasrv.net
+  - DOMAIN-SUFFIX,auth.riotgames.com
+  - DOMAIN-SUFFIX,account.riotgames.com
+  - DOMAIN-SUFFIX,api.riotgames.com
+  - DOMAIN-SUFFIX,entitlements.auth.riotgames.com
+  - DOMAIN-SUFFIX,clientconfig.rpg.riotgames.com
+  # 地区边缘节点 (不同区域登录加速)
+  - DOMAIN-SUFFIX,edge.rms.si.riotgames.com
+  - DOMAIN-SUFFIX,riot-geo.pas.si.riotgames.com
+
+  # ==== [游戏内服务] (商城、好友、语音) ====
+  - DOMAIN-SUFFIX,pvp.net
+  - DOMAIN-SUFFIX,vivox.com
+  - DOMAIN-SUFFIX,chat.si.riotgames.com
+  - DOMAIN-SUFFIX,playerpreferences.riotgames.com
+  - DOMAIN-SUFFIX,anticheat.riotgames.com
+
+  # ==== [资源下载与更新] (CDN) ====
+  - DOMAIN-SUFFIX,riotcdn.net
+  - DOMAIN-SUFFIX,riotcdn.com
+  - DOMAIN-SUFFIX,l3cdn.riotgames.com
+  - DOMAIN-SUFFIX,wr-assets.riotcdn.net
+  # 外部加速节点
+  - DOMAIN-SUFFIX,riotgamespatcher-a.akamaized.net
+  - DOMAIN-SUFFIX,riotgames.zendesk.com
+
+  # ==== [精准 IP 段] ====
+  - IP-CIDR,104.160.128.0/17,no-resolve
+  - IP-CIDR,162.249.72.0/21,no-resolve
+  - IP-CIDR,192.64.168.0/21,no-resolve
+  - IP-CIDR,172.65.192.0/18,no-resolve
+  - IP-CIDR,15.177.0.0/18,no-resolve
+  - IP-CIDR,151.106.246.0/23,no-resolve
+  - IP-CIDR,151.106.248.0/22,no-resolve
+  - IP-CIDR,151.106.252.0/22,no-resolve
+  - IP-CIDR,43.229.64.0/22,no-resolve
+  - IP-CIDR,103.219.128.0/22,no-resolve
+  - IP-CIDR,103.240.224.0/22,no-resolve
+  # ==== [ASN 网络段] (运营商级直连/加速) ====
+  - IP-ASN,6507,no-resolve
+  - IP-ASN,38118,no-resolve
+  - IP-ASN,62830,no-resolve
+  # ==== [核心进程] ====
   - PROCESS-NAME,com.riotgames.league.wildrift
   - PROCESS-NAME,com.riotgames.league.wildrift.android
   - PROCESS-NAME,com.riotgames.league.teamfighttactics
   - PROCESS-NAME,RiotClientServices.exe
   - PROCESS-NAME,LeagueClientUx.exe
   - PROCESS-NAME,LeagueClient.exe
-  # ==== 🌐 核心域名 (Riot & LOL) ====
-  - DOMAIN-SUFFIX,riotgames.com
-  - DOMAIN-SUFFIX,riot.com
-  - DOMAIN-SUFFIX,pvp.net
-  - DOMAIN-SUFFIX,leagueoflegends.com
-  - DOMAIN-SUFFIX,playvalorant.com
-  - DOMAIN-SUFFIX,myqcloud.com
-  # ==== 🎧 语音系统 (Vivox - 没它没语音) ====
-  - DOMAIN-SUFFIX,vivox.com
-  - DOMAIN-SUFFIX,vxe1.vivox.com
-  - DOMAIN-SUFFIX,vxg1.vivox.com
-  # ==== 🛠️ API / 登录 / 防作弊 ====
-  - DOMAIN-SUFFIX,account.riotgames.com
-  - DOMAIN-SUFFIX,auth.riotgames.com
-  - DOMAIN-SUFFIX,api.riotgames.com
-  - DOMAIN-SUFFIX,riot-client.riotgames.com
-  - DOMAIN-SUFFIX,clientconfig.rpg.riotgames.com
-  - DOMAIN-SUFFIX,anticheat.riotgames.com
-  - DOMAIN-SUFFIX,playerpreferences.riotgames.com
-  # ==== 📦 游戏补丁 / CDN ====
-  - DOMAIN-SUFFIX,riotcdn.net
-  - DOMAIN-SUFFIX,wr-assets.riotcdn.net
-  - DOMAIN-SUFFIX,l3cdn.riotgames.com
-  - DOMAIN-SUFFIX,riotgamespatcher-a.akamaized.net
-  # ==== 🔑 关键词与 ASN (最强优化) ====
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
+
+  # ==== [正则兜底] (最稳妥方案) ====
   - DOMAIN-KEYWORD,riot
   - DOMAIN-KEYWORD,valorant
-  - DOMAIN-KEYWORD,glz
-  - IP-ASN,6507
-  # ==== 📌 精准 IP 段 (保留核心) ====
-  - IP-CIDR,104.160.128.0/17,no-resolve
-  - IP-CIDR,172.65.192.0/18,no-resolve
-  - IP-CIDR,15.177.0.0/18,no-resolve
-
-  # ✅ 进程正则兜底（Android 包名变体）
-  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.teamfighttactics(\..+)?$
-  # ✅ Riot 官方域名正则兜底（不误伤）
-  - DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)riot\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
-  - DOMAIN-REGEX,(?i)(^|\.)leagueoflegends\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)playvalorant\.com$
-  # ✅ Wild Rift 常见 glz 动态服务兜底
   - DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
-  # ✅ Vivox 语音节点兜底（vxg/vxe 会变）
-  - DOMAIN-REGEX,(?i)(^|\.)vivox\.com$
   - DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
-  # ✅ Riot CDN 资源兜底
-  - DOMAIN-REGEX,(?i)(^|\.)riotcdn\.net$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
+
