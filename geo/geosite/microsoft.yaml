@@ -71,11 +71,12 @@ payload:
   - DOMAIN-SUFFIX,office
   - DOMAIN-SUFFIX,skype
   - DOMAIN-SUFFIX,windows
+  - DOMAIN-SUFFIX,xbox
   - DOMAIN-SUFFIX,bing
   - DOMAIN-SUFFIX,azure
-  - DOMAIN-SUFFIX,xbox
-  - DOMAIN-SUFFIX,winhec.net
-  - DOMAIN-SUFFIX,mymicrosoft.com
+  - DOMAIN-SUFFIX,winhec.com
+  - DOMAIN-SUFFIX,msudalosti.com
+  - DOMAIN-SUFFIX,microsoft.cat
   - DOMAIN-SUFFIX,microsoft.ch
   - DOMAIN-SUFFIX,microsoft.cl
   - DOMAIN-SUFFIX,microsoft.com
@@ -233,8 +234,8 @@ payload:
   - DOMAIN-SUFFIX,msidentity.com
   - DOMAIN-SUFFIX,msocdn.com
   - DOMAIN-SUFFIX,msturing.org
-  - DOMAIN-SUFFIX,msudalosti.com
-  - DOMAIN-SUFFIX,msocsp.com
+  - DOMAIN-SUFFIX,onedrive.org
+  - DOMAIN-SUFFIX,mymicrosoft.com
   - DOMAIN-SUFFIX,nextechafrica.net
   - DOMAIN-SUFFIX,nxta.org
   - DOMAIN-SUFFIX,o365weve-dev.com
@@ -283,8 +284,8 @@ payload:
   - DOMAIN-SUFFIX,sysinternals.com
   - DOMAIN-SUFFIX,t-msedge.net
   - DOMAIN-SUFFIX,tailwindtraders.com
-  - DOMAIN-SUFFIX,techhub.ms
-  - DOMAIN-SUFFIX,microsoftnews.net
+  - DOMAIN-SUFFIX,orithegame.com
+  - DOMAIN-SUFFIX,tfsallin.net
   - DOMAIN-SUFFIX,translatetheweb.com
   - DOMAIN-SUFFIX,unlocklimitlesslearning.com
   - DOMAIN-SUFFIX,userpxt.io
@@ -305,44 +306,13 @@ payload:
   - DOMAIN-SUFFIX,windowsphone.com
   - DOMAIN-SUFFIX,windowssearch.com
   - DOMAIN-SUFFIX,windowsupdate.com
-  - DOMAIN-SUFFIX,winhec.com
-  - DOMAIN-SUFFIX,microsoft.ca
-  - DOMAIN-SUFFIX,yammer.com
-  - DOMAIN-SUFFIX,microsoftnews.cc
-  - DOMAIN-SUFFIX,microsoftnews.com
-  - DOMAIN-SUFFIX,azuredevopslaunch.com
-  - DOMAIN-SUFFIX,microsoft.cat
-  - DOMAIN-SUFFIX,tfsallin.net
-  - DOMAIN-SUFFIX,microsoftnews.org
-  - DOMAIN-SUFFIX,microsoftnewsforkids.com
-  - DOMAIN-SUFFIX,microsoftnewsforkids.net
-  - DOMAIN-SUFFIX,microsoftnewsforkids.org
-  - DOMAIN-SUFFIX,microsoftnewskids.com
-  - DOMAIN-SUFFIX,microsoftnewskids.net
-  - DOMAIN-SUFFIX,microsoftnewskids.org
-  - DOMAIN-SUFFIX,msn.com
-  - DOMAIN-SUFFIX,msnewskids.com
-  - DOMAIN-SUFFIX,msnewskids.net
-  - DOMAIN-SUFFIX,msnewskids.org
-  - DOMAIN-SUFFIX,msnkids.com
-  - DOMAIN-SUFFIX,microsoftstart.com
-  - DOMAIN-SUFFIX,start.com
-  - DOMAIN-SUFFIX,1drv.com
-  - DOMAIN-SUFFIX,1drv.ms
-  - DOMAIN-SUFFIX,livefilestore.com
-  - DOMAIN-SUFFIX,onedrive.co
-  - DOMAIN-SUFFIX,onedrive.com
-  - DOMAIN-SUFFIX,onedrive.eu
-  - DOMAIN-SUFFIX,onedrive.net
-  - DOMAIN-SUFFIX,onedrive.org
-  - DOMAIN-SUFFIX,xamarin.com
-  - DOMAIN-SUFFIX,vscode-unpkg.net
-  - DOMAIN-SUFFIX,vscode-cdn.net
-  - DOMAIN-SUFFIX,vscode.dev
-  - DOMAIN-SUFFIX,vsassets.io
   - DOMAIN-SUFFIX,microsoft.by
+  - DOMAIN-SUFFIX,winhec.net
+  - DOMAIN-SUFFIX,yammer.com
   - DOMAIN-SUFFIX,gamepass.com
-  - DOMAIN-SUFFIX,orithegame.com
+  - DOMAIN-SUFFIX,playfab.com
+  - DOMAIN-SUFFIX,microsoft.ca
+  - DOMAIN-SUFFIX,techhub.ms
   - DOMAIN-SUFFIX,renovacionxboxlive.com
   - DOMAIN-SUFFIX,tellmewhygame.com
   - DOMAIN-SUFFIX,xbox.co
@@ -399,7 +369,7 @@ payload:
   - DOMAIN-SUFFIX,azurecosmosdb.info
   - DOMAIN-SUFFIX,azurecosmosdb.net
   - DOMAIN-SUFFIX,azuredatabricks.net
-  - DOMAIN-SUFFIX,vfsforgit.org
+  - DOMAIN-SUFFIX,azuredevopslaunch.com
   - DOMAIN-SUFFIX,azuredigitaltwin.com
   - DOMAIN-SUFFIX,azuredigitaltwins.com
   - DOMAIN-SUFFIX,azuredigitaltwins.net
@@ -429,7 +399,7 @@ payload:
   - DOMAIN-SUFFIX,microsofteca.com
   - DOMAIN-SUFFIX,microsoftiotcentral.com
   - DOMAIN-SUFFIX,msn.net
-  - DOMAIN-SUFFIX,playfab.com
+  - DOMAIN-SUFFIX,onedrive.net
   - DOMAIN-SUFFIX,playfabapi.com
   - DOMAIN-SUFFIX,serverlesslibrary.net
   - DOMAIN-SUFFIX,trafficmanager.net
@@ -465,7 +435,9 @@ payload:
   - DOMAIN-SUFFIX,office365love.com
   - DOMAIN-SUFFIX,office365tw.com
   - DOMAIN-SUFFIX,renovacionoffice.com
-  - DOMAIN-SUFFIX,vfsforgit.com
+  - DOMAIN-SUFFIX,onedrive.eu
+  - DOMAIN-SUFFIX,onedrive.com
+  - DOMAIN-SUFFIX,onedrive.co
   - DOMAIN-SUFFIX,githubnext.com
   - DOMAIN-SUFFIX,git.io
   - DOMAIN-SUFFIX,atom.io
@@ -494,7 +466,7 @@ payload:
   - DOMAIN-SUFFIX,githubcopilot.com
   - DOMAIN-SUFFIX,npm.community
   - DOMAIN-SUFFIX,npmjs.com
-  - DOMAIN-SUFFIX,visualstudio.net
+  - DOMAIN-SUFFIX,livefilestore.com
   - DOMAIN-SUFFIX,adaptivecards.io
   - DOMAIN-SUFFIX,api-extractor.com
   - DOMAIN-SUFFIX,apisof.net
@@ -537,12 +509,40 @@ payload:
   - DOMAIN-SUFFIX,visualstudio.com
   - DOMAIN-SUFFIX,visualstudio.co
   - DOMAIN-SUFFIX,visualstudio.eu
-  - DOMAIN-SUFFIX,live.com.au
-  - DOMAIN-SUFFIX,onedrive.co.uk
+  - DOMAIN-SUFFIX,visualstudio.net
+  - DOMAIN-SUFFIX,vfsforgit.com
+  - DOMAIN-SUFFIX,vfsforgit.org
+  - DOMAIN-SUFFIX,vsassets.io
+  - DOMAIN-SUFFIX,vscode.dev
+  - DOMAIN-SUFFIX,vscode-cdn.net
+  - DOMAIN-SUFFIX,vscode-unpkg.net
+  - DOMAIN-SUFFIX,xamarin.com
+  - DOMAIN-SUFFIX,1drv.ms
+  - DOMAIN-SUFFIX,msocsp.com
+  - DOMAIN-SUFFIX,microsoftnews.cc
+  - DOMAIN-SUFFIX,microsoftnews.com
+  - DOMAIN-SUFFIX,microsoftnews.net
+  - DOMAIN-SUFFIX,microsoftnews.org
+  - DOMAIN-SUFFIX,microsoftnewsforkids.com
+  - DOMAIN-SUFFIX,microsoftnewsforkids.net
+  - DOMAIN-SUFFIX,microsoftnewsforkids.org
+  - DOMAIN-SUFFIX,microsoftnewskids.com
+  - DOMAIN-SUFFIX,microsoftnewskids.net
+  - DOMAIN-SUFFIX,microsoftnewskids.org
+  - DOMAIN-SUFFIX,msn.com
+  - DOMAIN-SUFFIX,msnewskids.com
+  - DOMAIN-SUFFIX,msnewskids.net
+  - DOMAIN-SUFFIX,msnewskids.org
+  - DOMAIN-SUFFIX,msnkids.com
+  - DOMAIN-SUFFIX,microsoftstart.com
+  - DOMAIN-SUFFIX,start.com
+  - DOMAIN-SUFFIX,1drv.com
+  - DOMAIN-SUFFIX,visualstudio.co.uk
   - DOMAIN-SUFFIX,skypedata.akadns.net
   - DOMAIN-SUFFIX,skype-edf.akadns.net
-  - DOMAIN-SUFFIX,visualstudio.co.uk
+  - DOMAIN-SUFFIX,live.com.au
   - DOMAIN-SUFFIX,microsoftstore.com.hk
+  - DOMAIN-SUFFIX,onedrive.co.uk
   - DOMAIN-SUFFIX,dcg.microsoft.com
   - DOMAIN-SUFFIX,dynamics.cn
   - DOMAIN-SUFFIX,engkoo.com
@@ -584,10 +584,6 @@ payload:
   - DOMAIN-SUFFIX,nelreports.net
   - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
   - DOMAIN-SUFFIX,download.windowsupdate.com
-  - DOMAIN-SUFFIX,microsoftnews.cn
-  - DOMAIN-SUFFIX,msn.cn
-  - DOMAIN-SUFFIX,browser.events.data.msn.cn
-  - DOMAIN-SUFFIX,browser.events.data.msn.com
   - DOMAIN-SUFFIX,xboxlive.cn
   - DOMAIN-SUFFIX,21vbc.com
   - DOMAIN-SUFFIX,21vbluecloud.com
@@ -687,4 +683,8 @@ payload:
   - DOMAIN-SUFFIX,microsoftreactor.cn
   - DOMAIN-SUFFIX,microsoftreactor.com.cn
   - DOMAIN-SUFFIX,reactorms.com.cn
+  - DOMAIN-SUFFIX,microsoftnews.cn
+  - DOMAIN-SUFFIX,msn.cn
+  - DOMAIN-SUFFIX,browser.events.data.msn.cn
+  - DOMAIN-SUFFIX,browser.events.data.msn.com
   - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$
