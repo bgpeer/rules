@@ -108,6 +108,16 @@ python3 "$HELPERS" batch_geosite \
   "$SRS_TASKS" \
   "$WORKDIR"
 
+# ── DOMAIN-Link（远程域名规则集，输出到 geo/geosite/）────────────────────────
+echo "[4b/7] Batch process DOMAIN-Link..."
+python3 "$HELPERS" batch_domain_link \
+  "${CLASH_DIR}/DOMAIN-Link" \
+  "$OUT_GEOSITE" \
+  "$OUT_QX_GEOSITE" \
+  "$MRS_TASKS" \
+  "$SRS_TASKS" \
+  "$WORKDIR"
+
 # ══════════════════════════════════════════════════════════════════════════════
 # 5. Python 批处理 geoip（一次调用处理所有 tag）
 # ══════════════════════════════════════════════════════════════════════════════
@@ -126,6 +136,16 @@ python3 "$HELPERS" batch_geoip \
 echo "[5b/7] Batch process clash-ip (Python)..."
 python3 "$HELPERS" batch_clash_ip \
   "$CLASH_IP_DIR" \
+  "$OUT_GEOIP" \
+  "$OUT_QX_GEOIP" \
+  "$MRS_TASKS" \
+  "$SRS_TASKS" \
+  "$WORKDIR"
+
+# ── IP-Link（远程 IP 规则集，输出到 geo/geoip/）────────────────────────────
+echo "[5c/7] Batch process IP-Link..."
+python3 "$HELPERS" batch_ip_link \
+  "${CLASH_IP_DIR}/IP-Link" \
   "$OUT_GEOIP" \
   "$OUT_QX_GEOIP" \
   "$MRS_TASKS" \
