@@ -4,15 +4,22 @@ helpers.py — sync_loy_geo_mrs.sh 的统一 Python 引擎
 一次调用处理所有 tag，输出全部格式，消除数千次进程启动开销。
 
 用法:
-  python3 helpers.py batch_geosite  <geosite_txt_dir> <clash_dir> <out_geosite> <out_qx_geosite> <mrs_tasks> <srs_tasks> <workdir>
-  python3 helpers.py batch_geoip    <geoip_txt_dir> <clash_dir> <clash_ip_dir_from_geosite> <out_geoip> <out_qx_geoip> <mrs_tasks> <srs_tasks> <workdir>
-  python3 helpers.py batch_clash_ip <clash_ip_dir> <out_geoip> <out_qx_geoip> <mrs_tasks> <srs_tasks> <workdir>
+  python3 helpers.py batch_geosite    <geosite_txt_dir> <clash_dir> <out_geosite> <out_qx_geosite> <mrs_tasks> <srs_tasks> <workdir>
+  python3 helpers.py batch_geoip      <geoip_txt_dir> <clash_dir> <clash_ip_dir_from_geosite> <out_geoip> <out_qx_geoip> <mrs_tasks> <srs_tasks> <workdir>
+  python3 helpers.py batch_clash_ip   <clash_ip_dir> <out_geoip> <out_qx_geoip> <mrs_tasks> <srs_tasks> <workdir>
+  python3 helpers.py batch_domain_link <link_json> <out_geosite> <out_qx_geosite> <mrs_tasks> <srs_tasks> <workdir>
+  python3 helpers.py batch_ip_link     <link_json> <out_geoip> <out_qx_geoip> <mrs_tasks> <srs_tasks> <workdir>
+
+  link_json 格式（clash/DOMAIN-Link 或 clash-ip/IP-Link）：
+    [{"name":"示例","url":"https://...","format":"clash"}]
+    format 可选：clash/yaml/json（Clash 规则格式）、list/txt/domain-text（纯域名列表）、
+                 ip-text（纯 CIDR 列表）、auto（自动检测，默认）
 
   还保留单条命令供 shell 零星调用:
-  python3 helpers.py parse_clash       <yaml> <out_dir> <tag>
-  python3 helpers.py merge_dedup       <geo_file> <clash_file> <out_file> <bucket_type>
-  python3 helpers.py diff_new_entries   <exist_file> <new_file> <out_file> <type>
-  python3 helpers.py rebuild_json_from_list  <list_file> <json_dst>
+  python3 helpers.py parse_clash            <yaml> <out_dir> <tag>
+  python3 helpers.py merge_dedup            <geo_file> <clash_file> <out_file> <bucket_type>
+  python3 helpers.py diff_new_entries       <exist_file> <new_file> <out_file> <type>
+  python3 helpers.py rebuild_json_from_list <list_file> <json_dst>
 """
 
 import sys
@@ -20,6 +27,8 @@ import os
 import re
 import json
 import glob
+import ipaddress
+from urllib.request import Request, urlopen
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 通用工具
@@ -654,6 +663,368 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# 远程链接拉取 + 格式解析（DOMAIN-Link / IP-Link）
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def fetch_url(url, timeout=60):
+    """拉取 URL，返回 UTF-8 文本"""
+    req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urlopen(req, timeout=timeout) as r:
+        return r.read().decode("utf-8", errors="ignore")
+
+
+def _iter_rule_lines(text):
+    """
+    从 Clash YAML / JSON / 纯文本中提取规则行列表。
+    支持: JSON/YAML dict（payload/rules 键）、list、带 "  - " 前缀的 YAML 项、纯文本行。
+    """
+    text = (text or "").strip()
+    if not text:
+        return []
+
+    # JSON：{ payload/rules: [...] } 或 [ ... ]
+    if text[:1] in "{[":
+        try:
+            obj = json.loads(text)
+            if isinstance(obj, dict):
+                items = obj.get("payload") or obj.get("rules") or []
+            elif isinstance(obj, list):
+                items = obj
+            else:
+                items = []
+            return [str(x).strip().lstrip("-").strip()
+                    for x in items
+                    if str(x).strip() and not str(x).strip().startswith("#")]
+        except Exception:
+            pass
+
+    # YAML list 块（"  - RULE,value" 格式）
+    out = []
+    for raw in text.splitlines():
+        m = RE_ITEM.match(raw.rstrip())
+        if m:
+            entry = RE_COMMENT.sub("", m.group(1).strip())
+            if entry:
+                out.append(entry)
+    if out:
+        return out
+
+    # 纯文本兜底
+    return [s.strip() for s in text.splitlines()
+            if s.strip() and not s.strip().startswith("#")]
+
+
+def _norm_link_fmt(fmt, text, for_ip=False):
+    """
+    规范化 format 字符串，auto 时根据内容自动检测。
+    返回: "clash" | "domain-text" | "ip-text"
+    """
+    f = (fmt or "auto").lower().strip().replace("_", "-")
+    if f in ("clash", "yaml", "json"):
+        return "clash"
+    if f in ("list", "txt", "domain-text"):
+        return "ip-text" if for_ip else "domain-text"
+    if f == "ip-text":
+        return "ip-text"
+
+    # auto 检测
+    t = (text or "").strip()
+    if t[:1] in "{[":
+        return "clash"
+    for line in t.splitlines():
+        s = line.strip()
+        if not s or s.startswith("#"):
+            continue
+        if s in ("payload:", "rules:"):
+            return "clash"
+        if "," in s:
+            prefix = s.split(",", 1)[0].strip().upper()
+            if prefix in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD", "DOMAIN-REGEX",
+                          "DOMAIN-WILDCARD", "IP-CIDR", "IP-CIDR6", "IP-ASN",
+                          "PROCESS-NAME", "PROCESS-NAME-REGEX"}:
+                return "clash"
+        break
+    return "ip-text" if for_ip else "domain-text"
+
+
+def parse_remote_domain_entries(text, fmt):
+    """
+    从远程内容提取域名类条目，返回分桶 dict（不含 IP 条目）。
+    fmt: clash/yaml/json → Clash 规则格式; list/txt/domain-text → 纯域名文本; auto → 自动
+    """
+    resolved = _norm_link_fmt(fmt, text, for_ip=False)
+    buckets = {k: [] for k in ("suffix", "domain", "keyword", "regexp",
+                                "wildcard", "process", "process_re")}
+    seen = {k: set() for k in buckets}
+
+    if resolved == "clash":
+        for raw_line in _iter_rule_lines(text):
+            if "," not in raw_line:
+                continue
+            parts = [p.strip() for p in raw_line.split(",")]
+            if len(parts) < 2:
+                continue
+            t, v = parts[0].upper(), parts[1]
+            if not v or t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
+                continue
+            bucket = TYPE_TO_BUCKET.get(t)
+            if bucket is None or bucket in ("ipcidr", "asn"):
+                continue
+            if bucket == "suffix":
+                v = v.lstrip(".")
+            if v not in seen[bucket]:
+                seen[bucket].add(v)
+                buckets[bucket].append(v)
+    else:  # domain-text：一行一个域名
+        for line in (text or "").splitlines():
+            s = line.strip().lstrip("-").strip()
+            if not s or s.startswith("#"):
+                continue
+            # 兼容 TYPE,VALUE 格式
+            if "," in s:
+                parts = [p.strip() for p in s.split(",", 2)]
+                t, v = parts[0].upper(), parts[1] if len(parts) > 1 else ""
+                if not v:
+                    continue
+                if t == "DOMAIN" and v not in seen["domain"]:
+                    seen["domain"].add(v)
+                    buckets["domain"].append(v)
+                elif t == "DOMAIN-SUFFIX":
+                    v = v.lstrip(".")
+                    if v not in seen["suffix"]:
+                        seen["suffix"].add(v)
+                        buckets["suffix"].append(v)
+                continue
+            # 纯域名行：必须有点，不含空格/斜线/冒号
+            if "." not in s or " " in s or "/" in s or ":" in s:
+                continue
+            v = s.lstrip(".")
+            if v and v not in seen["suffix"]:
+                seen["suffix"].add(v)
+                buckets["suffix"].append(v)
+
+    return buckets
+
+
+def parse_remote_ip_entries(text, fmt):
+    """
+    从远程内容提取 IP 类条目，返回 (ipcidr_lines, asn_lines)。
+    只保留 IP-CIDR (IPv4) / IP-CIDR6 (IPv6) / IP-ASN。
+    """
+    resolved = _norm_link_fmt(fmt, text, for_ip=True)
+
+    ipcidr, ipcidr_seen = [], set()
+    asn,    asn_seen    = [], set()
+
+    def add_cidr(v):
+        v = v.strip()
+        try:
+            ipaddress.ip_network(v, strict=False)
+            nv = v.lower()
+            if nv not in ipcidr_seen:
+                ipcidr_seen.add(nv)
+                ipcidr.append(v)
+        except ValueError:
+            pass
+
+    def add_asn(v):
+        v = str(v).strip()
+        if v and v not in asn_seen:
+            asn_seen.add(v)
+            asn.append(v)
+
+    if resolved == "clash":
+        for raw_line in _iter_rule_lines(text):
+            if "," not in raw_line:
+                # 裸 CIDR 行
+                s = raw_line.strip()
+                if s and ("/" in s or "::" in s):
+                    add_cidr(s)
+                continue
+            parts = [p.strip() for p in raw_line.split(",")]
+            if len(parts) < 2:
+                continue
+            t, v = parts[0].upper(), parts[1]
+            if t in ("IP-CIDR", "IP-CIDR6"):
+                add_cidr(v)
+            elif t == "IP-ASN":
+                add_asn(v)
+    else:  # ip-text：一行一个 CIDR
+        for line in (text or "").splitlines():
+            s = line.strip().lstrip("-").strip()
+            if not s or s.startswith("#"):
+                continue
+            if "," in s:
+                parts = [p.strip() for p in s.split(",", 2)]
+                t, v = parts[0].upper(), parts[1] if len(parts) > 1 else ""
+                if not v:
+                    continue
+                if t in ("IP-CIDR", "IP-CIDR6"):
+                    add_cidr(v)
+                elif t == "IP-ASN":
+                    add_asn(v)
+                continue
+            # 裸 CIDR
+            if "/" in s or "::" in s:
+                add_cidr(s)
+
+    return ipcidr, asn
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# batch_domain_link：处理 clash/DOMAIN-Link，输出到 geo/geosite/
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
+                          mrs_tasks_file, srs_tasks_file, workdir):
+    """
+    读取 clash/DOMAIN-Link JSON，拉取远程规则，提取域名类条目，
+    每条 name 输出全部格式到 geo/geosite/<name>.*（逻辑与 clash-only tag 相同）。
+    """
+    if not os.path.isfile(link_json_path):
+        print("[INFO] batch_domain_link: link file not found, skip")
+        return
+
+    with open(link_json_path, encoding="utf-8") as f:
+        items = json.load(f)
+
+    if not items:
+        print("[INFO] batch_domain_link: empty, skip")
+        return
+
+    os.makedirs(out_geosite, exist_ok=True)
+    os.makedirs(out_qx_geosite, exist_ok=True)
+
+    mrs_tasks = []
+    srs_tasks = []
+    ok = 0
+
+    for it in items:
+        name = (it.get("name") or "").strip()
+        url  = (it.get("url")  or "").strip()
+        fmt  = (it.get("format") or "auto").strip()
+
+        if not name or not url:
+            print(f"[DOMAIN-LINK] skip invalid entry: {it}")
+            continue
+
+        print(f"[DOMAIN-LINK] {name}  fmt={fmt}")
+
+        try:
+            text = fetch_url(url)
+        except Exception as e:
+            print(f"[DOMAIN-LINK] {name}: fetch failed: {e}")
+            continue
+
+        buckets = parse_remote_domain_entries(text, fmt)
+
+        has_data = any(buckets.get(k) for k in
+                       ("suffix", "domain", "keyword", "regexp",
+                        "wildcard", "process", "process_re"))
+        if not has_data:
+            print(f"[DOMAIN-LINK] {name}: no domain entries, skip")
+            continue
+
+        total = sum(len(v) for v in buckets.values())
+        print(f"[DOMAIN-LINK] {name}: {total} entries  "
+              f"(suffix={len(buckets['suffix'])} domain={len(buckets['domain'])} "
+              f"keyword={len(buckets['keyword'])} regexp={len(buckets['regexp'])})")
+
+        # clash_yaml="" → 无本地文件融合，条目全来自远程
+        emit_geosite_tag(name, buckets, "",
+                         out_geosite, out_qx_geosite,
+                         mrs_tasks, srs_tasks, workdir)
+        ok += 1
+
+    print(f"[INFO] batch_domain_link: ok={ok}")
+
+    with open(mrs_tasks_file, "a", encoding="utf-8") as f:
+        for line in mrs_tasks:
+            f.write(line + "\n")
+    with open(srs_tasks_file, "a", encoding="utf-8") as f:
+        for line in srs_tasks:
+            f.write(line + "\n")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# batch_ip_link：处理 clash-ip/IP-Link，输出到 geo/geoip/
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
+                      mrs_tasks_file, srs_tasks_file, workdir):
+    """
+    读取 clash-ip/IP-Link JSON，拉取远程规则，提取 IPv4/IPv6/ASN 条目，
+    每条 name 输出全部格式到 geo/geoip/<name>.*（逻辑与 clash-ip tag 相同）。
+    """
+    if not os.path.isfile(link_json_path):
+        print("[INFO] batch_ip_link: link file not found, skip")
+        return
+
+    with open(link_json_path, encoding="utf-8") as f:
+        items = json.load(f)
+
+    if not items:
+        print("[INFO] batch_ip_link: empty, skip")
+        return
+
+    os.makedirs(out_geoip, exist_ok=True)
+    os.makedirs(out_qx_geoip, exist_ok=True)
+
+    mrs_tasks = []
+    srs_tasks = []
+    ok = 0
+
+    for it in items:
+        name = (it.get("name") or "").strip()
+        url  = (it.get("url")  or "").strip()
+        fmt  = (it.get("format") or "auto").strip()
+
+        if not name or not url:
+            print(f"[IP-LINK] skip invalid entry: {it}")
+            continue
+
+        print(f"[IP-LINK] {name}  fmt={fmt}")
+
+        try:
+            text = fetch_url(url)
+        except Exception as e:
+            print(f"[IP-LINK] {name}: fetch failed: {e}")
+            continue
+
+        ipcidr_lines, asn_lines = parse_remote_ip_entries(text, fmt)
+
+        if not ipcidr_lines and not asn_lines:
+            print(f"[IP-LINK] {name}: no IP entries, skip")
+            continue
+
+        print(f"[IP-LINK] {name}: CIDRs={len(ipcidr_lines)} ASNs={len(asn_lines)}")
+
+        emit_geoip_tag(name, ipcidr_lines, asn_lines,
+                       out_geoip, out_qx_geoip,
+                       mrs_tasks, srs_tasks)
+
+        # emit_geoip_tag 不自动登记 mrs 任务，需在此手动补充
+        if ipcidr_lines:
+            mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
+            os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
+            write_lines(mrs_src, ipcidr_lines)
+            mrs_tasks.append(
+                f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
+            )
+
+        ok += 1
+
+    print(f"[INFO] batch_ip_link: ok={ok}")
+
+    with open(mrs_tasks_file, "a", encoding="utf-8") as f:
+        for line in mrs_tasks:
+            f.write(line + "\n")
+    with open(srs_tasks_file, "a", encoding="utf-8") as f:
+        for line in srs_tasks:
+            f.write(line + "\n")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # batch_clash_ip：处理 clash-ip/ 目录，合并进 geo/geoip/ 五格式 + QX
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -843,12 +1214,14 @@ def cmd_rebuild_json_from_list(list_file, json_dst):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 COMMANDS = {
-    "batch_geosite":    lambda a: cmd_batch_geosite(a[0], a[1], a[2], a[3], a[4], a[5], a[6]),
-    "batch_geoip":      lambda a: cmd_batch_geoip(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]),
-    "batch_clash_ip":   lambda a: cmd_batch_clash_ip(a[0], a[1], a[2], a[3], a[4], a[5]),
-    "parse_clash":      lambda a: cmd_parse_clash(a[0], a[1], a[2]),
-    "merge_dedup":      lambda a: cmd_merge_dedup(a[0], a[1], a[2], a[3]),
-    "diff_new_entries":     lambda a: cmd_diff_new_entries(a[0], a[1], a[2], a[3]),
+    "batch_geosite":          lambda a: cmd_batch_geosite(a[0], a[1], a[2], a[3], a[4], a[5], a[6]),
+    "batch_geoip":            lambda a: cmd_batch_geoip(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]),
+    "batch_clash_ip":         lambda a: cmd_batch_clash_ip(a[0], a[1], a[2], a[3], a[4], a[5]),
+    "batch_domain_link":      lambda a: cmd_batch_domain_link(a[0], a[1], a[2], a[3], a[4], a[5]),
+    "batch_ip_link":          lambda a: cmd_batch_ip_link(a[0], a[1], a[2], a[3], a[4], a[5]),
+    "parse_clash":            lambda a: cmd_parse_clash(a[0], a[1], a[2]),
+    "merge_dedup":            lambda a: cmd_merge_dedup(a[0], a[1], a[2], a[3]),
+    "diff_new_entries":       lambda a: cmd_diff_new_entries(a[0], a[1], a[2], a[3]),
     "rebuild_json_from_list": lambda a: cmd_rebuild_json_from_list(a[0], a[1]),
 }
 
