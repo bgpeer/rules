@@ -111,7 +111,7 @@ python3 "$HELPERS" batch_geosite \
 # ── DOMAIN-Link（远程域名规则集，输出到 geo/geosite/）────────────────────────
 echo "[4b/7] Batch process DOMAIN-Link..."
 python3 "$HELPERS" batch_domain_link \
-  "${CLASH_DIR}/DOMAIN-Link" \
+  "${CLASH_DIR}/DOMAIN-Link.json" \
   "$OUT_GEOSITE" \
   "$OUT_QX_GEOSITE" \
   "$MRS_TASKS" \
@@ -145,7 +145,7 @@ python3 "$HELPERS" batch_clash_ip \
 # ── IP-Link（远程 IP 规则集，输出到 geo/geoip/）────────────────────────────
 echo "[5c/7] Batch process IP-Link..."
 python3 "$HELPERS" batch_ip_link \
-  "${CLASH_IP_DIR}/IP-Link" \
+  "${CLASH_IP_DIR}/IP-Link.json" \
   "$OUT_GEOIP" \
   "$OUT_QX_GEOIP" \
   "$MRS_TASKS" \
