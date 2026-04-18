@@ -1010,20 +1010,40 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
 
 def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
                           mrs_tasks, srs_tasks, workdir):
-    """将 IP 条目追加进 geosite 对应文件（no-resolve），并写入 geoip mrs 源。"""
+    """将 IP 条目合并进 geosite 对应文件（no-resolve），全量重排序后写回。"""
     dst_yaml = os.path.join(out_geosite, f"{name}.yaml")
     dst_list = os.path.join(out_geosite, f"{name}.list")
     dst_json = os.path.join(out_geosite, f"{name}.json")
     dst_srs  = os.path.join(out_geosite, f"{name}.srs")
     dst_qx   = os.path.join(out_qx_geosite, f"{name}.list")
 
-    with open(dst_yaml, "a", encoding="utf-8") as f:
-        for t, v in ip_typed:
-            f.write(f"  - {t},{v},no-resolve\n")
+    # 读取已有 list 条目，与新 IP 合并后重新排序
+    existing = []
+    for line in read_lines(dst_list):
+        parts = line.split(",", 2)
+        if len(parts) >= 2:
+            existing.append((parts[0].strip().upper(), parts[1].strip()))
+    ip_seen = {(t, v) for t, v in existing if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN")}
+    new_ip = [(t, v) for t, v in ip_typed if (t, v) not in ip_seen]
+    all_typed = sort_typed_lines(existing + new_ip)
 
-    with open(dst_list, "a", encoding="utf-8") as f:
-        for t, v in ip_typed:
-            f.write(f"{t},{v},no-resolve\n")
+    # 重写 list
+    list_out = []
+    for t, v in all_typed:
+        if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
+            list_out.append(f"{t},{v},no-resolve")
+        else:
+            list_out.append(f"{t},{v}")
+    write_lines(dst_list, list_out)
+
+    # 重写 yaml
+    yaml_out = ["payload:"]
+    for t, v in all_typed:
+        if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
+            yaml_out.append(f"  - {t},{v},no-resolve")
+        else:
+            yaml_out.append(f"  - {t},{v}")
+    write_lines(dst_yaml, yaml_out)
 
     _rebuild_geosite_json_from_list(dst_list, dst_json)
     srs_tasks.append(f"{dst_json}\t{dst_srs}")
