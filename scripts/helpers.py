@@ -423,7 +423,8 @@ def emit_geoip_tag(tag, ipcidr_lines, asn_lines, out_geoip, out_qx_geoip,
     write_lines(os.path.join(out_qx_geoip, f"{tag}.list"), qx_out)
 
     # ── json ──
-    rule = {"ip_cidr": ipcidr_lines} if ipcidr_lines else {}
+    sorted_cidrs = [v for t, v in typed if t in ("IP-CIDR", "IP-CIDR6")]
+    rule = {"ip_cidr": sorted_cidrs} if sorted_cidrs else {}
     json_path = os.path.join(out_geoip, f"{tag}.json")
     with open(json_path, "w") as f:
         json.dump({"version": 3, "rules": [rule] if rule else []},
@@ -1394,12 +1395,16 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
                 f.write(f"{t},{v}\n")
 
         # json 重建（从 list，排序后输出）
-        all_cidrs = []
+        all_typed = []
         for line in read_lines(dst_list):
             if line.startswith("IP-CIDR6,"):
-                all_cidrs.append(line[9:])
+                all_typed.append(("IP-CIDR6", line[9:]))
             elif line.startswith("IP-CIDR,"):
-                all_cidrs.append(line[8:])
+                all_typed.append(("IP-CIDR", line[8:]))
+            elif line.startswith("IP-ASN,"):
+                all_typed.append(("IP-ASN", line[7:]))
+        all_typed = sort_typed_lines(all_typed)
+        all_cidrs = [v for t, v in all_typed if t in ("IP-CIDR", "IP-CIDR6")]
         rule = {"ip_cidr": all_cidrs} if all_cidrs else {}
         with open(dst_json, "w") as f:
             json.dump({"version": 3, "rules": [rule] if rule else []},
