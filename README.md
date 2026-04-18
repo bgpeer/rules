@@ -99,6 +99,61 @@ payload:
 > ⚠️ mrs 格式仅支持 IP-CIDR 类型，IP-ASN 会被跳过。
 > ⚠️ json/srs（sing-box）和 QX 同样不支持 IP-ASN，自动过滤。
 
+### clash/DOMAIN-Link.json — 远程域名规则订阅
+
+如果你想引入外部链接的域名规则集（如 blackmatrix7、Loyalsoldier 其他仓库等），可以编辑 `clash/DOMAIN-Link.json`，无需手动下载和维护文件。
+
+**文件格式：**
+
+```json
+[
+  {"name": "microsoft", "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml", "format": "yaml"},
+  {"name": "icloud",    "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt", "format": "txt"}
+]
+```
+
+| 字段 | 说明 |
+|---|---|
+| `name` | 输出文件名（即 `geo/geosite/<name>.*`） |
+| `url` | 远程规则文件链接 |
+| `format` | `yaml`/`clash`/`json`（Clash 规则格式）、`txt`/`list`（纯域名列表）、`auto`（自动检测，默认） |
+
+**提取规则：** 只提取域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX / DOMAIN-WILDCARD / PROCESS-NAME），IP 类条目一律忽略。
+
+**去重优先级：Loyalsoldier → clash/\*.yaml → DOMAIN-Link.json**
+- 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加 Loyalsoldier + clash/ 中没有的条目
+- 若 `name` 是全新名字 → 直接新建全部格式文件
+
+**各格式支持情况与 clash/ 目录相同（见上表）。**
+
+---
+
+### clash-ip/IP-Link.json — 远程 IP 规则订阅
+
+对应 IP 规则的远程订阅，编辑 `clash-ip/IP-Link.json`。
+
+**文件格式：**
+
+```json
+[
+  {"name": "cloudflare", "url": "https://raw.githubusercontent.com/blackmatrix7/.../Cloudflare.yaml", "format": "yaml"},
+  {"name": "netflix-ip", "url": "https://example.com/netflix-ips.txt", "format": "txt"}
+]
+```
+
+**提取规则：** 只提取 IP 类条目，域名类条目一律忽略：
+
+| 提取类型 | yaml | list | mrs | json/srs | QX list |
+|---|:---:|:---:|:---:|:---:|:---:|
+| IP-CIDR（IPv4） | ✅ | ✅ | ✅ | ✅ | ✅ |
+| IP-CIDR6（IPv6） | ✅ | ✅ | ✅ | ✅ | ✅ |
+| IP-ASN | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+
+**去重优先级：Loyalsoldier → clash-ip/\*.yaml → IP-Link.json**
+- 同名 tag 已存在则只追加新增条目，否则新建。
+
+---
+
 ### 使用示例
 
 想给抖音补充自定义 IP 段和进程规则：
@@ -107,6 +162,12 @@ payload:
 2. Push 到仓库（或等每天定时任务）
 3. 工作流自动将你的条目融合进 Loyalsoldier 的 `douyin` 规则集
 4. 所有格式同步更新，无需手动处理
+
+想订阅第三方 Microsoft 规则集并生成所有格式：
+
+1. 编辑 `clash/DOMAIN-Link.json`，添加一行 `{"name": "microsoft", "url": "...", "format": "yaml"}`
+2. Push 后工作流自动拉取、去重、编译
+3. 使用 `https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/microsoft.mrs` 等链接引用
 
 ---
 
