@@ -140,8 +140,19 @@ QX_TYPE_ORDER = {
 
 
 def sort_typed_lines(lines):
-    """对 [(type, value), ...] 按 TYPE_ORDER 排序，相同类型保持原序"""
-    return sorted(lines, key=lambda tv: TYPE_ORDER.get(tv[0], 99))
+    """对 [(type, value), ...] 按 TYPE_ORDER 排序。
+    IP 类型：IPv4 全部在前，IPv6 全部在后；同类型内按前缀长度降序（/32→/24→/16→/8，精确在前）。"""
+    def key(tv):
+        t, v = tv
+        order = TYPE_ORDER.get(t, 99)
+        if t in ("IP-CIDR", "IP-CIDR6") and "/" in v:
+            try:
+                is_v6 = 1 if t == "IP-CIDR6" else 0
+                return (order, is_v6, -int(v.split("/")[1]), v)
+            except ValueError:
+                pass
+        return (order, 0, 0, v)
+    return sorted(lines, key=key)
 
 
 def sort_qx_lines(lines):
