@@ -119,23 +119,23 @@ MRS_SKIP_TYPES = {"DOMAIN-WILDCARD"}
 TYPE_ORDER = {
     "DOMAIN":              0,
     "DOMAIN-SUFFIX":       1,
-    "DOMAIN-WILDCARD":     2,
-    "DOMAIN-KEYWORD":      3,
+    "DOMAIN-KEYWORD":      2,
+    "DOMAIN-WILDCARD":     3,
     "IP-CIDR":             4,
-    "IP-CIDR6":            4,
-    "IP-ASN":              5,
-    "PROCESS-NAME":        6,
-    "PROCESS-NAME-REGEX":  6,
-    "DOMAIN-REGEX":        7,
+    "IP-CIDR6":            5,
+    "IP-ASN":              6,
+    "PROCESS-NAME":        7,
+    "DOMAIN-REGEX":        8,
+    "PROCESS-NAME-REGEX":  9,
 }
 
 # QX 类型也纳入排序
 QX_TYPE_ORDER = {
     "HOST":            0,
     "HOST-SUFFIX":     1,
-    "HOST-KEYWORD":    3,
+    "HOST-KEYWORD":    2,
     "IP-CIDR":         4,
-    "IP-CIDR6":        4,
+    "IP-CIDR6":        5,
 }
 
 
