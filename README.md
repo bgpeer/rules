@@ -8,12 +8,10 @@
 
 自动将 [Loyalsoldier](https://github.com/Loyalsoldier) 的 `geoip.dat` / `geosite.dat` 拆分转换为多种格式规则集，每天北京时间 02:00 自动更新。
 
----
-
 ## geosite.dat 规则转换情况
 
 | 原始类型 | 转换类型 | mrs | yaml | list | json/srs | QX list |
-|---|---|:---:|:---:|:---:|:---:|:---:|
+| --- | --- | :---: | :---: | :---: | :---: | :---: |
 | 普通条目 | domain-suffix | ✅ | ✅ | ✅ | ✅ | ✅ |
 | `full:` | domain 精确 | ✅ | ✅ | ✅ | ✅ | ✅ |
 | `keyword:` | domain-keyword | ⚠️ 跳过 | ✅ | ✅ | ✅ | ✅ |
@@ -22,7 +20,7 @@
 ## geoip.dat 规则转换情况
 
 | 原始类型 | 转换类型 | mrs | yaml | list | json/srs | QX list |
-|---|---|:---:|:---:|:---:|:---:|:---:|
+| --- | --- | :---: | :---: | :---: | :---: | :---: |
 | IPv4 CIDR | IP-CIDR | ✅ | ✅ | ✅ | ✅ | ✅ |
 | IPv6 CIDR | IP-CIDR6 | ✅ | ✅ | ✅ | ✅ | ✅ |
 
