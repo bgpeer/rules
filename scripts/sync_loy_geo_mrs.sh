@@ -108,12 +108,14 @@ python3 "$HELPERS" batch_geosite \
   "$SRS_TASKS" \
   "$WORKDIR"
 
-# ── DOMAIN-Link（远程域名规则集，输出到 geo/geosite/）────────────────────────
+# ── DOMAIN-Link（远程规则集，域名→geosite/ IP→geoip/）──────────────────────
 echo "[4b/7] Batch process DOMAIN-Link..."
 python3 "$HELPERS" batch_domain_link \
   "${CLASH_DIR}/DOMAIN-Link.json" \
   "$OUT_GEOSITE" \
   "$OUT_QX_GEOSITE" \
+  "$OUT_GEOIP" \
+  "$OUT_QX_GEOIP" \
   "$MRS_TASKS" \
   "$SRS_TASKS" \
   "$WORKDIR"
