@@ -99,9 +99,9 @@ payload:
 > ⚠️ mrs 格式仅支持 IP-CIDR 类型，IP-ASN 会被跳过。
 > ⚠️ json/srs（sing-box）和 QX 同样不支持 IP-ASN，自动过滤。
 
-### clash/DOMAIN-Link.json — 远程域名规则订阅
+### clash/DOMAIN-Link.json — 远程规则订阅（全类型）
 
-如果你想引入外部链接的域名规则集（如 blackmatrix7、Loyalsoldier 其他仓库等），可以编辑 `clash/DOMAIN-Link.json`，无需手动下载和维护文件。
+如果你想引入外部链接的规则集（如 blackmatrix7、Loyalsoldier 其他仓库等），可以编辑 `clash/DOMAIN-Link.json`，无需手动下载和维护文件。
 
 **文件格式：**
 
@@ -114,14 +114,17 @@ payload:
 
 | 字段 | 说明 |
 |---|---|
-| `name` | 输出文件名（即 `geo/geosite/<name>.*`） |
+| `name` | 输出文件名（即 `geo/geosite/<name>.*` / `geo/geoip/<name>.*`） |
 | `url` | 远程规则文件链接 |
 | `format` | `yaml`/`clash`/`json`（Clash 规则格式）、`txt`/`list`（纯域名列表）、`auto`（自动检测，默认） |
 
-**提取规则：** 只提取域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX / DOMAIN-WILDCARD / PROCESS-NAME），IP 类条目一律忽略。
+**提取规则：** 与 `clash/` 目录相同，域名类 + IP 类条目全部提取：
+- 域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX 等）→ 融合进 `geo/geosite/`
+- IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）→ 融合进 `geo/geoip/`
+- mrs 格式不支持 IP，IP 条目写入 `geoip/<name>.mrs`（不写入 geosite/mrs）
 
 **去重优先级：Loyalsoldier → clash/\*.yaml → DOMAIN-Link.json**
-- 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加 Loyalsoldier + clash/ 中没有的条目
+- 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加前两者中没有的条目
 - 若 `name` 是全新名字 → 直接新建全部格式文件
 
 **各格式支持情况与 clash/ 目录相同（见上表）。**
