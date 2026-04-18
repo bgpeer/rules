@@ -31,6 +31,59 @@
 
 ---
 
+### clash/DOMAIN-Link.json — 远程规则订阅（全类型）
+
+如果你想引入外部链接的规则集（如 blackmatrix7、Loyalsoldier 其他仓库等），可以编辑 `clash/DOMAIN-Link.json`，无需手动下载和维护文件。
+
+**文件格式：**
+
+```json
+[
+  {"name": "microsoft", "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml", "format": "yaml"},
+  {"name": "icloud",    "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt", "format": "txt"}
+]
+```
+
+| 字段 | 说明 |
+|---|---|
+| `name` | 输出文件名（即 `geo/geosite/<name>.*` / `geo/geoip/<name>.*`） |
+| `url` | 远程规则文件链接 |
+| `format` | 格式提示（见下表，默认 `auto`） |
+
+**`format` 可选值：**
+
+| 填写值 | 实际解析方式 |
+|---|---|
+| `yaml` / `json` / `clash` | Clash 规则格式（解析 `payload:` 块或 `DOMAIN,x` 行） |
+| `list` / `txt` | 纯域名列表，一行一个 |
+| `auto` 或不填 | 根据内容自动判断（推荐，默认） |
+
+**自动识别支持的输入格式：**
+
+| 来源格式 | 示例 | 识别结果 |
+|---|---|---|
+| Clash list | `DOMAIN-SUFFIX,example.com` | DOMAIN-SUFFIX |
+| Clash YAML | `payload:` + `- DOMAIN,x` | DOMAIN / DOMAIN-SUFFIX |
+| QuantumultX | `HOST-SUFFIX,example.com,policy` | DOMAIN-SUFFIX |
+| sing-box JSON | `{"rules":[{"domain_suffix":["..."]}]}` | DOMAIN-SUFFIX |
+| 引号 YAML | `- 'example.com'` / `- '+.example.com'` | DOMAIN / DOMAIN-SUFFIX |
+| 纯文本（无前缀） | `api.example.com` | DOMAIN（精确） |
+| 纯文本（`.` 前缀） | `.example.com` | DOMAIN-SUFFIX |
+| 纯文本（`+.` 前缀） | `+.example.com` | DOMAIN-SUFFIX |
+
+**提取规则：** 域名类 + IP 类条目全部提取：
+- 域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX 等）→ 融合进 `geo/geosite/`（全格式）
+- IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）→ 融合进 `geo/geosite/`（加 `no-resolve`）+ 额外编译进 `geoip/<name>.mrs`
+- `geoip/` 其他格式（yaml / list / json / srs / QX）不受影响，`geosite/mrs` 不含 IP
+
+**去重优先级：Loyalsoldier → clash/\*.yaml → DOMAIN-Link.json**
+- 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加前两者中没有的条目
+- 若 `name` 是全新名字 → 直接新建全部格式文件
+
+**各格式支持情况与 clash/ 目录相同。**
+
+---
+
 ## 自定义规则扩展（clash / clash-ip）
 
 除了 Loyalsoldier 的原始数据，你还可以通过 `clash/` 和 `clash-ip/` 目录添加自定义规则，它们会自动融合进对应的输出文件。
@@ -41,15 +94,15 @@
 
 ```yaml
 payload:
-  - DOMAIN-SUFFIX,example.com
   - DOMAIN,api.example.com
+  - DOMAIN-SUFFIX,example.com
   - DOMAIN-KEYWORD,example
-  - DOMAIN-REGEX,(?i)(^|\.)example\.com$
   - DOMAIN-WILDCARD,*.example.com
   - IP-CIDR,1.1.1.0/24
   - IP-CIDR6,2606:4700::/32
   - IP-ASN,13335
   - PROCESS-NAME,com.example.app
+  - DOMAIN-REGEX,(?i)(^|\.)example\.com$
   - PROCESS-NAME-REGEX,(?i)^com\.example\..*$
 ```
 
@@ -99,55 +152,18 @@ payload:
 > ⚠️ mrs 格式仅支持 IP-CIDR 类型，IP-ASN 会被跳过。
 > ⚠️ json/srs（sing-box）和 QX 同样不支持 IP-ASN，自动过滤。
 
-### DOMAIN-Link.json — 拉取远程域名规则集
-
-在 `clash/DOMAIN-Link.json` 中填写远程规则集链接，工作流会自动拉取并融合进 `geo/geosite/` 和 `QX/geosite/`：
-
-```json
-[
-  {"name": "apple",  "url": "https://example.com/Apple.list",  "format": "auto"},
-  {"name": "google", "url": "https://example.com/google.yaml", "format": "clash"}
-]
-```
-
-| 字段 | 说明 |
-|---|---|
-| `name` | 输出文件名（对应 `geo/geosite/<name>.*`） |
-| `url` | 远程规则集地址 |
-| `format` | 格式提示（见下表，默认 `auto`） |
-
-**`format` 可选值：**
-
-| 填写值 | 实际解析方式 |
-|---|---|
-| `yaml` / `json` / `clash` | Clash 规则格式（解析 `payload:` 块或 `DOMAIN,x` 行） |
-| `list` / `txt` | 纯域名列表，一行一个 |
-| `auto` 或不填 | 根据内容自动判断（推荐，默认） |
-
-**自动识别支持的输入格式：**
-
-| 来源格式 | 示例 | 识别结果 |
-|---|---|---|
-| Clash list | `DOMAIN-SUFFIX,example.com` | DOMAIN-SUFFIX |
-| Clash YAML | `payload:` + `- DOMAIN,x` | DOMAIN / DOMAIN-SUFFIX |
-| QuantumultX | `HOST-SUFFIX,example.com,policy` | DOMAIN-SUFFIX |
-| sing-box JSON | `{"rules":[{"domain_suffix":["..."]}]}` | DOMAIN-SUFFIX |
-| 引号 YAML | `- 'example.com'` / `- '+.example.com'` | DOMAIN / DOMAIN-SUFFIX |
-| 纯文本（无前缀） | `api.example.com` | DOMAIN（精确） |
-| 纯文本（`.` 前缀） | `.example.com` | DOMAIN-SUFFIX |
-| 纯文本（`+.` 前缀） | `+.example.com` | DOMAIN-SUFFIX |
-
-> 若远程规则中包含 IP-CIDR / IP-CIDR6，会同步写入对应的 `geo/geoip/<name>.mrs`。
-
 ---
 
-### IP-Link.json — 拉取远程 IP 规则集
+### clash-ip/IP-Link.json — 远程 IP 规则订阅
 
-在 `clash-ip/IP-Link.json` 中填写远程 IP 规则集链接，工作流会自动拉取并融合进 `geo/geoip/` 和 `QX/geoip/`：
+对应 IP 规则的远程订阅，编辑 `clash-ip/IP-Link.json`。
+
+**文件格式：**
 
 ```json
 [
-  {"name": "cn", "url": "https://example.com/ChinaMax_IP.txt", "format": "txt"}
+  {"name": "cloudflare", "url": "https://raw.githubusercontent.com/blackmatrix7/.../Cloudflare.yaml", "format": "yaml"},
+  {"name": "netflix-ip", "url": "https://example.com/netflix-ips.txt", "format": "txt"}
 ]
 ```
 
@@ -168,6 +184,9 @@ payload:
 | 纯 CIDR 文本 | `1.2.3.0/24` / `2001:db8::/32` |
 | sing-box JSON | `{"rules":[{"ip_cidr":["1.2.3.0/24"]}]}` |
 
+**去重优先级：Loyalsoldier → clash-ip/\*.yaml → IP-Link.json**
+- 同名 tag 已存在则只追加新增条目，否则新建。
+
 ---
 
 ### 使用示例
@@ -178,6 +197,12 @@ payload:
 2. Push 到仓库（或等每天定时任务）
 3. 工作流自动将你的条目融合进 Loyalsoldier 的 `douyin` 规则集
 4. 所有格式同步更新，无需手动处理
+
+想订阅第三方 Microsoft 规则集并生成所有格式：
+
+1. 编辑 `clash/DOMAIN-Link.json`，添加一行 `{"name": "microsoft", "url": "...", "format": "yaml"}`
+2. Push 后工作流自动拉取、去重、编译
+3. 使用 `https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/microsoft.mrs` 等链接引用
 
 ---
 
