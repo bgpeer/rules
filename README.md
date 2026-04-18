@@ -118,10 +118,10 @@ payload:
 | `url` | 远程规则文件链接 |
 | `format` | `yaml`/`clash`/`json`（Clash 规则格式）、`txt`/`list`（纯域名列表）、`auto`（自动检测，默认） |
 
-**提取规则：** 与 `clash/` 目录相同，域名类 + IP 类条目全部提取：
-- 域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX 等）→ 融合进 `geo/geosite/`
-- IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）→ 融合进 `geo/geoip/`
-- mrs 格式不支持 IP，IP 条目写入 `geoip/<name>.mrs`（不写入 geosite/mrs）
+**提取规则：** 域名类 + IP 类条目全部提取：
+- 域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX 等）→ 融合进 `geo/geosite/`（全格式）
+- IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）→ 融合进 `geo/geosite/`（加 `no-resolve`）+ 额外编译进 `geoip/<name>.mrs`
+- `geoip/` 其他格式（yaml / list / json / srs / QX）不受影响，`geosite/mrs` 不含 IP
 
 **去重优先级：Loyalsoldier → clash/\*.yaml → DOMAIN-Link.json**
 - 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加前两者中没有的条目
