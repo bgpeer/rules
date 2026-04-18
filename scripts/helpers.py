@@ -1041,28 +1041,29 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                 dst_mrs  = os.path.join(out_geosite, f"{name}.mrs")
                 dst_qx   = os.path.join(out_qx_geosite, f"{name}.list")
 
-                new_typed_d = sort_typed_lines(
-                    [((_BUCKET_TO_TYPE.get(bk, bk.upper())), v)
-                     for bk, vals in new_buckets.items() for v in vals]
-                )
-                new_typed_ip = sort_typed_lines(
+                # 域名 + IP 合并后统一排序，避免 PROCESS-NAME 写在 IP 前面
+                new_typed_all = sort_typed_lines(
+                    [(_BUCKET_TO_TYPE.get(bk, bk.upper()), v)
+                     for bk, vals in new_buckets.items() for v in vals] +
                     [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in new_cidr_gs] +
                     [("IP-ASN", v) for v in new_asn_gs]
                 )
 
                 # yaml 追加（IP 加 no-resolve）
                 with open(dst_yaml, "a", encoding="utf-8") as f:
-                    for t, v in new_typed_d:
-                        f.write(f"  - {t},{v}\n")
-                    for t, v in new_typed_ip:
-                        f.write(f"  - {t},{v},no-resolve\n")
+                    for t, v in new_typed_all:
+                        if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
+                            f.write(f"  - {t},{v},no-resolve\n")
+                        else:
+                            f.write(f"  - {t},{v}\n")
 
                 # list 追加（IP 加 no-resolve）
                 with open(dst_list, "a", encoding="utf-8") as f:
-                    for t, v in new_typed_d:
-                        f.write(f"{t},{v}\n")
-                    for t, v in new_typed_ip:
-                        f.write(f"{t},{v},no-resolve\n")
+                    for t, v in new_typed_all:
+                        if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
+                            f.write(f"{t},{v},no-resolve\n")
+                        else:
+                            f.write(f"{t},{v}\n")
 
                 # json 从全量 list 重建（含 ip_cidr 字段）
                 _rebuild_geosite_json_from_list(dst_list, dst_json)
@@ -1082,18 +1083,17 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                     write_lines(mrs_src, mrs_lines)
                     mrs_tasks.append(f"domain\t{mrs_src}\t{dst_mrs}")
 
-                # QX 追加（IP-CIDR/IP-CIDR6 加 no-resolve，跳过 ASN）
+                # QX 追加（IP 加 no-resolve，跳过不支持类型）
                 qx_lines = []
-                for t, v in new_typed_d:
+                for t, v in new_typed_all:
                     if t in QX_SKIP_TYPES:
+                        continue
+                    if t in ("IP-CIDR", "IP-CIDR6"):
+                        qx_lines.append(f"{t}, {v}, no-resolve")
                         continue
                     qx_t = QX_TYPE_MAP.get(t)
                     if qx_t:
                         qx_lines.append(f"{qx_t}, {v}")
-                for t, v in new_typed_ip:
-                    if t == "IP-ASN":
-                        continue
-                    qx_lines.append(f"{t}, {v}, no-resolve")
                 if qx_lines:
                     with open(dst_qx, "a", encoding="utf-8") as f:
                         for line in qx_lines:
