@@ -673,10 +673,23 @@ def fetch_url(url, timeout=60):
         return r.read().decode("utf-8", errors="ignore")
 
 
+# sing-box JSON 字段名 → Clash 规则类型
+_SINGBOX_TO_TYPE = {
+    "domain":         "DOMAIN",
+    "domain_suffix":  "DOMAIN-SUFFIX",
+    "domain_keyword": "DOMAIN-KEYWORD",
+    "domain_regex":   "DOMAIN-REGEX",
+    "ip_cidr":        "IP-CIDR",
+    "ip_asn":         "IP-ASN",
+}
+
+
 def _iter_rule_lines(text):
     """
-    从 Clash YAML / JSON / 纯文本中提取规则行列表。
-    支持: JSON/YAML dict（payload/rules 键）、list、带 "  - " 前缀的 YAML 项、纯文本行。
+    从 Clash YAML / JSON / sing-box JSON / 纯文本中提取规则行列表。
+    支持: Clash JSON(payload:[])、sing-box JSON(rules:[{domain:[],…}])、
+          YAML list 块("  - value" 或 "  - 'value'")、纯文本行。
+    单引号/双引号包裹的 YAML scalar 值自动去除引号。
     """
     text = (text or "").strip()
     if not text:
@@ -687,30 +700,51 @@ def _iter_rule_lines(text):
         try:
             obj = json.loads(text)
             if isinstance(obj, dict):
-                items = obj.get("payload") or obj.get("rules") or []
+                payload = obj.get("payload")
+                rules   = obj.get("rules")
+                if payload is not None:
+                    items = payload
+                elif rules is not None:
+                    # sing-box 格式：rules 是 dict 列表，展开为 TYPE,value 字符串
+                    expanded = []
+                    for rule in (rules if isinstance(rules, list) else []):
+                        if isinstance(rule, str):
+                            expanded.append(rule)
+                        elif isinstance(rule, dict):
+                            for key, vals in rule.items():
+                                clash_t = _SINGBOX_TO_TYPE.get(key)
+                                if clash_t and isinstance(vals, list):
+                                    for v in vals:
+                                        expanded.append(f"{clash_t},{v}")
+                    items = expanded
+                else:
+                    items = []
             elif isinstance(obj, list):
                 items = obj
             else:
                 items = []
-            return [str(x).strip().lstrip("-").strip()
-                    for x in items
-                    if str(x).strip() and not str(x).strip().startswith("#")]
+            out = []
+            for x in items:
+                s = str(x).strip().lstrip("-").strip().strip("'\"")
+                if s and not s.startswith("#"):
+                    out.append(s)
+            return out
         except Exception:
             pass
 
-    # YAML list 块（"  - RULE,value" 格式）
+    # YAML list 块（"  - RULE,value" 或 "  - 'value'" 格式，去除引号）
     out = []
     for raw in text.splitlines():
         m = RE_ITEM.match(raw.rstrip())
         if m:
-            entry = RE_COMMENT.sub("", m.group(1).strip())
+            entry = RE_COMMENT.sub("", m.group(1).strip()).strip("'\"")
             if entry:
                 out.append(entry)
     if out:
         return out
 
-    # 纯文本兜底
-    return [s.strip() for s in text.splitlines()
+    # 纯文本兜底（去除可能的引号包裹）
+    return [s.strip().strip("'\"") for s in text.splitlines()
             if s.strip() and not s.strip().startswith("#")]
 
 
@@ -738,19 +772,35 @@ def _norm_link_fmt(fmt, text, for_ip=False):
         if s in ("payload:", "rules:"):
             return "clash"
         if "," in s:
-            prefix = s.split(",", 1)[0].strip().upper()
+            # 去除 "  - " 前缀和引号后取第一字段
+            prefix = s.lstrip("- ").strip().strip("'\"").split(",", 1)[0].strip().upper()
             if prefix in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD", "DOMAIN-REGEX",
                           "DOMAIN-WILDCARD", "IP-CIDR", "IP-CIDR6", "IP-ASN",
-                          "PROCESS-NAME", "PROCESS-NAME-REGEX"}:
+                          "PROCESS-NAME", "PROCESS-NAME-REGEX",
+                          "HOST", "HOST-SUFFIX", "HOST-KEYWORD"}:
                 return "clash"
         break
     return "ip-text" if for_ip else "domain-text"
+
+
+# QX 类型 → 标准 Clash 类型
+_QX_TYPE_REVERSE = {
+    "HOST":         "DOMAIN",
+    "HOST-SUFFIX":  "DOMAIN-SUFFIX",
+    "HOST-KEYWORD": "DOMAIN-KEYWORD",
+}
 
 
 def parse_remote_domain_entries(text, fmt):
     """
     从远程内容提取域名类条目，返回分桶 dict（不含 IP 条目）。
     fmt: clash/yaml/json → Clash 规则格式; list/txt/domain-text → 纯域名文本; auto → 自动
+    支持格式:
+      - Clash list: DOMAIN,x / DOMAIN-SUFFIX,x
+      - Clash YAML: payload: - DOMAIN,x
+      - QX list:    HOST,x,policy / HOST-SUFFIX,x,policy
+      - sing-box JSON: {"rules":[{"domain":[...],"domain_suffix":[...]}]}
+      - 纯域名文本: 无前缀→DOMAIN，.前缀→DOMAIN-SUFFIX，+.前缀→DOMAIN-SUFFIX
     """
     resolved = _norm_link_fmt(fmt, text, for_ip=False)
     buckets = {k: [] for k in ("suffix", "domain", "keyword", "regexp",
@@ -765,6 +815,7 @@ def parse_remote_domain_entries(text, fmt):
             if len(parts) < 2:
                 continue
             t, v = parts[0].upper(), parts[1]
+            t = _QX_TYPE_REVERSE.get(t, t)  # 映射 QX HOST/HOST-SUFFIX/HOST-KEYWORD
             if not v or t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
                 continue
             bucket = TYPE_TO_BUCKET.get(t)
@@ -777,13 +828,14 @@ def parse_remote_domain_entries(text, fmt):
                 buckets[bucket].append(v)
     else:  # domain-text：一行一个域名
         for line in (text or "").splitlines():
-            s = line.strip().lstrip("-").strip()
+            s = line.strip().lstrip("-").strip().strip("'\"")  # 去除引号包裹
             if not s or s.startswith("#"):
                 continue
-            # 兼容 TYPE,VALUE 格式
+            # TYPE,VALUE 格式（含 QX HOST/HOST-SUFFIX）
             if "," in s:
                 parts = [p.strip() for p in s.split(",", 2)]
                 t, v = parts[0].upper(), parts[1] if len(parts) > 1 else ""
+                t = _QX_TYPE_REVERSE.get(t, t)
                 if not v:
                     continue
                 if t == "DOMAIN" and v not in seen["domain"]:
@@ -798,10 +850,23 @@ def parse_remote_domain_entries(text, fmt):
             # 纯域名行：必须有点，不含空格/斜线/冒号
             if "." not in s or " " in s or "/" in s or ":" in s:
                 continue
-            v = s.lstrip(".")
-            if v and v not in seen["suffix"]:
-                seen["suffix"].add(v)
-                buckets["suffix"].append(v)
+            # +. 前缀（QX/Surge DOMAIN-SUFFIX 写法）
+            if s.startswith("+."):
+                v = s[2:]
+                if v and v not in seen["suffix"]:
+                    seen["suffix"].add(v)
+                    buckets["suffix"].append(v)
+            # 前导点 → DOMAIN-SUFFIX
+            elif s.startswith("."):
+                v = s.lstrip(".")
+                if v and v not in seen["suffix"]:
+                    seen["suffix"].add(v)
+                    buckets["suffix"].append(v)
+            # 无前缀 → DOMAIN（精确子域名匹配）
+            else:
+                if s not in seen["domain"]:
+                    seen["domain"].add(s)
+                    buckets["domain"].append(s)
 
     return buckets
 
@@ -851,7 +916,7 @@ def parse_remote_ip_entries(text, fmt):
                 add_asn(v)
     else:  # ip-text：一行一个 CIDR
         for line in (text or "").splitlines():
-            s = line.strip().lstrip("-").strip()
+            s = line.strip().lstrip("-").strip().strip("'\"")  # 去除引号包裹
             if not s or s.startswith("#"):
                 continue
             if "," in s:
