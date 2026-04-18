@@ -1302,11 +1302,6 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
     with open(srs_tasks_file, "a", encoding="utf-8") as f:
         for line in srs_tasks:
             f.write(line + "\n")
-        for line in mrs_tasks:
-            f.write(line + "\n")
-    with open(srs_tasks_file, "a", encoding="utf-8") as f:
-        for line in srs_tasks:
-            f.write(line + "\n")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
