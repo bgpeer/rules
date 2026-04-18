@@ -99,6 +99,77 @@ payload:
 > ⚠️ mrs 格式仅支持 IP-CIDR 类型，IP-ASN 会被跳过。
 > ⚠️ json/srs（sing-box）和 QX 同样不支持 IP-ASN，自动过滤。
 
+### DOMAIN-Link.json — 拉取远程域名规则集
+
+在 `clash/DOMAIN-Link.json` 中填写远程规则集链接，工作流会自动拉取并融合进 `geo/geosite/` 和 `QX/geosite/`：
+
+```json
+[
+  {"name": "apple",  "url": "https://example.com/Apple.list",  "format": "auto"},
+  {"name": "google", "url": "https://example.com/google.yaml", "format": "clash"}
+]
+```
+
+| 字段 | 说明 |
+|---|---|
+| `name` | 输出文件名（对应 `geo/geosite/<name>.*`） |
+| `url` | 远程规则集地址 |
+| `format` | 格式提示（见下表，默认 `auto`） |
+
+**`format` 可选值：**
+
+| 填写值 | 实际解析方式 |
+|---|---|
+| `yaml` / `json` / `clash` | Clash 规则格式（解析 `payload:` 块或 `DOMAIN,x` 行） |
+| `list` / `txt` | 纯域名列表，一行一个 |
+| `auto` 或不填 | 根据内容自动判断（推荐，默认） |
+
+**自动识别支持的输入格式：**
+
+| 来源格式 | 示例 | 识别结果 |
+|---|---|---|
+| Clash list | `DOMAIN-SUFFIX,example.com` | DOMAIN-SUFFIX |
+| Clash YAML | `payload:` + `- DOMAIN,x` | DOMAIN / DOMAIN-SUFFIX |
+| QuantumultX | `HOST-SUFFIX,example.com,policy` | DOMAIN-SUFFIX |
+| sing-box JSON | `{"rules":[{"domain_suffix":["..."]}]}` | DOMAIN-SUFFIX |
+| 引号 YAML | `- 'example.com'` / `- '+.example.com'` | DOMAIN / DOMAIN-SUFFIX |
+| 纯文本（无前缀） | `api.example.com` | DOMAIN（精确） |
+| 纯文本（`.` 前缀） | `.example.com` | DOMAIN-SUFFIX |
+| 纯文本（`+.` 前缀） | `+.example.com` | DOMAIN-SUFFIX |
+
+> 若远程规则中包含 IP-CIDR / IP-CIDR6，会同步写入对应的 `geo/geoip/<name>.mrs`。
+
+---
+
+### IP-Link.json — 拉取远程 IP 规则集
+
+在 `clash-ip/IP-Link.json` 中填写远程 IP 规则集链接，工作流会自动拉取并融合进 `geo/geoip/` 和 `QX/geoip/`：
+
+```json
+[
+  {"name": "cn", "url": "https://example.com/ChinaMax_IP.txt", "format": "txt"}
+]
+```
+
+**`format` 可选值：**
+
+| 填写值 | 实际解析方式 |
+|---|---|
+| `yaml` / `json` / `clash` | Clash 规则格式（解析 `IP-CIDR,x` / `IP-CIDR6,x` 行） |
+| `list` / `txt` / `ip-text` | 纯 CIDR 列表，一行一个 |
+| `auto` 或不填 | 根据内容自动判断（推荐，默认） |
+
+**自动识别支持的输入格式：**
+
+| 来源格式 | 示例 |
+|---|---|
+| Clash list（含 no-resolve） | `IP-CIDR,1.2.3.0/24,no-resolve` |
+| Clash YAML（引号包裹） | `- '1.2.3.0/24'` |
+| 纯 CIDR 文本 | `1.2.3.0/24` / `2001:db8::/32` |
+| sing-box JSON | `{"rules":[{"ip_cidr":["1.2.3.0/24"]}]}` |
+
+---
+
 ### 使用示例
 
 想给抖音补充自定义 IP 段和进程规则：
