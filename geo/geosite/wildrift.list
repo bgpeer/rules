@@ -42,8 +42,8 @@ PROCESS-NAME,com.riotgames.league.teamfighttactics
 PROCESS-NAME,RiotClientServices.exe
 PROCESS-NAME,LeagueClientUx.exe
 PROCESS-NAME,LeagueClient.exe
-PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
 DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
 DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
 DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
 DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
+PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$

@@ -36,6 +36,9 @@ DOMAIN-SUFFIX,media.telegram.org
 DOMAIN-SUFFIX,telegram.video
 DOMAIN-SUFFIX,telegram-store.org
 DOMAIN-SUFFIX,tlgrm.ru
+DOMAIN-KEYWORD,nicegram
+DOMAIN-KEYWORD,telegram
+DOMAIN-KEYWORD,mtproto
 DOMAIN-WILDCARD,*.telegram.org
 DOMAIN-WILDCARD,*.telegram.me
 DOMAIN-WILDCARD,*.t.me
@@ -47,9 +50,6 @@ DOMAIN-WILDCARD,*.telegramcdn.com
 DOMAIN-WILDCARD,*.telegra.ph
 DOMAIN-WILDCARD,*.graph.org
 DOMAIN-WILDCARD,*.mtproto.org
-DOMAIN-KEYWORD,nicegram
-DOMAIN-KEYWORD,telegram
-DOMAIN-KEYWORD,mtproto
 IP-CIDR,91.108.0.0/16,no-resolve
 IP-CIDR,91.105.192.0/23,no-resolve
 IP-CIDR,91.108.20.0/22,no-resolve
@@ -79,13 +79,6 @@ PROCESS-NAME,telegram-desktop
 PROCESS-NAME,Telegram.exe
 PROCESS-NAME,TelegramDesktop.exe
 PROCESS-NAME,Telegram
-PROCESS-NAME-REGEX,(?i)telegram
-PROCESS-NAME-REGEX,(?i)^org\.telegram(\..+)?$
-PROCESS-NAME-REGEX,(?i)^org\.thunderdog\.challegram(\..+)?$
-PROCESS-NAME-REGEX,(?i)^nekox\.messenger(\..+)?$
-PROCESS-NAME-REGEX,(?i)^tw\.nekomimi\.nekogram(\..+)?$
-PROCESS-NAME-REGEX,(?i)^xyz\.nextalone\.nagram(\..+)?$
-PROCESS-NAME-REGEX,(?i)^nicegram(\..+)?$
 DOMAIN-REGEX,(?i)(^|\.)t(me|g)\b
 DOMAIN-REGEX,(?i)(^|\.)telegram(\.org|\.me)$
 DOMAIN-REGEX,(?i)(^|\.)web\.telegram\.org$
@@ -104,3 +97,10 @@ DOMAIN-REGEX,(?i)(^|\.)telegram-?cdn\.org$
 DOMAIN-REGEX,(?i)(^|\.)telegramcdn\.com$
 DOMAIN-REGEX,(?i)(^|\.)media\.telegram\.org$
 DOMAIN-REGEX,(?i)^api\.(imem|swiftgram)\.app$
+PROCESS-NAME-REGEX,(?i)telegram
+PROCESS-NAME-REGEX,(?i)^org\.telegram(\..+)?$
+PROCESS-NAME-REGEX,(?i)^org\.thunderdog\.challegram(\..+)?$
+PROCESS-NAME-REGEX,(?i)^nekox\.messenger(\..+)?$
+PROCESS-NAME-REGEX,(?i)^tw\.nekomimi\.nekogram(\..+)?$
+PROCESS-NAME-REGEX,(?i)^xyz\.nextalone\.nagram(\..+)?$
+PROCESS-NAME-REGEX,(?i)^nicegram(\..+)?$

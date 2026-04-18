@@ -89,6 +89,11 @@ DOMAIN-SUFFIX,openaiapis.com
 DOMAIN-SUFFIX,openaidev.com
 DOMAIN-SUFFIX,openaiproxy.com
 DOMAIN-SUFFIX,openaiworks.com
+DOMAIN-KEYWORD,openai
+DOMAIN-KEYWORD,gpt
+DOMAIN-KEYWORD,chatgpt
+DOMAIN-KEYWORD,oai
+DOMAIN-KEYWORD,livekit
 DOMAIN-WILDCARD,*.auth.openai.com
 DOMAIN-WILDCARD,*.ct.sendgrid.net
 DOMAIN-WILDCARD,*.featuregates.org
@@ -98,11 +103,6 @@ DOMAIN-WILDCARD,*.oaistatic.com
 DOMAIN-WILDCARD,*.oaiusercontent.com
 DOMAIN-WILDCARD,*.openai.com
 DOMAIN-WILDCARD,*.statsig.com
-DOMAIN-KEYWORD,openai
-DOMAIN-KEYWORD,gpt
-DOMAIN-KEYWORD,chatgpt
-DOMAIN-KEYWORD,oai
-DOMAIN-KEYWORD,livekit
 IP-CIDR,24.199.123.28/32,no-resolve
 IP-CIDR,64.23.132.171/32,no-resolve
 IP-ASN,20473,no-resolve
@@ -110,7 +110,6 @@ PROCESS-NAME,com.openai.chatgpt
 PROCESS-NAME,com.openai.chatgpt.beta
 PROCESS-NAME,ChatGPT
 PROCESS-NAME,com.microsoft.bing
-PROCESS-NAME-REGEX,(?i)^(com\.openai\.chatgpt(\..+)?)$
 DOMAIN-REGEX,^chatgpt-async-webps-prod-\S+-\d+\.webpubsub\.azure\.com$
 DOMAIN-REGEX,(?i)(^|\.)chatgpt\.com$
 DOMAIN-REGEX,(?i)(^|\.)chat\.openai\.com$
@@ -154,3 +153,4 @@ DOMAIN-REGEX,(?i)(^|\.)intercom\.io$
 DOMAIN-REGEX,(?i)(^|\.)intercomcdn\.com$
 DOMAIN-REGEX,(?i)(^|\.)workos\.com$
 DOMAIN-REGEX,(?i)(^|\.)workoscdn\.com$
+PROCESS-NAME-REGEX,(?i)^(com\.openai\.chatgpt(\..+)?)$
