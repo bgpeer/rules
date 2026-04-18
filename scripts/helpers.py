@@ -1232,26 +1232,26 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             dst_mrs  = os.path.join(out_geoip, f"{name}.mrs")
             dst_qx   = os.path.join(out_qx_geoip, f"{name}.list")
 
+            # 统一排序：IPv4 → IPv6 → ASN
+            new_typed = sort_typed_lines(
+                [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in new_cidr] +
+                [("IP-ASN", v) for v in new_asn]
+            )
+
             # yaml 追加（geoip 侧不加 no-resolve）
             yaml_lines = []
             if not os.path.isfile(dst_yaml):
                 yaml_lines.append("payload:")
-            for v in new_cidr:
-                t = "IP-CIDR6" if ":" in v else "IP-CIDR"
+            for t, v in new_typed:
                 yaml_lines.append(f"  - {t},{v}")
-            for v in new_asn:
-                yaml_lines.append(f"  - IP-ASN,{v}")
             with open(dst_yaml, "a", encoding="utf-8") as f:
                 for line in yaml_lines:
                     f.write(line + "\n")
 
             # list 追加
             with open(dst_list, "a", encoding="utf-8") as f:
-                for v in new_cidr:
-                    t = "IP-CIDR6" if ":" in v else "IP-CIDR"
+                for t, v in new_typed:
                     f.write(f"{t},{v}\n")
-                for v in new_asn:
-                    f.write(f"IP-ASN,{v}\n")
 
             # json 从全量 list 重建
             all_cidrs_full = []
@@ -1276,10 +1276,10 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
 
             # QX 追加（跳过 ASN，加 no-resolve）
-            if new_cidr:
+            qx_new = [(t, v) for t, v in new_typed if t != "IP-ASN"]
+            if qx_new:
                 with open(dst_qx, "a", encoding="utf-8") as f:
-                    for v in new_cidr:
-                        t = "IP-CIDR6" if ":" in v else "IP-CIDR"
+                    for t, v in qx_new:
                         f.write(f"{t}, {v}, no-resolve\n")
 
         ok += 1
@@ -1361,30 +1361,27 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
         dst_mrs  = os.path.join(out_geoip, f"{tag}.mrs")
         dst_qx   = os.path.join(out_qx_geoip, f"{tag}.list")
 
+        # 统一排序：IPv4 → IPv6 → ASN
+        new_typed = sort_typed_lines(
+            [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in new_cidr] +
+            [("IP-ASN", v) for v in new_asn]
+        )
+
         # geoip 侧不加 no-resolve
         # yaml 追加
         yaml_append = []
         if not os.path.isfile(dst_yaml):
             yaml_append.append("payload:")
-        for v in new_cidr:
-            t = "IP-CIDR6" if ":" in v else "IP-CIDR"
+        for t, v in new_typed:
             yaml_append.append(f"  - {t},{v}")
-        for v in new_asn:
-            yaml_append.append(f"  - IP-ASN,{v}")
         with open(dst_yaml, "a", encoding="utf-8") as f:
             for line in yaml_append:
                 f.write(line + "\n")
 
         # list 追加
-        list_append = []
-        for v in new_cidr:
-            t = "IP-CIDR6" if ":" in v else "IP-CIDR"
-            list_append.append(f"{t},{v}")
-        for v in new_asn:
-            list_append.append(f"IP-ASN,{v}")
         with open(dst_list, "a", encoding="utf-8") as f:
-            for line in list_append:
-                f.write(line + "\n")
+            for t, v in new_typed:
+                f.write(f"{t},{v}\n")
 
         # json 重建（从 list，排序后输出）
         all_cidrs = []
@@ -1416,8 +1413,9 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
 
         # QX list 追加（跳过 ASN，加 no-resolve）
         qx_append = []
-        for v in new_cidr:
-            t = "IP-CIDR6" if ":" in v else "IP-CIDR"
+        for t, v in new_typed:
+            if t == "IP-ASN":
+                continue
             qx_append.append(f"{t}, {v}, no-resolve")
         if qx_append:
             with open(dst_qx, "a", encoding="utf-8") as f:
