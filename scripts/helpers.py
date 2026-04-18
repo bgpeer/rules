@@ -1008,6 +1008,61 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
         f.write("\n")
 
 
+def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
+                          mrs_tasks, srs_tasks, workdir):
+    """将 IP 条目追加进 geosite 对应文件（no-resolve），并写入 geoip mrs 源。"""
+    dst_yaml = os.path.join(out_geosite, f"{name}.yaml")
+    dst_list = os.path.join(out_geosite, f"{name}.list")
+    dst_json = os.path.join(out_geosite, f"{name}.json")
+    dst_srs  = os.path.join(out_geosite, f"{name}.srs")
+    dst_qx   = os.path.join(out_qx_geosite, f"{name}.list")
+
+    with open(dst_yaml, "a", encoding="utf-8") as f:
+        for t, v in ip_typed:
+            f.write(f"  - {t},{v},no-resolve\n")
+
+    with open(dst_list, "a", encoding="utf-8") as f:
+        for t, v in ip_typed:
+            f.write(f"{t},{v},no-resolve\n")
+
+    _rebuild_geosite_json_from_list(dst_list, dst_json)
+    srs_tasks.append(f"{dst_json}\t{dst_srs}")
+
+    # QX：IP-CIDR/IP-CIDR6 加 no-resolve，IP-ASN 跳过
+    qx_ip = [(t, v) for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
+    if qx_ip:
+        with open(dst_qx, "a", encoding="utf-8") as f:
+            for t, v in qx_ip:
+                f.write(f"{t}, {v}, no-resolve\n")
+
+    # geoip mrs（与 geosite 同名）
+    cidr_only = [v for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
+    if cidr_only:
+        out_geoip = os.path.join(os.path.dirname(out_geosite), "geoip")
+        geoip_list = os.path.join(out_geoip, f"{name}.list")
+        # 合并已有 geoip CIDR（避免覆盖 Loyalsoldier 数据）
+        existing_cidr = []
+        existing_seen = set()
+        for line in read_lines(geoip_list):
+            if line.startswith("IP-CIDR6,"):
+                v = line[9:].split(",")[0]
+            elif line.startswith("IP-CIDR,"):
+                v = line[8:].split(",")[0]
+            else:
+                continue
+            if v.lower() not in existing_seen:
+                existing_seen.add(v.lower())
+                existing_cidr.append(v)
+        merged = existing_cidr + [v for v in cidr_only if v.lower() not in existing_seen]
+        if merged:
+            mrs_src = os.path.join(workdir, "dl_ip_mrs", f"{name}.txt")
+            os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
+            write_lines(mrs_src, merged)
+            mrs_tasks.append(
+                f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
+            )
+
+
 def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                           mrs_tasks_file, srs_tasks_file, workdir):
     """
@@ -1052,6 +1107,13 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
             continue
 
         raw_buckets = parse_remote_domain_entries(text, fmt)
+        all_cidr, all_asn = parse_remote_ip_entries(text, fmt)
+
+        # 对 IP 条目排序
+        ip_typed = sort_typed_lines(
+            [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in all_cidr] +
+            [("IP-ASN", v) for v in all_asn]
+        )
 
         # ── 对比已有 .list 去重 ──────────────────────────────────────────────
         exist_list = os.path.join(out_geosite, f"{name}.list")
@@ -1064,8 +1126,13 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                 if norm_value(t, v) not in exist_seen.get(t, set()):
                     new_buckets[bkey].append(v)
 
-        has_new = any(new_buckets.values())
-        total_new = sum(len(v) for v in new_buckets.values())
+        new_ip_typed = [
+            (t, v) for t, v in ip_typed
+            if norm_value(t, v) not in exist_seen.get(t, set())
+        ]
+
+        has_new = any(new_buckets.values()) or bool(new_ip_typed)
+        total_new = sum(len(v) for v in new_buckets.values()) + len(new_ip_typed)
 
         if not has_new:
             print(f"[DOMAIN-LINK] {name}: all entries already covered, skip")
@@ -1076,10 +1143,14 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
               f"keyword={len(new_buckets['keyword'])} regexp={len(new_buckets['regexp'])})")
 
         if not exist_seen:
-            # ── 全新 tag：直接 emit ──────────────────────────────────────────
+            # ── 全新 tag：直接 emit，再追加 IP 条目 ─────────────────────────
             emit_geosite_tag(name, new_buckets, "",
                              out_geosite, out_qx_geosite,
                              mrs_tasks, srs_tasks, workdir)
+            if ip_typed:
+                _append_ip_to_geosite(name, ip_typed,
+                                      out_geosite, out_qx_geosite,
+                                      mrs_tasks, srs_tasks, workdir)
         else:
             # ── 已有数据：APPEND 模式（同 cmd_batch_clash_ip 风格）───────────
             dst_yaml = os.path.join(out_geosite, f"{name}.yaml")
@@ -1136,6 +1207,12 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                 with open(dst_qx, "a", encoding="utf-8") as f:
                     for line in qx_lines:
                         f.write(line + "\n")
+
+            # IP 条目追加（geosite 侧加 no-resolve）
+            if new_ip_typed:
+                _append_ip_to_geosite(name, new_ip_typed,
+                                      out_geosite, out_qx_geosite,
+                                      mrs_tasks, srs_tasks, workdir)
 
         ok += 1
 
