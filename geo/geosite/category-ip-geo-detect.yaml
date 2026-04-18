@@ -1,12 +1,12 @@
 payload:
   - DOMAIN,checkip.amazonaws.com
-  - DOMAIN,checkip.dyndns.org
   - DOMAIN,checkip.dyn.com
+  - DOMAIN,checkip.dyndns.org
   - DOMAIN,ip.comss.net
   - DOMAIN,ipv4-check-perf.radar.cloudflare.com
   - DOMAIN,ipv6-check-perf.radar.cloudflare.com
-  - DOMAIN-SUFFIX,ipify.org
-  - DOMAIN-SUFFIX,checkip.org
+  - DOMAIN-SUFFIX,2ip.io
+  - DOMAIN-SUFFIX,2ip.ru
   - DOMAIN-SUFFIX,2ip.ua
   - DOMAIN-SUFFIX,51degrees.com
   - DOMAIN-SUFFIX,abstractapi.com
@@ -14,7 +14,7 @@ payload:
   - DOMAIN-SUFFIX,apivoid.com
   - DOMAIN-SUFFIX,bigdatacloud.net
   - DOMAIN-SUFFIX,check-host.net
-  - DOMAIN-SUFFIX,ipinfo.io
+  - DOMAIN-SUFFIX,checkip.org
   - DOMAIN-SUFFIX,checkip.ru
   - DOMAIN-SUFFIX,country.is
   - DOMAIN-SUFFIX,curlmyip.net
@@ -30,6 +30,7 @@ payload:
   - DOMAIN-SUFFIX,freegeoip.app
   - DOMAIN-SUFFIX,freeipapi.com
   - DOMAIN-SUFFIX,geodatatool.com
+  - DOMAIN-SUFFIX,geoip.noc.gov.ru
   - DOMAIN-SUFFIX,geojs.io
   - DOMAIN-SUFFIX,geolocation-db.com
   - DOMAIN-SUFFIX,geoplugin.com
@@ -43,15 +44,19 @@ payload:
   - DOMAIN-SUFFIX,ifconfig.co
   - DOMAIN-SUFFIX,ifconfig.es
   - DOMAIN-SUFFIX,ifconfig.io
-  - DOMAIN-SUFFIX,2ip.io
+  - DOMAIN-SUFFIX,ifconfig.me
   - DOMAIN-SUFFIX,ip-adress.com
   - DOMAIN-SUFFIX,ip-api.com
   - DOMAIN-SUFFIX,ip-api.io
   - DOMAIN-SUFFIX,ip-api.ru
   - DOMAIN-SUFFIX,ip-check.info
   - DOMAIN-SUFFIX,ip-score.com
+  - DOMAIN-SUFFIX,ip.hetzner.com
+  - DOMAIN-SUFFIX,ip.mail.ru
   - DOMAIN-SUFFIX,ip.me
+  - DOMAIN-SUFFIX,ip.nic.ru
   - DOMAIN-SUFFIX,ip.sb
+  - DOMAIN-SUFFIX,ip.tyk.nu
   - DOMAIN-SUFFIX,ip2c.org
   - DOMAIN-SUFFIX,ip2location.com
   - DOMAIN-SUFFIX,ip2location.io
@@ -74,12 +79,15 @@ payload:
   - DOMAIN-SUFFIX,ipecho.net
   - DOMAIN-SUFFIX,ipfind.io
   - DOMAIN-SUFFIX,ipfinder.io
+  - DOMAIN-SUFFIX,ipgeo.vercel.app
   - DOMAIN-SUFFIX,ipgeolocation.io
-  - DOMAIN-SUFFIX,ifconfig.me
-  - DOMAIN-SUFFIX,2ip.ru
-  - DOMAIN-SUFFIX,iplocate.io
-  - DOMAIN-SUFFIX,ipligence.com
+  - DOMAIN-SUFFIX,ipify.org
+  - DOMAIN-SUFFIX,ipinfo.io
+  - DOMAIN-SUFFIX,ipip.net
+  - DOMAIN-SUFFIX,iplark.com
   - DOMAIN-SUFFIX,ipleak.net
+  - DOMAIN-SUFFIX,ipligence.com
+  - DOMAIN-SUFFIX,iplocate.io
   - DOMAIN-SUFFIX,iplocation.com
   - DOMAIN-SUFFIX,iplocation.io
   - DOMAIN-SUFFIX,iplocation.net
@@ -88,7 +96,10 @@ payload:
   - DOMAIN-SUFFIX,ipregistry.co
   - DOMAIN-SUFFIX,iproyal.com
   - DOMAIN-SUFFIX,ipstack.com
+  - DOMAIN-SUFFIX,ipv4-internet.yandex.net
+  - DOMAIN-SUFFIX,ipv6-internet.yandex.net
   - DOMAIN-SUFFIX,ipverify.com
+  - DOMAIN-SUFFIX,ipw.cn
   - DOMAIN-SUFFIX,ipwho.is
   - DOMAIN-SUFFIX,ipwhois.io
   - DOMAIN-SUFFIX,ipxapi.com
@@ -97,9 +108,11 @@ payload:
   - DOMAIN-SUFFIX,mon-ip.com
   - DOMAIN-SUFFIX,monip.org
   - DOMAIN-SUFFIX,my-ip.io
+  - DOMAIN-SUFFIX,my.ipinfo.app
   - DOMAIN-SUFFIX,myexternalip.com
   - DOMAIN-SUFFIX,myip.com
   - DOMAIN-SUFFIX,myip.expert
+  - DOMAIN-SUFFIX,myip.la
   - DOMAIN-SUFFIX,myip.ms
   - DOMAIN-SUFFIX,myip.ru
   - DOMAIN-SUFFIX,myip.wtf
@@ -133,20 +146,7 @@ payload:
   - DOMAIN-SUFFIX,where-am-i.co
   - DOMAIN-SUFFIX,whoer.net
   - DOMAIN-SUFFIX,whoerip.com
+  - DOMAIN-SUFFIX,whois.pconline.com.cn
   - DOMAIN-SUFFIX,whoisxmlapi.com
   - DOMAIN-SUFFIX,wieistmeineip.de
   - DOMAIN-SUFFIX,wtfismyip.com
-  - DOMAIN-SUFFIX,ipip.net
-  - DOMAIN-SUFFIX,my.ipinfo.app
-  - DOMAIN-SUFFIX,ip.hetzner.com
-  - DOMAIN-SUFFIX,ip.mail.ru
-  - DOMAIN-SUFFIX,ip.nic.ru
-  - DOMAIN-SUFFIX,ip.tyk.nu
-  - DOMAIN-SUFFIX,ipgeo.vercel.app
-  - DOMAIN-SUFFIX,ipv4-internet.yandex.net
-  - DOMAIN-SUFFIX,ipv6-internet.yandex.net
-  - DOMAIN-SUFFIX,geoip.noc.gov.ru
-  - DOMAIN-SUFFIX,iplark.com
-  - DOMAIN-SUFFIX,ipw.cn
-  - DOMAIN-SUFFIX,whois.pconline.com.cn
-  - DOMAIN-SUFFIX,myip.la
