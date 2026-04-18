@@ -26,6 +26,9 @@ DOMAIN-SUFFIX,claudeusercontent.net
 DOMAIN-SUFFIX,modelcontextprotocol.io
 DOMAIN-SUFFIX,datadoghq.com
 DOMAIN-SUFFIX,datadog.pool.ntp.org
+DOMAIN-KEYWORD,anthropic
+DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,claudeai
 DOMAIN-WILDCARD,*.anthropic.com
 DOMAIN-WILDCARD,*.claude.ai
 DOMAIN-WILDCARD,*.claude.com
@@ -34,9 +37,6 @@ DOMAIN-WILDCARD,*.claudeusercontent.net
 DOMAIN-WILDCARD,*.anthropic-cdn.com
 DOMAIN-WILDCARD,*.mcp.claude.com
 DOMAIN-WILDCARD,*.modelcontextprotocol.io
-DOMAIN-KEYWORD,anthropic
-DOMAIN-KEYWORD,claude
-DOMAIN-KEYWORD,claudeai
 IP-CIDR,160.79.104.0/21,no-resolve
 IP-CIDR,160.79.104.0/23,no-resolve
 IP-CIDR6,2607:6bc0::/48,no-resolve

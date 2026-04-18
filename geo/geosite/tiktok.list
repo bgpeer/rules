@@ -124,11 +124,6 @@ PROCESS-NAME,com.ss.android.ugc.aweme.now
 PROCESS-NAME,com.ss.android.ugc.aweme.shop
 PROCESS-NAME,com.rezvorck.tiktokplugin
 PROCESS-NAME,com.bd.nproject
-PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
 DOMAIN-REGEX,(?i)(^|\.)tiktok([a-z0-9-]*)\.(com|us|app)$
 DOMAIN-REGEX,(?i)(^|\.)tiktok(v|cdn|live|shop)([a-z0-9-]*)\.(com|us)$
 DOMAIN-REGEX,(?i)(^|\.)tt(webview|live|wstatic)([a-z0-9-]*)\.(com|net)$
@@ -136,6 +131,11 @@ DOMAIN-REGEX,(?i)(^|\.)ttoversea(\.com|\.net)$
 DOMAIN-REGEX,(?i)(^|\.)byteoversea(\.com|\.net)$
 DOMAIN-REGEX,(?i)(^|\.)((i)?bytedapm|byteintlapi|bytegecko(-i18n)?)\.com$
 DOMAIN-REGEX,(?i)(^|\.)((isnssdk|snssdk|sgpstatp|pstatp|ipstatp))\.com$
+PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
 PROCESS-PATH-REGEX,(?i).*\\TikTok.*\.exe$
 PROCESS-PATH-REGEX,(?i).*\\TikTok.*Live.*Studio.*\.exe$
 PROCESS-PATH-REGEX,(?i).*\\CapCut.*\.exe$

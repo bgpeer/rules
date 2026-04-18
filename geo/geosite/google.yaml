@@ -1218,14 +1218,6 @@ payload:
   - DOMAIN-SUFFIX,ai.google.dev
   - DOMAIN-SUFFIX,generativelanguage.googleapis.com
   - DOMAIN-SUFFIX,aiplatform.googleapis.com
-  - DOMAIN-WILDCARD,*.gemini.google.com
-  - DOMAIN-WILDCARD,*.gemini.google
-  - DOMAIN-WILDCARD,*.deepmind.google
-  - DOMAIN-WILDCARD,*.deepmind.google.com
-  - DOMAIN-WILDCARD,*.deepmind.com
-  - DOMAIN-WILDCARD,*.ai.google.dev
-  - DOMAIN-WILDCARD,*.generativelanguage.googleapis.com
-  - DOMAIN-WILDCARD,*.aiplatform.googleapis.com
   - DOMAIN-KEYWORD,appspot
   - DOMAIN-KEYWORD,blogspot
   - DOMAIN-KEYWORD,gmail
@@ -1239,6 +1231,14 @@ payload:
   - DOMAIN-KEYWORD,ytimg
   - DOMAIN-KEYWORD,generativelanguage
   - DOMAIN-KEYWORD,gemini
+  - DOMAIN-WILDCARD,*.gemini.google.com
+  - DOMAIN-WILDCARD,*.gemini.google
+  - DOMAIN-WILDCARD,*.deepmind.google
+  - DOMAIN-WILDCARD,*.deepmind.google.com
+  - DOMAIN-WILDCARD,*.deepmind.com
+  - DOMAIN-WILDCARD,*.ai.google.dev
+  - DOMAIN-WILDCARD,*.generativelanguage.googleapis.com
+  - DOMAIN-WILDCARD,*.aiplatform.googleapis.com
   - IP-CIDR,172.110.32.0/21,no-resolve
   - IP-CIDR,173.194.0.0/16,no-resolve
   - IP-CIDR,216.73.80.0/20,no-resolve
@@ -1278,9 +1278,6 @@ payload:
   - PROCESS-NAME,Gemini.exe
   - PROCESS-NAME,gemini
   - PROCESS-NAME,gemini.exe
-  - PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
-  - PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
-  - PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$
   - DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.xn--ngstr-lra8j\.com$
   - DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.googlevideo\.com$
   - DOMAIN-REGEX,^(.*\.)?gemini\.google$
@@ -1317,6 +1314,9 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)dl\.google\.com$
   - DOMAIN-REGEX,(?i)(^|\.)dl\.l\.google\.com$
   - DOMAIN-REGEX,(?i)(^|\.)update\.googleapis\.com$
+  - PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
+  - PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
+  - PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$
   - PROCESS-NAME-WILDCARD,*Gemini*
   - PROCESS-NAME-WILDCARD,*gemini*
   - PROCESS-NAME-WILDCARD,*google*bard*
