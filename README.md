@@ -31,6 +31,59 @@
 
 ---
 
+### clash/DOMAIN-Link.json — 远程规则订阅（全类型）
+
+如果你想引入外部链接的规则集（如 blackmatrix7、Loyalsoldier 其他仓库等），可以编辑 `clash/DOMAIN-Link.json`，无需手动下载和维护文件。
+
+**文件格式：**
+
+```json
+[
+  {"name": "microsoft", "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml", "format": "yaml"},
+  {"name": "icloud",    "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt", "format": "txt"}
+]
+```
+
+| 字段 | 说明 |
+|---|---|
+| `name` | 输出文件名（即 `geo/geosite/<name>.*` / `geo/geoip/<name>.*`） |
+| `url` | 远程规则文件链接 |
+| `format` | 格式提示（见下表，默认 `auto`） |
+
+**`format` 可选值：**
+
+| 填写值 | 实际解析方式 |
+|---|---|
+| `yaml` / `json` / `clash` | Clash 规则格式（解析 `payload:` 块或 `DOMAIN,x` 行） |
+| `list` / `txt` | 纯域名列表，一行一个 |
+| `auto` 或不填 | 根据内容自动判断（推荐，默认） |
+
+**自动识别支持的输入格式：**
+
+| 来源格式 | 示例 | 识别结果 |
+|---|---|---|
+| Clash list | `DOMAIN-SUFFIX,example.com` | DOMAIN-SUFFIX |
+| Clash YAML | `payload:` + `- DOMAIN,x` | DOMAIN / DOMAIN-SUFFIX |
+| QuantumultX | `HOST-SUFFIX,example.com,policy` | DOMAIN-SUFFIX |
+| sing-box JSON | `{"rules":[{"domain_suffix":["..."]}]}` | DOMAIN-SUFFIX |
+| 引号 YAML | `- 'example.com'` / `- '+.example.com'` | DOMAIN / DOMAIN-SUFFIX |
+| 纯文本（无前缀） | `api.example.com` | DOMAIN（精确） |
+| 纯文本（`.` 前缀） | `.example.com` | DOMAIN-SUFFIX |
+| 纯文本（`+.` 前缀） | `+.example.com` | DOMAIN-SUFFIX |
+
+**提取规则：** 域名类 + IP 类条目全部提取：
+- 域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX 等）→ 融合进 `geo/geosite/`（全格式）
+- IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）→ 融合进 `geo/geosite/`（加 `no-resolve`）+ 额外编译进 `geoip/<name>.mrs`
+- `geoip/` 其他格式（yaml / list / json / srs / QX）不受影响，`geosite/mrs` 不含 IP
+
+**去重优先级：Loyalsoldier → clash/\*.yaml → DOMAIN-Link.json**
+- 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加前两者中没有的条目
+- 若 `name` 是全新名字 → 直接新建全部格式文件
+
+**各格式支持情况与 clash/ 目录相同。**
+
+---
+
 ## 自定义规则扩展（clash / clash-ip）
 
 除了 Loyalsoldier 的原始数据，你还可以通过 `clash/` 和 `clash-ip/` 目录添加自定义规则，它们会自动融合进对应的输出文件。
@@ -99,36 +152,6 @@ payload:
 > ⚠️ mrs 格式仅支持 IP-CIDR 类型，IP-ASN 会被跳过。
 > ⚠️ json/srs（sing-box）和 QX 同样不支持 IP-ASN，自动过滤。
 
-### clash/DOMAIN-Link.json — 远程规则订阅（全类型）
-
-如果你想引入外部链接的规则集（如 blackmatrix7、Loyalsoldier 其他仓库等），可以编辑 `clash/DOMAIN-Link.json`，无需手动下载和维护文件。
-
-**文件格式：**
-
-```json
-[
-  {"name": "microsoft", "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml", "format": "yaml"},
-  {"name": "icloud",    "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt", "format": "txt"}
-]
-```
-
-| 字段 | 说明 |
-|---|---|
-| `name` | 输出文件名（即 `geo/geosite/<name>.*` / `geo/geoip/<name>.*`） |
-| `url` | 远程规则文件链接 |
-| `format` | `yaml`/`clash`/`json`（Clash 规则格式）、`txt`/`list`（纯域名列表）、`auto`（自动检测，默认） |
-
-**提取规则：** 域名类 + IP 类条目全部提取：
-- 域名类条目（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD / DOMAIN-REGEX 等）→ 融合进 `geo/geosite/`（全格式）
-- IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）→ 融合进 `geo/geosite/`（加 `no-resolve`）+ 额外编译进 `geoip/<name>.mrs`
-- `geoip/` 其他格式（yaml / list / json / srs / QX）不受影响，`geosite/mrs` 不含 IP
-
-**去重优先级：Loyalsoldier → clash/\*.yaml → DOMAIN-Link.json**
-- 若 `name` 与已有 tag 同名（如 `"name": "google"`）→ 只追加前两者中没有的条目
-- 若 `name` 是全新名字 → 直接新建全部格式文件
-
-**各格式支持情况与 clash/ 目录相同（见上表）。**
-
 ---
 
 ### clash-ip/IP-Link.json — 远程 IP 规则订阅
@@ -144,13 +167,22 @@ payload:
 ]
 ```
 
-**提取规则：** 只提取 IP 类条目，域名类条目一律忽略：
+**`format` 可选值：**
 
-| 提取类型 | yaml | list | mrs | json/srs | QX list |
-|---|:---:|:---:|:---:|:---:|:---:|
-| IP-CIDR（IPv4） | ✅ | ✅ | ✅ | ✅ | ✅ |
-| IP-CIDR6（IPv6） | ✅ | ✅ | ✅ | ✅ | ✅ |
-| IP-ASN | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+| 填写值 | 实际解析方式 |
+|---|---|
+| `yaml` / `json` / `clash` | Clash 规则格式（解析 `IP-CIDR,x` / `IP-CIDR6,x` 行） |
+| `list` / `txt` / `ip-text` | 纯 CIDR 列表，一行一个 |
+| `auto` 或不填 | 根据内容自动判断（推荐，默认） |
+
+**自动识别支持的输入格式：**
+
+| 来源格式 | 示例 |
+|---|---|
+| Clash list（含 no-resolve） | `IP-CIDR,1.2.3.0/24,no-resolve` |
+| Clash YAML（引号包裹） | `- '1.2.3.0/24'` |
+| 纯 CIDR 文本 | `1.2.3.0/24` / `2001:db8::/32` |
+| sing-box JSON | `{"rules":[{"ip_cidr":["1.2.3.0/24"]}]}` |
 
 **去重优先级：Loyalsoldier → clash-ip/\*.yaml → IP-Link.json**
 - 同名 tag 已存在则只追加新增条目，否则新建。
