@@ -51,7 +51,7 @@
 
 | 字段 | 说明 |
 |---|---|
-| `name` | 输出文件名(即 `geo/geosite/<name>.*` / `geo/geoip/<name>.*`) |
+| `name` | 输出文件名(即 `geo/geosite/名称.*` / `geo/geoip/名称.*`) |
 | `url` | 远程规则文件链接 |
 | `format` | 格式提示(见下表,默认 `auto`) |
 
