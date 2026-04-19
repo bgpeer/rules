@@ -276,6 +276,11 @@ https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 
 ## [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 
+## ClashMi配置复写
+```yaml
+https://gh.669588.xyz/gist/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
+```
+
 ---
 
 ## [可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
