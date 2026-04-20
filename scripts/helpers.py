@@ -355,12 +355,12 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
                 deduped.append(v)
         j_cidrs = deduped
 
-    # json 按 key 顺序排列（domain → domain_suffix → domain_keyword → ip_cidr → domain_regex）
+    # json 按 key 顺序排列（domain → domain_suffix → ip_cidr → domain_keyword → domain_regex）
     rule = {}
     if j_domain:   rule["domain"]         = j_domain
     if j_suffix:   rule["domain_suffix"]  = j_suffix
-    if j_keyword:  rule["domain_keyword"] = j_keyword
     if j_cidrs:    rule["ip_cidr"]        = j_cidrs
+    if j_keyword:  rule["domain_keyword"] = j_keyword
     if j_regexp:   rule["domain_regex"]   = j_regexp
     json_path = os.path.join(out_geosite, f"{tag}.json")
     with open(json_path, "w") as f:
@@ -999,8 +999,8 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
     rule = {}
     if j_domain:   rule["domain"]          = j_domain
     if j_suffix:   rule["domain_suffix"]   = j_suffix
-    if j_keyword:  rule["domain_keyword"]  = j_keyword
     if j_cidrs:    rule["ip_cidr"]         = j_cidrs
+    if j_keyword:  rule["domain_keyword"]  = j_keyword
     if j_regexp:   rule["domain_regex"]    = j_regexp
     with open(json_path, "w") as f:
         json.dump({"version": 3, "rules": [rule] if rule else []},
