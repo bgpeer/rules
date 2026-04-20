@@ -163,6 +163,12 @@ def sort_qx_lines(lines):
     return sorted(lines, key=qx_key)
 
 
+def _cidr_sort_key(v):
+    """mrs CIDR 排序键：IPv4 在前，IPv6 在后；同版本按网络地址和前缀长度升序。"""
+    net = ipaddress.ip_network(v, strict=False)
+    return (net.version, net.network_address.packed, net.prefixlen)
+
+
 def parse_clash_to_buckets(yaml_path):
     """解析 clash yaml 并分桶返回 dict"""
     buckets = {k: [] for k in ("suffix", "domain", "keyword", "regexp", "wildcard",
@@ -372,7 +378,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
     # mrs 排序：domain 在前，suffix 在后
     mrs_src = os.path.join(workdir, "gs_mrs", f"{tag}.txt")
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-    mrs_lines = list(domain) + [v if v.startswith(".") else "." + v for v in suffix]
+    mrs_lines = sorted(domain) + sorted(v if v.startswith(".") else "." + v for v in suffix)
     if mrs_lines:
         write_lines(mrs_src, mrs_lines)
         mrs_tasks.append(f"domain\t{mrs_src}\t{os.path.join(out_geosite, f'{tag}.mrs')}")
@@ -628,7 +634,7 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         if merged_cidr:
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, merged_cidr)
+            write_lines(mrs_src, sorted(merged_cidr, key=_cidr_sort_key))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
 
         processed.add(tag)
@@ -660,7 +666,7 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
             print(f"[CLASH-ONLY] geoip/{tag} <- {cyaml} (mrs only)")
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, ipcidr)
+            write_lines(mrs_src, sorted(ipcidr, key=_cidr_sort_key))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
             clash_only_ok += 1
 
