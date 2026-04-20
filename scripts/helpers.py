@@ -120,10 +120,10 @@ TYPE_ORDER = {
     "DOMAIN":              0,
     "DOMAIN-SUFFIX":       1,
     "DOMAIN-WILDCARD":     2,
-    "DOMAIN-KEYWORD":      3,
-    "IP-CIDR":             4,
-    "IP-CIDR6":            4,
-    "IP-ASN":              5,
+    "IP-CIDR":             3,
+    "IP-CIDR6":            3,
+    "IP-ASN":              4,
+    "DOMAIN-KEYWORD":      5,
     "PROCESS-NAME":        6,
     "PROCESS-NAME-REGEX":  6,
     "DOMAIN-REGEX":        7,
@@ -133,9 +133,9 @@ TYPE_ORDER = {
 QX_TYPE_ORDER = {
     "HOST":            0,
     "HOST-SUFFIX":     1,
-    "HOST-KEYWORD":    3,
-    "IP-CIDR":         4,
-    "IP-CIDR6":        4,
+    "IP-CIDR":         3,
+    "IP-CIDR6":        3,
+    "HOST-KEYWORD":    5,
 }
 
 
