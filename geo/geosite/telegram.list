@@ -47,9 +47,6 @@ DOMAIN-WILDCARD,*.telegram.me
 DOMAIN-WILDCARD,*.telegram.org
 DOMAIN-WILDCARD,*.telegramcdn.com
 DOMAIN-WILDCARD,*.telegramusercontent.com
-DOMAIN-KEYWORD,mtproto
-DOMAIN-KEYWORD,nicegram
-DOMAIN-KEYWORD,telegram
 IP-CIDR,109.239.140.0/24,no-resolve
 IP-CIDR,185.76.151.0/24,no-resolve
 IP-CIDR,91.105.192.0/23,no-resolve
@@ -68,6 +65,9 @@ IP-ASN,44907,no-resolve
 IP-ASN,59930,no-resolve
 IP-ASN,62014,no-resolve
 IP-ASN,62041,no-resolve
+DOMAIN-KEYWORD,mtproto
+DOMAIN-KEYWORD,nicegram
+DOMAIN-KEYWORD,telegram
 PROCESS-NAME-REGEX,(?i)^nekox\.messenger(\..+)?$
 PROCESS-NAME-REGEX,(?i)^nicegram(\..+)?$
 PROCESS-NAME-REGEX,(?i)^org\.telegram(\..+)?$

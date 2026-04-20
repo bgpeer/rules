@@ -98,14 +98,14 @@ DOMAIN-WILDCARD,*.oaistatic.com
 DOMAIN-WILDCARD,*.oaiusercontent.com
 DOMAIN-WILDCARD,*.openai.com
 DOMAIN-WILDCARD,*.statsig.com
+IP-CIDR,24.199.123.28/32,no-resolve
+IP-CIDR,64.23.132.171/32,no-resolve
+IP-ASN,20473,no-resolve
 DOMAIN-KEYWORD,chatgpt
 DOMAIN-KEYWORD,gpt
 DOMAIN-KEYWORD,livekit
 DOMAIN-KEYWORD,oai
 DOMAIN-KEYWORD,openai
-IP-CIDR,24.199.123.28/32,no-resolve
-IP-CIDR,64.23.132.171/32,no-resolve
-IP-ASN,20473,no-resolve
 PROCESS-NAME-REGEX,(?i)^(com\.openai\.chatgpt(\..+)?)$
 PROCESS-NAME,ChatGPT
 PROCESS-NAME,com.microsoft.bing

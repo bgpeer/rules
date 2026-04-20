@@ -1225,6 +1225,13 @@ DOMAIN-WILDCARD,*.deepmind.google.com
 DOMAIN-WILDCARD,*.gemini.google
 DOMAIN-WILDCARD,*.gemini.google.com
 DOMAIN-WILDCARD,*.generativelanguage.googleapis.com
+IP-CIDR,172.110.32.0/21,no-resolve
+IP-CIDR,216.73.80.0/20,no-resolve
+IP-CIDR,173.194.0.0/16,no-resolve
+IP-CIDR,74.125.0.0/16,no-resolve
+IP-CIDR6,2620:120:e000::/40,no-resolve
+IP-ASN,15169,no-resolve
+IP-ASN,396982,no-resolve
 DOMAIN-KEYWORD,appspot
 DOMAIN-KEYWORD,blogspot
 DOMAIN-KEYWORD,gemini
@@ -1238,13 +1245,6 @@ DOMAIN-KEYWORD,gstatic
 DOMAIN-KEYWORD,recaptcha
 DOMAIN-KEYWORD,youtube
 DOMAIN-KEYWORD,ytimg
-IP-CIDR,172.110.32.0/21,no-resolve
-IP-CIDR,216.73.80.0/20,no-resolve
-IP-CIDR,173.194.0.0/16,no-resolve
-IP-CIDR,74.125.0.0/16,no-resolve
-IP-CIDR6,2620:120:e000::/40,no-resolve
-IP-ASN,15169,no-resolve
-IP-ASN,396982,no-resolve
 PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
 PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
 PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$

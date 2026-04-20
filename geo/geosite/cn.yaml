@@ -118763,6 +118763,9 @@ payload:
   - DOMAIN-SUFFIX,zzzyyy.com
   - DOMAIN-SUFFIX,zzzzaaaa.com
   - DOMAIN-SUFFIX,zzzzzz.me
+  - IP-ASN,133481,no-resolve
+  - IP-ASN,37963,no-resolve
+  - IP-ASN,58519,no-resolve
   - DOMAIN-KEYWORD,10jqka
   - DOMAIN-KEYWORD,12123
   - DOMAIN-KEYWORD,360buyimg
@@ -118805,9 +118808,6 @@ payload:
   - DOMAIN-KEYWORD,thskline
   - DOMAIN-KEYWORD,tigerbrokers
   - DOMAIN-KEYWORD,tmri
-  - IP-ASN,133481,no-resolve
-  - IP-ASN,37963,no-resolve
-  - IP-ASN,58519,no-resolve
   - PROCESS-NAME,ChromeHost.exe
   - PROCESS-NAME,QuarkCloudDrive.exe
   - PROCESS-NAME,com.china.ccb.mbank
