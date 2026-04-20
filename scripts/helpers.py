@@ -165,8 +165,11 @@ def sort_qx_lines(lines):
 
 def _cidr_sort_key(v):
     """mrs CIDR 排序键：IPv4 在前，IPv6 在后；同版本按网络地址和前缀长度升序。"""
-    net = ipaddress.ip_network(v, strict=False)
-    return (net.version, net.network_address.packed, net.prefixlen)
+    try:
+        net = ipaddress.ip_network(v, strict=False)
+        return (net.version, net.network_address.packed, net.prefixlen)
+    except ValueError:
+        return (99, b"", 0)
 
 
 def parse_clash_to_buckets(yaml_path):
