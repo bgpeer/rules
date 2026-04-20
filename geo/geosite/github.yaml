@@ -56,7 +56,7 @@ payload:
   - DOMAIN-SUFFIX,repo.new
   - DOMAIN-SUFFIX,thegithubshop.com
   - DOMAIN-SUFFIX,user-images.githubusercontent.com
-  - DOMAIN-KEYWORD,github
   - IP-ASN,36459,no-resolve
+  - DOMAIN-KEYWORD,github
   - PROCESS-NAME,com.github.android
   - DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$

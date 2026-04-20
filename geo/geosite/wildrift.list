@@ -20,8 +20,6 @@ DOMAIN-SUFFIX,riotgames.zendesk.com
 DOMAIN-SUFFIX,riotgamespatcher-a.akamaized.net
 DOMAIN-SUFFIX,vivox.com
 DOMAIN-SUFFIX,wr-assets.riotcdn.net
-DOMAIN-KEYWORD,riot
-DOMAIN-KEYWORD,valorant
 IP-CIDR,151.106.246.0/23,no-resolve
 IP-CIDR,103.219.128.0/22,no-resolve
 IP-CIDR,103.240.224.0/22,no-resolve
@@ -36,6 +34,8 @@ IP-CIDR,104.160.128.0/17,no-resolve
 IP-ASN,38118,no-resolve
 IP-ASN,62830,no-resolve
 IP-ASN,6507,no-resolve
+DOMAIN-KEYWORD,riot
+DOMAIN-KEYWORD,valorant
 PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
 PROCESS-NAME,LeagueClient.exe
 PROCESS-NAME,LeagueClientUx.exe

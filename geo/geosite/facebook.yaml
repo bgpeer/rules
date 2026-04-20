@@ -564,13 +564,6 @@ payload:
   - DOMAIN-SUFFIX,yogalayout.com
   - DOMAIN-SUFFIX,zuckerberg.com
   - DOMAIN-SUFFIX,zuckerberg.net
-  - DOMAIN-KEYWORD,facebook
-  - DOMAIN-KEYWORD,fbcdn
-  - DOMAIN-KEYWORD,instagram
-  - DOMAIN-KEYWORD,meta
-  - DOMAIN-KEYWORD,oculus
-  - DOMAIN-KEYWORD,threads
-  - DOMAIN-KEYWORD,whatsapp
   - IP-CIDR,108.168.254.65/32,no-resolve
   - IP-CIDR,108.168.255.224/32,no-resolve
   - IP-CIDR,108.168.255.227/32,no-resolve
@@ -596,6 +589,13 @@ payload:
   - IP-CIDR,157.240.0.0/17,no-resolve
   - IP-ASN,32934,no-resolve
   - IP-ASN,63293,no-resolve
+  - DOMAIN-KEYWORD,facebook
+  - DOMAIN-KEYWORD,fbcdn
+  - DOMAIN-KEYWORD,instagram
+  - DOMAIN-KEYWORD,meta
+  - DOMAIN-KEYWORD,oculus
+  - DOMAIN-KEYWORD,threads
+  - DOMAIN-KEYWORD,whatsapp
   - PROCESS-NAME,com.facebook.appmanager
   - PROCESS-NAME,com.facebook.katana
   - PROCESS-NAME,com.facebook.lite

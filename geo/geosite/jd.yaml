@@ -274,16 +274,6 @@ payload:
   - DOMAIN-SUFFIX,yihaodianimg.com
   - DOMAIN-SUFFIX,yiyaojd.com
   - DOMAIN-SUFFIX,yizhitou.com
-  - DOMAIN-KEYWORD,360buy
-  - DOMAIN-KEYWORD,jd.com
-  - DOMAIN-KEYWORD,jdcloud
-  - DOMAIN-KEYWORD,jdjr
-  - DOMAIN-KEYWORD,jdl
-  - DOMAIN-KEYWORD,jdpay
-  - DOMAIN-KEYWORD,jdwl
-  - DOMAIN-KEYWORD,jingxi
-  - DOMAIN-KEYWORD,joybuy
-  - DOMAIN-KEYWORD,jxapp
   - IP-CIDR,106.39.0.0/16,no-resolve
   - IP-CIDR,111.13.0.0/16,no-resolve
   - IP-CIDR,111.206.0.0/16,no-resolve
@@ -297,6 +287,16 @@ payload:
   - IP-ASN,58879,no-resolve
   - IP-ASN,59045,no-resolve
   - IP-ASN,59201,no-resolve
+  - DOMAIN-KEYWORD,360buy
+  - DOMAIN-KEYWORD,jd.com
+  - DOMAIN-KEYWORD,jdcloud
+  - DOMAIN-KEYWORD,jdjr
+  - DOMAIN-KEYWORD,jdl
+  - DOMAIN-KEYWORD,jdpay
+  - DOMAIN-KEYWORD,jdwl
+  - DOMAIN-KEYWORD,jingxi
+  - DOMAIN-KEYWORD,joybuy
+  - DOMAIN-KEYWORD,jxapp
   - PROCESS-NAME,JD.exe
   - PROCESS-NAME,JDFinance.exe
   - PROCESS-NAME,JDWallet.exe
