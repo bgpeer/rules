@@ -45,7 +45,7 @@
 ```json
 [
   {"name": "microsoft", "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml", "format": "yaml"},
-  {"name": "icloud",    "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt", "format": "txt"}
+  {"name": "cn",    "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt", "format": "txt"}
 ]
 ```
 
