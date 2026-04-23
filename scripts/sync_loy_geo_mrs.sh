@@ -166,8 +166,17 @@ else
   : > "$MRS_DEDUP"
 fi
 
+# srs 去重（同一 dst 只保留最后一条，防止并行 race condition）
+SRS_DEDUP="${WORKDIR}/srs_tasks_dedup.txt"
+if [[ -s "$SRS_TASKS" ]]; then
+  awk -F'\t' '{ last[$2] = $0 } END { for (k in last) print last[k] }' \
+    "$SRS_TASKS" > "$SRS_DEDUP"
+else
+  : > "$SRS_DEDUP"
+fi
+
 mrs_total="$(wc -l < "$MRS_DEDUP" | tr -d ' ')"
-srs_total="$(wc -l < "$SRS_TASKS" | tr -d ' ')"
+srs_total="$(wc -l < "$SRS_DEDUP" | tr -d ' ')"
 echo "[INFO] mrs tasks: $mrs_total   srs tasks: $srs_total"
 
 # ── 并行编译 mrs ─────────────────────────────────────────────────────────────
@@ -208,7 +217,7 @@ if [[ "$srs_total" -gt 0 ]]; then
     local json_file srs tmp
     json_file="$(printf '%s' "$line" | cut -f1)"
     srs="$(printf '%s' "$line" | cut -f2)"
-    tmp="${srs}.tmp"
+    tmp="${srs}.${BASHPID}.tmp"
     rm -f "$tmp" 2>/dev/null || true
     if "$SINGBOX_BIN" rule-set compile --output "$tmp" "$json_file" 2>/dev/null \
        && [ -s "$tmp" ]; then
@@ -219,7 +228,7 @@ if [[ "$srs_total" -gt 0 ]]; then
     fi
   }
   export -f compile_one_srs
-  cat "$SRS_TASKS" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_srs "$@"' _ {}
+  cat "$SRS_DEDUP" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_srs "$@"' _ {}
   echo "[INFO] srs compile done"
 fi
 
