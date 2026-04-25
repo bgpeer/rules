@@ -289,7 +289,7 @@ https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 #### ClashMi 配置复写
 
 ```yaml
-https://gh.669588.xyz/gist/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
+https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
 ```
 
 ---
