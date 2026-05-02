@@ -190,6 +190,24 @@ payload:
   - DOMAIN-KEYWORD,cdn77
   - DOMAIN-KEYWORD,vercel
 
+  # 美国运营商
+  # ===== Red Pocket =====
+  - DOMAIN-SUFFIX,redpocket.com
+  - DOMAIN-SUFFIX,myredpocket.com
+  # ===== AT&T (GSMA) =====
+  - DOMAIN-SUFFIX,att.net
+  - DOMAIN-SUFFIX,att.com
+  - DOMAIN-SUFFIX,mobile.att.net
+  - DOMAIN,mmsc.mobile.att.net
+  - DOMAIN,proxy.mobile.att.net
+  # ===== T-Mobile (GSMT) =====
+  - DOMAIN-SUFFIX,tmobile.com
+  - DOMAIN-SUFFIX,t-mobile.com
+  - DOMAIN,wholesale.mmsmvno.com
+  # ===== Verizon (CDMA) =====
+  - DOMAIN-SUFFIX,verizon.com
+  - DOMAIN-SUFFIX,vzw.com
+
   # ==== 💹海外金融证券 ====
   # 💹Interactive Brokers（盈透）
   - DOMAIN-SUFFIX,interactivebrokers.com
