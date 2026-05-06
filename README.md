@@ -286,11 +286,12 @@ https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 
 #### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 
-#### ClashMi 配置复写
+#### ClashMi 配置核心复写
 
 ```yaml
 https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
 ```
+`打开Clashmi→核心设置→复写→点击右上角+→添加配置链接`
 
 ---
 
