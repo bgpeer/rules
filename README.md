@@ -312,9 +312,10 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5
 > ⚠️ 小火箭配置自己没有测试过，不敢保证可用，懂得可以自行修改。
 
 ---
+[Surge样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/9e5b1e02fd8f69af7dc57da2aa59510b/raw/Surge.conf)
 
 ### QuantumultX
-
+[QuantumultX样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/8c4b2b9685791f097ad183da3d29e4d0/raw/QX.conf)
 QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
 
 #### geosite 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/QX/geosite)
