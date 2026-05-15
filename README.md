@@ -316,6 +316,7 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5
 
 ### QuantumultX
 [QuantumultX样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/8c4b2b9685791f097ad183da3d29e4d0/raw/QX.conf)
+
 QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
 
 #### geosite 域名样板 [目录](https://github.com/bgpeer/rules/tree/main/QX/geosite)
