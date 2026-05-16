@@ -1,0 +1,102 @@
+name: Update Tool Versions Monthly
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "50 17 1 * *"   # 北京时间每月 2 号 01:50（UTC 每月 1 号 17:50）
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-tool-versions
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Fetch latest versions
+        run: |
+          set -eux
+
+          MIHOMO_VERSION="$(curl -fsSL \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
+            | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')"
+
+          SINGBOX_VERSION="$(curl -fsSL \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/SagerNet/sing-box/releases/latest \
+            | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')"
+
+          if [ -z "$MIHOMO_VERSION" ]; then
+            echo "::error::Failed to fetch mihomo version"
+            exit 1
+          fi
+
+          if [ -z "$SINGBOX_VERSION" ]; then
+            echo "::error::Failed to fetch sing-box version"
+            exit 1
+          fi
+
+          echo "MIHOMO_VERSION=$MIHOMO_VERSION" > .github/tool-versions.env
+          echo "SINGBOX_VERSION=$SINGBOX_VERSION" >> .github/tool-versions.env
+          cat .github/tool-versions.env
+
+      - name: Validate downloads
+        run: |
+          set -eux
+          source .github/tool-versions.env
+          ARCH="amd64"
+
+          MIHOMO_URL_TGZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.tar.gz"
+          MIHOMO_URL_GZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.gz"
+
+          if curl -fL --retry 3 --retry-delay 2 "$MIHOMO_URL_TGZ" -o mihomo.tar.gz 2>/dev/null; then
+            tar -xzf mihomo.tar.gz
+            BIN="$(find . -maxdepth 3 -type f -name mihomo | head -n 1)"
+            [ -f "$BIN" ] && cp -f "$BIN" ./mihomo
+          else
+            curl -fL --retry 3 --retry-delay 2 "$MIHOMO_URL_GZ" -o mihomo.gz
+            gunzip -c mihomo.gz > ./mihomo
+          fi
+          chmod +x ./mihomo
+          ./mihomo -v
+
+          SINGBOX_URL="https://github.com/SagerNet/sing-box/releases/download/v${SINGBOX_VERSION}/sing-box-${SINGBOX_VERSION}-linux-${ARCH}.tar.gz"
+          curl -fL --retry 3 --retry-delay 2 "$SINGBOX_URL" -o singbox.tar.gz
+          tar -xzf singbox.tar.gz
+          BIN="$(find . -maxdepth 3 -type f -name sing-box | head -n 1)"
+          cp -f "$BIN" ./sing-box
+          chmod +x ./sing-box
+          ./sing-box version
+
+      - name: Commit & push version update
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eux
+          BRANCH="${DEFAULT_BRANCH:-main}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin "${BRANCH}"
+          git rebase "origin/${BRANCH}"
+
+          git add .github/tool-versions.env
+
+          if git diff --cached --quiet; then
+            echo "No version changes."
+            exit 0
+          fi
+
+          git commit -m "chore: update mihomo and sing-box versions"
+          git push origin "HEAD:${BRANCH}"
