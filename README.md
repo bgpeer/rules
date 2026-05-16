@@ -300,6 +300,7 @@ https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ec
 [可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
 
 ---
+> ⚠️ 下面是苹果系列配置自己没有测试过，不敢保证可用，懂得可以自行修改。
 
 ### Shadowrocket（小火箭）
 
@@ -308,8 +309,6 @@ https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ec
 ```
 https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
 ```
-
-> ⚠️ 小火箭配置自己没有测试过，不敢保证可用，懂得可以自行修改。
 
 ---
 [Surge样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/9e5b1e02fd8f69af7dc57da2aa59510b/raw/Surge.conf)
