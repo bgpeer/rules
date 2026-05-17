@@ -22,6 +22,15 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
+      - name: Sync branch before editing
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eux
+          BRANCH="${DEFAULT_BRANCH:-main}"
+          git fetch origin "${BRANCH}"
+          git rebase "origin/${BRANCH}"
+
       - name: Fetch latest versions
         run: |
           set -eux
@@ -87,9 +96,6 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git fetch origin "${BRANCH}"
-          git rebase "origin/${BRANCH}"
 
           git add .github/tool-versions.env
 
