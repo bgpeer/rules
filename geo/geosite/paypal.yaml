@@ -81,6 +81,7 @@ payload:
   - DOMAIN-SUFFIX,paypal-corp.com
   - DOMAIN-SUFFIX,paypal-database.com
   - DOMAIN-SUFFIX,paypal-database.us
+  - DOMAIN-SUFFIX,paypal-dns.com
   - DOMAIN-SUFFIX,paypal-donations.com
   - DOMAIN-SUFFIX,paypal-dynamic.com
   - DOMAIN-SUFFIX,paypal-engineering.com
@@ -244,3 +245,5 @@ payload:
   - DOMAIN-SUFFIX,xoom.net.cn
   - DOMAIN-SUFFIX,xoom.us
   - DOMAIN-SUFFIX,xoomcom.com
+  - PROCESS-NAME,com.paypal.android.p2pmobile
+  - PROCESS-NAME,com.paypal.venmo

@@ -1,10 +1,16 @@
 payload:
+  - DOMAIN,api.bitget.com
+  - DOMAIN,appapi.abcdstable.com
   - DOMAIN,bybit-exchange.github.io
   - DOMAIN,bybit.ada.support
+  - DOMAIN,capi.bitget.com
   - DOMAIN,d3r7nsslvs6aaf.cloudfront.net
   - DOMAIN,deribit.cdn.prismic.io
+  - DOMAIN,log.noxiaohao.com
   - DOMAIN,onekey.zendesk.com
   - DOMAIN,straitsx-826709081262441084-b790f87a2ae6fd417434295.freshchat.com
+  - DOMAIN,web3.bitget.com
+  - DOMAIN,www.bitget.com
   - DOMAIN-SUFFIX,1inch.io
   - DOMAIN-SUFFIX,aave.com
   - DOMAIN-SUFFIX,appsflayer.com
@@ -49,6 +55,10 @@ payload:
   - DOMAIN-SUFFIX,bitflyer.com
   - DOMAIN-SUFFIX,bitflyer.jp
   - DOMAIN-SUFFIX,bitget.com
+  - DOMAIN-SUFFIX,bitget.site
+  - DOMAIN-SUFFIX,bitgetapp.com
+  - DOMAIN-SUFFIX,bitgetapps.com
+  - DOMAIN-SUFFIX,bitkeep.com
   - DOMAIN-SUFFIX,bitmex.com
   - DOMAIN-SUFFIX,bitquick.co
   - DOMAIN-SUFFIX,bitsquare.io
@@ -121,8 +131,10 @@ payload:
   - DOMAIN-SUFFIX,huobitoken.com
   - DOMAIN-SUFFIX,infura.io
   - DOMAIN-SUFFIX,invity.io
+  - DOMAIN-SUFFIX,jjdsn.vip
   - DOMAIN-SUFFIX,kraken.com
   - DOMAIN-SUFFIX,kraken.onl
+  - DOMAIN-SUFFIX,krbitget.com
   - DOMAIN-SUFFIX,kucoin.com
   - DOMAIN-SUFFIX,kucoin.plus
   - DOMAIN-SUFFIX,localbitcoins.com
@@ -135,7 +147,9 @@ payload:
   - DOMAIN-SUFFIX,nexo.com
   - DOMAIN-SUFFIX,nexo.io
   - DOMAIN-SUFFIX,nftstatic.com
+  - DOMAIN-SUFFIX,okcoin.com
   - DOMAIN-SUFFIX,okex.com
+  - DOMAIN-SUFFIX,okg.com
   - DOMAIN-SUFFIX,oklink.com
   - DOMAIN-SUFFIX,okx-dns.com
   - DOMAIN-SUFFIX,okx-dns1.com
@@ -184,3 +198,7 @@ payload:
   - DOMAIN-SUFFIX,zb.com
   - DOMAIN-SUFFIX,zb.io
   - DOMAIN-SUFFIX,zb.live
+  - PROCESS-NAME,com.bitget.exchange
+  - PROCESS-NAME,com.bitkeep.wallet
+  - PROCESS-NAME,com.okex.wallet
+  - PROCESS-NAME,com.okinc.okex.gp
