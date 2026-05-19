@@ -375,7 +375,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
     mrs_lines = (
         [v for t, v in all_lines if t == "DOMAIN"] +
-        ["." + v for t, v in all_lines if t == "DOMAIN-SUFFIX"]
+        ["." + v.lstrip(".") for t, v in all_lines if t == "DOMAIN-SUFFIX"]
     )
     if mrs_lines:
         write_lines(mrs_src, mrs_lines)
