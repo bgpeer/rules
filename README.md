@@ -4,10 +4,10 @@
 
 ---
 
-Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge/路径
+Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / 规则路径
 https://github.com/bgpeer/rules/tree/main/geo
 
-QuantumultX/路径
+QuantumultX / 规则路径
 https://github.com/bgpeer/rules/tree/main/QX
 
 ---
