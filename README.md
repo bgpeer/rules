@@ -7,7 +7,7 @@
 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge/路径
 https://github.com/bgpeer/rules/tree/main/geo
 
-QuantumultX路径
+QuantumultX/路径
 https://github.com/bgpeer/rules/tree/main/QX
 
 ---
