@@ -4,6 +4,14 @@
 
 ---
 
+Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge/路径
+https://github.com/bgpeer/rules/tree/main/geo
+
+QuantumultX路径
+https://github.com/bgpeer/rules/tree/main/QX
+
+---
+
 ## ✨ 特性
 
 自动将 [Loyalsoldier](https://github.com/Loyalsoldier) 的 `geoip.dat` / `geosite.dat` 拆分转换为多种格式规则集，每天北京时间 02:10 自动更新。
