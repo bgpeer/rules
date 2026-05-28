@@ -193,7 +193,49 @@ def merge_sort_qx_lines(old_lines, new_lines):
         merged.append(line)
 
     return sort_qx_lines(merged)
+    
+def read_typed_list(path):
+    """读取 TYPE,value[,option] 格式，返回 [(TYPE, value), ...]"""
+    typed = []
+    for line in read_lines(path):
+        parts = line.split(",", 2)
+        if len(parts) >= 2:
+            typed.append((parts[0].strip().upper(), parts[1].strip()))
+    return typed
 
+
+def merge_sort_typed_lines(old_typed, new_typed):
+    """合并 typed 行，去重后按 TYPE_ORDER 全量排序"""
+    seen = set()
+    merged = []
+
+    for t, v in old_typed + new_typed:
+        key = (t, norm_value(t, v))
+        if key in seen:
+            continue
+        seen.add(key)
+        merged.append((t, v))
+
+    return sort_typed_lines(merged)
+
+
+def rewrite_typed_outputs(dst_list, dst_yaml, typed, add_no_resolve_types=None):
+    """全量重写 .list 和 .yaml"""
+    add_no_resolve_types = add_no_resolve_types or set()
+
+    list_out = []
+    yaml_out = ["payload:"]
+
+    for t, v in typed:
+        if t in add_no_resolve_types:
+            list_out.append(f"{t},{v},no-resolve")
+            yaml_out.append(f"  - {t},{v},no-resolve")
+        else:
+            list_out.append(f"{t},{v}")
+            yaml_out.append(f"  - {t},{v}")
+
+    write_lines(dst_list, list_out)
+    write_lines(dst_yaml, yaml_out)
 
 def parse_clash_to_buckets(yaml_path):
     """解析 clash yaml 并分桶返回 dict"""
@@ -1222,15 +1264,14 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                     new_typed.append((t, v))
             new_typed = sort_typed_lines(new_typed)
 
-            # yaml 追加（geosite 侧 IP 加 no-resolve，此处纯域名类无需）
-            with open(dst_yaml, "a", encoding="utf-8") as f:
-                for t, v in new_typed:
-                    f.write(f"  - {t},{v}\n")
-
-            # list 追加
-            with open(dst_list, "a", encoding="utf-8") as f:
-                for t, v in new_typed:
-                    f.write(f"{t},{v}\n")
+            # geo/geosite：合并新增域名后，全量去重排序并重写 yaml/list
+            all_typed = merge_sort_typed_lines(read_typed_list(dst_list), new_typed)
+            rewrite_typed_outputs(
+                dst_list,
+                dst_yaml,
+                all_typed,
+                add_no_resolve_types={"IP-CIDR", "IP-CIDR6", "IP-ASN"},
+            )
 
             # json 从全量 list 重建
             _rebuild_geosite_json_from_list(dst_list, dst_json)
@@ -1380,20 +1421,9 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
                 [("IP-ASN", v) for v in new_asn]
             )
 
-            # yaml 追加（geoip 侧不加 no-resolve）
-            yaml_lines = []
-            if not os.path.isfile(dst_yaml):
-                yaml_lines.append("payload:")
-            for t, v in new_typed:
-                yaml_lines.append(f"  - {t},{v}")
-            with open(dst_yaml, "a", encoding="utf-8") as f:
-                for line in yaml_lines:
-                    f.write(line + "\n")
-
-            # list 追加
-            with open(dst_list, "a", encoding="utf-8") as f:
-                for t, v in new_typed:
-                    f.write(f"{t},{v}\n")
+            # geo/geoip：合并新增 IP/ASN 后，全量去重排序并重写 yaml/list
+            all_typed = merge_sort_typed_lines(read_typed_list(dst_list), new_typed)
+            rewrite_typed_outputs(dst_list, dst_yaml, all_typed)
 
             # json 从全量 list 重建
             all_cidrs_full = []
@@ -1417,12 +1447,11 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
                 write_lines(mrs_src, all_cidrs_full)
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
 
-            # QX 追加（跳过 ASN，加 no-resolve）
-            qx_new = [(t, v) for t, v in new_typed if t != "IP-ASN"]
+            # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
+            qx_new = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
             if qx_new:
-                with open(dst_qx, "a", encoding="utf-8") as f:
-                    for t, v in qx_new:
-                        f.write(f"{t}, {v}, no-resolve\n")
+                old_qx = read_lines(dst_qx)
+                write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_new))
 
         ok += 1
 
@@ -1509,21 +1538,9 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             [("IP-ASN", v) for v in new_asn]
         )
 
-        # geoip 侧不加 no-resolve
-        # yaml 追加
-        yaml_append = []
-        if not os.path.isfile(dst_yaml):
-            yaml_append.append("payload:")
-        for t, v in new_typed:
-            yaml_append.append(f"  - {t},{v}")
-        with open(dst_yaml, "a", encoding="utf-8") as f:
-            for line in yaml_append:
-                f.write(line + "\n")
-
-        # list 追加
-        with open(dst_list, "a", encoding="utf-8") as f:
-            for t, v in new_typed:
-                f.write(f"{t},{v}\n")
+        # geo/geoip：合并新增 IP/ASN 后，全量去重排序并重写 yaml/list
+        all_typed = merge_sort_typed_lines(read_typed_list(dst_list), new_typed)
+        rewrite_typed_outputs(dst_list, dst_yaml, all_typed)
 
         # json 重建（从 list，排序后输出）
         all_typed = []
@@ -1557,12 +1574,11 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             write_lines(mrs_src, all_cidr_list)
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
 
-        # QX list 追加（跳过 ASN，加 no-resolve）
-        qx_append = [(t, v) for t, v in new_typed if t != "IP-ASN"]
+        # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
+        qx_append = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
         if qx_append:
-            with open(dst_qx, "a", encoding="utf-8") as f:
-                for t, v in qx_append:
-                    f.write(f"{t}, {v}, no-resolve\n")
+            old_qx = read_lines(dst_qx)
+            write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_append))
 
         ok += 1
 
