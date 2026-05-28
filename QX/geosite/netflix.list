@@ -1,18 +1,17 @@
+HOST, e13252.dscg.akamaiedge.net
+HOST, h-netflix.online-metrix.net
 HOST, netflix.com.edgesuite.net
+HOST-SUFFIX, cookielaw.org
 HOST-SUFFIX, fast.com
+HOST-SUFFIX, flxvpn.net
 HOST-SUFFIX, netflix.ca
 HOST-SUFFIX, netflix.com
+HOST-SUFFIX, netflix.com.au
+HOST-SUFFIX, netflix.com.edgesuite.net
 HOST-SUFFIX, netflix.net
-HOST-SUFFIX, netflixinvestor.com
-HOST-SUFFIX, netflixtechblog.com
-HOST-SUFFIX, nflxext.com
-HOST-SUFFIX, nflximg.com
-HOST-SUFFIX, nflximg.net
-HOST-SUFFIX, nflxsearch.net
-HOST-SUFFIX, nflxso.net
-HOST-SUFFIX, nflxvideo.net
 HOST-SUFFIX, netflixdnstest0.com
 HOST-SUFFIX, netflixdnstest1.com
+HOST-SUFFIX, netflixdnstest10.com
 HOST-SUFFIX, netflixdnstest2.com
 HOST-SUFFIX, netflixdnstest3.com
 HOST-SUFFIX, netflixdnstest4.com
@@ -21,20 +20,17 @@ HOST-SUFFIX, netflixdnstest6.com
 HOST-SUFFIX, netflixdnstest7.com
 HOST-SUFFIX, netflixdnstest8.com
 HOST-SUFFIX, netflixdnstest9.com
-HOST-SUFFIX, netflixdnstest10.com
-HOST, e13252.dscg.akamaiedge.net
-HOST, h-netflix.online-metrix.net
-HOST-SUFFIX, cookielaw.org
-HOST-SUFFIX, flxvpn.net
-HOST-SUFFIX, netflix.com.au
-HOST-SUFFIX, netflix.com.edgesuite.net
+HOST-SUFFIX, netflixinvestor.com
 HOST-SUFFIX, netflixstudios.com
+HOST-SUFFIX, netflixtechblog.com
+HOST-SUFFIX, nflxext.com
+HOST-SUFFIX, nflximg.com
+HOST-SUFFIX, nflximg.net
+HOST-SUFFIX, nflxsearch.net
+HOST-SUFFIX, nflxso.net
+HOST-SUFFIX, nflxvideo.net
 HOST-SUFFIX, onetrust.com
 HOST-SUFFIX, us-west-2.amazonaws.com
-HOST-KEYWORD, apiproxy-device-prod-nlb-
-HOST-KEYWORD, dualstack.apiproxy-
-HOST-KEYWORD, dualstack.ichnaea-web-
-HOST-KEYWORD, netflixdnstest
 IP-CIDR, 13.113.244.25/32, no-resolve
 IP-CIDR, 18.246.224.18/32, no-resolve
 IP-CIDR, 3.228.182.10/32, no-resolve
@@ -1154,3 +1150,7 @@ IP-CIDR6, 2620:10c:7000::/44, no-resolve
 IP-CIDR6, 2607:fb10::/32, no-resolve
 IP-CIDR6, 2a00:86c0::/32, no-resolve
 IP-CIDR6, 2a03:5640::/32, no-resolve
+HOST-KEYWORD, apiproxy-device-prod-nlb-
+HOST-KEYWORD, dualstack.apiproxy-
+HOST-KEYWORD, dualstack.ichnaea-web-
+HOST-KEYWORD, netflixdnstest
