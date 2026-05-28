@@ -1,0 +1,34 @@
+payload:
+  # 📲 Android / iOS 进程名匹配
+  - PROCESS-NAME,com.instagram.android
+  - PROCESS-NAME,com.instagram.barcelona
+  - PROCESS-NAME,com.instagram.direct
+  - PROCESS-NAME,com.instagram.lite
+  - PROCESS-NAME,com.facebook.katana
+  - PROCESS-NAME,com.facebook.lite
+  - PROCESS-NAME,com.facebook.orca
+  - PROCESS-NAME,com.facebook.mlite
+  - PROCESS-NAME,com.facebook.appmanager
+  - PROCESS-NAME,com.facebook.services
+  - PROCESS-NAME,com.facebook.system
+  - PROCESS-NAME,com.whatsapp
+  - PROCESS-NAME,com.whatsapp.w4b
+  - PROCESS-NAME,com.oculus.vrshell
+  - PROCESS-NAME,com.oculus.ocms
+  - PROCESS-NAME,com.meta.quest
+  - PROCESS-NAME,com.meta.oculus
+  # === 新增域名后缀规则 ===
+  - DOMAIN-SUFFIX,meta.ai
+  - DOMAIN-SUFFIX,metacdn.net
+  - DOMAIN-SUFFIX,msgr.io
+  - DOMAIN-SUFFIX,threads.com
+  - DOMAIN-SUFFIX,threads.net
+  - DOMAIN-SUFFIX,tfbnw.net
+  # === 新增域名关键词规则 ===
+  - DOMAIN-KEYWORD,instagram
+  - DOMAIN-KEYWORD,whatsapp
+  - DOMAIN-KEYWORD,threads
+  - DOMAIN-KEYWORD,meta
+  - DOMAIN-KEYWORD,oculus
+  # === 新增 IP-ASN 规则 ===
+  - IP-ASN,63293
