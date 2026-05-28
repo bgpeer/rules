@@ -156,13 +156,43 @@ def sort_typed_lines(lines):
 
 
 def sort_qx_lines(lines):
-    """对 QX 行 "TYPE, value" 按 QX_TYPE_ORDER 排序"""
+    """对 QX 行排序：HOST → HOST-SUFFIX → IP-CIDR/IP-CIDR6 → HOST-KEYWORD"""
     def qx_key(line):
-        t = line.split(",", 1)[0].strip()
-        return QX_TYPE_ORDER.get(t, 99)
+        parts = [p.strip() for p in line.split(",")]
+        t = parts[0].upper() if parts else ""
+        v = parts[1] if len(parts) > 1 else ""
+
+        order = QX_TYPE_ORDER.get(t, 99)
+
+        if t in ("IP-CIDR", "IP-CIDR6") and "/" in v:
+            try:
+                net = ipaddress.ip_network(v, strict=False)
+                is_v6 = 1 if net.version == 6 else 0
+                return (order, is_v6, -net.prefixlen, str(net.network_address), v.lower())
+            except ValueError:
+                pass
+
+        return (order, 0, 0, v.lower())
+
     return sorted(lines, key=qx_key)
 
 
+def merge_sort_qx_lines(old_lines, new_lines):
+    """合并 QX 行，去重后重新排序"""
+    seen = set()
+    merged = []
+
+    for raw in old_lines + new_lines:
+        line = raw.strip()
+        if not line:
+            continue
+        key = line.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        merged.append(line)
+
+    return sort_qx_lines(merged)
 
 
 def parse_clash_to_buckets(yaml_path):
@@ -1055,11 +1085,10 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
     srs_tasks.append(f"{dst_json}\t{dst_srs}")
 
     # QX：IP-CIDR/IP-CIDR6 加 no-resolve，IP-ASN 跳过
-    qx_ip = [(t, v) for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
+    qx_ip = [f"{t}, {v}, no-resolve" for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
     if qx_ip:
-        with open(dst_qx, "a", encoding="utf-8") as f:
-            for t, v in qx_ip:
-                f.write(f"{t}, {v}, no-resolve\n")
+        old_qx = read_lines(dst_qx)
+        write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_ip))
 
     # geoip mrs（与 geosite 同名）
     cidr_only = [v for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
@@ -1230,9 +1259,8 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                 if qx_t:
                     qx_lines.append(f"{qx_t}, {v}")
             if qx_lines:
-                with open(dst_qx, "a", encoding="utf-8") as f:
-                    for line in qx_lines:
-                        f.write(line + "\n")
+                old_qx = read_lines(dst_qx)
+                write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_lines))
 
             # IP 条目追加（geosite 侧加 no-resolve）
             if new_ip_typed:
