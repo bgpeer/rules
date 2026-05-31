@@ -1,13 +1,6 @@
 # 🌍 Loyalsoldier Geo Rules → Multi-format Rulesets
 
-自动同步上游 Loyalsoldier 的 `geoip.dat` 和 `geosite.dat`，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / QuantumultX 等代理工具。
-
----
-
-## 📚 数据来源
-
-- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
-- [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)
+自动同步上游 Loyalsoldier 的 `[geoip.dat](https://github.com/Loyalsoldier/geoip)` 和 `[geosite.dat](https://github.com/Loyalsoldier/v2ray-rules-dat)`，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / QuantumultX 等代理工具。
 
 ---
 
