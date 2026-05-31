@@ -4,6 +4,13 @@
 
 ---
 
+## 📚 数据来源
+
+- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
+- [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)
+
+---
+
 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / 规则集文件
 https://github.com/bgpeer/rules/tree/main/geo
 
@@ -259,13 +266,6 @@ https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/cn.list
 ```
 https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/cn.list
 ```
-
----
-
-## 📚 数据来源
-
-- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
-- [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)
 
 ---
 
