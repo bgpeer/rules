@@ -284,3 +284,100 @@ payload:
   - DOMAIN-KEYWORD,okex
   - DOMAIN-KEYWORD,okcoin
   - DOMAIN-KEYWORD,xlayer
+
+  # Bybit / 拜比特加密货币
+  # 进程
+  - PROCESS-NAME,com.bybit.app
+  - PROCESS-NAME,com.bybit.eu
+  - PROCESS-NAME,Bybit.exe
+  - PROCESS-NAME,bybit.exe
+  # 主站 / 备用站 / 旧域名
+  - DOMAIN-SUFFIX,bybit.com
+  - DOMAIN-SUFFIX,bybit.biz
+  - DOMAIN-SUFFIX,bybit.cloud
+  - DOMAIN-SUFFIX,bybit-global.com
+  - DOMAIN-SUFFIX,bybitglobal.com
+  - DOMAIN-SUFFIX,bytick.com
+  - DOMAIN-SUFFIX,byapis.com
+  - DOMAIN-SUFFIX,bycsi.com
+  - DOMAIN-SUFFIX,bycbe.com
+  - DOMAIN-SUFFIX,bymj.io
+  - DOMAIN-SUFFIX,byabcde.com
+  - DOMAIN-SUFFIX,byapps.net
+  - DOMAIN-SUFFIX,byd3c3.com
+  - DOMAIN-SUFFIX,bybdc6.com
+  # 地区站
+  - DOMAIN-SUFFIX,bybit.nl
+  - DOMAIN-SUFFIX,bybit.tr
+  - DOMAIN-SUFFIX,bybit.kz
+  - DOMAIN-SUFFIX,bybitgeorgia.ge
+  - DOMAIN-SUFFIX,bybit.ae
+  - DOMAIN-SUFFIX,bybit.eu
+  # API / WebSocket
+  - DOMAIN,api.bybit.com
+  - DOMAIN,api.bytick.com
+  - DOMAIN,api-testnet.bybit.com
+  - DOMAIN,stream.bybit.com
+  - DOMAIN,stream-testnet.bybit.com
+  - DOMAIN,api.bybit.nl
+  - DOMAIN,api.bybit.tr
+  - DOMAIN,api.bybit.kz
+  - DOMAIN,api.bybitgeorgia.ge
+  - DOMAIN,api.bybit.ae
+  - DOMAIN,api.bybit.eu
+  - DOMAIN,stream.bybit.tr
+  - DOMAIN,stream.bybit.kz
+  - DOMAIN,stream.bybitgeorgia.ge
+  # 常用页面
+  - DOMAIN,www.bybit.com
+  - DOMAIN,app.bybit.com
+  - DOMAIN,m.bybit.com
+  - DOMAIN,learn.bybit.com
+  - DOMAIN,blog.bybit.com
+  - DOMAIN,announcements.bybit.com
+  - DOMAIN,announcement.bybit.com
+  - DOMAIN,support.bybit.com
+  - DOMAIN,help.bybit.com
+  - DOMAIN,affiliates.bybit.com
+  - DOMAIN,api2.bybit.com
+  - DOMAIN,testnet.bybit.com
+  # 下载 / App / 静态资源
+  - DOMAIN-SUFFIX,bybit-exchange.github.io
+  - DOMAIN,bybit-exchange.github.io
+  - DOMAIN,download.bybit.com
+  - DOMAIN,static.bybit.com
+  - DOMAIN,assets.bybit.com
+  - DOMAIN,cdn.bybit.com
+  - DOMAIN,api2.bybit.com
+  # 客服 / 支持
+  - DOMAIN,bybit.ada.support
+  - DOMAIN-SUFFIX,ada.support
+  # Web3 / 钱包连接 / 公链 RPC
+  - DOMAIN-SUFFIX,walletconnect.com
+  - DOMAIN-SUFFIX,walletconnect.org
+  - DOMAIN-SUFFIX,web3modal.org
+  - DOMAIN-SUFFIX,reown.com
+  - DOMAIN-SUFFIX,cloudflare-eth.com
+  - DOMAIN-SUFFIX,llamarpc.com
+  - DOMAIN,eth.llamarpc.com
+  - DOMAIN,cloudflare-eth.com
+  - DOMAIN,api.trongrid.io
+  - DOMAIN,api.shasta.trongrid.io
+  - DOMAIN,api.nileex.io
+  - DOMAIN,sun.tronex.io
+  - DOMAIN,infragrid.v.network
+  # 登录验证 / 风控
+  - DOMAIN-SUFFIX,geetest.com
+  - DOMAIN-SUFFIX,geevisit.com
+  - DOMAIN-SUFFIX,gsensebot.com
+  - DOMAIN-SUFFIX,recaptcha.net
+  # 关键词兜底
+  - DOMAIN-KEYWORD,bybit
+  - DOMAIN-KEYWORD,bytick
+  - DOMAIN-KEYWORD,byapis
+  - DOMAIN-KEYWORD,bycsi
+  - DOMAIN-KEYWORD,bycbe
+  - DOMAIN-KEYWORD,byapps
+  - DOMAIN-KEYWORD,bybitglobal
+  - DOMAIN-KEYWORD,bybit-global
+  
