@@ -212,8 +212,8 @@ payload:
   - DOMAIN-SUFFIX,verizon.com
   - DOMAIN-SUFFIX,vzw.com
 
-  # 💹Interactive Brokers / IBKR / 盈透证券
-  # 进程
+  # 💹Interactive Brokers / IBKR / 盈透证券 - 全球加速
+  # 进程，放在全球规则里，但主规则必须排在 IBKR-CN 后面
   - PROCESS-NAME,atws.app
   - PROCESS-NAME,com.ibkr.gt.app
   - PROCESS-NAME,com.ibkr.impact.app
@@ -236,7 +236,6 @@ payload:
   - DOMAIN-SUFFIX,interactivebrokers.eu
   - DOMAIN-SUFFIX,interactivebrokers.hu
   - DOMAIN-SUFFIX,ibkr.com
-  - DOMAIN-SUFFIX,ibkr.com.cn
   - DOMAIN-SUFFIX,ibkr.eu
   - DOMAIN-SUFFIX,ibkr.hk
   - DOMAIN-SUFFIX,ibkrguides.com
@@ -248,14 +247,12 @@ payload:
   - DOMAIN,gdcdyn.interactivebrokers.com
   - DOMAIN,hdcdyn.interactivebrokers.com
   - DOMAIN,sso.interactivebrokers.com
-  - DOMAIN,www.ibkr.com.cn
   - DOMAIN,www.ibkr.com
   - DOMAIN,portal.interactivebrokers.com
   - DOMAIN,clientportal.interactivebrokers.com
   - DOMAIN,api.ibkr.com
   # TWS / IB Gateway / 行情与交易连接
   - DOMAIN-SUFFIX,ibllc.com
-  - DOMAIN-SUFFIX,ibllc.com.cn
   - DOMAIN,gw1.ibllc.com
   - DOMAIN,gw2.ibllc.com
   - DOMAIN,gw3.ibllc.com
@@ -272,17 +269,12 @@ payload:
   - DOMAIN,hdc1.ibllc.com
   - DOMAIN,hdc1-hb1.ibllc.com
   - DOMAIN,hdc1-hb2.ibllc.com
-  - DOMAIN,mcgw1.ibllc.com.cn
-  - DOMAIN,mcgw1-hb1.ibllc.com.cn
-  - DOMAIN,mcgw1-hb2.ibllc.com.cn
   - DOMAIN,mktgw1.ibllc.com
   - DOMAIN,mktgw1.ibllc.com.hk
   - DOMAIN,mktgw1.ibllc.ch
   # 下载 / 软件更新 / 静态资源
   - DOMAIN,download.interactivebrokers.com
   - DOMAIN,download2.interactivebrokers.com
-  - DOMAIN,www.interactivebrokers.com
-  - DOMAIN-SUFFIX,interactivebrokers.com.cn
   - DOMAIN-SUFFIX,mobiletws.com
   - DOMAIN-SUFFIX,interactivemedia.com
   # IBKR API / 文档 / 学习
