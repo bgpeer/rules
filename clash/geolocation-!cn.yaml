@@ -212,15 +212,99 @@ payload:
   - DOMAIN-SUFFIX,verizon.com
   - DOMAIN-SUFFIX,vzw.com
 
-  # ==== 💹海外金融证券 ====
-  # 💹Interactive Brokers（盈透）
+  # 💹Interactive Brokers / IBKR / 盈透证券
+  # 进程
+  - PROCESS-NAME,atws.app
+  - PROCESS-NAME,com.ibkr.gt.app
+  - PROCESS-NAME,com.ibkr.impact.app
+  - PROCESS-NAME,tws.exe
+  - PROCESS-NAME,TWS.exe
+  - PROCESS-NAME,ibgateway.exe
+  - PROCESS-NAME,IBGateway.exe
+  - PROCESS-NAME,ibkrdesktop.exe
+  - PROCESS-NAME,IBKR Desktop.exe
+  # 主站 / 官方区域站
   - DOMAIN-SUFFIX,interactivebrokers.com
+  - DOMAIN-SUFFIX,interactivebrokers.ca
+  - DOMAIN-SUFFIX,interactivebrokers.co.uk
+  - DOMAIN-SUFFIX,interactivebrokers.ie
+  - DOMAIN-SUFFIX,interactivebrokers.com.au
+  - DOMAIN-SUFFIX,interactivebrokers.com.hk
+  - DOMAIN-SUFFIX,interactivebrokers.co.in
+  - DOMAIN-SUFFIX,interactivebrokers.co.jp
+  - DOMAIN-SUFFIX,interactivebrokers.com.sg
+  - DOMAIN-SUFFIX,interactivebrokers.eu
+  - DOMAIN-SUFFIX,interactivebrokers.hu
   - DOMAIN-SUFFIX,ibkr.com
+  - DOMAIN-SUFFIX,ibkr.com.cn
+  - DOMAIN-SUFFIX,ibkr.eu
+  - DOMAIN-SUFFIX,ibkr.hk
+  - DOMAIN-SUFFIX,ibkrguides.com
+  - DOMAIN-SUFFIX,ibkrcampus.com
+  # 登录 / Client Portal / 账户管理
+  - DOMAIN,www.interactivebrokers.com
+  - DOMAIN,ndcdyn.interactivebrokers.com
+  - DOMAIN,cdcdyn.interactivebrokers.com
+  - DOMAIN,gdcdyn.interactivebrokers.com
+  - DOMAIN,hdcdyn.interactivebrokers.com
+  - DOMAIN,sso.interactivebrokers.com
+  - DOMAIN,www.ibkr.com.cn
+  - DOMAIN,www.ibkr.com
+  - DOMAIN,portal.interactivebrokers.com
+  - DOMAIN,clientportal.interactivebrokers.com
+  - DOMAIN,api.ibkr.com
+  # TWS / IB Gateway / 行情与交易连接
   - DOMAIN-SUFFIX,ibllc.com
-  - DOMAIN-SUFFIX,ibrokers.com
-  - PROCESS-NAME,com.interactivebrokers.ibkr
-  - PROCESS-NAME,com.interactivebrokers.ibkrmobile
-  
+  - DOMAIN-SUFFIX,ibllc.com.cn
+  - DOMAIN,gw1.ibllc.com
+  - DOMAIN,gw2.ibllc.com
+  - DOMAIN,gw3.ibllc.com
+  - DOMAIN,gw4.ibllc.com
+  - DOMAIN,ndc1.ibllc.com
+  - DOMAIN,ndc1-hb1.ibllc.com
+  - DOMAIN,ndc1-hb2.ibllc.com
+  - DOMAIN,cdc1.ibllc.com
+  - DOMAIN,cdc1-hb1.ibllc.com
+  - DOMAIN,cdc1-hb2.ibllc.com
+  - DOMAIN,zdc1.ibllc.com
+  - DOMAIN,zdc1-hb1.ibllc.com
+  - DOMAIN,zdc1-hb2.ibllc.com
+  - DOMAIN,hdc1.ibllc.com
+  - DOMAIN,hdc1-hb1.ibllc.com
+  - DOMAIN,hdc1-hb2.ibllc.com
+  - DOMAIN,mcgw1.ibllc.com.cn
+  - DOMAIN,mcgw1-hb1.ibllc.com.cn
+  - DOMAIN,mcgw1-hb2.ibllc.com.cn
+  - DOMAIN,mktgw1.ibllc.com
+  - DOMAIN,mktgw1.ibllc.com.hk
+  - DOMAIN,mktgw1.ibllc.ch
+  # 下载 / 软件更新 / 静态资源
+  - DOMAIN,download.interactivebrokers.com
+  - DOMAIN,download2.interactivebrokers.com
+  - DOMAIN,www.interactivebrokers.com
+  - DOMAIN-SUFFIX,interactivebrokers.com.cn
+  - DOMAIN-SUFFIX,mobiletws.com
+  - DOMAIN-SUFFIX,interactivemedia.com
+  # IBKR API / 文档 / 学习
+  - DOMAIN-SUFFIX,interactivebrokers.github.io
+  - DOMAIN,interactivebrokers.github.io
+  - DOMAIN,campus.interactivebrokers.com
+  - DOMAIN,www.ibkrcampus.com
+  - DOMAIN,www.ibkrguides.com
+  # IBKR 相关产品 / 关联服务
+  - DOMAIN-SUFFIX,interactiveadvisors.com
+  - DOMAIN-SUFFIX,portfolioanalyst.com
+  - DOMAIN-SUFFIX,tradersinsight.news
+  - DOMAIN-SUFFIX,tradersacademy.online
+  # 关键词兜底
+  - DOMAIN-KEYWORD,interactivebrokers
+  - DOMAIN-KEYWORD,ibkr
+  - DOMAIN-KEYWORD,ibllc
+  - DOMAIN-KEYWORD,mobiletws
+  - DOMAIN-KEYWORD,twsapi
+  - DOMAIN-KEYWORD,traderworkstation
+  - DOMAIN-KEYWORD,ibgateway
+
   # ==== 💳海外银行 ====
   # 💳OCBC Bank（华侨银行）
   - DOMAIN-SUFFIX,ocbc.com
