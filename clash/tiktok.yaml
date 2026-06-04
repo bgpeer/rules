@@ -1,13 +1,19 @@
 payload:
-  # 🧩 APP 进程
+  # 🧩 TikTok APP 进程 / Android
   - PROCESS-NAME,com.zhiliaoapp.musically
   - PROCESS-NAME,com.zhiliaoapp.musically.go
   - PROCESS-NAME,com.ss.android.ugc.trill
   - PROCESS-NAME,com.tiktok.tv
+  - PROCESS-NAME,com.tiktok.tvm
   - PROCESS-NAME,com.ss.android.ugc.aweme.now
   - PROCESS-NAME,com.ss.android.ugc.aweme.shop
   - PROCESS-NAME,com.rezvorck.tiktokplugin
-  # 🌐 核心业务域名
+
+  # 🧩 TikTok Windows / 桌面程序
+  - PROCESS-PATH-REGEX,(?i).*\\TikTok.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\TikTok.*Live.*Studio.*\.exe$
+
+  # 🌐 TikTok 核心主域名
   - DOMAIN-SUFFIX,tiktok.com
   - DOMAIN-SUFFIX,tiktokv.com
   - DOMAIN-SUFFIX,tiktokv.us
@@ -15,84 +21,163 @@ payload:
   - DOMAIN-SUFFIX,tiktokglobal.com
   - DOMAIN-SUFFIX,tiktok-browser.com
   - DOMAIN-SUFFIX,tik-tokapi.com
-  - DOMAIN-SUFFIX,musical.ly
-  - DOMAIN-SUFFIX,tiktokmusic.app
+  - DOMAIN-SUFFIX,tiktokrow.com
   - DOMAIN-SUFFIX,tiktokd.net
   - DOMAIN-SUFFIX,tiktokd.org
+  - DOMAIN-SUFFIX,tiktokmusic.app
+  - DOMAIN-SUFFIX,musical.ly
   - DOMAIN-SUFFIX,ttwebview.com
-  - DOMAIN-SUFFIX,ttlive.com
-  - DOMAIN-SUFFIX,tiktokshop.com
-  - DOMAIN-SUFFIX,tlivecdn.com
-  - DOMAIN-SUFFIX,tiktokcdn.com.akahost.net
-  - DOMAIN-SUFFIX,vm.tiktok.com
-  - DOMAIN-SUFFIX,vt.tiktok.com
-  - DOMAIN-SUFFIX,link.tiktok.com
-  - DOMAIN-SUFFIX,tiktokrow.com
-  - DOMAIN-SUFFIX,ttoversea.com
-  - DOMAIN-SUFFIX,ttoversea.net
-  - DOMAIN-SUFFIX,bytednsdoc.com
-  - DOMAIN-SUFFIX,bytedns.net
-  - DOMAIN-SUFFIX,pstatp.com
   - DOMAIN-SUFFIX,tiktok-sso.com
-  - DOMAIN-SUFFIX,pangleglobal.com
-  - DOMAIN-SUFFIX,pangleglobal.net
-  - DOMAIN-SUFFIX,appsflyersdk.com
-  - DOMAIN-SUFFIX,worldfcdn2.com
-  # 📦 静态资源与视频流 (CDN)
-  - DOMAIN-SUFFIX,tiktokcdn-com.akamaized.net
-  - DOMAIN,lf16-effectcdn.byteeffecttos-g.com
-  - DOMAIN,lf16-pkgcdn.pitaya-clientai.com
+
+  # 🔗 TikTok 短链接 / 跳转 / 分享
+  - DOMAIN,vm.tiktok.com
+  - DOMAIN,vt.tiktok.com
+  - DOMAIN,link.tiktok.com
+  - DOMAIN,m.tiktok.com
+  - DOMAIN,www.tiktok.com
+  - DOMAIN,api.tiktokv.com
+  - DOMAIN,api-h2.tiktokv.com
+  - DOMAIN,api21-h2.tiktokv.com
+  - DOMAIN,ib.tiktokv.com
+  - DOMAIN,log.tiktokv.com
+  - DOMAIN,mon.tiktokv.com
+  - DOMAIN,api2.musical.ly
+  - DOMAIN,api2-16-h2.musical.ly
+  - DOMAIN,api2-21-h2.musical.ly
+  - DOMAIN,log2.musical.ly
+  - DOMAIN,mon.musical.ly
+
+  # 📺 TikTok 视频 / 图片 / 静态资源 CDN
   - DOMAIN-SUFFIX,tiktokcdn.com
   - DOMAIN-SUFFIX,tiktokcdn-us.com
-  - DOMAIN-SUFFIX,tiktoklive.com
+  - DOMAIN-SUFFIX,tiktokcdn-in.com
+  - DOMAIN-SUFFIX,tiktokcdn-com.akamaized.net
+  - DOMAIN-SUFFIX,tiktokcdn.com.akahost.net
+  - DOMAIN-SUFFIX,tiktokcdn.com.atomile.com
+  - DOMAIN-SUFFIX,tiktokcdn-us.com.atomile.com
+  - DOMAIN-SUFFIX,tiktokcdn.com.c.bytetcdn.com
+  - DOMAIN-SUFFIX,tiktokcdn.com.c.bytefcdn-oversea.com
+  - DOMAIN-SUFFIX,tiktokcdn.com.c.worldfcdn.com
+  - DOMAIN-SUFFIX,tiktokcdn.com.c.worldfcdn2.com
+  - DOMAIN-SUFFIX,tiktokcdn.com.rocket-cdn.com
+  - DOMAIN-SUFFIX,tiktokv.com.c.worldfcdn.com
+  - DOMAIN-SUFFIX,tiktokv.com.c.worldfcdn2.com
   - DOMAIN-SUFFIX,ttwstatic.com
   - DOMAIN-SUFFIX,muscdn.com
   - DOMAIN-SUFFIX,ibyteimg.com
+  - DOMAIN-SUFFIX,ibytedtos.com
   - DOMAIN-SUFFIX,byteimg.com
   - DOMAIN-SUFFIX,ipstatp.com
-  - DOMAIN-SUFFIX,ibytedtos.com
-  - DOMAIN-SUFFIX,vegslb.com
-  - DOMAIN-SUFFIX,skytigris.cn
-  # 🛠️ 海外后端服务 / 监控 / 基建
-  - DOMAIN,trae-api-sg.mchost.guru
+  - DOMAIN-SUFFIX,sgpstatp.com
+  - DOMAIN-SUFFIX,pstatp.com
+
+  # 📦 常见 TikTok CDN 子域名
+  - DOMAIN-SUFFIX,bytefcdn-oversea.com
+  - DOMAIN-SUFFIX,bytefcdn-ttpeu.com
+  - DOMAIN-SUFFIX,bytefcdn.com
+  - DOMAIN-SUFFIX,bytecdn.cn
+  - DOMAIN-SUFFIX,bytetos.com
+  - DOMAIN-SUFFIX,bytedance.map.fastly.net
+  - DOMAIN-SUFFIX,worldfcdn.com
+  - DOMAIN-SUFFIX,worldfcdn2.com
+  - DOMAIN-SUFFIX,tlivecdn.com
+  - DOMAIN-SUFFIX,ttlivecdn.com
+
+  # 📡 TikTok LIVE / 直播 / Webcast
+  - DOMAIN-SUFFIX,tiktoklive.com
+  - DOMAIN-SUFFIX,ttlive.com
+  - DOMAIN-SUFFIX,ttlivecdn.com
+  - DOMAIN-SUFFIX,tlivecdn.com
   - DOMAIN-SUFFIX,byteoversea.com
   - DOMAIN-SUFFIX,byteoversea.net
-  - DOMAIN-SUFFIX,bytedapm.com
-  - DOMAIN-SUFFIX,ibytedapm.com
+  - DOMAIN-KEYWORD,webcast
+  - DOMAIN-KEYWORD,ttlive
+  - DOMAIN-KEYWORD,tiktoklive
+  - DOMAIN-KEYWORD,tiktokcdn
+  - DOMAIN-KEYWORD,pull-flv
+  - DOMAIN-KEYWORD,pull-hls
+  - DOMAIN-KEYWORD,pull-rtmp
+
+  # 🛒 TikTok Shop / 电商
+  - DOMAIN-SUFFIX,tiktokshop.com
+  - DOMAIN-SUFFIX,tiktokglobalshop.com
+  - DOMAIN-SUFFIX,tiktokshop.us
+  - DOMAIN-SUFFIX,tiktokshop.sg
+  - DOMAIN-SUFFIX,tiktokshopcdn.com
+  - DOMAIN-SUFFIX,tik-tokshop.com
+  - DOMAIN-KEYWORD,tiktokshop
+
+  # 🛠️ TikTok 海外后端 / 配置 / 热更新 / APM
+  - DOMAIN-SUFFIX,ttoversea.com
+  - DOMAIN-SUFFIX,ttoversea.net
   - DOMAIN-SUFFIX,byteintlapi.com
   - DOMAIN-SUFFIX,bytegecko.com
   - DOMAIN-SUFFIX,bytegecko-i18n.com
+  - DOMAIN-SUFFIX,bytedapm.com
+  - DOMAIN-SUFFIX,ibytedapm.com
   - DOMAIN-SUFFIX,isnssdk.com
-  - DOMAIN-SUFFIX,snssdk.com
-  - DOMAIN-SUFFIX,sgpstatp.com
-  - DOMAIN-SUFFIX,bytedance.map.fastly.net
+  - DOMAIN-SUFFIX,sgsnssdk.com
+  - DOMAIN-SUFFIX,bytednsdoc.com
+  - DOMAIN-SUFFIX,bytedns.net
+  - DOMAIN-SUFFIX,vegslb.com
+  - DOMAIN-SUFFIX,bdgslb.com
+
+  # 🎨 TikTok 特效 / 素材 / AI 客户端资源
+  - DOMAIN,lf16-effectcdn.byteeffecttos-g.com
+  - DOMAIN,lf16-pkgcdn.pitaya-clientai.com
+  - DOMAIN-SUFFIX,byteeffecttos-g.com
+  - DOMAIN-SUFFIX,pitaya-clientai.com
+
+  # 📊 TikTok 广告 / 统计 / 变现
   - DOMAIN-SUFFIX,tiktokads.com
   - DOMAIN-SUFFIX,ads.tiktok.com
-  # ✂️ 相关生态（可选但常见会一起走）
-  - DOMAIN-SUFFIX,capcut.com
-  - DOMAIN-SUFFIX,marscode.com
-  - DOMAIN-SUFFIX,trae.ai
-  - PROCESS-NAME,com.bd.nproject
-  - DOMAIN-SUFFIX,lemon8-app.com
-  - DOMAIN-SUFFIX,bdgslb.com
-  # 🔑 关键词兜底
+  - DOMAIN-SUFFIX,tiktokad.com
+  - DOMAIN-SUFFIX,tiktokad.net
+  - DOMAIN-SUFFIX,pangleglobal.com
+  - DOMAIN-SUFFIX,pangleglobal.net
+
+  # 🔑 TikTok 关键词兜底
   - DOMAIN-KEYWORD,tiktok
-  - DOMAIN-KEYWORD,byteoversea
-  - DOMAIN-KEYWORD,ibytedtos
+  - DOMAIN-KEYWORD,tiktokv
+  - DOMAIN-KEYWORD,tiktokcdn
+  - DOMAIN-KEYWORD,tiktoklive
+  - DOMAIN-KEYWORD,tiktokshop
   - DOMAIN-KEYWORD,musical
   - DOMAIN-KEYWORD,musically
-  - DOMAIN-KEYWORD,capcut
+  - DOMAIN-KEYWORD,byteoversea
+  - DOMAIN-KEYWORD,ibytedtos
+  - DOMAIN-KEYWORD,bytefcdn
   - DOMAIN-KEYWORD,ttlive
-  - DOMAIN-KEYWORD,webcast
-  - DOMAIN-KEYWORD,tiktokcdn
-  # 🛰️ ASN & IP 兜底（放到最后，避免误伤）
-  - IP-ASN,396986
-  - IP-ASN,138699
+  - DOMAIN-KEYWORD,ttwstatic
+
+  # ✅ 进程正则兜底
+  - PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
+
+  # ✅ 域名正则兜底
+  - DOMAIN-REGEX,(?i)(^|\.)tiktok([a-z0-9-]*)\.(com|us|app|net|org)$
+  - DOMAIN-REGEX,(?i)(^|\.)tiktok(v|cdn|live|shop)([a-z0-9-]*)\.(com|us|net|sg)$
+  - DOMAIN-REGEX,(?i)(^|\.)tt(webview|live|wstatic|livecdn)([a-z0-9-]*)\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)musical\.ly$
+  - DOMAIN-REGEX,(?i)(^|\.)ttoversea\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)byteoversea\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)(i?bytedapm|byteintlapi|bytegecko|bytegecko-i18n)\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)(isnssdk|sgsnssdk|sgpstatp|ipstatp)\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)tiktokcdn(-us|-in)?\.com(\..+)?$
+  - DOMAIN-REGEX,(?i)(^|\.)tiktokv\.com(\..+)?$
+
+  # 🛰️ TikTok / ByteDance ASN 兜底
+  # 放在最后，减少误伤。比直接写 AWS / 阿里云大段更干净。
+  - IP-ASN,396986,no-resolve
+  - IP-ASN,138699,no-resolve
+
+  # 🛰️ 少量历史 TikTok / ByteDance 相关 IP 兜底
+  # 不建议加入 AWS 52.* / 阿里云 47.* 大段，误伤太大。
   - IP-CIDR,170.176.0.0/12,no-resolve
   - IP-CIDR,161.117.0.0/16,no-resolve
-  - IP-CIDR,47.246.0.0/16,no-resolve
-  - IP-CIDR,52.74.0.0/16,no-resolve
-  - IP-CIDR,52.220.0.0/15,no-resolve
   - IP-CIDR,79.127.206.222/32,no-resolve
   - IP-CIDR,79.127.206.223/32,no-resolve
   - IP-CIDR,79.127.206.224/32,no-resolve
@@ -108,21 +193,3 @@ payload:
   - IP-CIDR,71.18.162.252/32,no-resolve
   - IP-CIDR,71.18.162.253/32,no-resolve
   - IP-CIDR,71.18.162.254/32,no-resolve
-  # ✅ 进程正则兜底（防止变体包名）
-  - PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
-  # ✅ 域名正则兜底（变体域名 / 多级子域名）
-  - DOMAIN-REGEX,(?i)(^|\.)tiktok([a-z0-9-]*)\.(com|us|app)$
-  - DOMAIN-REGEX,(?i)(^|\.)tiktok(v|cdn|live|shop)([a-z0-9-]*)\.(com|us)$
-  - DOMAIN-REGEX,(?i)(^|\.)tt(webview|live|wstatic)([a-z0-9-]*)\.(com|net)$
-  - DOMAIN-REGEX,(?i)(^|\.)ttoversea(\.com|\.net)$
-  - DOMAIN-REGEX,(?i)(^|\.)byteoversea(\.com|\.net)$
-  - DOMAIN-REGEX,(?i)(^|\.)((i)?bytedapm|byteintlapi|bytegecko(-i18n)?)\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)((isnssdk|snssdk|sgpstatp|pstatp|ipstatp))\.com$
-  # ✅ Windows 程序路径兜底（可选）
-  - PROCESS-PATH-REGEX,(?i).*\\TikTok.*\.exe$
-  - PROCESS-PATH-REGEX,(?i).*\\TikTok.*Live.*Studio.*\.exe$
-  - PROCESS-PATH-REGEX,(?i).*\\CapCut.*\.exe$
