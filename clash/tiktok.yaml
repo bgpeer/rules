@@ -171,13 +171,6 @@ payload:
   - DOMAIN-KEYWORD,ttlive
   - DOMAIN-KEYWORD,ttwstatic
 
-  # ✅ 进程正则兜底
-  - PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
-  - PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
-
   # ✅ 域名正则兜底
   - DOMAIN-REGEX,(?i)(^|\.)tiktok([a-z0-9-]*)\.(com|us|app|net|org)$
   - DOMAIN-REGEX,(?i)(^|\.)tiktok(v|cdn|live|shop)([a-z0-9-]*)\.(com|us|net|sg)$
@@ -189,6 +182,15 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)(isnssdk|sgsnssdk|sgpstatp|ipstatp)\.com$
   - DOMAIN-REGEX,(?i)(^|\.)tiktokcdn(-us|-in)?\.com(\..+)?$
   - DOMAIN-REGEX,(?i)(^|\.)tiktokv\.com(\..+)?$
+
+  # ✅ 进程正则兜底
+  - PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
+
+ 
 
   
   
