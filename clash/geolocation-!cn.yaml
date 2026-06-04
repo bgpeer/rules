@@ -297,6 +297,189 @@ payload:
   - DOMAIN-KEYWORD,traderworkstation
   - DOMAIN-KEYWORD,ibgateway
 
+  # 💹 Tiger Brokers / Tiger Trade / 老虎证券
+  # 🧩 APP 进程 - Android
+  - PROCESS-NAME,com.tigerbrokers.stock
+  - PROCESS-NAME,com.tigerbrokers.stock.hk
+  - PROCESS-NAME,com.tigerbrokers.stock.sg
+  - PROCESS-NAME,com.tigerbrokers.stock.au
+  - PROCESS-NAME,com.tigerbrokers.tigertradeintl
+  - PROCESS-NAME,com.tigerbrokers.tradeup
+  - PROCESS-NAME,com.tradeup.app
+  - PROCESS-NAME,com.tradeup.mobile
+  # 🌐 老虎证券核心域名
+  - DOMAIN-SUFFIX,itiger.com
+  - DOMAIN-SUFFIX,itigerup.com
+  - DOMAIN-SUFFIX,itigerup.com.cn
+  - DOMAIN-SUFFIX,itiger.com.cn
+  - DOMAIN-SUFFIX,itigerup.cn
+  - DOMAIN-SUFFIX,itiger.cn
+  - DOMAIN-SUFFIX,itigergrowtha.com
+  - DOMAIN-SUFFIX,laohu8.com
+  - DOMAIN-SUFFIX,tiger-trade.com
+  - DOMAIN-SUFFIX,tigertrade.com
+  - DOMAIN-SUFFIX,tiger-us.com
+  - DOMAIN-SUFFIX,tigerbbs.com
+  - DOMAIN-SUFFIX,tigerfintech.com
+  - DOMAIN-SUFFIX,tigerfintech.net
+  - DOMAIN-SUFFIX,tigersecurities.com
+  - DOMAIN-SUFFIX,tigerbrokers.com
+  - DOMAIN-SUFFIX,tigerbrokers.com.cn
+  - DOMAIN-SUFFIX,tigerbrokers.com.hk
+  - DOMAIN-SUFFIX,tigerbrokers.com.sg
+  - DOMAIN-SUFFIX,tigerbrokers.com.au
+  - DOMAIN-SUFFIX,tigerbrokers.nz
+  - DOMAIN-SUFFIX,tigerbrokers.co.nz
+  # 🌏 老虎区域站 / 下载 / 活动 / 帮助
+  - DOMAIN-SUFFIX,help.itiger.com
+  - DOMAIN-SUFFIX,support.itiger.com
+  - DOMAIN-SUFFIX,download.itiger.com
+  - DOMAIN-SUFFIX,activity.itiger.com
+  - DOMAIN-SUFFIX,marketing.itiger.com
+  - DOMAIN-SUFFIX,openapi.itiger.com
+  - DOMAIN-SUFFIX,ir.itigerup.com
+  # 📈 行情 / 交易 / API / WebSocket 常见子域名兜底
+  - DOMAIN-KEYWORD,itiger
+  - DOMAIN-KEYWORD,itigerup
+  - DOMAIN-KEYWORD,laohu8
+  - DOMAIN-KEYWORD,tigerbrokers
+  - DOMAIN-KEYWORD,tigertrade
+  - DOMAIN-KEYWORD,tigerfintech
+  # 💹 TradeUP / TradeUP Securities
+  - DOMAIN-SUFFIX,tradeup.com
+  - DOMAIN-SUFFIX,www.tradeup.com
+  - DOMAIN-SUFFIX,welcome.tradeup.com
+  - DOMAIN-SUFFIX,developer.tradeup.com
+  - DOMAIN-SUFFIX,tradeupapi.com
+  - DOMAIN-SUFFIX,tradeupsecurities.com
+  - DOMAIN-SUFFIX,tradeupsec.com
+  - DOMAIN-SUFFIX,tradeup.trade
+  - DOMAIN-SUFFIX,marsco.com
+  - DOMAIN-SUFFIX,www.marsco.com
+  # 📈 TradeUP API / 登录 / 开户 / 静态资源
+  - DOMAIN-KEYWORD,tradeupapi
+  - DOMAIN-KEYWORD,tradeup
+  - DOMAIN-KEYWORD,marsco
+  # 🔐 券商常见登录 / 安全 / 验证相关兜底
+  # 这些只写老虎/TradeUP 自有域，避免误伤 Google、Apple、短信服务商
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*itiger[a-z0-9-]*\.(com|cn|com\.cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*itigerup[a-z0-9-]*\.(com|cn|com\.cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*tigerbrokers[a-z0-9-]*\.(com|cn|hk|sg|au|nz|co\.nz|com\.cn|com\.hk|com\.sg|com\.au)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*tigerfintech[a-z0-9-]*\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*tigertrade[a-z0-9-]*\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*tradeup[a-z0-9-]*\.(com|net|trade)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*marsco[a-z0-9-]*\.com$
+  # 🧩 进程正则兜底 - Android
+  - PROCESS-NAME-REGEX,(?i)^com\.tigerbrokers\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.tradeup\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.marsco\..*$
+  # 🖥️ Windows / macOS 程序路径兜底
+  - PROCESS-PATH-REGEX,(?i).*\\Tiger.*Trade.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\Tiger.*Brokers.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\TradeUP.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\Marsco.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*/Tiger.*Trade.*$
+  - PROCESS-PATH-REGEX,(?i).*/Tiger.*Brokers.*$
+  - PROCESS-PATH-REGEX,(?i).*/TradeUP.*$
+
+  # 💹 Futu / Futubull / 富途牛牛 / Moomoo
+  # 🧩 APP 进程 - Android
+  - PROCESS-NAME,cn.futu.trader
+  - PROCESS-NAME,com.futu5.android
+  - PROCESS-NAME,com.futu.android
+  - PROCESS-NAME,com.futunn.android
+  - PROCESS-NAME,com.futubull.android
+  - PROCESS-NAME,com.moomoo.trade
+  - PROCESS-NAME,com.moomoo.android
+  - PROCESS-NAME,com.moomoo.stock
+  - PROCESS-NAME,com.moomoo.broker
+  - PROCESS-NAME,com.moomoo.markets
+  # 🌐 富途牛牛 / Futubull 核心域名
+  - DOMAIN-SUFFIX,futunn.com
+  - DOMAIN-SUFFIX,futu5.com
+  - DOMAIN-SUFFIX,futu6.com
+  - DOMAIN-SUFFIX,futu.com
+  - DOMAIN-SUFFIX,futuapp.com
+  - DOMAIN-SUFFIX,futunnopen.com
+  - DOMAIN-SUFFIX,futunn.net
+  - DOMAIN-SUFFIX,futuimg.com
+  - DOMAIN-SUFFIX,futuhk.com
+  - DOMAIN-SUFFIX,futusg.com
+  - DOMAIN-SUFFIX,futuau.com
+  - DOMAIN-SUFFIX,futuca.com
+  - DOMAIN-SUFFIX,futujp.com
+  - DOMAIN-SUFFIX,futumy.com
+  - DOMAIN-SUFFIX,futuholdings.com
+  # 🌏 富途官方站 / 投资者关系 / 帮助中心
+  - DOMAIN-SUFFIX,ir.futuholdings.com
+  - DOMAIN-SUFFIX,support.futunn.com
+  - DOMAIN-SUFFIX,help.futunn.com
+  - DOMAIN-SUFFIX,download.futunn.com
+  - DOMAIN-SUFFIX,openapi.futunn.com
+  - DOMAIN-SUFFIX,passport.futunn.com
+  - DOMAIN-SUFFIX,niu.futunn.com
+  - DOMAIN-SUFFIX,news.futunn.com
+  - DOMAIN-SUFFIX,live.futunn.com
+  # 🐮 Moomoo 核心域名
+  - DOMAIN-SUFFIX,moomoo.com
+  - DOMAIN-SUFFIX,moomooapp.com
+  - DOMAIN-SUFFIX,moomoo.com.sg
+  - DOMAIN-SUFFIX,moomoo.com.au
+  - DOMAIN-SUFFIX,moomoo.com.my
+  - DOMAIN-SUFFIX,moomoo.com.ca
+  - DOMAIN-SUFFIX,moomoo.co.jp
+  - DOMAIN-SUFFIX,moomoo.co.nz
+  - DOMAIN-SUFFIX,moomoocn.com
+  - DOMAIN-SUFFIX,moomoojp.com
+  - DOMAIN-SUFFIX,moomoosg.com
+  - DOMAIN-SUFFIX,moomoocdn.com
+  - DOMAIN-SUFFIX,moomooimg.com
+  # 🐮 Moomoo 下载 / 帮助 / OpenAPI
+  - DOMAIN-SUFFIX,download.moomoo.com
+  - DOMAIN-SUFFIX,support.moomoo.com
+  - DOMAIN-SUFFIX,help.moomoo.com
+  - DOMAIN-SUFFIX,openapi.moomoo.com
+  - DOMAIN-SUFFIX,passport.moomoo.com
+  - DOMAIN-SUFFIX,news.moomoo.com
+  - DOMAIN-SUFFIX,live.moomoo.com
+  # 📈 富途 / moomoo OpenAPI / OpenD
+  - DOMAIN-SUFFIX,openapi.futunn.com
+  - DOMAIN-SUFFIX,openapi.moomoo.com
+  - DOMAIN-SUFFIX,opend.futunn.com
+  - DOMAIN-SUFFIX,opend.moomoo.com
+  - DOMAIN-SUFFIX,futu-api-doc.com
+  - DOMAIN-SUFFIX,moomoo-api-doc.com
+  # 📊 行情 / 交易 / 登录 / 静态资源关键词兜底
+  - DOMAIN-KEYWORD,futunn
+  - DOMAIN-KEYWORD,futu5
+  - DOMAIN-KEYWORD,futu6
+  - DOMAIN-KEYWORD,futubull
+  - DOMAIN-KEYWORD,futuopen
+  - DOMAIN-KEYWORD,moomoo
+  - DOMAIN-KEYWORD,moomooapp
+  # ✅ 富途域名正则兜底
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futunn[a-z0-9-]*\.(com|net|cn|com\.cn|hk|sg|au|ca|jp|my)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futu[0-9a-z-]*\.(com|net|cn|com\.cn|hk|sg|au|ca|jp|my)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futubull[a-z0-9-]*\.(com|net|cn|hk|sg|au|ca|jp|my)$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futuholdings[a-z0-9-]*\.com$
+  # ✅ moomoo 域名正则兜底
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*moomoo[a-z0-9-]*\.(com|net|app|cn|sg|au|my|ca|jp|nz|co\.jp|co\.nz|com\.sg|com\.au|com\.my|com\.ca)$
+  # ✅ APP 进程正则兜底
+  - PROCESS-NAME-REGEX,(?i)^cn\.futu\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futu[0-9]*\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futunn\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futubull\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.moomoo\..*$
+  # 🖥️ Windows / macOS 程序路径兜底
+  - PROCESS-PATH-REGEX,(?i).*\\Futu.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\Futubull.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\Moomoo.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\OpenD.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*/Futu.*$
+  - PROCESS-PATH-REGEX,(?i).*/Futubull.*$
+  - PROCESS-PATH-REGEX,(?i).*/Moomoo.*$
+  - PROCESS-PATH-REGEX,(?i).*/OpenD.*$
+
   # ==== 💳海外银行 ====
   # 💳OCBC Bank（华侨银行）
   - DOMAIN-SUFFIX,ocbc.com
