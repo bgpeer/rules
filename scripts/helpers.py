@@ -117,16 +117,19 @@ MRS_SKIP_TYPES = {"DOMAIN-WILDCARD"}
 #   7. PROCESS-NAME / PROCESS-NAME-REGEX    8. DOMAIN-REGEX
 
 TYPE_ORDER = {
-    "DOMAIN":              0,
-    "DOMAIN-SUFFIX":       1,
-    "DOMAIN-WILDCARD":     2,
-    "IP-CIDR":             3,
-    "IP-CIDR6":            3,
-    "IP-ASN":              4,
-    "DOMAIN-KEYWORD":      5,
-    "PROCESS-NAME":        6,
-    "PROCESS-NAME-REGEX":  7,
-    "DOMAIN-REGEX":        8,
+    "DOMAIN": 0,
+    "DOMAIN-SUFFIX": 1,
+    "DOMAIN-WILDCARD": 2,
+    "IP-CIDR": 3,
+    "IP-CIDR6": 3,
+    "IP-ASN": 4,
+    "DOMAIN-KEYWORD": 5,
+    "DOMAIN-REGEX": 6,
+    "PROCESS-NAME": 7,
+    "PROCESS-NAME-WILDCARD": 8,
+    "PROCESS-NAME-REGEX": 9,
+    "PROCESS-PATH": 10,
+    "PROCESS-PATH-REGEX": 11,
 }
 
 # QX 类型也纳入排序
