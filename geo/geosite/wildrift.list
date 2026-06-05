@@ -65,6 +65,13 @@ DOMAIN-KEYWORD,riotcdn
 DOMAIN-KEYWORD,riotgames
 DOMAIN-KEYWORD,valorant
 DOMAIN-KEYWORD,wildrift
+DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
+DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
+DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
+DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
+DOMAIN-REGEX,(?i)(^|\.)riot\.com$
+DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
+DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
 PROCESS-NAME,League of Legends.exe
 PROCESS-NAME,LeagueClient.exe
 PROCESS-NAME,LeagueClientUx.exe
@@ -85,10 +92,3 @@ PROCESS-NAME,vgc.exe
 PROCESS-NAME-REGEX,(?i)^(Riot|League|VALORANT|vgc|vanguard).*$
 PROCESS-NAME-REGEX,(?i)^com\.riotgames\..*$
 PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
-DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
-DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
-DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
-DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
-DOMAIN-REGEX,(?i)(^|\.)riot\.com$
-DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
-DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$

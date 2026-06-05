@@ -64,7 +64,6 @@ payload:
   - DOMAIN-KEYWORD,xhslink
   - DOMAIN-KEYWORD,xhsurl
   - DOMAIN-KEYWORD,xiaohongshu
-  - PROCESS-NAME,com.xingin.xhs
   - DOMAIN-REGEX,(?i)(^|\.)xhs\.cn$
   - DOMAIN-REGEX,(?i)(^|\.)xhscdn\.cn$
   - DOMAIN-REGEX,(?i)(^|\.)xhscdn\.com$
@@ -76,3 +75,4 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)xiaohongshu\.cn$
   - DOMAIN-REGEX,(?i)(^|\.)xiaohongshu\.com$
   - DOMAIN-REGEX,(?i)(^|\.)xiaohongshu\.net$
+  - PROCESS-NAME,com.xingin.xhs

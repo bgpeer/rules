@@ -2761,10 +2761,6 @@ DOMAIN-KEYWORD,wechat
 DOMAIN-KEYWORD,weixin
 DOMAIN-KEYWORD,wildrift
 DOMAIN-KEYWORD,wxapp
-PROCESS-NAME,WeChat.exe
-PROCESS-NAME,WeChatApp.exe
-PROCESS-NAME,com.tencent.lolm
-PROCESS-NAME,com.tencent.mm
 DOMAIN-REGEX,(?i)(^|\\.)extshort\\.weixin\\.qq\\.com$
 DOMAIN-REGEX,(?i)(^|\\.)game\\.gtimg\\.cn$
 DOMAIN-REGEX,(?i)(^|\\.)lolm\\.qq\\.com$
@@ -2782,6 +2778,10 @@ DOMAIN-REGEX,(?i)(^|\\.)tenpay\\.com$
 DOMAIN-REGEX,(?i)(^|\\.)weixin\\.qq\\.com$
 DOMAIN-REGEX,(?i)(^|\\.)wx\\.tenpay\\.com$
 DOMAIN-REGEX,(?i)(^|\\.)wximg\\.qq\\.com$
+PROCESS-NAME,WeChat.exe
+PROCESS-NAME,WeChatApp.exe
+PROCESS-NAME,com.tencent.lolm
+PROCESS-NAME,com.tencent.mm
 PROCESS-NAME-WILDCARD,WeChat*.exe
 PROCESS-NAME-WILDCARD,com.tencent.lolm*
 PROCESS-NAME-WILDCARD,com.tencent.mm*
