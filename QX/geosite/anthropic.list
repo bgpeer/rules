@@ -1,7 +1,9 @@
 HOST, a-api.anthropic.com
 HOST, accounts.anthropic.com
 HOST, api.anthropic.com
+HOST, app.claude.ai
 HOST, auth.anthropic.com
+HOST, bridge.claudeusercontent.com
 HOST, browser-intake-us5-datadoghq.com
 HOST, cdn.usefathom.com
 HOST, claude.ai
@@ -11,25 +13,28 @@ HOST, docs.anthropic.com
 HOST, docs.claude.com
 HOST, downloads.claude.ai
 HOST, platform.claude.com
+HOST, raw.githubusercontent.com
 HOST, servd-anthropic-website.b-cdn.net
+HOST, statsig.anthropic.com
 HOST, status.anthropic.com
 HOST, status.claude.com
 HOST, storage.googleapis.com
 HOST, support.claude.com
 HOST, trust.anthropic.com
 HOST, www.claude.ai
+HOST-SUFFIX, accounts.anthropic.com
 HOST-SUFFIX, anthropic-cdn.com
 HOST-SUFFIX, anthropic.com
+HOST-SUFFIX, api.anthropic.com
+HOST-SUFFIX, auth.anthropic.com
 HOST-SUFFIX, clau.de
 HOST-SUFFIX, claude.ai
 HOST-SUFFIX, claude.com
 HOST-SUFFIX, claudemcpclient.com
 HOST-SUFFIX, claudeusercontent.com
 HOST-SUFFIX, claudeusercontent.net
-HOST-SUFFIX, datadog.pool.ntp.org
-HOST-SUFFIX, datadoghq.com
 HOST-SUFFIX, modelcontextprotocol.io
-IP-CIDR, 160.79.104.0/23, no-resolve
+HOST-SUFFIX, sentry.io
 IP-CIDR, 160.79.104.0/21, no-resolve
 IP-CIDR6, 2607:6bc0::/48, no-resolve
 HOST-KEYWORD, anthropic
