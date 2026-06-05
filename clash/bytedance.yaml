@@ -1,0 +1,145 @@
+payload:
+  # ==== 字节跳动系 APP 进程补充 ====
+  - PROCESS-NAME,com.ss.android.ugc.aweme
+  - PROCESS-NAME,com.ss.android.ugc.aweme.lite
+  - PROCESS-NAME,com.ss.android.ugc.aweme.beta
+  - PROCESS-NAME,com.ss.android.ugc.aweme.youth
+  - PROCESS-NAME,com.ss.android.ugc.live
+  - PROCESS-NAME,com.ss.android.ugc.live.lite
+  - PROCESS-NAME,com.ss.android.ugc.video
+  - PROCESS-NAME,com.ss.android.article.news
+  - PROCESS-NAME,com.ss.android.article.lite
+  - PROCESS-NAME,com.ss.android.article.video
+  - PROCESS-NAME,com.ss.android.auto
+  - PROCESS-NAME,com.dragon.read
+  - PROCESS-NAME,com.lemon.lv
+  - PROCESS-NAME,com.vega.edit
+  - PROCESS-NAME,com.xt.retouch
+  - PROCESS-NAME,com.lemon.faceu
+  - PROCESS-NAME,com.larus.nova
+  - PROCESS-NAME,com.ss.android.lark
+  - PROCESS-NAME,com.bytedance.feishu
+  - PROCESS-NAME,com.larksuite.suite
+
+  # ==== 进程正则兜底 ====
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.aweme(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.live(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.article(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.video(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.auto(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.dragon\.read(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.lemon\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.vega\.edit(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.larus\.nova(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.lark(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^com\.bytedance\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.larksuite\..*$
+
+  # ==== geosite:bytedance 里不一定完整的补充域名 ====
+  - DOMAIN-SUFFIX,douyinlive.com
+  - DOMAIN-SUFFIX,ppxcdn.com
+  - DOMAIN-SUFFIX,byteeffecttos.com
+  - DOMAIN-SUFFIX,feiliao.com
+  - DOMAIN-SUFFIX,acomic.com
+  - DOMAIN-SUFFIX,goofish.com
+  - DOMAIN-SUFFIX,xdrtc.com
+  - DOMAIN-SUFFIX,kuiniuca.com
+  - DOMAIN-SUFFIX,ecombdimg.com
+  - DOMAIN-SUFFIX,comfylink.com
+  - DOMAIN-SUFFIX,byteicdn.com
+  - DOMAIN-SUFFIX,bjmxy.net
+  - DOMAIN-SUFFIX,oceanengine.com
+  - DOMAIN-SUFFIX,ad-vance.cn
+  - DOMAIN-SUFFIX,doupay.com
+  - DOMAIN-SUFFIX,getui.com
+  - DOMAIN-SUFFIX,igexin.com
+
+  # ==== 精准补充域名 ====
+  - DOMAIN,ice-stunserver.xdrtc.com.gtm.xdrtc.com
+  - DOMAIN,api.doupay.com
+  - DOMAIN,lf-ucenter-web.yhgfb-cn-static.com
+  - DOMAIN,lf3-zlink-tos.ugurl.cn
+  - DOMAIN,lf9-apk.ugapk.cn
+  - DOMAIN,apischedule.ksyungslb.com
+
+  # ==== 关键词兜底 ====
+  - DOMAIN-KEYWORD,xdrtc
+  - DOMAIN-KEYWORD,cdnbuild
+  - DOMAIN-KEYWORD,douyin
+  - DOMAIN-KEYWORD,douyincdn
+  - DOMAIN-KEYWORD,amemv
+  - DOMAIN-KEYWORD,toutiao
+  - DOMAIN-KEYWORD,ixigua
+  - DOMAIN-KEYWORD,huoshan
+  - DOMAIN-KEYWORD,snssdk
+  - DOMAIN-KEYWORD,bytedance
+  - DOMAIN-KEYWORD,bytedns
+  - DOMAIN-KEYWORD,bytecdn
+  - DOMAIN-KEYWORD,byteimg
+  - DOMAIN-KEYWORD,bytetos
+  - DOMAIN-KEYWORD,zijie
+  - DOMAIN-KEYWORD,volc
+  - DOMAIN-KEYWORD,volcengine
+  - DOMAIN-KEYWORD,volces
+  - DOMAIN-KEYWORD,zjcdn
+  - DOMAIN-KEYWORD,oceanengine
+  - DOMAIN-KEYWORD,qishui
+  - DOMAIN-KEYWORD,ecombdapi
+
+  # ==== 域名正则兜底 ====
+  - DOMAIN-REGEX,(?i)(^|\.)douyin([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)iesdouyin([a-z0-9-]*)\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)amemv\.(com|cn|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)doubao([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)toutiao([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)ixigua([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)huoshan([a-z0-9-]*)\.(com|cn|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)bytedns(doc)?\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)snssdk\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)xdrtc\.com$
+  - DOMAIN-REGEX,(?i)(^|\.).*stun.*xdrtc\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)cdnbuild\.net$
+
+  # ==== ASN / IP 兜底 ====
+  - IP-ASN,138667,no-resolve
+
+  - IP-CIDR,101.227.0.0/24,no-resolve
+  - IP-CIDR,101.32.0.0/24,no-resolve
+  - IP-CIDR,183.60.0.0/24,no-resolve
+  - IP-CIDR,106.75.0.0/24,no-resolve
+  - IP-CIDR,123.125.0.0/24,no-resolve
+  - IP-CIDR,140.205.0.0/24,no-resolve
+  - IP-CIDR,182.140.0.0/24,no-resolve
+  - IP-CIDR,106.13.244.0/24,no-resolve
+  - IP-CIDR,8.134.241.0/24,no-resolve
+
+  - IP-CIDR,182.100.44.245/32,no-resolve
+  - IP-CIDR,117.24.163.100/32,no-resolve
+  - IP-CIDR,117.24.161.206/32,no-resolve
+  - IP-CIDR,112.49.41.140/32,no-resolve
+  - IP-CIDR,183.250.185.131/32,no-resolve
+  - IP-CIDR,111.62.113.87/32,no-resolve
+  - IP-CIDR,221.204.57.167/32,no-resolve
+  - IP-CIDR,111.225.145.5/32,no-resolve
+  - IP-CIDR,42.237.112.78/32,no-resolve
+  - IP-CIDR,221.204.57.211/32,no-resolve
+  - IP-CIDR,112.16.235.10/32,no-resolve
+  - IP-CIDR,36.139.109.246/32,no-resolve
+  - IP-CIDR,8.134.241.67/32,no-resolve
+
+  # ==== IPv6 单点 ====
+  - IP-CIDR6,2409:8c04:1002:8::2021/128,no-resolve
+  - IP-CIDR6,240e:940:a03:1200:8922::102/128,no-resolve
+  - IP-CIDR6,240e:964:1003:30a:3::27/128,no-resolve
+  - IP-CIDR6,240e:964:1004:203::31/128,no-resolve
+  - IP-CIDR6,240e:964:1004:203::34/128,no-resolve
+  - IP-CIDR6,240e:965:801:104::b00:104/128,no-resolve
+  - IP-CIDR6,2409:8c04:1002:8::2001/128,no-resolve
+  - IP-CIDR6,2409:8c20:5a63:16::6/128,no-resolve
+  - IP-CIDR6,2408:8770:0:44:8000:0:d00:5/128,no-resolve
+  - IP-CIDR6,2408:8770:0:44:8000:0:d00:6/128,no-resolve
+  - IP-CIDR6,2409:8c34:d00:d00::131/128,no-resolve
+  - IP-CIDR6,2409:8c0c:310:1a00::11c/128,no-resolve
+  - IP-CIDR6,2408:8756:d0fd:f002:8000:0:d00:14/128,no-resolve
+  - IP-CIDR6,2409:8c04:1002:8::200/128,no-resolve
+  - IP-CIDR6,2408:871a:6010:302::1:102/128,no-resolve
