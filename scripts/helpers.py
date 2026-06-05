@@ -125,8 +125,8 @@ TYPE_ORDER = {
     "IP-ASN":              4,
     "DOMAIN-KEYWORD":      5,
     "PROCESS-NAME":        6,
-    "PROCESS-NAME-REGEX":  6,
-    "DOMAIN-REGEX":        7,
+    "PROCESS-NAME-REGEX":  7,
+    "DOMAIN-REGEX":        8,
 }
 
 # QX 类型也纳入排序
