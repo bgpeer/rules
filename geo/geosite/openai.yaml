@@ -87,11 +87,11 @@ payload:
   - DOMAIN-KEYWORD,openai
   - DOMAIN-KEYWORD,openaicdn
   - DOMAIN-KEYWORD,openaimerge
-  - PROCESS-NAME-REGEX,(?i)^com\.openai\.chatgpt(\..+)?$
   - PROCESS-NAME,ChatGPT
   - PROCESS-NAME,ChatGPT.exe
   - PROCESS-NAME,com.openai.chatgpt
   - PROCESS-NAME,com.openai.chatgpt.beta
+  - PROCESS-NAME-REGEX,(?i)^com\.openai\.chatgpt(\..+)?$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.auth\.openai\.com$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.chat\.openai\.com$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.oaistatic\.com$

@@ -151,11 +151,6 @@ DOMAIN-KEYWORD,tiktokv
 DOMAIN-KEYWORD,ttlive
 DOMAIN-KEYWORD,ttwstatic
 DOMAIN-KEYWORD,webcast
-PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
-PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
 PROCESS-NAME,com.rezvorck.tiktokplugin
 PROCESS-NAME,com.ss.android.ugc.aweme.now
 PROCESS-NAME,com.ss.android.ugc.aweme.shop
@@ -164,6 +159,11 @@ PROCESS-NAME,com.tiktok.tv
 PROCESS-NAME,com.tiktok.tvm
 PROCESS-NAME,com.zhiliaoapp.musically
 PROCESS-NAME,com.zhiliaoapp.musically.go
+PROCESS-NAME-REGEX,(?i)^com\.rezvorck\.tiktokplugin(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.trill(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.tiktok(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.tiktok\.tv(\..+)?$
+PROCESS-NAME-REGEX,(?i)^com\.zhiliaoapp\.musically(\..+)?$
 DOMAIN-REGEX,(?i)(^|\.)(i?bytedapm|byteintlapi|bytegecko|bytegecko-i18n)\.com$
 DOMAIN-REGEX,(?i)(^|\.)(isnssdk|sgsnssdk|sgpstatp|ipstatp)\.com$
 DOMAIN-REGEX,(?i)(^|\.)byteoversea\.(com|net)$

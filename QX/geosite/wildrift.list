@@ -1,25 +1,52 @@
-HOST-SUFFIX, account.riotgames.com
+HOST, account.riotgames.com
+HOST, api.riotgames.com
+HOST, auth.riotgames.com
+HOST, chat.si.riotgames.com
+HOST, clientconfig.rpg.riotgames.com
+HOST, edge.rms.si.riotgames.com
+HOST, entitlements.auth.riotgames.com
+HOST, js.hcaptcha.com
+HOST, l3cdn.riotgames.com
+HOST, lol.secure.dyn.riotcdn.net
+HOST, newassets.hcaptcha.com
+HOST, playerpreferences.riotgames.com
+HOST, riot-geo.pas.si.riotgames.com
+HOST, riotgames.zendesk.com
+HOST, riotgamespatcher-a.akamaized.net
+HOST, wr.pvp.net
+HOST-SUFFIX, 2xko.riotgames.com
+HOST-SUFFIX, a.pvp.net
 HOST-SUFFIX, anticheat.riotgames.com
-HOST-SUFFIX, api.riotgames.com
-HOST-SUFFIX, auth.riotgames.com
 HOST-SUFFIX, chat.si.riotgames.com
 HOST-SUFFIX, clientconfig.rpg.riotgames.com
-HOST-SUFFIX, edge.rms.si.riotgames.com
-HOST-SUFFIX, entitlements.auth.riotgames.com
-HOST-SUFFIX, l3cdn.riotgames.com
-HOST-SUFFIX, playerpreferences.riotgames.com
+HOST-SUFFIX, glz.pvp.net
+HOST-SUFFIX, hcaptcha.com
+HOST-SUFFIX, leagueoflegends.com
+HOST-SUFFIX, legendsofruneterra.com
+HOST-SUFFIX, lolstatic-a.akamaihd.net
+HOST-SUFFIX, lolstatic.com
+HOST-SUFFIX, playruneterra.com
+HOST-SUFFIX, playvalorant.com
 HOST-SUFFIX, pvp.net
 HOST-SUFFIX, rdatasrv.net
 HOST-SUFFIX, rgpub.io
-HOST-SUFFIX, riot-geo.pas.si.riotgames.com
 HOST-SUFFIX, riot.com
 HOST-SUFFIX, riotcdn.com
 HOST-SUFFIX, riotcdn.net
 HOST-SUFFIX, riotgames.com
 HOST-SUFFIX, riotgames.zendesk.com
+HOST-SUFFIX, riotgamesmedia.com
 HOST-SUFFIX, riotgamespatcher-a.akamaized.net
+HOST-SUFFIX, support-leagueoflegends.riotgames.com
+HOST-SUFFIX, support-valorant.riotgames.com
+HOST-SUFFIX, support-wildrift.riotgames.com
+HOST-SUFFIX, teamfighttactics.com
+HOST-SUFFIX, valorant.com
 HOST-SUFFIX, vivox.com
+HOST-SUFFIX, wildrift.leagueoflegends.com
+HOST-SUFFIX, wildrift.leagueoflegends.com
 HOST-SUFFIX, wr-assets.riotcdn.net
+HOST-SUFFIX, wr.pvp.net
 IP-CIDR, 151.106.246.0/23, no-resolve
 IP-CIDR, 103.219.128.0/22, no-resolve
 IP-CIDR, 103.240.224.0/22, no-resolve
@@ -28,8 +55,10 @@ IP-CIDR, 151.106.252.0/22, no-resolve
 IP-CIDR, 43.229.64.0/22, no-resolve
 IP-CIDR, 162.249.72.0/21, no-resolve
 IP-CIDR, 192.64.168.0/21, no-resolve
-IP-CIDR, 15.177.0.0/18, no-resolve
-IP-CIDR, 172.65.192.0/18, no-resolve
 IP-CIDR, 104.160.128.0/17, no-resolve
-HOST-KEYWORD, riot
+HOST-KEYWORD, leagueoflegends
+HOST-KEYWORD, rgpub
+HOST-KEYWORD, riotcdn
+HOST-KEYWORD, riotgames
 HOST-KEYWORD, valorant
+HOST-KEYWORD, wildrift

@@ -26867,14 +26867,6 @@ payload:
   - DOMAIN-KEYWORD,vercel
   - DOMAIN-KEYWORD,xesim
   - DOMAIN-KEYWORD,xesimcc
-  - PROCESS-NAME-REGEX,(?i)^cn\.futu\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.futu[0-9]*\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.futubull\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.futunn\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.marsco\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.moomoo\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.tigerbrokers\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.tradeup\..*$
   - PROCESS-NAME,IBGateway.exe
   - PROCESS-NAME,IBKR Desktop.exe
   - PROCESS-NAME,TWS.exe
@@ -26911,6 +26903,14 @@ payload:
   - PROCESS-NAME,ibgateway.exe
   - PROCESS-NAME,ibkrdesktop.exe
   - PROCESS-NAME,tws.exe
+  - PROCESS-NAME-REGEX,(?i)^cn\.futu\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futu[0-9]*\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futubull\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futunn\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.marsco\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.moomoo\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.tigerbrokers\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.tradeup\..*$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futu[0-9a-z-]*\.(com|net|cn|com\.cn|hk|sg|au|ca|jp|my)$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futubull[a-z0-9-]*\.(com|net|cn|hk|sg|au|ca|jp|my)$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futuholdings[a-z0-9-]*\.com$
