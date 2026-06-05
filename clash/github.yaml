@@ -1,6 +1,17 @@
 payload:
+  # App
   - PROCESS-NAME,com.github.android
-  # 主站/生态
+  - PROCESS-NAME,com.github.android.beta
+  - PROCESS-NAME,GitHubDesktop.exe
+  - PROCESS-NAME,GitHub Desktop.exe
+  - PROCESS-NAME,gh.exe
+  - PROCESS-NAME,git.exe
+  - PROCESS-PATH-REGEX,(?i).*\\GitHub.*Desktop.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*\\Git\\.*git.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*/GitHub.*Desktop.*$
+  - PROCESS-PATH-REGEX,(?i).*/git$
+
+  # 主站
   - DOMAIN-SUFFIX,github.com
   - DOMAIN-SUFFIX,github.io
   - DOMAIN-SUFFIX,github.dev
@@ -12,54 +23,106 @@ payload:
   - DOMAIN-SUFFIX,githubuniverse.com
   - DOMAIN-SUFFIX,githubnext.com
   - DOMAIN-SUFFIX,githubpreview.dev
-  - DOMAIN-SUFFIX,thegithubshop.com
+  - DOMAIN-SUFFIX,repo.new
   - DOMAIN-SUFFIX,myoctocat.com
   - DOMAIN-SUFFIX,opensource.guide
-  - DOMAIN-SUFFIX,repo.new
-  # API/上传/GraphQL/Packages
+  - DOMAIN-SUFFIX,thegithubshop.com
+
+  # API
   - DOMAIN,api.github.com
   - DOMAIN,uploads.github.com
   - DOMAIN,graphql.github.com
-  - DOMAIN-SUFFIX,pkg.github.com
-  # Clone/SSH(443)
+  - DOMAIN,collector.github.com
+
+  # Git / SSH / Clone
   - DOMAIN,ssh.github.com
-  # 下载/Raw/代码包
-  - DOMAIN-SUFFIX,codeload.github.com
+  - DOMAIN,git-lfs.github.com
+  - DOMAIN,lfs.github.com
+
+  # Raw / 下载 / Release
+  - DOMAIN,codeload.github.com
   - DOMAIN,raw.githubusercontent.com
   - DOMAIN,objects.githubusercontent.com
+  - DOMAIN,github-releases.githubusercontent.com
+  - DOMAIN,release-assets.githubusercontent.com
+  - DOMAIN,media.githubusercontent.com
   - DOMAIN-SUFFIX,githubusercontent.com
-  - DOMAIN-SUFFIX,git.io
-  - DOMAIN-SUFFIX,rawgit.com
-  - DOMAIN-SUFFIX,rawgithub.com
+
   # Gist
   - DOMAIN,gist.github.com
   - DOMAIN,gist.githubusercontent.com
-  # 静态资源/CDN
+
+  # 静态资源
   - DOMAIN-SUFFIX,ghstatic.net
-  - DOMAIN-SUFFIX,avatars.githubusercontent.com
-  - DOMAIN-SUFFIX,favicons.githubusercontent.com
-  - DOMAIN-SUFFIX,user-images.githubusercontent.com
-  - DOMAIN-SUFFIX,cloud.githubusercontent.com
+  - DOMAIN,avatars.githubusercontent.com
+  - DOMAIN,favicons.githubusercontent.com
+  - DOMAIN,user-images.githubusercontent.com
+  - DOMAIN,cloud.githubusercontent.com
   - DOMAIN,github-cloud.s3.amazonaws.com
-  # Actions/Registry
+
+  # Actions
   - DOMAIN-SUFFIX,actions.githubusercontent.com
+  - DOMAIN-SUFFIX,githubactions.com
+  - DOMAIN-SUFFIX,actions-user-content.githubusercontent.com
+
+  # Packages / Container
+  - DOMAIN-SUFFIX,pkg.github.com
   - DOMAIN-SUFFIX,ghcr.io
-  # Copilot（官方 allowlist）
+  - DOMAIN,npm.pkg.github.com
+  - DOMAIN,rubygems.pkg.github.com
+  - DOMAIN,maven.pkg.github.com
+  - DOMAIN,nuget.pkg.github.com
+  - DOMAIN,docker.pkg.github.com
+
+  # Codespaces
+  - DOMAIN-SUFFIX,codespaces.githubusercontent.com
+  - DOMAIN-SUFFIX,app.github.dev
+  - DOMAIN-SUFFIX,preview.app.github.dev
+  - DOMAIN-SUFFIX,vscode-cdn.net
+  - DOMAIN,update.code.visualstudio.com
+  - DOMAIN,vscode-sync-insiders.trafficmanager.net
+
+  # Copilot
   - DOMAIN-SUFFIX,githubcopilot.com
+  - DOMAIN-SUFFIX,individual.githubcopilot.com
+  - DOMAIN-SUFFIX,business.githubcopilot.com
+  - DOMAIN-SUFFIX,enterprise.githubcopilot.com
   - DOMAIN,copilot-proxy.githubusercontent.com
   - DOMAIN,origin-tracker.githubusercontent.com
   - DOMAIN,copilot-telemetry.githubusercontent.com
-  - DOMAIN,collector.github.com
   - DOMAIN,default.exp-tas.com
-  # Codespaces（基础入口，动态域名建议用 meta 拉）
-  - DOMAIN-SUFFIX,codespaces.githubusercontent.com
-  # Atom/Dependabot/npm
-  - DOMAIN-SUFFIX,atom.io
-  - DOMAIN-SUFFIX,dependabot.com
+  - DOMAIN,copilot-reports.github.com
+
+  # Copilot 报告兜底
+  - DOMAIN-REGEX,(?i)^copilot-reports-[a-z0-9-]+\.b01\.azurefd\.net$
+  - DOMAIN-REGEX,(?i)^usagereports[a-z0-9-]*\.blob\.core\.windows\.net$
+
+  # npm
   - DOMAIN-SUFFIX,npmjs.com
   - DOMAIN-SUFFIX,npmjs.org
   - DOMAIN-SUFFIX,npm.community
+  - DOMAIN,registry.npmjs.org
+
+  # Dependabot / Atom
+  - DOMAIN-SUFFIX,dependabot.com
+  - DOMAIN-SUFFIX,atom.io
+
+  # 正则兜底
+  - DOMAIN-REGEX,(?i)(^|\.)github\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)githubusercontent\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)githubassets\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)githubcopilot\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)github\.dev$
+  - DOMAIN-REGEX,(?i)(^|\.)github\.io$
+  - DOMAIN-REGEX,(?i)(^|\.)ghcr\.io$
+  - DOMAIN-REGEX,(?i)(^|\.)codespaces\.githubusercontent\.com$
+
   # 关键词兜底
   - DOMAIN-KEYWORD,github
-  # 可选 ASN
-  - IP-ASN,36459
+  - DOMAIN-KEYWORD,githubusercontent
+  - DOMAIN-KEYWORD,githubassets
+  - DOMAIN-KEYWORD,githubcopilot
+  - DOMAIN-KEYWORD,ghcr
+
+  # ASN 兜底
+  - IP-ASN,36459,no-resolve
