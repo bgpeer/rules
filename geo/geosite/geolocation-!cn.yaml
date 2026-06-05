@@ -26867,50 +26867,6 @@ payload:
   - DOMAIN-KEYWORD,vercel
   - DOMAIN-KEYWORD,xesim
   - DOMAIN-KEYWORD,xesimcc
-  - PROCESS-NAME,IBGateway.exe
-  - PROCESS-NAME,IBKR Desktop.exe
-  - PROCESS-NAME,TWS.exe
-  - PROCESS-NAME,atws.app
-  - PROCESS-NAME,cn.futu.trader
-  - PROCESS-NAME,com.eastwestbank.mobilebanking
-  - PROCESS-NAME,com.elink.xesim
-  - PROCESS-NAME,com.futu.android
-  - PROCESS-NAME,com.futu5.android
-  - PROCESS-NAME,com.futubull.android
-  - PROCESS-NAME,com.futunn.android
-  - PROCESS-NAME,com.hsbc.hsbcchina
-  - PROCESS-NAME,com.hsbc.hsbcukmobilebanking
-  - PROCESS-NAME,com.htsu.hsbcpersonalbanking
-  - PROCESS-NAME,com.ibkr.gt.app
-  - PROCESS-NAME,com.ibkr.impact.app
-  - PROCESS-NAME,com.moomoo.android
-  - PROCESS-NAME,com.moomoo.broker
-  - PROCESS-NAME,com.moomoo.markets
-  - PROCESS-NAME,com.moomoo.stock
-  - PROCESS-NAME,com.moomoo.trade
-  - PROCESS-NAME,com.ocbc.mobile
-  - PROCESS-NAME,com.ocbc.westpac.android
-  - PROCESS-NAME,com.tigerbrokers.stock
-  - PROCESS-NAME,com.tigerbrokers.stock.au
-  - PROCESS-NAME,com.tigerbrokers.stock.hk
-  - PROCESS-NAME,com.tigerbrokers.stock.sg
-  - PROCESS-NAME,com.tigerbrokers.tigertradeintl
-  - PROCESS-NAME,com.tigerbrokers.tradeup
-  - PROCESS-NAME,com.tradeup.app
-  - PROCESS-NAME,com.tradeup.mobile
-  - PROCESS-NAME,com.transferwise.android
-  - PROCESS-NAME,com.wise.android
-  - PROCESS-NAME,ibgateway.exe
-  - PROCESS-NAME,ibkrdesktop.exe
-  - PROCESS-NAME,tws.exe
-  - PROCESS-NAME-REGEX,(?i)^cn\.futu\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.futu[0-9]*\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.futubull\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.futunn\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.marsco\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.moomoo\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.tigerbrokers\..*$
-  - PROCESS-NAME-REGEX,(?i)^com\.tradeup\..*$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futu[0-9a-z-]*\.(com|net|cn|com\.cn|hk|sg|au|ca|jp|my)$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futubull[a-z0-9-]*\.(com|net|cn|hk|sg|au|ca|jp|my)$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futuholdings[a-z0-9-]*\.com$
@@ -27080,6 +27036,50 @@ payload:
   - DOMAIN-REGEX,^ewcdn[0-9]+\.nowe\.com$
   - DOMAIN-REGEX,^hses[1-7]?\.akamaized\.net$
   - DOMAIN-REGEX,javdb\d+\.com$
+  - PROCESS-NAME,IBGateway.exe
+  - PROCESS-NAME,IBKR Desktop.exe
+  - PROCESS-NAME,TWS.exe
+  - PROCESS-NAME,atws.app
+  - PROCESS-NAME,cn.futu.trader
+  - PROCESS-NAME,com.eastwestbank.mobilebanking
+  - PROCESS-NAME,com.elink.xesim
+  - PROCESS-NAME,com.futu.android
+  - PROCESS-NAME,com.futu5.android
+  - PROCESS-NAME,com.futubull.android
+  - PROCESS-NAME,com.futunn.android
+  - PROCESS-NAME,com.hsbc.hsbcchina
+  - PROCESS-NAME,com.hsbc.hsbcukmobilebanking
+  - PROCESS-NAME,com.htsu.hsbcpersonalbanking
+  - PROCESS-NAME,com.ibkr.gt.app
+  - PROCESS-NAME,com.ibkr.impact.app
+  - PROCESS-NAME,com.moomoo.android
+  - PROCESS-NAME,com.moomoo.broker
+  - PROCESS-NAME,com.moomoo.markets
+  - PROCESS-NAME,com.moomoo.stock
+  - PROCESS-NAME,com.moomoo.trade
+  - PROCESS-NAME,com.ocbc.mobile
+  - PROCESS-NAME,com.ocbc.westpac.android
+  - PROCESS-NAME,com.tigerbrokers.stock
+  - PROCESS-NAME,com.tigerbrokers.stock.au
+  - PROCESS-NAME,com.tigerbrokers.stock.hk
+  - PROCESS-NAME,com.tigerbrokers.stock.sg
+  - PROCESS-NAME,com.tigerbrokers.tigertradeintl
+  - PROCESS-NAME,com.tigerbrokers.tradeup
+  - PROCESS-NAME,com.tradeup.app
+  - PROCESS-NAME,com.tradeup.mobile
+  - PROCESS-NAME,com.transferwise.android
+  - PROCESS-NAME,com.wise.android
+  - PROCESS-NAME,ibgateway.exe
+  - PROCESS-NAME,ibkrdesktop.exe
+  - PROCESS-NAME,tws.exe
+  - PROCESS-NAME-REGEX,(?i)^cn\.futu\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futu[0-9]*\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futubull\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.futunn\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.marsco\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.moomoo\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.tigerbrokers\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.tradeup\..*$
   - PROCESS-PATH-REGEX,(?i).*/Futu.*$
   - PROCESS-PATH-REGEX,(?i).*/Futubull.*$
   - PROCESS-PATH-REGEX,(?i).*/Moomoo.*$

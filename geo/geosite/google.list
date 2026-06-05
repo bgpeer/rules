@@ -1167,6 +1167,8 @@ DOMAIN-KEYWORD,gstatic
 DOMAIN-KEYWORD,recaptcha
 DOMAIN-KEYWORD,youtube
 DOMAIN-KEYWORD,ytimg
+DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.googlevideo\.com$
+DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.xn--ngstr-lra8j\.com$
 PROCESS-NAME,BackupandSync
 PROCESS-NAME,Gemini
 PROCESS-NAME,Gemini.exe
@@ -1199,12 +1201,10 @@ PROCESS-NAME,com.google.android.tts
 PROCESS-NAME,com.google.android.youtube
 PROCESS-NAME,gemini
 PROCESS-NAME,gemini.exe
-PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
-PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
-PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$
-DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.googlevideo\.com$
-DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.xn--ngstr-lra8j\.com$
 PROCESS-NAME-WILDCARD,*Gemini*
 PROCESS-NAME-WILDCARD,*gemini*
 PROCESS-NAME-WILDCARD,*google*bard*
 PROCESS-NAME-WILDCARD,*google*gemini*
+PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
+PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
+PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$

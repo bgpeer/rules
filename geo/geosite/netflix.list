@@ -1154,8 +1154,8 @@ DOMAIN-KEYWORD,apiproxy-device-prod-nlb-
 DOMAIN-KEYWORD,dualstack.apiproxy-
 DOMAIN-KEYWORD,dualstack.ichnaea-web-
 DOMAIN-KEYWORD,netflixdnstest
-PROCESS-NAME,com.netflix.mediaclient
 DOMAIN-REGEX,(^|\.)apiproxy-device-prod-nlb-.+\.amazonaws\.com$
 DOMAIN-REGEX,(^|\.)apiproxy-website-nlb-prod-.+\.amazonaws\.com$
 DOMAIN-REGEX,(^|\.)dualstack\.apiproxy-.+\.amazonaws\.com$
 DOMAIN-REGEX,(^|\.)dualstack\.ichnaea-web-.+\.amazonaws\.com$
+PROCESS-NAME,com.netflix.mediaclient

@@ -74,6 +74,23 @@ payload:
   - DOMAIN-KEYWORD,mtproto
   - DOMAIN-KEYWORD,nicegram
   - DOMAIN-KEYWORD,telegram
+  - DOMAIN-REGEX,(?i)(^|\.)api\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)cdn-telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)comments\.app$
+  - DOMAIN-REGEX,(?i)(^|\.)contest\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)core\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)desktop\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)graph\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)legra\.ph$
+  - DOMAIN-REGEX,(?i)(^|\.)media\.telegram\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)telegra\.ph$
+  - DOMAIN-REGEX,(?i)(^|\.)telegram(\.org|\.me)$
+  - DOMAIN-REGEX,(?i)(^|\.)telegram-?cdn\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)telegramcdn\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)telegramusercontent\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)telesco\.pe$
+  - DOMAIN-REGEX,(?i)(^|\.)web\.telegram\.org$
+  - DOMAIN-REGEX,(?i)^api\.(imem|swiftgram)\.app$
   - PROCESS-NAME,Telegram
   - PROCESS-NAME,Telegram.exe
   - PROCESS-NAME,TelegramDesktop.exe
@@ -98,20 +115,3 @@ payload:
   - PROCESS-NAME-REGEX,(?i)^org\.thunderdog\.challegram(\..+)?$
   - PROCESS-NAME-REGEX,(?i)^tw\.nekomimi\.nekogram(\..+)?$
   - PROCESS-NAME-REGEX,(?i)^xyz\.nextalone\.nagram(\..+)?$
-  - DOMAIN-REGEX,(?i)(^|\.)api\.telegram\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)cdn-telegram\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)comments\.app$
-  - DOMAIN-REGEX,(?i)(^|\.)contest\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)core\.telegram\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)desktop\.telegram\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)graph\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)legra\.ph$
-  - DOMAIN-REGEX,(?i)(^|\.)media\.telegram\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)telegra\.ph$
-  - DOMAIN-REGEX,(?i)(^|\.)telegram(\.org|\.me)$
-  - DOMAIN-REGEX,(?i)(^|\.)telegram-?cdn\.org$
-  - DOMAIN-REGEX,(?i)(^|\.)telegramcdn\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)telegramusercontent\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)telesco\.pe$
-  - DOMAIN-REGEX,(?i)(^|\.)web\.telegram\.org$
-  - DOMAIN-REGEX,(?i)^api\.(imem|swiftgram)\.app$

@@ -1005,6 +1005,18 @@ payload:
   - DOMAIN-KEYWORD,xdrtc
   - DOMAIN-KEYWORD,zijie
   - DOMAIN-KEYWORD,zjcdn
+  - DOMAIN-REGEX,(?i)(^|\.).*stun.*xdrtc\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)amemv\.(com|cn|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)bytedns(doc)?\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)cdnbuild\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)doubao([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)douyin([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)huoshan([a-z0-9-]*)\.(com|cn|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)iesdouyin([a-z0-9-]*)\.(com|net)$
+  - DOMAIN-REGEX,(?i)(^|\.)ixigua([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)snssdk\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)toutiao([a-z0-9-]*)\.(com|cn)$
+  - DOMAIN-REGEX,(?i)(^|\.)xdrtc\.com$
   - PROCESS-NAME,com.bytedance.feishu
   - PROCESS-NAME,com.dragon.read
   - PROCESS-NAME,com.larksuite.suite
@@ -1038,15 +1050,3 @@ payload:
   - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.live(\..+)?$
   - PROCESS-NAME-REGEX,(?i)^com\.ss\.android\.ugc\.video(\..+)?$
   - PROCESS-NAME-REGEX,(?i)^com\.vega\.edit(\..+)?$
-  - DOMAIN-REGEX,(?i)(^|\.).*stun.*xdrtc\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)amemv\.(com|cn|net)$
-  - DOMAIN-REGEX,(?i)(^|\.)bytedns(doc)?\.(com|net)$
-  - DOMAIN-REGEX,(?i)(^|\.)cdnbuild\.net$
-  - DOMAIN-REGEX,(?i)(^|\.)doubao([a-z0-9-]*)\.(com|cn)$
-  - DOMAIN-REGEX,(?i)(^|\.)douyin([a-z0-9-]*)\.(com|cn)$
-  - DOMAIN-REGEX,(?i)(^|\.)huoshan([a-z0-9-]*)\.(com|cn|net)$
-  - DOMAIN-REGEX,(?i)(^|\.)iesdouyin([a-z0-9-]*)\.(com|net)$
-  - DOMAIN-REGEX,(?i)(^|\.)ixigua([a-z0-9-]*)\.(com|cn)$
-  - DOMAIN-REGEX,(?i)(^|\.)snssdk\.com$
-  - DOMAIN-REGEX,(?i)(^|\.)toutiao([a-z0-9-]*)\.(com|cn)$
-  - DOMAIN-REGEX,(?i)(^|\.)xdrtc\.com$
