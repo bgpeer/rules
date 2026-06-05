@@ -112,9 +112,6 @@ MRS_SKIP_TYPES = {"DOMAIN-WILDCARD"}
 # 统一排序
 # ═══════════════════════════════════════════════════════════════════════════════
 # 排序优先级：
-#   1. DOMAIN          2. DOMAIN-SUFFIX     3. DOMAIN-WILDCARD
-#   4. DOMAIN-KEYWORD  5. IP-CIDR/IP-CIDR6  6. IP-ASN
-#   7. PROCESS-NAME / PROCESS-NAME-REGEX    8. DOMAIN-REGEX
 
 TYPE_ORDER = {
     "DOMAIN": 0,
