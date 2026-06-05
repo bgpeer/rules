@@ -111,7 +111,7 @@ MRS_SKIP_TYPES = {"DOMAIN-WILDCARD"}
 # ═══════════════════════════════════════════════════════════════════════════════
 # 统一排序
 # ═══════════════════════════════════════════════════════════════════════════════
-# 排序优先级：
+# geo排序优先级：
 
 TYPE_ORDER = {
     "DOMAIN": 0,
@@ -126,7 +126,8 @@ TYPE_ORDER = {
     "PROCESS-NAME-WILDCARD": 8,
     "PROCESS-NAME-REGEX": 9,
     "PROCESS-PATH": 10,
-    "PROCESS-PATH-REGEX": 11,
+    "PROCESS-PATH-WILDCARD": 11,
+    "PROCESS-PATH-REGEX": 12,
 }
 
 # QX 类型也纳入排序
