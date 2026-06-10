@@ -60,6 +60,15 @@ def norm_value(rule_type, value):
 
 RE_ITEM = re.compile(r"^\s*-\s+(.+)$")
 RE_COMMENT = re.compile(r"\s+#.*$")
+RE_NO_RESOLVE_TAIL = re.compile(r"\s*,\s*no-resolve\s*$", re.IGNORECASE)
+
+def split_rule_line(line):
+    """拆分 TYPE,value[,no-resolve]，返回 (TYPE, value) 或 None。
+    value 保留内部逗号（如 DOMAIN-REGEX 的量词 {2,6}），仅剥离末尾 no-resolve。"""
+    if "," not in line:
+        return None
+    t, rest = line.split(",", 1)
+    return t.strip().upper(), RE_NO_RESOLVE_TAIL.sub("", rest).strip()
 
 def parse_clash_entries(yaml_path):
     """解析 clash yaml，返回 [(rule_type, value), ...]"""
@@ -72,12 +81,11 @@ def parse_clash_entries(yaml_path):
             if not m:
                 continue
             entry = RE_COMMENT.sub("", m.group(1).strip())
-            if not entry or "," not in entry:
+            if not entry:
                 continue
-            parts = [p.strip() for p in entry.split(",")]
-            if len(parts) < 2:
-                continue
-            entries.append((parts[0].upper(), parts[1]))
+            tv = split_rule_line(entry)
+            if tv and tv[1]:
+                entries.append(tv)
     return entries
 
 TYPE_TO_BUCKET = {
@@ -219,12 +227,12 @@ def merge_sort_qx_lines(old_lines, new_lines):
     return sort_qx_lines(merged)
 
 def read_typed_list(path):
-    """读取 TYPE,value[,option] 格式，返回 [(TYPE, value), ...]"""
+    """读取 TYPE,value[,no-resolve] 格式，返回 [(TYPE, value), ...]"""
     typed = []
     for line in read_lines(path):
-        parts = line.split(",", 2)
-        if len(parts) >= 2:
-            typed.append((parts[0].strip().upper(), parts[1].strip()))
+        tv = split_rule_line(line)
+        if tv and tv[1]:
+            typed.append(tv)
     return typed
 
 def merge_sort_typed_lines(old_typed, new_typed):
@@ -716,13 +724,22 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         processed.add(tag)
         ok += 1
     print(f"[INFO] geoip geo pass: ok={ok}")
-    # ── clash-only geoip ─────────────────────────────────────────────────
+    # ── clash-only geoip（clash yaml 或 geosite 阶段缓存的 IP 条目）────────
     clash_only_ok = 0
+    candidates = set()
     if os.path.isdir(clash_dir):
-        for cyaml in sorted(glob.glob(os.path.join(clash_dir, "*.yaml"))):
-            tag = os.path.basename(cyaml).removesuffix(".yaml")
+        for cyaml in glob.glob(os.path.join(clash_dir, "*.yaml")):
+            candidates.add(os.path.basename(cyaml).removesuffix(".yaml"))
+    if os.path.isdir(clash_ip_from_geosite_dir):
+        for p in glob.glob(os.path.join(clash_ip_from_geosite_dir, "*.ipcidr.txt")):
+            candidates.add(os.path.basename(p).removesuffix(".ipcidr.txt"))
+        for p in glob.glob(os.path.join(clash_ip_from_geosite_dir, "*.asn.txt")):
+            candidates.add(os.path.basename(p).removesuffix(".asn.txt"))
+    if candidates:
+        for tag in sorted(candidates):
             if tag in processed:
                 continue
+            cyaml = os.path.join(clash_dir, f"{tag}.yaml")
             # 尝试从 geosite 阶段缓存获取 IP/ASN 条目
             ci_file = os.path.join(clash_ip_from_geosite_dir, f"{tag}.ipcidr.txt")
             ca_file = os.path.join(clash_ip_from_geosite_dir, f"{tag}.asn.txt")
@@ -742,7 +759,8 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                     asn.append(v)
             if not ipcidr and not asn:
                 continue
-            print(f"[CLASH-ONLY] geoip/{tag} <- {cyaml} (full formats + mrs)")
+            src = cyaml if os.path.isfile(cyaml) else f"{clash_ip_from_geosite_dir}/{tag}.*"
+            print(f"[CLASH-ONLY] geoip/{tag} <- {src} (full formats + mrs)")
             emit_geoip_tag(tag, ipcidr, asn, out_geoip, out_qx_geoip, mrs_tasks, srs_tasks)
             cidr_typed = sort_typed_lines([(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in ipcidr])
             cidr_only = [v for t, v in cidr_typed if t in ("IP-CIDR", "IP-CIDR6")]
@@ -892,6 +910,11 @@ _QX_TYPE_REVERSE = {
     "HOST-KEYWORD": "DOMAIN-KEYWORD",
 }
 
+# 值本身可能含逗号的类型（远程行保留完整值；其余类型在首个逗号截断
+# QX 策略等尾随字段）
+_COMMA_VALUE_TYPES = {"DOMAIN-REGEX", "PROCESS-NAME-REGEX",
+                      "PROCESS-PATH-REGEX", "USER-AGENT"}
+
 def parse_remote_domain_entries(text, fmt):
     """
     从远程内容提取域名类条目，返回分桶 dict（不含 IP 条目）。
@@ -912,13 +935,13 @@ def parse_remote_domain_entries(text, fmt):
     seen = {k: set() for k in buckets}
     if resolved == "clash":
         for raw_line in _iter_rule_lines(text):
-            if "," not in raw_line:
+            tv = split_rule_line(raw_line)
+            if not tv:
                 continue
-            parts = [p.strip() for p in raw_line.split(",")]
-            if len(parts) < 2:
-                continue
-            t, v = parts[0].upper(), parts[1]
+            t, v = tv
             t = _QX_TYPE_REVERSE.get(t, t)  # 映射 QX HOST/HOST-SUFFIX/HOST-KEYWORD
+            if t not in _COMMA_VALUE_TYPES:
+                v = v.split(",", 1)[0].strip()
             if not v or t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
                 continue
             bucket = TYPE_TO_BUCKET.get(t)
@@ -936,9 +959,10 @@ def parse_remote_domain_entries(text, fmt):
                 continue
             # TYPE,VALUE 格式（含 QX HOST/HOST-SUFFIX）
             if "," in s:
-                parts = [p.strip() for p in s.split(",", 2)]
-                t, v = parts[0].upper(), parts[1] if len(parts) > 1 else ""
+                t, v = split_rule_line(s)
                 t = _QX_TYPE_REVERSE.get(t, t)
+                if t not in _COMMA_VALUE_TYPES:
+                    v = v.split(",", 1)[0].strip()
                 if not v:
                     continue
                 if t == "DOMAIN" and v not in seen["domain"]:
@@ -1064,11 +1088,10 @@ def _read_geosite_list_seen(list_path):
     seen = {}
     for line in read_lines(list_path):
         # 格式: TYPE,value 或 TYPE,value,no-resolve
-        parts = line.split(",")
-        if len(parts) < 2:
+        tv = split_rule_line(line)
+        if not tv or not tv[1]:
             continue
-        t = parts[0].strip().upper()
-        v = parts[1].strip()
+        t, v = tv
         seen.setdefault(t, set()).add(norm_value(t, v))
     return seen
 
@@ -1076,10 +1099,10 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
     """从 geo/geosite/<tag>.list 全量重建 .json（sing-box v3）"""
     j_domain, j_suffix, j_keyword, j_regexp, j_cidrs = [], [], [], [], []
     for line in read_lines(list_path):
-        parts = line.split(",")
-        if len(parts) < 2:
+        tv = split_rule_line(line)
+        if not tv or not tv[1]:
             continue
-        t, v = parts[0].strip().upper(), parts[1].strip()
+        t, v = tv
         if t == "DOMAIN":
             j_domain.append(v)
         elif t == "DOMAIN-SUFFIX":
@@ -1102,7 +1125,7 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
         f.write("\n")
 
 def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
-                          mrs_tasks, srs_tasks, workdir):
+                          srs_tasks, workdir):
     """将 IP 条目合并进 geosite 对应文件（no-resolve），全量重排序后写回。"""
     dst_yaml = os.path.join(out_geosite, f"{name}.yaml")
     dst_list = os.path.join(out_geosite, f"{name}.list")
@@ -1110,11 +1133,7 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
     dst_srs  = os.path.join(out_geosite, f"{name}.srs")
     dst_qx   = os.path.join(out_qx_geosite, f"{name}.list")
     # 读取已有 list 条目，与新 IP 合并后重新排序
-    existing = []
-    for line in read_lines(dst_list):
-        parts = line.split(",", 2)
-        if len(parts) >= 2:
-            existing.append((parts[0].strip().upper(), parts[1].strip()))
+    existing = read_typed_list(dst_list)
     ip_seen = {
         (t, norm_value(t, v))
         for t, v in existing
@@ -1151,32 +1170,27 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
     if qx_ip:
         old_qx = read_lines(dst_qx)
         write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_ip))
-    # geoip mrs（与 geosite 同名）
+    # IP/ASN 条目写入 clash_ip 缓存，由后续 batch_geoip 阶段合并进同名 geoip
+    # 输出（此处不能直接登记 geoip mrs 任务：batch_geoip 跑在本阶段之后，
+    # 同名任务会覆盖这里的登记，且此时 geoip 目录尚未生成、无数据可合并）
     cidr_only = [v for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
+    asn_only  = [v for t, v in ip_typed if t == "IP-ASN"]
+    cache_dir = os.path.join(workdir, "clash_ip")
+    os.makedirs(cache_dir, exist_ok=True)
     if cidr_only:
-        out_geoip = os.path.join(os.path.dirname(out_geosite), "geoip")
-        geoip_list = os.path.join(out_geoip, f"{name}.list")
-        # 合并已有 geoip CIDR（避免覆盖 Loyalsoldier 数据）
-        existing_cidr = []
-        existing_seen = set()
-        for line in read_lines(geoip_list):
-            if line.startswith("IP-CIDR6,"):
-                v = line[9:].split(",")[0]
-            elif line.startswith("IP-CIDR,"):
-                v = line[8:].split(",")[0]
-            else:
-                continue
-            if v.lower() not in existing_seen:
-                existing_seen.add(v.lower())
-                existing_cidr.append(v)
-        merged = existing_cidr + [v for v in cidr_only if v.lower() not in existing_seen]
-        if merged:
-            mrs_src = os.path.join(workdir, "dl_ip_mrs", f"{name}.txt")
-            os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, merged)
-            mrs_tasks.append(
-                f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
-            )
+        cache = os.path.join(cache_dir, f"{name}.ipcidr.txt")
+        old = read_lines(cache)
+        seen = {v.lower() for v in old}
+        add = [v for v in cidr_only if v.lower() not in seen]
+        if add:
+            write_lines(cache, old + add)
+    if asn_only:
+        cache = os.path.join(cache_dir, f"{name}.asn.txt")
+        old = read_lines(cache)
+        seen = set(old)
+        add = [v for v in asn_only if v not in seen]
+        if add:
+            write_lines(cache, old + add)
 
 def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                           mrs_tasks_file, srs_tasks_file, workdir):
@@ -1248,7 +1262,7 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
             if ip_typed:
                 _append_ip_to_geosite(name, ip_typed,
                                       out_geosite, out_qx_geosite,
-                                      mrs_tasks, srs_tasks, workdir)
+                                      srs_tasks, workdir)
         else:
             # ── 已有数据：APPEND 模式（同 cmd_batch_clash_ip 风格）───────────
             dst_yaml = os.path.join(out_geosite, f"{name}.yaml")
@@ -1302,7 +1316,7 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
             if new_ip_typed:
                 _append_ip_to_geosite(name, new_ip_typed,
                                       out_geosite, out_qx_geosite,
-                                      mrs_tasks, srs_tasks, workdir)
+                                      srs_tasks, workdir)
         ok += 1
     print(f"[INFO] batch_domain_link: ok={ok}")
     with open(mrs_tasks_file, "a", encoding="utf-8") as f:
@@ -1356,17 +1370,10 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             continue
         # ── 对比已有 .list 去重 ──────────────────────────────────────────────
         exist_list = os.path.join(out_geoip, f"{name}.list")
-        existing_cidr_vals = []
         exist_cidr, exist_asn = set(), set()
         for line in read_lines(exist_list):
-            if line.startswith("IP-CIDR6,"):
-                v = line[9:]
-                existing_cidr_vals.append(v)
-                exist_cidr.add(v.lower())
-            elif line.startswith("IP-CIDR,"):
-                v = line[8:]
-                existing_cidr_vals.append(v)
-                exist_cidr.add(v.lower())
+            if line.startswith(("IP-CIDR6,", "IP-CIDR,")):
+                exist_cidr.add(line.split(",", 1)[1].lower())
             elif line.startswith("IP-ASN,"):
                 exist_asn.add(line[7:])
         new_cidr = [v for v in all_cidr if v.lower() not in exist_cidr]
@@ -1403,8 +1410,8 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             # geo/geoip：合并新增 IP/ASN 后，全量去重排序并重写 yaml/list
             all_typed = merge_sort_typed_lines(read_typed_list(dst_list), new_typed)
             rewrite_typed_outputs(dst_list, dst_yaml, all_typed)
-            # json 从全量 list 重建
-            all_cidrs_full = existing_cidr_vals + new_cidr
+            # json/mrs 用全量排序后数据（与 .list 一致）
+            all_cidrs_full = [v for t, v in all_typed if t in ("IP-CIDR", "IP-CIDR6")]
             rule = {"ip_cidr": all_cidrs_full} if all_cidrs_full else {}
             with open(dst_json, "w") as f:
                 json.dump({"version": 3, "rules": [rule] if rule else []},
@@ -1455,18 +1462,11 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             continue
         # 现有数据（从已生成的 list 文件读取）
         exist_list = os.path.join(out_geoip, f"{tag}.list")
-        existing_cidr_vals = []
         exist_cidr = set()
         exist_asn = set()
         for line in read_lines(exist_list):
-            if line.startswith("IP-CIDR6,"):
-                v = line[9:]
-                existing_cidr_vals.append(v)
-                exist_cidr.add(v.lower())
-            elif line.startswith("IP-CIDR,"):
-                v = line[8:]
-                existing_cidr_vals.append(v)
-                exist_cidr.add(v.lower())
+            if line.startswith(("IP-CIDR6,", "IP-CIDR,")):
+                exist_cidr.add(line.split(",", 1)[1].lower())
             elif line.startswith("IP-ASN,"):
                 exist_asn.add(line[7:])
         # 计算新增
