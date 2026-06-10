@@ -759,11 +759,19 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                     asn.append(v)
             if not ipcidr and not asn:
                 continue
-            src = cyaml if os.path.isfile(cyaml) else f"{clash_ip_from_geosite_dir}/{tag}.*"
-            print(f"[CLASH-ONLY] geoip/{tag} <- {src} (full formats + mrs)")
-            emit_geoip_tag(tag, ipcidr, asn, out_geoip, out_qx_geoip, mrs_tasks, srs_tasks)
+            has_clash_yaml = os.path.isfile(cyaml)
             cidr_typed = sort_typed_lines([(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in ipcidr])
             cidr_only = [v for t, v in cidr_typed if t in ("IP-CIDR", "IP-CIDR6")]
+            if has_clash_yaml:
+                print(f"[CLASH-ONLY] geoip/{tag} <- {cyaml} (full formats + mrs)")
+                emit_geoip_tag(tag, ipcidr, asn, out_geoip, out_qx_geoip, mrs_tasks, srs_tasks)
+            else:
+                # 仅来自 geosite 阶段缓存（如 DOMAIN-Link 的 IP）：geosite 侧
+                # yaml/list/json/srs 均已内嵌这些 IP，唯独 domain 行为的 mrs
+                # 塞不进去，因此 geoip 侧只补一个同名 .mrs，不输出其他格式
+                if not cidr_only:
+                    continue
+                print(f"[CACHE-ONLY] geoip/{tag}.mrs <- {clash_ip_from_geosite_dir}/{tag}.ipcidr.txt (mrs only)")
             if cidr_only:
                 mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
