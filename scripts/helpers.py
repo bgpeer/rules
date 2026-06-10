@@ -450,8 +450,10 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
     qx_out = sort_qx_lines(qx_out)
     write_lines(os.path.join(out_qx_geosite, f"{tag}.list"), qx_out)
     # ── json（sing-box v3，不加 no-resolve）──────────────────────────────
-    # suffix 列表混合了带点(geo)和不带点(clash merge)的值，统一加点
-    j_suffix = [v if v.startswith(".") else "." + v for v in suffix]
+    # sing-box domain_suffix 用裸形式（无前导点）：".x" 只匹配子域名，
+    # 裸 "x" 才同时匹配主域名 + 子域名，与 DOMAIN-SUFFIX 语义一致
+    # （已用 sing-box rule-set match 实测验证）
+    j_suffix = [v.lstrip(".") for v in suffix]
     j_domain = list(domain)
     j_keyword = list(keyword)
     j_regexp = list(regexp)
@@ -461,7 +463,7 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
         if t in JSON_SKIP_TYPES:
             continue
         if t == "DOMAIN-SUFFIX":
-            j_suffix.append("." + v.lstrip("."))
+            j_suffix.append(v.lstrip("."))
         elif t == "DOMAIN":
             j_domain.append(v)
         elif t == "DOMAIN-KEYWORD":
@@ -1128,7 +1130,8 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
         if t == "DOMAIN":
             j_domain.append(v)
         elif t == "DOMAIN-SUFFIX":
-            j_suffix.append("." + v.lstrip("."))
+            # 裸形式：带点只匹配子域名，漏掉主域名本身
+            j_suffix.append(v.lstrip("."))
         elif t == "DOMAIN-KEYWORD":
             j_keyword.append(v)
         elif t == "DOMAIN-REGEX":
