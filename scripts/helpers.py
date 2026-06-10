@@ -798,6 +798,32 @@ def fetch_url(url, timeout=60, retries=3):
                 time.sleep(2 ** attempt)
     raise last_exc
 
+def fetch_link_items(items, label, max_workers=8):
+    """校验 link 条目并【并行】拉取所有 URL。
+    返回 [(name, fmt, text), ...]，保持原条目顺序（去重优先级不变），失败条目跳过。"""
+    valid = []
+    for it in items:
+        name = (it.get("name") or "").strip()
+        url  = (it.get("url")  or "").strip()
+        fmt  = (it.get("format") or "auto").strip()
+        if not name or not url:
+            print(f"[{label}] skip invalid entry: {it}")
+            continue
+        valid.append((name, url, fmt))
+    if not valid:
+        return []
+    from concurrent.futures import ThreadPoolExecutor
+    def _get(args):
+        name, url, fmt = args
+        try:
+            return name, fmt, fetch_url(url)
+        except Exception as e:
+            print(f"[{label}] {name}: fetch failed: {e}")
+            return name, fmt, None
+    with ThreadPoolExecutor(max_workers=min(max_workers, len(valid))) as ex:
+        results = list(ex.map(_get, valid))
+    return [(n, f, t) for n, f, t in results if t is not None]
+
 # sing-box JSON 字段名 → Clash 规则类型
 _SINGBOX_TO_TYPE = {
     "domain":         "DOMAIN",
@@ -1213,19 +1239,8 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
     mrs_tasks = []
     srs_tasks = []
     ok = 0
-    for it in items:
-        name = (it.get("name") or "").strip()
-        url  = (it.get("url")  or "").strip()
-        fmt  = (it.get("format") or "auto").strip()
-        if not name or not url:
-            print(f"[DOMAIN-LINK] skip invalid entry: {it}")
-            continue
+    for name, fmt, text in fetch_link_items(items, "DOMAIN-LINK"):
         print(f"[DOMAIN-LINK] {name}  fmt={fmt}")
-        try:
-            text = fetch_url(url)
-        except Exception as e:
-            print(f"[DOMAIN-LINK] {name}: fetch failed: {e}")
-            continue
         raw_buckets = parse_remote_domain_entries(text, fmt)
         all_cidr, all_asn = parse_remote_ip_entries(text, fmt)
         # 对 IP 条目排序
@@ -1351,19 +1366,8 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
     mrs_tasks = []
     srs_tasks = []
     ok = 0
-    for it in items:
-        name = (it.get("name") or "").strip()
-        url  = (it.get("url")  or "").strip()
-        fmt  = (it.get("format") or "auto").strip()
-        if not name or not url:
-            print(f"[IP-LINK] skip invalid entry: {it}")
-            continue
+    for name, fmt, text in fetch_link_items(items, "IP-LINK"):
         print(f"[IP-LINK] {name}  fmt={fmt}")
-        try:
-            text = fetch_url(url)
-        except Exception as e:
-            print(f"[IP-LINK] {name}: fetch failed: {e}")
-            continue
         all_cidr, all_asn = parse_remote_ip_entries(text, fmt)
         if not all_cidr and not all_asn:
             print(f"[IP-LINK] {name}: no IP entries, skip")

@@ -68,17 +68,25 @@ SRS_TASKS="${WORKDIR}/srs_tasks.txt"
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. 下载
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[1/7] Download dat files..."
-curl -fsSL --retry 3 --retry-delay 2 "$GEOIP_URL"   -o "$WORKDIR/geoip.dat"
-curl -fsSL --retry 3 --retry-delay 2 "$GEOSITE_URL" -o "$WORKDIR/geosite.dat"
+echo "[1/7] Download dat files (parallel)..."
+curl -fsSL --retry 3 --retry-delay 2 "$GEOIP_URL"   -o "$WORKDIR/geoip.dat" &
+pid_dl_geoip=$!
+curl -fsSL --retry 3 --retry-delay 2 "$GEOSITE_URL" -o "$WORKDIR/geosite.dat" &
+pid_dl_geosite=$!
+wait "$pid_dl_geoip"
+wait "$pid_dl_geosite"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 2. 解包
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[2/7] Unpack dat -> txt..."
+echo "[2/7] Unpack dat -> txt (parallel)..."
 mkdir -p "$WORKDIR/geoip_txt" "$WORKDIR/geosite_txt"
-v2dat unpack geoip   -o "$WORKDIR/geoip_txt"   "$WORKDIR/geoip.dat"
-v2dat unpack geosite -o "$WORKDIR/geosite_txt" "$WORKDIR/geosite.dat"
+v2dat unpack geoip   -o "$WORKDIR/geoip_txt"   "$WORKDIR/geoip.dat" &
+pid_up_geoip=$!
+v2dat unpack geosite -o "$WORKDIR/geosite_txt" "$WORKDIR/geosite.dat" &
+pid_up_geosite=$!
+wait "$pid_up_geoip"
+wait "$pid_up_geosite"
 
 GEOIP_TXT_COUNT="$(find   "$WORKDIR/geoip_txt"   -type f -name '*.txt' | wc -l | tr -d ' ')"
 GEOSITE_TXT_COUNT="$(find "$WORKDIR/geosite_txt" -type f -name '*.txt' | wc -l | tr -d ' ')"
