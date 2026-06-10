@@ -280,6 +280,18 @@ def parse_clash_to_buckets(yaml_path):
         buckets[bucket].append(v)
     return buckets
 
+def merge_ip_cache(tag, cidrs, cache_dir):
+    """将 geosite 阶段缓存的同名 IP（clash yaml / DOMAIN-Link 溢出）合并进
+    cidrs，按 CIDR 字符串去重（大小写不敏感），保持原顺序。"""
+    merged = list(cidrs)
+    seen = {v.lower() for v in merged}
+    for v in read_lines(os.path.join(cache_dir, f"{tag}.ipcidr.txt")):
+        nv = v.lower()
+        if nv not in seen:
+            seen.add(nv)
+            merged.append(v)
+    return merged
+
 def merge_dedup_lists(geo_vals, clash_vals, bucket_type):
     """合并去重，返回合并后列表"""
     seen = set()
@@ -695,15 +707,9 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                        mrs_tasks, srs_tasks)
         # clash 合并后的 mrs（用合并后数据覆盖纯 geo 数据）
         # 先收集所有需要合并的 IP 条目
-        merged_cidr = list(ipcidr_lines)
-        merged_cidr_seen = set(v.lower() for v in ipcidr_lines)
-        # 从 geosite 阶段缓存的 clash IP 条目
-        ci_cache_file = os.path.join(clash_ip_from_geosite_dir, f"{tag}.ipcidr.txt")
-        for v in read_lines(ci_cache_file):
-            nv = v.lower()
-            if nv not in merged_cidr_seen:
-                merged_cidr_seen.add(nv)
-                merged_cidr.append(v)
+        # 从 geosite 阶段缓存的同名 IP 条目（clash yaml + DOMAIN-Link）
+        merged_cidr = merge_ip_cache(tag, ipcidr_lines, clash_ip_from_geosite_dir)
+        merged_cidr_seen = set(v.lower() for v in merged_cidr)
         # 直接以 geoip tag 命名的 clash yaml
         clash_yaml = os.path.join(clash_dir, f"{tag}.yaml")
         if os.path.isfile(clash_yaml):
@@ -724,8 +730,12 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         processed.add(tag)
         ok += 1
     print(f"[INFO] geoip geo pass: ok={ok}")
-    # ── clash-only geoip（clash yaml 或 geosite 阶段缓存的 IP 条目）────────
-    clash_only_ok = 0
+    # ── geosite 侧 IP 溢出 → 仅补 geoip mrs ────────────────────────────────
+    # 设计：完整五格式只属于纯 IP 来源（Loyalsoldier geoip、clash-ip/、IP-Link）。
+    # geosite 侧（clash/*.yaml、DOMAIN-Link）的 IP 已内嵌在 geosite 的
+    # yaml/list/json/srs 中，唯独 domain 行为的 mrs 容不下 IP，
+    # 因此 geoip 侧只补一份同名 .mrs，其余格式不输出（避免重复）。
+    spill_ok = 0
     candidates = set()
     if os.path.isdir(clash_dir):
         for cyaml in glob.glob(os.path.join(clash_dir, "*.yaml")):
@@ -733,53 +743,31 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
     if os.path.isdir(clash_ip_from_geosite_dir):
         for p in glob.glob(os.path.join(clash_ip_from_geosite_dir, "*.ipcidr.txt")):
             candidates.add(os.path.basename(p).removesuffix(".ipcidr.txt"))
-        for p in glob.glob(os.path.join(clash_ip_from_geosite_dir, "*.asn.txt")):
-            candidates.add(os.path.basename(p).removesuffix(".asn.txt"))
-    if candidates:
-        for tag in sorted(candidates):
-            if tag in processed:
-                continue
-            cyaml = os.path.join(clash_dir, f"{tag}.yaml")
-            # 尝试从 geosite 阶段缓存获取 IP/ASN 条目
-            ci_file = os.path.join(clash_ip_from_geosite_dir, f"{tag}.ipcidr.txt")
-            ca_file = os.path.join(clash_ip_from_geosite_dir, f"{tag}.asn.txt")
-            ipcidr = read_lines(ci_file) if os.path.isfile(ci_file) else []
-            asn = read_lines(ca_file) if os.path.isfile(ca_file) else []
-            # 再从同名 clash yaml 解析 IP/ASN，和缓存合并去重
-            cidr_seen = {v.lower() for v in ipcidr}
-            asn_seen = set(asn)
-            for t, v in parse_clash_entries(cyaml):
-                if t in ("IP-CIDR", "IP-CIDR6"):
-                    nv = v.lower()
-                    if nv not in cidr_seen:
-                        cidr_seen.add(nv)
-                        ipcidr.append(v)
-                elif t == "IP-ASN" and v not in asn_seen:
-                    asn_seen.add(v)
-                    asn.append(v)
-            if not ipcidr and not asn:
-                continue
-            has_clash_yaml = os.path.isfile(cyaml)
-            cidr_typed = sort_typed_lines([(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in ipcidr])
-            cidr_only = [v for t, v in cidr_typed if t in ("IP-CIDR", "IP-CIDR6")]
-            if has_clash_yaml:
-                print(f"[CLASH-ONLY] geoip/{tag} <- {cyaml} (full formats + mrs)")
-                emit_geoip_tag(tag, ipcidr, asn, out_geoip, out_qx_geoip, mrs_tasks, srs_tasks)
-            else:
-                # 仅来自 geosite 阶段缓存（如 DOMAIN-Link 的 IP）：geosite 侧
-                # yaml/list/json/srs 均已内嵌这些 IP，唯独 domain 行为的 mrs
-                # 塞不进去，因此 geoip 侧只补一个同名 .mrs，不输出其他格式
-                if not cidr_only:
-                    continue
-                print(f"[CACHE-ONLY] geoip/{tag}.mrs <- {clash_ip_from_geosite_dir}/{tag}.ipcidr.txt (mrs only)")
-            if cidr_only:
-                mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
-                os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, cidr_only)
-                mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
-            processed.add(tag)
-            clash_only_ok += 1
-    print(f"[INFO] geoip clash-only: ok={clash_only_ok}")
+    for tag in sorted(candidates):
+        if tag in processed:
+            continue
+        # geosite 阶段缓存（clash yaml + DOMAIN-Link 的 IP）与同名 clash yaml 合并去重
+        cyaml = os.path.join(clash_dir, f"{tag}.yaml")
+        ipcidr = merge_ip_cache(tag, [], clash_ip_from_geosite_dir)
+        cidr_seen = {v.lower() for v in ipcidr}
+        for t, v in parse_clash_entries(cyaml):
+            if t in ("IP-CIDR", "IP-CIDR6"):
+                nv = v.lower()
+                if nv not in cidr_seen:
+                    cidr_seen.add(nv)
+                    ipcidr.append(v)
+        if not ipcidr:
+            continue
+        cidr_typed = sort_typed_lines([(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in ipcidr])
+        cidr_only = [v for t, v in cidr_typed]
+        print(f"[GEOSITE-IP] geoip/{tag}.mrs <- geosite 侧 IP 溢出 (mrs only)")
+        mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
+        os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
+        write_lines(mrs_src, cidr_only)
+        mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
+        processed.add(tag)
+        spill_ok += 1
+    print(f"[INFO] geoip geosite-spill (mrs only): ok={spill_ok}")
     with open(mrs_tasks_file, "a", encoding="utf-8") as f:
         for line in mrs_tasks:
             f.write(line + "\n")
@@ -1399,10 +1387,11 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             emit_geoip_tag(name, all_cidr, all_asn,
                            out_geoip, out_qx_geoip,
                            mrs_tasks, srs_tasks)
-            if all_cidr:
+            mrs_cidrs = merge_ip_cache(name, all_cidr, os.path.join(workdir, "clash_ip"))
+            if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, all_cidr)
+                write_lines(mrs_src, mrs_cidrs)
                 mrs_tasks.append(
                     f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
                 )
@@ -1430,11 +1419,12 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
                           f, ensure_ascii=False, separators=(",", ":"))
                 f.write("\n")
             srs_tasks.append(f"{dst_json}\t{dst_srs}")
-            # mrs 全量重建
-            if all_cidrs_full:
+            # mrs 全量重建（并入 geosite 侧同名 IP 溢出，避免覆盖丢数据）
+            mrs_cidrs = merge_ip_cache(name, all_cidrs_full, os.path.join(workdir, "clash_ip"))
+            if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, all_cidrs_full)
+                write_lines(mrs_src, mrs_cidrs)
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
             # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
             qx_new = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
@@ -1521,11 +1511,13 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
                       f, ensure_ascii=False, separators=(",", ":"))
             f.write("\n")
         srs_tasks.append(f"{dst_json}\t{dst_srs}")
-        # mrs（全量重编译，直接用内存数据）
-        if all_cidrs:
+        # mrs（全量重编译；并入 geosite 侧同名 IP 溢出，本任务靠后登记会
+        # 覆盖 batch_geosite/batch_geoip 阶段的同名 mrs 任务，不合并会丢数据）
+        mrs_cidrs = merge_ip_cache(tag, all_cidrs, os.path.join(workdir, "clash_ip"))
+        if mrs_cidrs:
             mrs_src = os.path.join(workdir, "ci_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, all_cidrs)
+            write_lines(mrs_src, mrs_cidrs)
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
         # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
         qx_append = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
