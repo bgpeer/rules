@@ -149,7 +149,7 @@ def sort_typed_lines(lines):
             try:
                 is_v6 = 1 if t == "IP-CIDR6" else 0
                 return (order, is_v6, -int(v.split("/")[1]), v)
-            except ValueError:
+            except (ValueError, TypeError):
                 pass
         return (order, 0, 0, v)
     return sorted(lines, key=key)
@@ -677,11 +677,20 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
 # 远程链接拉取 + 格式解析（DOMAIN-Link / IP-Link）
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def fetch_url(url, timeout=60):
-    """拉取 URL，返回 UTF-8 文本"""
-    req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urlopen(req, timeout=timeout) as r:
-        return r.read().decode("utf-8", errors="ignore")
+def fetch_url(url, timeout=60, retries=3):
+    """拉取 URL，返回 UTF-8 文本（失败自动重试 retries 次，指数退避）"""
+    import time
+    last_exc = None
+    for attempt in range(retries):
+        try:
+            req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urlopen(req, timeout=timeout) as r:
+                return r.read().decode("utf-8", errors="ignore")
+        except Exception as e:
+            last_exc = e
+            if attempt < retries - 1:
+                time.sleep(2 ** attempt)
+    raise last_exc
 
 
 # sing-box JSON 字段名 → Clash 规则类型
@@ -1203,12 +1212,17 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
 
         # ── 对比已有 .list 去重 ──────────────────────────────────────────────
         exist_list = os.path.join(out_geoip, f"{name}.list")
+        existing_cidr_vals = []
         exist_cidr, exist_asn = set(), set()
         for line in read_lines(exist_list):
             if line.startswith("IP-CIDR6,"):
-                exist_cidr.add(line[9:].lower())
+                v = line[9:]
+                existing_cidr_vals.append(v)
+                exist_cidr.add(v.lower())
             elif line.startswith("IP-CIDR,"):
-                exist_cidr.add(line[8:].lower())
+                v = line[8:]
+                existing_cidr_vals.append(v)
+                exist_cidr.add(v.lower())
             elif line.startswith("IP-ASN,"):
                 exist_asn.add(line[7:])
 
@@ -1264,12 +1278,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
                     f.write(f"IP-ASN,{v}\n")
 
             # json 从全量 list 重建
-            all_cidrs_full = []
-            for line in read_lines(dst_list):
-                if line.startswith("IP-CIDR6,"):
-                    all_cidrs_full.append(line[9:])
-                elif line.startswith("IP-CIDR,"):
-                    all_cidrs_full.append(line[8:])
+            all_cidrs_full = existing_cidr_vals + new_cidr
             rule = {"ip_cidr": all_cidrs_full} if all_cidrs_full else {}
             with open(dst_json, "w") as f:
                 json.dump({"version": 3, "rules": [rule] if rule else []},
@@ -1297,11 +1306,6 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
     print(f"[INFO] batch_ip_link: ok={ok}")
 
     with open(mrs_tasks_file, "a", encoding="utf-8") as f:
-        for line in mrs_tasks:
-            f.write(line + "\n")
-    with open(srs_tasks_file, "a", encoding="utf-8") as f:
-        for line in srs_tasks:
-            f.write(line + "\n")
         for line in mrs_tasks:
             f.write(line + "\n")
     with open(srs_tasks_file, "a", encoding="utf-8") as f:
@@ -1335,15 +1339,20 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             print(f"[CLASH-IP] {tag}: no IP entries, skip")
             continue
 
-        # 现有数据（从已生成的 list 文件读取）
+        # 现有数据（从已生成的 list 文件读取，保留原始大小写列表供后续 json/mrs 直接使用）
         exist_list = os.path.join(out_geoip, f"{tag}.list")
+        existing_cidr_vals = []
         exist_cidr = set()
         exist_asn = set()
         for line in read_lines(exist_list):
             if line.startswith("IP-CIDR6,"):
-                exist_cidr.add(line[9:].lower())
+                v = line[9:]
+                existing_cidr_vals.append(v)
+                exist_cidr.add(v.lower())
             elif line.startswith("IP-CIDR,"):
-                exist_cidr.add(line[8:].lower())
+                v = line[8:]
+                existing_cidr_vals.append(v)
+                exist_cidr.add(v.lower())
             elif line.startswith("IP-ASN,"):
                 exist_asn.add(line[7:])
 
@@ -1401,13 +1410,8 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             for line in list_append:
                 f.write(line + "\n")
 
-        # json 重建（从 list，排序后输出）
-        all_cidrs = []
-        for line in read_lines(dst_list):
-            if line.startswith("IP-CIDR6,"):
-                all_cidrs.append(line[9:])
-            elif line.startswith("IP-CIDR,"):
-                all_cidrs.append(line[8:])
+        # json 重建（用内存数据，无需回读文件）
+        all_cidrs = existing_cidr_vals + new_cidr
         rule = {"ip_cidr": all_cidrs} if all_cidrs else {}
         with open(dst_json, "w") as f:
             json.dump({"version": 3, "rules": [rule] if rule else []},
@@ -1416,17 +1420,11 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
 
         srs_tasks.append(f"{dst_json}\t{dst_srs}")
 
-        # mrs（全量重编译）
-        all_cidr_list = []
-        for line in read_lines(dst_list):
-            if line.startswith("IP-CIDR6,"):
-                all_cidr_list.append(line[9:])
-            elif line.startswith("IP-CIDR,"):
-                all_cidr_list.append(line[8:])
-        if all_cidr_list:
+        # mrs（全量重编译，直接用内存数据）
+        if all_cidrs:
             mrs_src = os.path.join(workdir, "ci_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, all_cidr_list)
+            write_lines(mrs_src, all_cidrs)
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
 
         # QX list 追加（跳过 ASN，加 no-resolve）
