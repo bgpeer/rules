@@ -213,16 +213,6 @@ payload:
   - DOMAIN-SUFFIX,vzw.com
 
   # 💹Interactive Brokers / IBKR / 盈透证券 - 全球加速
-  # 进程，放在全球规则里，但主规则必须排在 IBKR-CN 后面
-  - PROCESS-NAME,atws.app
-  - PROCESS-NAME,com.ibkr.gt.app
-  - PROCESS-NAME,com.ibkr.impact.app
-  - PROCESS-NAME,tws.exe
-  - PROCESS-NAME,TWS.exe
-  - PROCESS-NAME,ibgateway.exe
-  - PROCESS-NAME,IBGateway.exe
-  - PROCESS-NAME,ibkrdesktop.exe
-  - PROCESS-NAME,IBKR Desktop.exe
   # 主站 / 官方区域站
   - DOMAIN-SUFFIX,interactivebrokers.com
   - DOMAIN-SUFFIX,interactivebrokers.ca
@@ -288,14 +278,6 @@ payload:
   - DOMAIN-SUFFIX,portfolioanalyst.com
   - DOMAIN-SUFFIX,tradersinsight.news
   - DOMAIN-SUFFIX,tradersacademy.online
-  # 关键词兜底
-  - DOMAIN-KEYWORD,interactivebrokers
-  - DOMAIN-KEYWORD,ibkr
-  - DOMAIN-KEYWORD,ibllc
-  - DOMAIN-KEYWORD,mobiletws
-  - DOMAIN-KEYWORD,twsapi
-  - DOMAIN-KEYWORD,traderworkstation
-  - DOMAIN-KEYWORD,ibgateway
 
   # 💹 Tiger Brokers / Tiger Trade / 老虎证券
   # 🧩 APP 进程 - Android
