@@ -26934,26 +26934,19 @@ DOMAIN-KEYWORD,futubull
 DOMAIN-KEYWORD,futunn
 DOMAIN-KEYWORD,futuopen
 DOMAIN-KEYWORD,googlecdn
-DOMAIN-KEYWORD,ibgateway
-DOMAIN-KEYWORD,ibkr
-DOMAIN-KEYWORD,ibllc
 DOMAIN-KEYWORD,iijcdn
-DOMAIN-KEYWORD,interactivebrokers
 DOMAIN-KEYWORD,itiger
 DOMAIN-KEYWORD,itigerup
 DOMAIN-KEYWORD,laohu8
 DOMAIN-KEYWORD,marsco
-DOMAIN-KEYWORD,mobiletws
 DOMAIN-KEYWORD,moomoo
 DOMAIN-KEYWORD,moomooapp
 DOMAIN-KEYWORD,seedlink
 DOMAIN-KEYWORD,tigerbrokers
 DOMAIN-KEYWORD,tigerfintech
 DOMAIN-KEYWORD,tigertrade
-DOMAIN-KEYWORD,traderworkstation
 DOMAIN-KEYWORD,tradeup
 DOMAIN-KEYWORD,tradeupapi
-DOMAIN-KEYWORD,twsapi
 DOMAIN-KEYWORD,vercel
 DOMAIN-KEYWORD,xesim
 DOMAIN-KEYWORD,xesimcc
@@ -27126,10 +27119,6 @@ DOMAIN-REGEX,^epicgames-download\d\.akamaized\.net$
 DOMAIN-REGEX,^ewcdn[0-9]+\.nowe\.com$
 DOMAIN-REGEX,^hses[1-7]?\.akamaized\.net$
 DOMAIN-REGEX,javdb\d+\.com$
-PROCESS-NAME,IBGateway.exe
-PROCESS-NAME,IBKR Desktop.exe
-PROCESS-NAME,TWS.exe
-PROCESS-NAME,atws.app
 PROCESS-NAME,cn.futu.trader
 PROCESS-NAME,com.eastwestbank.mobilebanking
 PROCESS-NAME,com.elink.xesim
@@ -27140,8 +27129,6 @@ PROCESS-NAME,com.futunn.android
 PROCESS-NAME,com.hsbc.hsbcchina
 PROCESS-NAME,com.hsbc.hsbcukmobilebanking
 PROCESS-NAME,com.htsu.hsbcpersonalbanking
-PROCESS-NAME,com.ibkr.gt.app
-PROCESS-NAME,com.ibkr.impact.app
 PROCESS-NAME,com.moomoo.android
 PROCESS-NAME,com.moomoo.broker
 PROCESS-NAME,com.moomoo.markets
@@ -27159,9 +27146,6 @@ PROCESS-NAME,com.tradeup.app
 PROCESS-NAME,com.tradeup.mobile
 PROCESS-NAME,com.transferwise.android
 PROCESS-NAME,com.wise.android
-PROCESS-NAME,ibgateway.exe
-PROCESS-NAME,ibkrdesktop.exe
-PROCESS-NAME,tws.exe
 PROCESS-NAME-REGEX,(?i)^cn\.futu\..*$
 PROCESS-NAME-REGEX,(?i)^com\.futu[0-9]*\..*$
 PROCESS-NAME-REGEX,(?i)^com\.futubull\..*$
