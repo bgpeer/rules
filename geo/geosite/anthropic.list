@@ -36,6 +36,8 @@ DOMAIN-SUFFIX,claudeusercontent.com
 DOMAIN-SUFFIX,claudeusercontent.net
 DOMAIN-SUFFIX,modelcontextprotocol.io
 DOMAIN-SUFFIX,sentry.io
+DOMAIN-SUFFIX,stripe.com
+DOMAIN-SUFFIX,stripe.network
 DOMAIN-WILDCARD,*.anthropic-cdn.com
 DOMAIN-WILDCARD,*.anthropic.com
 DOMAIN-WILDCARD,*.claude.ai
@@ -50,6 +52,7 @@ IP-ASN,399358,no-resolve
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
 DOMAIN-KEYWORD,claudeai
+DOMAIN-KEYWORD,stripe
 DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.anthropic\.com$
 DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.claude\.ai$
 DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.claude\.com$
