@@ -43,7 +43,7 @@ payload:
   - DOMAIN,a-api.anthropic.com
   - DOMAIN-SUFFIX,api.anthropic.com
 
-  # Stripe 支付收银台（必须与 Claude 走同一代理，否则无法点击支付）
+  # Stripe 支付收银台
   - DOMAIN-SUFFIX,stripe.com
   - DOMAIN-SUFFIX,stripe.network
   - DOMAIN-KEYWORD,stripe
