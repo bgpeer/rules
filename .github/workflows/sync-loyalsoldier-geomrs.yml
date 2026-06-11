@@ -30,33 +30,50 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
-      # ── Go 工具链（v2dat） ────────────────────────────────────────────────
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: "stable"
-
-      - name: Install v2dat
-        run: |
-          set -eux
-          go install github.com/urlesistiana/v2dat@latest
-          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
-          v2dat -h || true
-
       # ── 固定工具版本（日常同步不直接追 latest）────────────────────────────
       - name: Load pinned tool versions
+        id: vers
         run: |
           set -eux
           test -f .github/tool-versions.env
           cat .github/tool-versions.env
           grep -E '^MIHOMO_VERSION=[0-9]' .github/tool-versions.env
           grep -E '^SINGBOX_VERSION=[0-9]' .github/tool-versions.env
+          source .github/tool-versions.env
+          echo "mihomo=${MIHOMO_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "singbox=${SINGBOX_VERSION}" >> "$GITHUB_OUTPUT"
+          # v2dat 无版本固定（上游极少更新），按月重建一次缓存
+          echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
 
-      # ── mihomo（mrs 编译） ────────────────────────────────────────────────
-      - name: Install mihomo
+      # ── 工具缓存：命中则跳过 Go 编译与二进制下载（运行时长稳定的关键）────
+      - name: Cache tools (v2dat + mihomo + sing-box)
+        id: toolcache
+        uses: actions/cache@v4
+        with:
+          path: ~/nopt-tools
+          key: tools-${{ runner.os }}-${{ steps.vers.outputs.month }}-mihomo${{ steps.vers.outputs.mihomo }}-singbox${{ steps.vers.outputs.singbox }}
+
+      # ── Go 工具链（v2dat，仅缓存未命中时）────────────────────────────────
+      - name: Setup Go
+        if: steps.toolcache.outputs.cache-hit != 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Install v2dat (cache miss)
+        if: steps.toolcache.outputs.cache-hit != 'true'
         run: |
           set -eux
-          source .github/tool-versions.env
+          go install github.com/urlesistiana/v2dat@latest
+          mkdir -p ~/nopt-tools
+          cp "$(go env GOPATH)/bin/v2dat" ~/nopt-tools/v2dat
+
+      # ── mihomo（mrs 编译，仅缓存未命中时下载）─────────────────────────────
+      - name: Install mihomo (cache miss)
+        if: steps.toolcache.outputs.cache-hit != 'true'
+        run: |
+          set -eux
+          MIHOMO_VERSION="${{ steps.vers.outputs.mihomo }}"
 
           if [ -z "${MIHOMO_VERSION:-}" ]; then
             echo "::error::MIHOMO_VERSION is empty"
@@ -68,22 +85,22 @@ jobs:
           URL_TGZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.tar.gz"
           URL_GZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.gz"
 
+          mkdir -p ~/nopt-tools
           if curl -fL --retry 3 --retry-delay 2 "$URL_TGZ" -o mihomo.tar.gz 2>/dev/null; then
             tar -xzf mihomo.tar.gz
             BIN="$(find . -maxdepth 3 -type f -name mihomo | head -n 1)"
-            [ -f "$BIN" ] && cp -f "$BIN" ./mihomo
+            [ -f "$BIN" ] && cp -f "$BIN" ~/nopt-tools/mihomo
           else
             curl -fL --retry 3 --retry-delay 2 "$URL_GZ" -o mihomo.gz
-            gunzip -c mihomo.gz > ./mihomo
+            gunzip -c mihomo.gz > ~/nopt-tools/mihomo
           fi
-          chmod +x ./mihomo
-          ./mihomo -v
 
-      # ── sing-box（srs 编译） ──────────────────────────────────────────────
-      - name: Install sing-box
+      # ── sing-box（srs 编译，仅缓存未命中时下载）───────────────────────────
+      - name: Install sing-box (cache miss)
+        if: steps.toolcache.outputs.cache-hit != 'true'
         run: |
           set -eux
-          source .github/tool-versions.env
+          SINGBOX_VERSION="${{ steps.vers.outputs.singbox }}"
 
           if [ -z "${SINGBOX_VERSION:-}" ]; then
             echo "::error::SINGBOX_VERSION is empty"
@@ -94,12 +111,25 @@ jobs:
           ARCH="amd64"
           URL="https://github.com/SagerNet/sing-box/releases/download/v${SINGBOX_VERSION}/sing-box-${SINGBOX_VERSION}-linux-${ARCH}.tar.gz"
 
+          mkdir -p ~/nopt-tools
           curl -fL --retry 3 --retry-delay 2 "$URL" -o singbox.tar.gz
           tar -xzf singbox.tar.gz
           BIN="$(find . -maxdepth 3 -type f -name sing-box | head -n 1)"
-          cp -f "$BIN" ./sing-box
-          chmod +x ./sing-box
-          ./sing-box version
+          cp -f "$BIN" ~/nopt-tools/sing-box
+
+      # ── 统一注册工具路径并验证（命中/未命中都执行）────────────────────────
+      - name: Setup tool paths
+        run: |
+          set -eux
+          test -x ~/nopt-tools/v2dat || chmod +x ~/nopt-tools/v2dat
+          test -x ~/nopt-tools/mihomo || chmod +x ~/nopt-tools/mihomo
+          test -x ~/nopt-tools/sing-box || chmod +x ~/nopt-tools/sing-box
+          echo "$HOME/nopt-tools" >> "$GITHUB_PATH"
+          echo "MIHOMO_BIN=$HOME/nopt-tools/mihomo" >> "$GITHUB_ENV"
+          echo "SINGBOX_BIN=$HOME/nopt-tools/sing-box" >> "$GITHUB_ENV"
+          ~/nopt-tools/v2dat -h || true
+          ~/nopt-tools/mihomo -v
+          ~/nopt-tools/sing-box version
 
       # ── 同步分支到最新 ────────────────────────────────────────────────────
       - name: Sync branch (pre-run)
@@ -111,11 +141,8 @@ jobs:
           git fetch origin "${BRANCH}"
           git rebase "origin/${BRANCH}"
 
-      # ── 执行脚本 ─────────────────────────────────────────────────────────
+      # ── 执行脚本（MIHOMO_BIN/SINGBOX_BIN 已由 Setup tool paths 注入）──────
       - name: Run sync script
-        env:
-          MIHOMO_BIN: ./mihomo
-          SINGBOX_BIN: ./sing-box
         run: |
           set -eux
           chmod +x scripts/sync_loy_geo_mrs.sh
