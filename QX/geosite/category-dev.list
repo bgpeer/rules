@@ -10,6 +10,7 @@ HOST, copilot-telemetry-service.githubusercontent.com
 HOST, copilot-telemetry.githubusercontent.com
 HOST, copilot-workspace.githubnext.com
 HOST, copilotprodattachments.blob.core.windows.net
+HOST, crashlyticsreports-pa.googleapis.com
 HOST, d29vzk4ow07wi7.cloudfront.net
 HOST, default.exp-tas.com
 HOST, developer.microsoft.com
@@ -68,6 +69,7 @@ HOST, productionresultssa9.blob.core.windows.net
 HOST, psg-int-centralus.cloudapp.net
 HOST, psg-int-eastus.cloudapp.net
 HOST, rink.hockeyapp.net
+HOST, update.crashlytics.com
 HOST, vscode-sync-insiders.trafficmanager.net
 HOST, vscode-sync.trafficmanager.net
 HOST, vscode.blob.core.windows.net
@@ -86,11 +88,13 @@ HOST-SUFFIX, ampproject.org
 HOST-SUFFIX, anaconda.cloud
 HOST-SUFFIX, anaconda.com
 HOST-SUFFIX, anaconda.org
+HOST-SUFFIX, analytics.cloud.unity3d.com
 HOST-SUFFIX, android
 HOST-SUFFIX, android.com
 HOST-SUFFIX, androidify.com
 HOST-SUFFIX, apache.org
 HOST-SUFFIX, api-extractor.com
+HOST-SUFFIX, api2.amplitude.com
 HOST-SUFFIX, apisof.net
 HOST-SUFFIX, appcenter.ms
 HOST-SUFFIX, apple-cloudkit.com
@@ -124,6 +128,7 @@ HOST-SUFFIX, calendarserver.org
 HOST-SUFFIX, canonical.com
 HOST-SUFFIX, carekit.org
 HOST-SUFFIX, cdn.jetbrains.com
+HOST-SUFFIX, cdp.cloud.unity3d.com
 HOST-SUFFIX, centos.org
 HOST-SUFFIX, chocolatey.org
 HOST-SUFFIX, clearlinux.org
@@ -138,8 +143,10 @@ HOST-SUFFIX, compass.is
 HOST-SUFFIX, componentkit.org
 HOST-SUFFIX, compose-spec.io
 HOST-SUFFIX, conda.io
+HOST-SUFFIX, config.uca.cloud.unity3d.com
 HOST-SUFFIX, consul.io
 HOST-SUFFIX, cpan.org
+HOST-SUFFIX, crashlytics.com
 HOST-SUFFIX, crates.io
 HOST-SUFFIX, cups.org
 HOST-SUFFIX, cve.org
@@ -423,6 +430,8 @@ HOST-SUFFIX, packer.io
 HOST-SUFFIX, paint.net
 HOST-SUFFIX, parse.com
 HOST-SUFFIX, pcre.org
+HOST-SUFFIX, perf-events.cloud.unity3d.com
+HOST-SUFFIX, perf.cloud.unity3d.com
 HOST-SUFFIX, perl.org
 HOST-SUFFIX, phantomjs.org
 HOST-SUFFIX, php.net
@@ -435,6 +444,7 @@ HOST-SUFFIX, polymer-project.org
 HOST-SUFFIX, polymerproject.org
 HOST-SUFFIX, poshtestgallery.com
 HOST-SUFFIX, postgresql.org
+HOST-SUFFIX, prd-lender.cdp.internal.unity3d.com
 HOST-SUFFIX, pub.dev
 HOST-SUFFIX, putty.org
 HOST-SUFFIX, pwabuilder.com

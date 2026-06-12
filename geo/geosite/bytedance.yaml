@@ -3,8 +3,6 @@ payload:
   - DOMAIN,ads3-normal.zijieapi.com
   - DOMAIN,ads5-normal-hl.zijieapi.com
   - DOMAIN,ads5-normal.zijieapi.com
-  - DOMAIN,api.doupay.com
-  - DOMAIN,apischedule.ksyungslb.com
   - DOMAIN,bytedance.map.fastly.net
   - DOMAIN,ice-stunserver.xdrtc.com.gtm.xdrtc.com
   - DOMAIN,lf-ucenter-web.yhgfb-cn-static.com
@@ -294,7 +292,6 @@ payload:
   - DOMAIN-SUFFIX,doubaocdn.com
   - DOMAIN-SUFFIX,doubo03.com
   - DOMAIN-SUFFIX,doudou.com
-  - DOMAIN-SUFFIX,doupay.com
   - DOMAIN-SUFFIX,douyin.com
   - DOMAIN-SUFFIX,douyinact.com
   - DOMAIN-SUFFIX,douyinact.net
@@ -395,12 +392,10 @@ payload:
   - DOMAIN-SUFFIX,getfeishu.com
   - DOMAIN-SUFFIX,getsays.cn
   - DOMAIN-SUFFIX,getsays.com
-  - DOMAIN-SUFFIX,getui.com
   - DOMAIN-SUFFIX,gifshow.com
   - DOMAIN-SUFFIX,gogokid.com
   - DOMAIN-SUFFIX,gogokid.com.cn
   - DOMAIN-SUFFIX,goodluckcalendar.com
-  - DOMAIN-SUFFIX,goofish.com
   - DOMAIN-SUFFIX,goofy-edge.cn
   - DOMAIN-SUFFIX,gslbdns.com
   - DOMAIN-SUFFIX,gslbdns.net
@@ -464,7 +459,6 @@ payload:
   - DOMAIN-SUFFIX,ieshuoshan.net
   - DOMAIN-SUFFIX,ifeilian.cn
   - DOMAIN-SUFFIX,ifeilian.com
-  - DOMAIN-SUFFIX,igexin.com
   - DOMAIN-SUFFIX,ihaohaoxuexi.com
   - DOMAIN-SUFFIX,ihst8.com
   - DOMAIN-SUFFIX,ihuoshanimg.com
@@ -958,15 +952,6 @@ payload:
   - IP-CIDR,36.139.109.246/32,no-resolve
   - IP-CIDR,42.237.112.78/32,no-resolve
   - IP-CIDR,8.134.241.67/32,no-resolve
-  - IP-CIDR,101.227.0.0/24,no-resolve
-  - IP-CIDR,101.32.0.0/24,no-resolve
-  - IP-CIDR,106.13.244.0/24,no-resolve
-  - IP-CIDR,106.75.0.0/24,no-resolve
-  - IP-CIDR,123.125.0.0/24,no-resolve
-  - IP-CIDR,140.205.0.0/24,no-resolve
-  - IP-CIDR,182.140.0.0/24,no-resolve
-  - IP-CIDR,183.60.0.0/24,no-resolve
-  - IP-CIDR,8.134.241.0/24,no-resolve
   - IP-CIDR6,2408:871a:6010:302::1:102/128,no-resolve
   - IP-CIDR6,2408:8756:d0fd:f002:8000:0:d00:14/128,no-resolve
   - IP-CIDR6,2408:8770:0:44:8000:0:d00:5/128,no-resolve
@@ -982,7 +967,8 @@ payload:
   - IP-CIDR6,240e:964:1004:203::31/128,no-resolve
   - IP-CIDR6,240e:964:1004:203::34/128,no-resolve
   - IP-CIDR6,240e:965:801:104::b00:104/128,no-resolve
-  - IP-ASN,138667,no-resolve
+  - IP-ASN,138699,no-resolve
+  - IP-ASN,396986,no-resolve
   - DOMAIN-KEYWORD,amemv
   - DOMAIN-KEYWORD,bytecdn
   - DOMAIN-KEYWORD,bytedance
