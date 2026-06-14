@@ -34,11 +34,12 @@ HOST-SUFFIX, claudemcpclient.com
 HOST-SUFFIX, claudemcpcontent.com
 HOST-SUFFIX, claudeusercontent.com
 HOST-SUFFIX, claudeusercontent.net
+HOST-SUFFIX, datadog.pool.ntp.org
 HOST-SUFFIX, modelcontextprotocol.io
 HOST-SUFFIX, sentry.io
 HOST-SUFFIX, stripe.com
 HOST-SUFFIX, stripe.network
-IP-CIDR, 160.79.104.0/21, no-resolve
+IP-CIDR, 160.79.104.0/23, no-resolve
 IP-CIDR6, 2607:6bc0::/48, no-resolve
 HOST-KEYWORD, anthropic
 HOST-KEYWORD, claude
