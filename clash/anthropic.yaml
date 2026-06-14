@@ -12,25 +12,6 @@ payload:
   - PROCESS-NAME,Anthropic
   - PROCESS-NAME,Anthropic.exe
 
-  # App 兜底
-  - PROCESS-NAME-WILDCARD,*Claude*
-  - PROCESS-NAME-WILDCARD,*claude*
-  - PROCESS-NAME-WILDCARD,*Anthropic*
-  - PROCESS-NAME-WILDCARD,*anthropic*
-  - PROCESS-NAME-WILDCARD,*claude-desktop*
-  - PROCESS-NAME-WILDCARD,*claude-code*
-  - PROCESS-NAME-WILDCARD,*claude_*
-  - PROCESS-NAME-WILDCARD,*anthropic_*
-
-  # 核心域名
-  - DOMAIN-SUFFIX,anthropic.com
-  - DOMAIN-SUFFIX,claude.ai
-  - DOMAIN-SUFFIX,claude.com
-  - DOMAIN-SUFFIX,anthropic-cdn.com
-  - DOMAIN-SUFFIX,claudeusercontent.com
-  - DOMAIN-SUFFIX,claudeusercontent.net
-  - DOMAIN-SUFFIX,datadog.pool.ntp.org
-
   # Claude 入口
   - DOMAIN,claude.ai
   - DOMAIN,www.claude.ai
@@ -43,6 +24,24 @@ payload:
   - DOMAIN,api.anthropic.com
   - DOMAIN,a-api.anthropic.com
   - DOMAIN-SUFFIX,api.anthropic.com
+
+  # 核心域名
+  - DOMAIN-SUFFIX,anthropic.com
+  - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,claude.com
+  - DOMAIN-SUFFIX,anthropic-cdn.com
+  - DOMAIN-SUFFIX,claudeusercontent.com
+  - DOMAIN-SUFFIX,claudeusercontent.net
+  - DOMAIN-SUFFIX,datadog.pool.ntp.org
+
+  # 域名 —— 共享依赖,跟着走但会带上别家流量
+  - DOMAIN-SUFFIX,sentry.io
+  - DOMAIN-SUFFIX,datadoghq.com
+  - DOMAIN-SUFFIX,featureassets.org
+  - DOMAIN-SUFFIX,featuregates.org
+  - DOMAIN-SUFFIX,events.statsigapi.net
+  - DOMAIN-SUFFIX,usefathom.com
+  - DOMAIN-SUFFIX,statsig.com
 
   # Stripe 支付收银台
   - DOMAIN-SUFFIX,stripe.com
@@ -94,6 +93,16 @@ payload:
   - DOMAIN-WILDCARD,*.anthropic.com
   - DOMAIN-WILDCARD,*.claude.ai
   - DOMAIN-WILDCARD,*.claude.com
+
+  # App 兜底
+  - PROCESS-NAME-WILDCARD,*Claude*
+  - PROCESS-NAME-WILDCARD,*claude*
+  - PROCESS-NAME-WILDCARD,*Anthropic*
+  - PROCESS-NAME-WILDCARD,*anthropic*
+  - PROCESS-NAME-WILDCARD,*claude-desktop*
+  - PROCESS-NAME-WILDCARD,*claude-code*
+  - PROCESS-NAME-WILDCARD,*claude_*
+  - PROCESS-NAME-WILDCARD,*anthropic_*
 
   # 关键词兜底
   - DOMAIN-KEYWORD,anthropic
