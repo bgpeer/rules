@@ -34,14 +34,6 @@ payload:
   - DOMAIN-SUFFIX,claudeusercontent.net
   - DOMAIN-SUFFIX,datadog.pool.ntp.org
 
-  # 域名 —— 共享依赖,跟着走但会带上别家流量
-  - DOMAIN-SUFFIX,sentry.io
-  - DOMAIN-SUFFIX,datadoghq.com
-  - DOMAIN-SUFFIX,featureassets.org
-  - DOMAIN-SUFFIX,featuregates.org
-  - DOMAIN-SUFFIX,events.statsigapi.net
-  - DOMAIN-SUFFIX,usefathom.com
-
   # Stripe 支付收银台
   - DOMAIN-SUFFIX,stripe.com
   - DOMAIN-SUFFIX,stripe.network
