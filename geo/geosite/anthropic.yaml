@@ -35,6 +35,7 @@ payload:
   - DOMAIN-SUFFIX,claudemcpcontent.com
   - DOMAIN-SUFFIX,claudeusercontent.com
   - DOMAIN-SUFFIX,claudeusercontent.net
+  - DOMAIN-SUFFIX,datadog.pool.ntp.org
   - DOMAIN-SUFFIX,modelcontextprotocol.io
   - DOMAIN-SUFFIX,sentry.io
   - DOMAIN-SUFFIX,stripe.com
@@ -47,7 +48,7 @@ payload:
   - DOMAIN-WILDCARD,*.claudeusercontent.net
   - DOMAIN-WILDCARD,*.mcp.claude.com
   - DOMAIN-WILDCARD,*.modelcontextprotocol.io
-  - IP-CIDR,160.79.104.0/21,no-resolve
+  - IP-CIDR,160.79.104.0/23,no-resolve
   - IP-CIDR6,2607:6bc0::/48,no-resolve
   - IP-ASN,399358,no-resolve
   - DOMAIN-KEYWORD,anthropic
