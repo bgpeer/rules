@@ -133,14 +133,16 @@ payload:
   - DOMAIN,www.oklink.com
   - DOMAIN,www.okx.com
   - DOMAIN,xlayerrpc.okx.com
+  - DOMAIN,zftksc.cdn-settings.appsflyersdk.com
+  - DOMAIN,zftksc.launches.appsflyersdk.com
   - DOMAIN-SUFFIX,1inch.io
   - DOMAIN-SUFFIX,aave.com
   - DOMAIN-SUFFIX,ada.support
-  - DOMAIN-SUFFIX,appsflayer.com
   - DOMAIN-SUFFIX,appsflyer.com
   - DOMAIN-SUFFIX,appsflyersdk.com
   - DOMAIN-SUFFIX,asproex.com
   - DOMAIN-SUFFIX,asproexapi.com
+  - DOMAIN-SUFFIX,base.org
   - DOMAIN-SUFFIX,bgstatic.com
   - DOMAIN-SUFFIX,binance.cc
   - DOMAIN-SUFFIX,binance.charity
@@ -201,18 +203,23 @@ payload:
   - DOMAIN-SUFFIX,bitkeep.page
   - DOMAIN-SUFFIX,bitkeep.shop
   - DOMAIN-SUFFIX,bitkeep.vip
+  - DOMAIN-SUFFIX,bitlayer.org
   - DOMAIN-SUFFIX,bitmex.com
   - DOMAIN-SUFFIX,bitquick.co
   - DOMAIN-SUFFIX,bitsquare.io
   - DOMAIN-SUFFIX,bitstamp.net
   - DOMAIN-SUFFIX,bittrex.com
+  - DOMAIN-SUFFIX,blast.io
   - DOMAIN-SUFFIX,blockchain.com
   - DOMAIN-SUFFIX,blockfrost.io
+  - DOMAIN-SUFFIX,bmwweb.solutions
+  - DOMAIN-SUFFIX,bnappweb.black
   - DOMAIN-SUFFIX,bnbchain.com
   - DOMAIN-SUFFIX,bnbchain.org
   - DOMAIN-SUFFIX,bnbchain.world
   - DOMAIN-SUFFIX,bnbstatic.com
   - DOMAIN-SUFFIX,bntrace.com
+  - DOMAIN-SUFFIX,bsappapi.cc
   - DOMAIN-SUFFIX,bsappapi.com
   - DOMAIN-SUFFIX,bscdnweb.biz
   - DOMAIN-SUFFIX,bscdnweb.cc
@@ -249,6 +256,7 @@ payload:
   - DOMAIN-SUFFIX,bymj.io
   - DOMAIN-SUFFIX,bytick.com
   - DOMAIN-SUFFIX,cex.io
+  - DOMAIN-SUFFIX,chainid.network
   - DOMAIN-SUFFIX,clearpool.finance
   - DOMAIN-SUFFIX,cloudflare-eth.com
   - DOMAIN-SUFFIX,coinalyze.net
@@ -262,6 +270,7 @@ payload:
   - DOMAIN-SUFFIX,coinone.co.kr
   - DOMAIN-SUFFIX,coinonecore.com
   - DOMAIN-SUFFIX,coinonecorp.com
+  - DOMAIN-SUFFIX,coredao.org
   - DOMAIN-SUFFIX,crypto.com
   - DOMAIN-SUFFIX,cryptocompare.com
   - DOMAIN-SUFFIX,cryptomus.com
@@ -272,10 +281,15 @@ payload:
   - DOMAIN-SUFFIX,deribit.com
   - DOMAIN-SUFFIX,devcon.org
   - DOMAIN-SUFFIX,dogecoin.com
+  - DOMAIN-SUFFIX,drpc.org
   - DOMAIN-SUFFIX,dydx.exchange
   - DOMAIN-SUFFIX,ethereum.foundation
   - DOMAIN-SUFFIX,ethereum.org
   - DOMAIN-SUFFIX,etherscan.io
+  - DOMAIN-SUFFIX,fantom.foundation
+  - DOMAIN-SUFFIX,fantom.network
+  - DOMAIN-SUFFIX,fiat24.com
+  - DOMAIN-SUFFIX,flare.network
   - DOMAIN-SUFFIX,fundingrates.xyz
   - DOMAIN-SUFFIX,gate.io
   - DOMAIN-SUFFIX,gatedata.org
@@ -303,6 +317,7 @@ payload:
   - DOMAIN-SUFFIX,hyperliquid.xyz
   - DOMAIN-SUFFIX,infura.io
   - DOMAIN-SUFFIX,invity.io
+  - DOMAIN-SUFFIX,isafepal.com
   - DOMAIN-SUFFIX,jjdsn.vip
   - DOMAIN-SUFFIX,keepshare.info
   - DOMAIN-SUFFIX,keepshare.xyz
@@ -317,7 +332,11 @@ payload:
   - DOMAIN-SUFFIX,localbitcoins.com
   - DOMAIN-SUFFIX,localbitcoinschain.com
   - DOMAIN-SUFFIX,maple.finance
+  - DOMAIN-SUFFIX,megaeth.com
+  - DOMAIN-SUFFIX,merkl.xyz
   - DOMAIN-SUFFIX,metalpha.finance
+  - DOMAIN-SUFFIX,metamask.io
+  - DOMAIN-SUFFIX,mexc.co
   - DOMAIN-SUFFIX,mexc.com
   - DOMAIN-SUFFIX,mexcsensors.com
   - DOMAIN-SUFFIX,mytokenapi.com
@@ -327,6 +346,7 @@ payload:
   - DOMAIN-SUFFIX,nftstatic.com
   - DOMAIN-SUFFIX,ninicoin.io
   - DOMAIN-SUFFIX,nodereal.io
+  - DOMAIN-SUFFIX,oasis.io
   - DOMAIN-SUFFIX,okcoin.com
   - DOMAIN-SUFFIX,okex.com
   - DOMAIN-SUFFIX,okg.com
@@ -342,6 +362,7 @@ payload:
   - DOMAIN-SUFFIX,onekey-asset.com
   - DOMAIN-SUFFIX,onekey.so
   - DOMAIN-SUFFIX,onekeycn.com
+  - DOMAIN-SUFFIX,onfinality.io
   - DOMAIN-SUFFIX,opensea.io
   - DOMAIN-SUFFIX,osl.com
   - DOMAIN-SUFFIX,paxful.com
@@ -353,14 +374,20 @@ payload:
   - DOMAIN-SUFFIX,reown.com
   - DOMAIN-SUFFIX,ripple.com
   - DOMAIN-SUFFIX,rp-static-apne1.s3.ap-northeast-1.amazonaws.com
+  - DOMAIN-SUFFIX,rsk.co
   - DOMAIN-SUFFIX,saasexch.cc
   - DOMAIN-SUFFIX,saasexch.co
   - DOMAIN-SUFFIX,saasexch.com
+  - DOMAIN-SUFFIX,saasexch.info
   - DOMAIN-SUFFIX,saasexch.io
+  - DOMAIN-SUFFIX,safepal.com
   - DOMAIN-SUFFIX,satoshilabs.com
+  - DOMAIN-SUFFIX,solidifi.app
   - DOMAIN-SUFFIX,stealthex.io
   - DOMAIN-SUFFIX,straitsx.com
+  - DOMAIN-SUFFIX,taiko.xyz
   - DOMAIN-SUFFIX,theblock.co
+  - DOMAIN-SUFFIX,thirdweb.com
   - DOMAIN-SUFFIX,trbinance.com
   - DOMAIN-SUFFIX,trezor.io
   - DOMAIN-SUFFIX,truefi.io
