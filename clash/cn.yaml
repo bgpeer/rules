@@ -87,18 +87,7 @@ payload:
   - DOMAIN-SUFFIX,sina.com
   - DOMAIN-SUFFIX,sohu.com
 
-  # 💹Interactive Brokers / IBKR / 盈透证券 - 中国网关直连
-  # 中国网关 / 移动端登录网关
-  - DOMAIN,mcgw1.ibllc.com.cn
-  - DOMAIN,mcgw1-hb1.ibllc.com.cn
-  - DOMAIN,mcgw1-hb2.ibllc.com.cn
-  - DOMAIN-SUFFIX,ibllc.com.cn
-  # 中国区域站 / 中国入口
-  - DOMAIN-SUFFIX,ibkr.com.cn
-  - DOMAIN,www.ibkr.com.cn
-  - DOMAIN-SUFFIX,interactivebrokers.com.cn
-
-  # 京东中国 / 京东金融 规则集 (ClashMeta)
+  # 👠京东中国 / 京东金融 规则集 (ClashMeta)
   # ==== 进程 ====
   - PROCESS-NAME,com.jd.app.mall
   - PROCESS-NAME,com.jingdong.app.mall
