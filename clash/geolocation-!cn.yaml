@@ -278,6 +278,16 @@ payload:
   - DOMAIN-SUFFIX,portfolioanalyst.com
   - DOMAIN-SUFFIX,tradersinsight.news
   - DOMAIN-SUFFIX,tradersacademy.online
+  # 💹Interactive Brokers / IBKR / 盈透证券 - 中国网关直连
+  # 中国网关 / 移动端登录网关
+  - DOMAIN,mcgw1.ibllc.com.cn
+  - DOMAIN,mcgw1-hb1.ibllc.com.cn
+  - DOMAIN,mcgw1-hb2.ibllc.com.cn
+  - DOMAIN-SUFFIX,ibllc.com.cn
+  # 中国区域站 / 中国入口
+  - DOMAIN-SUFFIX,ibkr.com.cn
+  - DOMAIN,www.ibkr.com.cn
+  - DOMAIN-SUFFIX,interactivebrokers.com.cn
 
   # 💹 Tiger Brokers / Tiger Trade / 老虎证券
   # 🧩 APP 进程 - Android
