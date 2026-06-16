@@ -15,13 +15,62 @@ on:
 
 permissions:
   contents: write
+  actions: read        # decide 作业需要读取本工作流的运行历史
 
 concurrency:
   group: repo-geo-writer
   cancel-in-progress: false
 
 jobs:
+  # ── 决策作业：计划触发时，若近期已成功同步过则跳过（让 schedule 仅作兜底）──
+  decide:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - name: Decide whether to run
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          # 兜底窗口：计划任务实测被 GitHub 拖延约 1.5~3 小时，6 小时足以覆盖
+          # 到 CF 在北京 02:00（UTC 18:00）触发的那次成功运行。
+          LOOKBACK_HOURS: "6"
+        run: |
+          set -euo pipefail
+
+          # 手动 / push 触发 → 一律执行
+          if [ "$EVENT" != "schedule" ]; then
+            echo "event=$EVENT -> run"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 计划触发 → 查最近 LOOKBACK_HOURS 小时内是否已有成功运行
+          since="$(date -u -d "${LOOKBACK_HOURS} hours ago" +%Y-%m-%dT%H:%M:%SZ)"
+          echo "schedule trigger; checking successful runs since ${since}"
+
+          n="$(curl -s \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${REPO}/actions/workflows/sync-loyalsoldier-geomrs.yml/runs?status=success&per_page=30" \
+            | jq --arg s "$since" '[.workflow_runs[] | select(.created_at > $s)] | length')"
+
+          echo "recent successful runs in window: ${n}"
+
+          if [ "${n:-0}" -gt 0 ]; then
+            echo "已有近期成功同步（疑似 Cloudflare 已触发）-> 跳过本次计划运行"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "近期无成功同步 -> 计划任务兜底执行"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
   sync:
+    needs: decide
+    if: needs.decide.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
