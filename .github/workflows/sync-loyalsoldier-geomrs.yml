@@ -34,9 +34,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           EVENT: ${{ github.event_name }}
-          # 兜底窗口：计划任务实测被 GitHub 拖延约 1.5~3 小时，6 小时足以覆盖
-          # 到 CF 在北京 02:00（UTC 18:00）触发的那次成功运行。
-          LOOKBACK_HOURS: "6"
+          # 检测锚点：固定为「今天 UTC 17:30」=「北京时间 01:30」，
+          # 即 CF 在北京 02:00（UTC 18:00）触发前 30 分钟。
+          # 用固定锚点而非滚动窗口的好处：
+          #   1) 精准判断「今天凌晨这一轮 CF 到底跑没跑」；
+          #   2) 不会被前一晚的手动运行误判为「已同步」；
+          #   3) 即使 GitHub 把计划任务拖延数小时才执行，锚点不动，仍能正确识别。
+          ANCHOR_UTC: "17:30:00"
         run: |
           set -euo pipefail
 
@@ -47,8 +51,8 @@ jobs:
             exit 0
           fi
 
-          # 计划触发 → 查最近 LOOKBACK_HOURS 小时内是否已有成功运行
-          since="$(date -u -d "${LOOKBACK_HOURS} hours ago" +%Y-%m-%dT%H:%M:%SZ)"
+          # 计划触发 → 查「今天 UTC 17:30（北京 01:30）」之后是否已有成功运行
+          since="$(date -u +%Y-%m-%dT${ANCHOR_UTC}Z)"
           echo "schedule trigger; checking successful runs since ${since}"
 
           n="$(curl -s \
