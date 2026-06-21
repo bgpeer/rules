@@ -81,10 +81,9 @@ payload:
   - DOMAIN,gamedownloads-rockstargames-com.akamaized.net
   - DOMAIN,gamer-cds.cdn.hinet.net
   - DOMAIN,gamer2-cds.cdn.hinet.net
-  - DOMAIN,gog-cdn-fastly.gog.com
+  - DOMAIN,gog-cdn-lumen.secure2.footprint.net
   - DOMAIN,gog-cdn.akamaized.net
   - DOMAIN,gog.qtlglb.com
-  - DOMAIN,gogalaxy.gog-statics.com
   - DOMAIN,hamivideo.hinet.net
   - DOMAIN,hb.imgix.net
   - DOMAIN,heads-ak-spotify-com.akamaized.net
@@ -105,7 +104,6 @@ payload:
   - DOMAIN,lv.queniujq.cn
   - DOMAIN,m1.ppy.sh
   - DOMAIN,media-rockstargames-com.akamaized.net
-  - DOMAIN,menu-static.gog-statics.com
   - DOMAIN,mobilelive-hamivideo.cdn.hinet.net
   - DOMAIN,msh.amazon.co.uk
   - DOMAIN,netflix.com.edgesuite.net
@@ -126,7 +124,6 @@ payload:
   - DOMAIN,play-edge.itunes.apple.com
   - DOMAIN,prd-priconne-redive.akamaized.net
   - DOMAIN,prodforza.blob.core.windows.net
-  - DOMAIN,productcard.gog-statics.com
   - DOMAIN,pubg1.battleye.com
   - DOMAIN,pvr-hamivideo.cdn.hinet.net
   - DOMAIN,roblox-load-generator-configuration.s3.us-east-2.amazonaws.com
@@ -146,7 +143,6 @@ payload:
   - DOMAIN,spotify.map.fastlylb.net
   - DOMAIN,ssl-lvlt.cdn.ea.com
   - DOMAIN,static-hamivideo.cdn.hinet.net
-  - DOMAIN,static-login.gog-statics.com
   - DOMAIN,static.siege-amazon.com
   - DOMAIN,steambroadcast.akamaized.net
   - DOMAIN,steamcdn-a.akamaihd.net
@@ -207,7 +203,6 @@ payload:
   - DOMAIN,weblivea-hamivideo.cdn.hinet.net
   - DOMAIN,webvodad-hamivideo.cdn.hinet.net
   - DOMAIN,ws.audioscrobbler.com
-  - DOMAIN,www4-static.gog-statics.com
   - DOMAIN,xz.pphimalayanrt.com
   - DOMAIN,yt3.googleusercontent.com
   - DOMAIN-SUFFIX,100classicbooks.com
@@ -1908,11 +1903,8 @@ payload:
   - DOMAIN-REGEX,(^|\.)dualstack\.apiproxy-.+\.amazonaws\.com$
   - DOMAIN-REGEX,(^|\.)dualstack\.ichnaea-web-.+\.amazonaws\.com$
   - DOMAIN-REGEX,^[0-9]+vod-adaptive\.akamaized\.net$
-  - DOMAIN-REGEX,^cdn-akamai-.+\.gog-services\.com$
   - DOMAIN-REGEX,^cdn\d-epicgames-\d+\.file\.myqcloud\.com$
   - DOMAIN-REGEX,^epicgames-download\d-\d+\.file\.myqcloud\.com$
   - DOMAIN-REGEX,^epicgames-download\d\.akamaized\.net$
   - DOMAIN-REGEX,^ewcdn[0-9]+\.nowe\.com$
-  - DOMAIN-REGEX,^gog-cdn-.+\.footprint\.net$
   - DOMAIN-REGEX,^hses[1-7]?\.akamaized\.net$
-  - DOMAIN-REGEX,^images(-\d)?\.gog-statics\.com$
