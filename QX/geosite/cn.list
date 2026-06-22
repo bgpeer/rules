@@ -40,6 +40,10 @@ HOST, apps5.oingo.com
 HOST, apptrailers.itunes.apple.com
 HOST, auth.music.apple.com
 HOST, avail.googleflights.net
+HOST, azuremigrate.download.prss.microsoft.com
+HOST, azuremigratetest.download.prss.microsoft.com
+HOST, azurestackhub.download.prss.microsoft.com
+HOST, azurestackhubuat.download.prss.microsoft.com
 HOST, b.c2r.ts.cdn.office.net
 HOST, b.quark.cn
 HOST, bag-cdn.itunes-apple.com.akadns.net
@@ -48,16 +52,14 @@ HOST, beacons.gcp.gvt2.com
 HOST, beacons.gvt2.com
 HOST, beacons2.gvt2.com
 HOST, beacons3.gvt2.com
-HOST, bg.v4.a.dl.ws.microsoft.com
-HOST, bg4.v4.a.dl.ws.microsoft.com
 HOST, bj1.api.bing.com
 HOST, bookkeeper.itunes.apple.com
-HOST, build.microsoft.com
 HOST, c.admob.com
 HOST, c.android.clients.google.com
 HOST, c.pki.goog
 HOST, cache-management-prod.google.com
 HOST, cache.pack.google.com
+HOST, cbdstest.download.prss.microsoft.com
 HOST, cdn-cn.apple-mapkit.com
 HOST, cdn-cn1.apple-mapkit.com
 HOST, cdn-cn2.apple-mapkit.com
@@ -66,7 +68,6 @@ HOST, cdn-cn4.apple-mapkit.com
 HOST, cdn.ampproject.org
 HOST, cdn.apple-mapkit.com
 HOST, cdn.globalsigncdn.com.cdn.cloudflare.net
-HOST, cdn.marketplaceimages.windowsphone.com
 HOST, cdn1.apple-mapkit.com
 HOST, cdn2.apple-mapkit.com
 HOST, cdn3.apple-mapkit.com
@@ -104,6 +105,8 @@ HOST, cn-smp-paymentservices.apple.com
 HOST, cn.download.nvidia.com
 HOST, cn.widevine.com
 HOST, cn.windowssearch.com
+HOST, collaborate.download.prss.microsoft.com
+HOST, collaborateppe.download.prss.microsoft.com
 HOST, communities.apple.com
 HOST, configuration.apple.com
 HOST, configuration.apple.com.akadns.net
@@ -131,7 +134,6 @@ HOST, dc1.ksn.kaspersky-labs.com
 HOST, dd-cdn.origin-apple.com.akadns.net
 HOST, dds.dell.com
 HOST, dejavu.apple.com
-HOST, devblogs.microsoft.com
 HOST, developer.microsoft.com
 HOST, devimages-cdn.apple.com
 HOST, devstreaming-cdn.apple.com
@@ -178,7 +180,6 @@ HOST, dns.tencent.com
 HOST, dns.tuna.tsinghua.edu.cn
 HOST, dns.wechat.com
 HOST, doc.quark.cn
-HOST, docs.microsoft.com
 HOST, doh.360.cn
 HOST, doh.alidns.com
 HOST, doh.pub
@@ -191,6 +192,8 @@ HOST, download.mlcc.google.com
 HOST, download.tensorflow.google.com
 HOST, download.visualstudio.microsoft.com
 HOST, downloaddispatch.itunes.apple.com
+HOST, dreamspark.download.prss.microsoft.com
+HOST, dreamsparkuat.download.prss.microsoft.com
 HOST, ea2cn-dev-outlet.dell.com
 HOST, ea2cn-prod-outlet.dell.com
 HOST, ea2cn-staging-outlet.dell.com
@@ -206,7 +209,6 @@ HOST, firebase-settings.crashlytics.com
 HOST, fontfiles.googleapis.com
 HOST, fonts.googleapis.com
 HOST, fonts.gstatic.com
-HOST, fs.microsoft.com
 HOST, fta.dell.com
 HOST, ftaapj.dell.com
 HOST, ftaemea.dell.com
@@ -307,6 +309,8 @@ HOST, is4-ssl.mzstatic.com
 HOST, is4.mzstatic.com
 HOST, is5-ssl.mzstatic.com
 HOST, is5.mzstatic.com
+HOST, itacademy.download.prss.microsoft.com
+HOST, itacademyuat.download.prss.microsoft.com
 HOST, itunes-apple.com.akadns.net
 HOST, itunes.apple.com
 HOST, itunesconnect.apple.com
@@ -337,16 +341,25 @@ HOST, ksn-url-geo.kaspersky-labs.com
 HOST, ksn-url.geoksn.kaspersky.com
 HOST, ksn-verdict-geo.kaspersky-labs.com
 HOST, ksn-verdict.geoksn.kaspersky.com
-HOST, learn.microsoft.com
+HOST, lex.download.prss.microsoft.com
+HOST, lexuat.download.prss.microsoft.com
 HOST, lv.queniujq.cn
 HOST, maps.apple.com
+HOST, mbs.download.prss.microsoft.com
 HOST, mdr.ksn.kaspersky-labs.com
+HOST, mensura.cdn-apple.com
 HOST, mesu-cdn.apple.com.akadns.net
 HOST, mesu-china.apple.com.akadns.net
 HOST, mesu.apple.com
 HOST, misc-assets.itunes.apple.com
 HOST, ml.cdn-apple.com
 HOST, moocs.unipus.cn
+HOST, mpnbenefits.download.prss.microsoft.com
+HOST, mpnbenefitsrtl.download.prss.microsoft.com
+HOST, mpnbenefitsrtluat.download.prss.microsoft.com
+HOST, msdn.download.prss.microsoft.com
+HOST, msdprod-ad.download.prss.microsoft.com
+HOST, msproduct.download.prss.microsoft.com
 HOST, music.apple.com
 HOST, musicstatus.music.apple.com
 HOST, mvod.itunes.apple.com
@@ -373,10 +386,14 @@ HOST, ocsp.apple.com
 HOST, ocsp.pki.goog
 HOST, ocsp2.apple.com
 HOST, oemsoc.download.prss.microsoft.com
+HOST, oemsocuat.download.prss.microsoft.com
 HOST, officecdn.microsoft.com
+HOST, officemkt.download.prss.microsoft.com
+HOST, officemktuat.download.prss.microsoft.com
 HOST, opencourse.pku.edu.cn
 HOST, oscdn.apple.com
 HOST, oscdn.origin-apple.com.akadns.net
+HOST, osrelease.download.prss.microsoft.com
 HOST, osxapps.itunes.apple.com
 HOST, osxapps.itunes.g.aaplimg.com
 HOST, p.cdn.persaas.dell.com
@@ -443,8 +460,7 @@ HOST, redirector.offline-maps.gvt1.com
 HOST, redirector.snap.gvt1.com
 HOST, redirector.xn--ngstr-lra8j.com
 HOST, refresh-bkg.activation-v2.kaspersky.com
-HOST, res-1.cdn.office.net
-HOST, res.cdn.office.net
+HOST, rsm.download.prss.microsoft.com
 HOST, s.mzstatic.com
 HOST, s00.upd.kaspersky.com
 HOST, s01.upd.kaspersky.com
@@ -510,6 +526,8 @@ HOST, store.apple.com.edgekey.net
 HOST, store.apple.com.edgekey.net.globalredir.akadns.net
 HOST, store.storeimages.apple.com.akadns.net
 HOST, store.storeimages.cdn-apple.com
+HOST, storecorefulfillment.download.prss.microsoft.com
+HOST, storeedge.microsoft.com
 HOST, storeedgefd.dsx.mp.microsoft.com
 HOST, streamingaudio.itunes.apple.com
 HOST, study.163.com
@@ -517,6 +535,7 @@ HOST, su.itunes.apple.com
 HOST, support-china.apple-support.akadns.net
 HOST, support.apple.com
 HOST, supportassist.dell.com
+HOST, surface.download.prss.microsoft.com
 HOST, surface.downloads.prss.microsoft.com
 HOST, swallow-apple-com.v.aaplimg.com
 HOST, swallow.apple.com
@@ -549,6 +568,8 @@ HOST, uplaypc-s-ubisoft.cdn.ubi.com
 HOST, upp.itunes.apple.com
 HOST, valid.apple.com
 HOST, valid.origin-apple.com.akadns.net
+HOST, vlportal.download.prss.microsoft.com
+HOST, volic.download.prss.microsoft.com
 HOST, vscode.download.prss.microsoft.com
 HOST, vz.download.prss.microsoft.com
 HOST, wear.googleapis.com
@@ -557,8 +578,7 @@ HOST, weather-data.apple.com.akadns.net
 HOST, weather-map.apple.com
 HOST, weather-map2.apple.com
 HOST, weatherkit.apple.com
-HOST, wscont1.apps.microsoft.com
-HOST, wscont2.apps.microsoft.com
+HOST, windbg.download.prss.microsoft.com
 HOST, www-csb.dell.com
 HOST, www-google-analytics.l.google.com
 HOST, www-googletagmanager.l.google.com
@@ -569,7 +589,6 @@ HOST, www.dell.com
 HOST, www.destinationurl.com
 HOST, www.entrust.cn
 HOST, www.gstatic.com
-HOST, www.microsoft.com
 HOST, www.pxcc.com
 HOST, www.recaptcha-cn.net
 HOST, www.recaptcha.net
@@ -14419,6 +14438,7 @@ HOST-SUFFIX, b-fairy.com
 HOST-SUFFIX, b-k-automation.com
 HOST-SUFFIX, b-raymedia.com
 HOST-SUFFIX, b.biz
+HOST-SUFFIX, b.c2r.ts.cdn.office.net
 HOST-SUFFIX, b01.net
 HOST-SUFFIX, b02f0d7f3745ba7c.com
 HOST-SUFFIX, b041e427810281.beer
@@ -31705,6 +31725,7 @@ HOST-SUFFIX, dxlfile.com
 HOST-SUFFIX, dxm-cdn.com
 HOST-SUFFIX, dxm-int.com
 HOST-SUFFIX, dxm-yibai.com
+HOST-SUFFIX, dxmbaoxian.com
 HOST-SUFFIX, dxmjinr.com
 HOST-SUFFIX, dxmjuhe.com
 HOST-SUFFIX, dxmlcf.com
@@ -34233,6 +34254,7 @@ HOST-SUFFIX, f-dou.com
 HOST-SUFFIX, f-insight.com
 HOST-SUFFIX, f-stack.org
 HOST-SUFFIX, f.biz
+HOST-SUFFIX, f.c2r.ts.cdn.office.net
 HOST-SUFFIX, f.cx
 HOST-SUFFIX, f008.com
 HOST-SUFFIX, f015dfc4510292.beer
@@ -65456,6 +65478,7 @@ HOST-SUFFIX, mcool.com
 HOST-SUFFIX, mcpemaster.com
 HOST-SUFFIX, mcpfks.com
 HOST-SUFFIX, mcpmaid.com
+HOST-SUFFIX, mcpworld.com
 HOST-SUFFIX, mcq93.app
 HOST-SUFFIX, mcqy.net
 HOST-SUFFIX, mcsafebox.com
@@ -68430,6 +68453,7 @@ HOST-SUFFIX, myspain.org
 HOST-SUFFIX, mysqil.com
 HOST-SUFFIX, mysql360.com
 HOST-SUFFIX, mysqlab.net
+HOST-SUFFIX, myssl-uri.com
 HOST-SUFFIX, myssl.com
 HOST-SUFFIX, mystarch.com
 HOST-SUFFIX, mysteel.com
@@ -73187,6 +73211,7 @@ HOST-SUFFIX, perfcode.com
 HOST-SUFFIX, perfect-input.com
 HOST-SUFFIX, perfect99.com
 HOST-SUFFIX, perfectdiary.com
+HOST-SUFFIX, perfectlingo.com
 HOST-SUFFIX, perfecttradinghk.com
 HOST-SUFFIX, perfectwatchen.com
 HOST-SUFFIX, perfertw.com
@@ -74627,6 +74652,7 @@ HOST-SUFFIX, pw-partners.com
 HOST-SUFFIX, pw1999.com
 HOST-SUFFIX, pw88.com
 HOST-SUFFIX, pwand.com
+HOST-SUFFIX, pwcinema.com
 HOST-SUFFIX, pwdding.icu
 HOST-SUFFIX, pwithe.com
 HOST-SUFFIX, pwjptdg.xyz
@@ -81786,6 +81812,7 @@ HOST-SUFFIX, shejiyue.com
 HOST-SUFFIX, sheketiandi.com
 HOST-SUFFIX, shekou.com
 HOST-SUFFIX, shelive.net
+HOST-SUFFIX, shell.cdn.office.net
 HOST-SUFFIX, shellpub.com
 HOST-SUFFIX, shellsec.com
 HOST-SUFFIX, shelter-china.com
@@ -85598,6 +85625,7 @@ HOST-SUFFIX, staticfile.net
 HOST-SUFFIX, staticfile.org
 HOST-SUFFIX, statickksmg.com
 HOST-SUFFIX, statics.cc
+HOST-SUFFIX, statics.teams.cdn.office.net
 HOST-SUFFIX, staticsdd.com
 HOST-SUFFIX, staticsoe.com
 HOST-SUFFIX, staticsoem.com
@@ -86304,6 +86332,7 @@ HOST-SUFFIX, suqun-group.com
 HOST-SUFFIX, surely.cool
 HOST-SUFFIX, surerp.com
 HOST-SUFFIX, surface.download.prss.microsoft.com
+HOST-SUFFIX, surface.downloads.prss.microsoft.com
 HOST-SUFFIX, surfacetreatmentgroup.com
 HOST-SUFFIX, surfacetreatmenttechnology.com
 HOST-SUFFIX, surfcg.com
@@ -91258,6 +91287,7 @@ HOST-SUFFIX, trust-one.com
 HOST-SUFFIX, trust400.com
 HOST-SUFFIX, trusta-lawyer.com
 HOST-SUFFIX, trustasia.com
+HOST-SUFFIX, trustasia.net
 HOST-SUFFIX, trustcn.com
 HOST-SUFFIX, trustdecision.com
 HOST-SUFFIX, trustedsign.com
