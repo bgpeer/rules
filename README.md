@@ -1,3 +1,42 @@
+#### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
+
+#### ClashMi 配置核心复写
+
+```yaml
+https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
+```
+
+`打开Clashmi→核心设置→复写→点击右上角➕→添加配置链接`
+
+**Mihomo通用的JS复写**
+
+```js
+https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/b2954aa0bcbba520974d2c365991052c/raw/Mihomo-fx.js
+```
+
+---
+
+### Sing-box
+
+[可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
+
+---
+> ⚠️ 下面是苹果系列配置自己没有测试过，不敢保证可用，懂得可以自行修改。
+
+### Shadowrocket（小火箭）
+
+[小火箭（Shadowrocket）懒人配置](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
+
+```
+https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
+```
+
+[Surge样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/9e5b1e02fd8f69af7dc57da2aa59510b/raw/Surge.conf)
+
+[QuantumultX样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/8c4b2b9685791f097ad183da3d29e4d0/raw/QX.conf)
+
+---
+
 # 🌍 Loyalsoldier Geo Rules → Multi-format Rulesets
 
 自动同步上游 **Loyalsoldier** 的 [geoip.dat](https://github.com/Loyalsoldier/geoip) 和 [geosite.dat](https://github.com/Loyalsoldier/v2ray-rules-dat)，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / QuantumultX 等代理工具。
@@ -285,44 +324,9 @@ https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 > - `geosite/google.mrs`
 > - `geoip/google.mrs`
 
-#### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
-
-#### ClashMi 配置核心复写
-
-```yaml
-https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
-```
-
-`打开Clashmi→核心设置→复写→点击右上角➕→添加配置链接`
-
-**Mihomo通用的JS复写**
-
-```js
-https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/b2954aa0bcbba520974d2c365991052c/raw/Mihomo-fx.js
-```
-
 ---
-
-### Sing-box
-
-[可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
-
----
-> ⚠️ 下面是苹果系列配置自己没有测试过，不敢保证可用，懂得可以自行修改。
-
-### Shadowrocket（小火箭）
-
-[小火箭（Shadowrocket）懒人配置](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
-
-```
-https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
-```
-
----
-[Surge样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/9e5b1e02fd8f69af7dc57da2aa59510b/raw/Surge.conf)
 
 ### QuantumultX
-[QuantumultX样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/8c4b2b9685791f097ad183da3d29e4d0/raw/QX.conf)
 
 QuantumultX 使用 `filter_remote` 引用远程规则，需使用 `QX/` 目录下的专用文件，该目录使用 QX 原生的 `HOST` 系格式。
 
