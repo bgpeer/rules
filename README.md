@@ -292,7 +292,14 @@ https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip
 ```yaml
 https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
 ```
+
 `打开Clashmi→核心设置→复写→点击右上角➕→添加配置链接`
+
+**Mihomo通用的JS复写**
+
+```js
+https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/b2954aa0bcbba520974d2c365991052c/raw/Mihomo-fx.js
+```
 
 ---
 
