@@ -1,13 +1,11 @@
 # ===== 空壳订阅 | 配合 Mihomo-fx.js 复写使用 =====
 # 用途: 不想填真实节点订阅, 只用「js 复写 + 机场 proxy-providers」时, 给客户端一个最小载体。
-# 本文件订阅链接(填到客户端订阅处):
-#   https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/shell.yaml
-#
+# 本文件订阅链接(填到客户端订阅处)
+# 复写链接：https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/b2954aa0bcbba520974d2c365991052c/raw/Mihomo-fx.js
 # 配套步骤:
-#   ① 客户端订阅填上面这个链接
-#   ② 给它挂上 Mihomo-fx.js 复写
-#   ③ 机场链接填在 Mihomo-fx.js 顶部的 PROVIDER_URLS
-#   ④ 启动 (节点由机场提供, 规则/DNS/tun 全部由 js 补齐)
-#
+#   ① 把复写链接里面的内容全部复制下来
+#   ② 把你自己的机场链接填到“#机场订阅”进行替换，再然后保存文件__名称.js
+#   ③ 添加这个js复写文件到软件客户端复写处
+#   ④ 把把这个链接填到软件客服端订阅处：https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/shell.yaml
 # 注: 这里故意什么都不写。proxies 必须存在, 哪怕是空数组。
 proxies: []
