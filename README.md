@@ -37,17 +37,17 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5
 
 ---
 
-# 🌍 Loyalsoldier Geo Rules → Multi-format Rulesets
-
-自动同步上游 **Loyalsoldier** 的 [geoip.dat](https://github.com/Loyalsoldier/geoip) 和 [geosite.dat](https://github.com/Loyalsoldier/v2ray-rules-dat)，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / QuantumultX 等代理工具。
-
----
-
 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / 规则集文件
 https://github.com/bgpeer/rules/tree/main/geo
 
 QuantumultX / 规则集文件
 https://github.com/bgpeer/rules/tree/main/QX
+
+---
+
+# 🌍 Loyalsoldier Geo Rules → Multi-format Rulesets
+
+自动同步上游 **Loyalsoldier** 的 [geoip.dat](https://github.com/Loyalsoldier/geoip) 和 [geosite.dat](https://github.com/Loyalsoldier/v2ray-rules-dat)，并转换为多种常用规则格式，适用于 Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / QuantumultX 等代理工具。
 
 ---
 
