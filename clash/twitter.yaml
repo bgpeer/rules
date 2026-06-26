@@ -16,8 +16,8 @@ payload：
   - DOMAIN-SUFFIX,mobile.twitter.com
   - DOMAIN-SUFFIX,analytics.twitter.com
   # Grok
-  DOMAIN-SUFFIX,grok.com
-  DOMAIN-SUFFIX,x.ai
+  - DOMAIN-SUFFIX,grok.com
+  - DOMAIN-SUFFIX,x.ai
   # 登录认证 & 广告
   - DOMAIN-SUFFIX,ads-twitter.com
   - DOMAIN-SUFFIX,syndication.twimg.com
