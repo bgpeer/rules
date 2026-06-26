@@ -3,6 +3,7 @@ DOMAIN-SUFFIX,ads-twitter.com
 DOMAIN-SUFFIX,analytics.twitter.com
 DOMAIN-SUFFIX,api.twitter.com
 DOMAIN-SUFFIX,cms-twdigitalassets.com
+DOMAIN-SUFFIX,grok.com
 DOMAIN-SUFFIX,mobile.twitter.com
 DOMAIN-SUFFIX,pbs.twimg.com
 DOMAIN-SUFFIX,periscope.tv
@@ -12,7 +13,9 @@ DOMAIN-SUFFIX,syndication.twimg.com
 DOMAIN-SUFFIX,t.co
 DOMAIN-SUFFIX,tellapart.com
 DOMAIN-SUFFIX,tweetdeck.com
+DOMAIN-SUFFIX,twimg.co
 DOMAIN-SUFFIX,twimg.com
+DOMAIN-SUFFIX,twimg.org
 DOMAIN-SUFFIX,twitpic.com
 DOMAIN-SUFFIX,twitter.biz
 DOMAIN-SUFFIX,twitter.com
@@ -30,8 +33,16 @@ DOMAIN-SUFFIX,twvid.com
 DOMAIN-SUFFIX,upload.twitter.com
 DOMAIN-SUFFIX,video.twimg.com
 DOMAIN-SUFFIX,vine.co
+DOMAIN-SUFFIX,x.ai
 DOMAIN-SUFFIX,x.com
+IP-CIDR,192.133.76.0/22,no-resolve
+IP-CIDR,199.59.148.0/22,no-resolve
+IP-CIDR,202.160.128.0/22,no-resolve
+IP-CIDR,199.96.56.0/21,no-resolve
+IP-CIDR,209.237.192.0/19,no-resolve
+IP-CIDR,69.195.160.0/19,no-resolve
 DOMAIN-KEYWORD,twimg
+DOMAIN-KEYWORD,twitter
 DOMAIN-KEYWORD,video.twimg
 PROCESS-NAME,com.twitter.android
 PROCESS-NAME,com.twitter.android.beta
