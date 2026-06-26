@@ -1,8 +1,11 @@
 payload:
   - DOMAIN,a.ppy.sh
   - DOMAIN,a4e8s8k3.map2.ssl.hwcdn.net
+  - DOMAIN,account.riotgames.com
   - DOMAIN,alibaba.cdn.steampipe.steamcontent.com
+  - DOMAIN,api.riotgames.com
   - DOMAIN,assets.ppy.sh
+  - DOMAIN,auth.riotgames.com
   - DOMAIN,avatargarenanow-a.akamaihd.net
   - DOMAIN,blizzard.nefficient.co.kr
   - DOMAIN,blizzcon-a.akamaihd.net
@@ -15,6 +18,8 @@ payload:
   - DOMAIN,bnetshopus.akamaized.net
   - DOMAIN,c.ppy.sh
   - DOMAIN,cdngarenanow-a.akamaihd.net
+  - DOMAIN,chat.si.riotgames.com
+  - DOMAIN,clientconfig.rpg.riotgames.com
   - DOMAIN,cloudsync-prod.s3.amazonaws.com
   - DOMAIN,d1unuk07s6td74.cloudfront.net
   - DOMAIN,datarouter.apps.netherrealm.com
@@ -22,6 +27,8 @@ payload:
   - DOMAIN,dlmobilegarena-a.akamaihd.net
   - DOMAIN,ea.tt.omtrdc.net
   - DOMAIN,eaassets-a.akamaihd.net
+  - DOMAIN,edge.rms.si.riotgames.com
+  - DOMAIN,entitlements.auth.riotgames.com
   - DOMAIN,f3b7q2p3.ssl.hwcdn.net
   - DOMAIN,flightsimulator.azureedge.net
   - DOMAIN,gamedownloads-rockstargames-com.akamaized.net
@@ -29,18 +36,26 @@ payload:
   - DOMAIN,gog-cdn.akamaized.net
   - DOMAIN,gog.qtlglb.com
   - DOMAIN,hb.imgix.net
+  - DOMAIN,js.hcaptcha.com
+  - DOMAIN,l3cdn.riotgames.com
   - DOMAIN,lazer.ppy.sh
+  - DOMAIN,lol.secure.dyn.riotcdn.net
   - DOMAIN,lolstatic-a.akamaihd.net
   - DOMAIN,lv.queniujq.cn
   - DOMAIN,m1.ppy.sh
   - DOMAIN,media-rockstargames-com.akamaized.net
+  - DOMAIN,newassets.hcaptcha.com
   - DOMAIN,notify.ppy.sh
   - DOMAIN,opgg-static.akamaized.net
   - DOMAIN,origin-a.akamaihd.net
   - DOMAIN,osu.ppy.sh
+  - DOMAIN,playerpreferences.riotgames.com
   - DOMAIN,prd-priconne-redive.akamaized.net
   - DOMAIN,prodforza.blob.core.windows.net
   - DOMAIN,pubg1.battleye.com
+  - DOMAIN,riot-geo.pas.si.riotgames.com
+  - DOMAIN,riotgames.zendesk.com
+  - DOMAIN,riotgamespatcher-a.akamaized.net
   - DOMAIN,roblox-load-generator-configuration.s3.us-east-2.amazonaws.com
   - DOMAIN,roblox-poc.global.ssl.fastly.net
   - DOMAIN,robloxcorp.s.llnwi.net
@@ -94,6 +109,7 @@ payload:
   - DOMAIN,uplaypc-s-ubisoft.cdn.ubi.com
   - DOMAIN,videos-rockstargames-com.akamaized.net
   - DOMAIN,wb-agora-hydra-file-storage-k1.s3.amazonaws.com
+  - DOMAIN,wr.pvp.net
   - DOMAIN,xz.pphimalayanrt.com
   - DOMAIN-SUFFIX,100classicbooks.com
   - DOMAIN-SUFFIX,2k.com
@@ -102,14 +118,17 @@ payload:
   - DOMAIN-SUFFIX,2kgames.com
   - DOMAIN-SUFFIX,2ksports.com
   - DOMAIN-SUFFIX,2kweb.online
+  - DOMAIN-SUFFIX,2xko.riotgames.com
   - DOMAIN-SUFFIX,3lateral.com
   - DOMAIN-SUFFIX,573.jp
+  - DOMAIN-SUFFIX,a.pvp.net
   - DOMAIN-SUFFIX,ac-pocketcamp.com
   - DOMAIN-SUFFIX,acesofthunder.net
   - DOMAIN-SUFFIX,activematter.game
   - DOMAIN-SUFFIX,amiibo.com
   - DOMAIN-SUFFIX,anthemgame.com
   - DOMAIN-SUFFIX,anthemthegame.com
+  - DOMAIN-SUFFIX,anticheat.riotgames.com
   - DOMAIN-SUFFIX,apexlegends.com
   - DOMAIN-SUFFIX,arcraiders.com
   - DOMAIN-SUFFIX,arma3.com
@@ -160,6 +179,7 @@ payload:
   - DOMAIN-SUFFIX,capitalgames.com
   - DOMAIN-SUFFIX,capturingreality.com
   - DOMAIN-SUFFIX,championshipseriesleague.com
+  - DOMAIN-SUFFIX,chat.si.riotgames.com
   - DOMAIN-SUFFIX,chillingo.com
   - DOMAIN-SUFFIX,chunkbase.com
   - DOMAIN-SUFFIX,clash.com
@@ -168,6 +188,7 @@ payload:
   - DOMAIN-SUFFIX,clashroyale.com
   - DOMAIN-SUFFIX,clashroyaleapp.com
   - DOMAIN-SUFFIX,client-update.queniuqe.com
+  - DOMAIN-SUFFIX,clientconfig.rpg.riotgames.com
   - DOMAIN-SUFFIX,cncrivals.com
   - DOMAIN-SUFFIX,commandandconquer.com
   - DOMAIN-SUFFIX,conquerwithcharacter.com
@@ -299,6 +320,7 @@ payload:
   - DOMAIN-SUFFIX,ghostgames.com
   - DOMAIN-SUFFIX,giratina.com
   - DOMAIN-SUFFIX,gloryofheracles.com
+  - DOMAIN-SUFFIX,glz.pvp.net
   - DOMAIN-SUFFIX,goblocks.com
   - DOMAIN-SUFFIX,goblox.com
   - DOMAIN-SUFFIX,gog-services.com
@@ -311,6 +333,7 @@ payload:
   - DOMAIN-SUFFIX,hackyourconsole.com
   - DOMAIN-SUFFIX,hayday.com
   - DOMAIN-SUFFIX,haydaygame.com
+  - DOMAIN-SUFFIX,hcaptcha.com
   - DOMAIN-SUFFIX,heroesofdragonage.com
   - DOMAIN-SUFFIX,heroesofthestorm.com
   - DOMAIN-SUFFIX,historyofdota.com
@@ -368,6 +391,7 @@ payload:
   - DOMAIN-SUFFIX,learnwithleague.com
   - DOMAIN-SUFFIX,legendofzelda.cn
   - DOMAIN-SUFFIX,legendofzelda.com.cn
+  - DOMAIN-SUFFIX,legendsofruneterra.com
   - DOMAIN-SUFFIX,log-upload-os.hoyoverse.com
   - DOMAIN-SUFFIX,lol-europe.com
   - DOMAIN-SUFFIX,lolclub.org
@@ -376,6 +400,7 @@ payload:
   - DOMAIN-SUFFIX,lolfanart.net
   - DOMAIN-SUFFIX,lolpcs.com
   - DOMAIN-SUFFIX,lolshop.co.kr
+  - DOMAIN-SUFFIX,lolstatic-a.akamaihd.net
   - DOMAIN-SUFFIX,lolstatic.com
   - DOMAIN-SUFFIX,lolusercontent.com
   - DOMAIN-SUFFIX,lordofultima.com
@@ -523,6 +548,7 @@ payload:
   - DOMAIN-SUFFIX,playnintendo.com
   - DOMAIN-SUFFIX,playoverwatch.com
   - DOMAIN-SUFFIX,playparagon.com
+  - DOMAIN-SUFFIX,playruneterra.com
   - DOMAIN-SUFFIX,playstation
   - DOMAIN-SUFFIX,playstation.com
   - DOMAIN-SUFFIX,playstation.net
@@ -577,6 +603,7 @@ payload:
   - DOMAIN-SUFFIX,rbxinfra.net
   - DOMAIN-SUFFIX,rbxlabs.com
   - DOMAIN-SUFFIX,rbxtrk.com
+  - DOMAIN-SUFFIX,rdatasrv.net
   - DOMAIN-SUFFIX,reachthefinals.com
   - DOMAIN-SUFFIX,realityscan.com
   - DOMAIN-SUFFIX,renovacionxboxlive.com
@@ -586,6 +613,7 @@ payload:
   - DOMAIN-SUFFIX,riot-games.com
   - DOMAIN-SUFFIX,riot.com
   - DOMAIN-SUFFIX,riot.net
+  - DOMAIN-SUFFIX,riotcdn.com
   - DOMAIN-SUFFIX,riotcdn.net
   - DOMAIN-SUFFIX,riotforgegames.com
   - DOMAIN-SUFFIX,riotgames.co.kr
@@ -594,6 +622,9 @@ payload:
   - DOMAIN-SUFFIX,riotgames.jp
   - DOMAIN-SUFFIX,riotgames.net
   - DOMAIN-SUFFIX,riotgames.tv
+  - DOMAIN-SUFFIX,riotgames.zendesk.com
+  - DOMAIN-SUFFIX,riotgamesmedia.com
+  - DOMAIN-SUFFIX,riotgamespatcher-a.akamaized.net
   - DOMAIN-SUFFIX,riotpin.com
   - DOMAIN-SUFFIX,riotpoints.com
   - DOMAIN-SUFFIX,ro-blox.com
@@ -714,6 +745,9 @@ payload:
   - DOMAIN-SUFFIX,superpapermario.com
   - DOMAIN-SUFFIX,supersmashbros.cn
   - DOMAIN-SUFFIX,supersmashbros.com.cn
+  - DOMAIN-SUFFIX,support-leagueoflegends.riotgames.com
+  - DOMAIN-SUFFIX,support-valorant.riotgames.com
+  - DOMAIN-SUFFIX,support-wildrift.riotgames.com
   - DOMAIN-SUFFIX,supr.cl
   - DOMAIN-SUFFIX,supremacy.com
   - DOMAIN-SUFFIX,supremacy.net
@@ -723,6 +757,7 @@ payload:
   - DOMAIN-SUFFIX,swtor.net
   - DOMAIN-SUFFIX,take2games.com
   - DOMAIN-SUFFIX,tarkov.com
+  - DOMAIN-SUFFIX,teamfighttactics.com
   - DOMAIN-SUFFIX,teamneedforspeed.com
   - DOMAIN-SUFFIX,tellmewhygame.com
   - DOMAIN-SUFFIX,thedreadwolfrises.com
@@ -752,10 +787,12 @@ payload:
   - DOMAIN-SUFFIX,uo.com
   - DOMAIN-SUFFIX,uoherald.com
   - DOMAIN-SUFFIX,uplay.com
+  - DOMAIN-SUFFIX,valorant.com
   - DOMAIN-SUFFIX,valve.net
   - DOMAIN-SUFFIX,valvesoftware.com
   - DOMAIN-SUFFIX,vigorgame.com
   - DOMAIN-SUFFIX,visceralgames.com
+  - DOMAIN-SUFFIX,vivox.com
   - DOMAIN-SUFFIX,vrchat.cloud
   - DOMAIN-SUFFIX,vrchat.com
   - DOMAIN-SUFFIX,vrchat.net
@@ -778,6 +815,7 @@ payload:
   - DOMAIN-SUFFIX,wiisportsresort.com
   - DOMAIN-SUFFIX,wiiugamepad.com
   - DOMAIN-SUFFIX,wiivc.net
+  - DOMAIN-SUFFIX,wildrift.leagueoflegends.com
   - DOMAIN-SUFFIX,wmsjsteam.com
   - DOMAIN-SUFFIX,worldflipper.akamaized.net
   - DOMAIN-SUFFIX,worldflipper.jp
@@ -788,6 +826,8 @@ payload:
   - DOMAIN-SUFFIX,worldofwarships.com
   - DOMAIN-SUFFIX,wotblitz.com
   - DOMAIN-SUFFIX,wowsblitz.com
+  - DOMAIN-SUFFIX,wr-assets.riotcdn.net
+  - DOMAIN-SUFFIX,wr.pvp.net
   - DOMAIN-SUFFIX,wtmobile.com
   - DOMAIN-SUFFIX,xbox
   - DOMAIN-SUFFIX,xbox.co
@@ -829,6 +869,51 @@ payload:
   - DOMAIN-SUFFIX,zynga.com
   - DOMAIN-SUFFIX,zyngaplayersupport.com
   - DOMAIN-SUFFIX,zyngapoker.com
+  - IP-CIDR,151.106.246.0/23,no-resolve
+  - IP-CIDR,103.219.128.0/22,no-resolve
+  - IP-CIDR,103.240.224.0/22,no-resolve
+  - IP-CIDR,151.106.248.0/22,no-resolve
+  - IP-CIDR,151.106.252.0/22,no-resolve
+  - IP-CIDR,43.229.64.0/22,no-resolve
+  - IP-CIDR,162.249.72.0/21,no-resolve
+  - IP-CIDR,192.64.168.0/21,no-resolve
+  - IP-CIDR,104.160.128.0/17,no-resolve
+  - IP-ASN,38118,no-resolve
+  - IP-ASN,62830,no-resolve
+  - IP-ASN,6507,no-resolve
+  - DOMAIN-KEYWORD,leagueoflegends
+  - DOMAIN-KEYWORD,rgpub
+  - DOMAIN-KEYWORD,riotcdn
+  - DOMAIN-KEYWORD,riotgames
+  - DOMAIN-KEYWORD,valorant
+  - DOMAIN-KEYWORD,wildrift
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)riot\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
   - DOMAIN-REGEX,^cdn\d-epicgames-\d+\.file\.myqcloud\.com$
   - DOMAIN-REGEX,^epicgames-download\d-\d+\.file\.myqcloud\.com$
   - DOMAIN-REGEX,^epicgames-download\d\.akamaized\.net$
+  - PROCESS-NAME,League of Legends.exe
+  - PROCESS-NAME,LeagueClient.exe
+  - PROCESS-NAME,LeagueClientUx.exe
+  - PROCESS-NAME,LeagueClientUxRender.exe
+  - PROCESS-NAME,Riot Vanguard.exe
+  - PROCESS-NAME,RiotClientCrashHandler.exe
+  - PROCESS-NAME,RiotClientServices.exe
+  - PROCESS-NAME,RiotClientUx.exe
+  - PROCESS-NAME,VALORANT-Win64-Shipping.exe
+  - PROCESS-NAME,VALORANT.exe
+  - PROCESS-NAME,com.riotgames.league.teamfighttactics
+  - PROCESS-NAME,com.riotgames.league.wildrift
+  - PROCESS-NAME,com.riotgames.league.wildrift.android
+  - PROCESS-NAME,com.riotgames.legendsofruneterra
+  - PROCESS-NAME,com.riotgames.valorant
+  - PROCESS-NAME,vanguard.exe
+  - PROCESS-NAME,vgc.exe
+  - PROCESS-NAME-REGEX,(?i)^(Riot|League|VALORANT|vgc|vanguard).*$
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
