@@ -43,11 +43,11 @@ payload:
   - DOMAIN-SUFFIX,gstatic.com
 
   # 📺YouTube规则
-  DOMAIN-SUFFIX,wide-youtube.l.google.com
-  DOMAIN-SUFFIX,youtube-ui.l.google.com
-  DOMAIN-SUFFIX,youtube.googleapis.com
-  DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
-  DOMAIN-SUFFIX,youtubei.googleapis.com
+  - DOMAIN-SUFFIX,wide-youtube.l.google.com
+  - DOMAIN-SUFFIX,youtube-ui.l.google.com
+  - DOMAIN-SUFFIX,youtube.googleapis.com
+  - DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
+  - DOMAIN-SUFFIX,youtubei.googleapis.com
 
   # 🤖 Gemini / Google AI 新增规则
   - DOMAIN-SUFFIX,gemini.google
