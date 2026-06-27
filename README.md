@@ -8,10 +8,10 @@ https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ec
 
 `打开Clashmi→核心设置→复写→点击右上角➕→添加配置链接`
 
-**[Mihomo通用的JS复写](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/b2954aa0bcbba520974d2c365991052c/raw/Mihomo-fx.js)**
+**[Mihomo通用的JS复写](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/e9f0dcf4601f8350ab0b08506c069b4a/raw/Mihomo-fx.js)**
 
 ```js
-https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/b2954aa0bcbba520974d2c365991052c/raw/Mihomo-fx.js
+https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/e9f0dcf4601f8350ab0b08506c069b4a/raw/Mihomo-fx.js
 ```
 
 ---
