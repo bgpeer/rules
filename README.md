@@ -18,7 +18,7 @@ https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/e9f0dcf4601f8350ab0b0850
 
 ### Sing-box
 
-[可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-v1.12-config.json)
+[可用于 Sing-box 的样板](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-config.json)
 
 ---
 > ⚠️ 下面是苹果系列配置自己没有测试过，不敢保证可用，懂得可以自行修改。
