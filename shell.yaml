@@ -1,6 +1,1 @@
-p: &p {type: http, interval: 3600, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}}
-proxy-providers:
-  # 这是机场配置 🔻，将下面的_#机场订阅_换成自己的机场链接，保留两边的引号符
-  机场1: {<<: *p, url: "#机场订阅", override: {additional-prefix: "¹"}}
-  机场2: {<<: *p, url: "#机场订阅", override: {additional-prefix: "²"}}
-  机场3: {<<: *p, url: "#机场订阅", override: {additional-prefix: "³"}}
+proxies:[]
