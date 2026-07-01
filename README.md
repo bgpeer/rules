@@ -371,3 +371,15 @@ https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list, tag=CN-IP,
 👉 [Cloudflare Worker 部署教程](https://github.com/bgpeer/rules/blob/main/CF-Worker部署教程.md)
 
 部署完成后，将上述链接中的 `https://raw.githubusercontent.com/bgpeer/rules/main/` 替换为 `https://你的域名/rules/` 即可。
+
+---
+
+## 📜 来源与免责声明
+
+- 本仓库的 GeoIP / GeoSite 规则数据部分来自上游开源项目(如 [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)、[Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat) 等)整理、转换而来,相关数据版权归各自作者所有,在此致谢。
+- 本仓库仅提供**分流规则文件与配置模板**,不提供任何代理服务、节点或订阅。规则仅供**学习、研究与个人自用**。
+- 请在遵守你所在地区**法律法规**的前提下使用;因使用本仓库内容产生的任何后果由使用者自行承担,作者不承担任何责任。
+
+## 📄 License
+
+本项目以 [MIT License](./LICENSE) 开源;上游数据与第三方组件版权归其各自作者所有。
