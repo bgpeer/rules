@@ -77,10 +77,12 @@ jobs:
     if: needs.decide.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
+      # 浅克隆：仓库每日全量重写上万个规则文件，全历史克隆 30s+ 且随时间
+      # 持续增长；同步只需要 main 最新快照，深度 1 足够
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           ref: ${{ github.event.repository.default_branch }}
 
       # ── 固定工具版本（日常同步不直接追 latest）────────────────────────────
@@ -191,8 +193,9 @@ jobs:
         run: |
           set -eux
           BRANCH="${DEFAULT_BRANCH:-main}"
-          git fetch origin "${BRANCH}"
-          git rebase "origin/${BRANCH}"
+          # 浅克隆下 rebase 可能缺 merge-base；此时无本地修改，直接对齐远端
+          git fetch --depth=1 origin "${BRANCH}"
+          git reset --hard "origin/${BRANCH}"
 
       # ── 执行脚本（MIHOMO_BIN/SINGBOX_BIN 已由 Setup tool paths 注入）──────
       - name: Run sync script
@@ -222,7 +225,7 @@ jobs:
           grep -c "IP-CIDR" geo/geosite/douyin.list || true
           grep -c "IP-ASN"  geo/geosite/douyin.yaml || true
 
-      # ── Commit & Push（stash 重试版） ─────────────────────────────────────
+      # ── Commit & Push（浅克隆安全的重试：换底重提，不依赖 merge-base）────
       - name: Commit & push (safe)
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -233,33 +236,26 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add -A geo/geosite geo/geoip QX
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          git commit -m "chore: sync Loyalsoldier dat -> multi-format rulesets (geo + QX)"
-
+          # 产物是本次全量生成的，竞态时无需 rebase 合并历史：
+          # 把基座换成远端最新（reset --mixed 保留工作区产物），只重新
+          # 提交产物目录即可，浅克隆下也不需要 merge-base
           for i in 1 2 3 4 5; do
+            git add -A geo/geosite geo/geoip QX
+
+            if git diff --cached --quiet; then
+              echo "No changes to commit."
+              exit 0
+            fi
+
+            git commit -m "chore: sync Loyalsoldier dat -> multi-format rulesets (geo + QX)"
+
             if git push origin "HEAD:${BRANCH}"; then
               echo "Push success."; exit 0
             fi
 
             echo "Push rejected (race). retry=${i}"
-            git stash push -u -m "actions-autostash" || true
-            git fetch origin "${BRANCH}"
-            git rebase "origin/${BRANCH}"
-            git stash pop || true
-
-            git add -A geo/geosite geo/geoip QX
-
-            if git diff --name-only --diff-filter=U | grep -q .; then
-              echo "Conflict after rebase. Aborting."
-              git status --porcelain || true
-              exit 1
-            fi
+            git fetch --depth=1 origin "${BRANCH}"
+            git reset --mixed "origin/${BRANCH}"
 
             sleep $((i*2))
           done
