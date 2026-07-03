@@ -280,6 +280,24 @@ def parse_clash_to_buckets(yaml_path):
         buckets[bucket].append(v)
     return buckets
 
+def normalize_cidrs(values):
+    """把 IP 值规范化为标准 CIDR 形式（裸 IP 补 /32 或 /128、主机位清零、
+    IPv6 小写），非法值丢弃，去重保序。
+    mihomo convert-ruleset 遇到不带掩码的裸 IP 会直接 panic，必须在
+    写入 mrs 源前规范化。"""
+    out = []
+    seen = set()
+    for v in values:
+        try:
+            nv = str(ipaddress.ip_network(str(v).strip(), strict=False))
+        except ValueError:
+            print(f"[WARN] 丢弃非法 CIDR: {v!r}")
+            continue
+        if nv not in seen:
+            seen.add(nv)
+            out.append(nv)
+    return out
+
 def merge_ip_cache(tag, cidrs, cache_dir):
     """将 geosite 阶段缓存的同名 IP（clash yaml / DOMAIN-Link 溢出）合并进
     cidrs，按 CIDR 字符串去重（大小写不敏感），保持原顺序。"""
@@ -729,7 +747,7 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
             merged_cidr.sort(key=lambda v: (0 if ":" not in v else 1, v))
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, merged_cidr)
+            write_lines(mrs_src, normalize_cidrs(merged_cidr))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         ok += 1
@@ -767,7 +785,7 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         print(f"[GEOSITE-IP] geoip/{tag}.mrs <- geosite 侧 IP 溢出 (mrs only)")
         mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
         os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-        write_lines(mrs_src, cidr_only)
+        write_lines(mrs_src, normalize_cidrs(cidr_only))
         mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         spill_ok += 1
@@ -1039,15 +1057,15 @@ def parse_remote_ip_entries(text, fmt):
     ipcidr, ipcidr_seen = [], set()
     asn,    asn_seen    = [], set()
     def add_cidr(v):
-        v = v.strip()
+        # 直接存规范化形式：裸 IP 补掩码（否则 mihomo 编译 panic）、
+        # 主机位清零、IPv6 小写
         try:
-            ipaddress.ip_network(v, strict=False)
-            nv = v.lower()
-            if nv not in ipcidr_seen:
-                ipcidr_seen.add(nv)
-                ipcidr.append(v)
+            nv = str(ipaddress.ip_network(v.strip(), strict=False))
         except ValueError:
-            pass
+            return
+        if nv not in ipcidr_seen:
+            ipcidr_seen.add(nv)
+            ipcidr.append(nv)
     def add_asn(v):
         v = str(v).strip()
         if v and v not in asn_seen:
@@ -1056,9 +1074,10 @@ def parse_remote_ip_entries(text, fmt):
     if resolved == "clash":
         for raw_line in _iter_rule_lines(text):
             if "," not in raw_line:
-                # 裸 CIDR 行
+                # 裸 CIDR / 裸 IP 行（add_cidr 内部校验并规范化；
+                # 要求含 . 或 : 以免纯数字被误解析为 IP）
                 s = raw_line.strip()
-                if s and ("/" in s or "::" in s):
+                if s and ("." in s or ":" in s):
                     add_cidr(s)
                 continue
             parts = [p.strip() for p in raw_line.split(",")]
@@ -1084,8 +1103,8 @@ def parse_remote_ip_entries(text, fmt):
                 elif t == "IP-ASN":
                     add_asn(v)
                 continue
-            # 裸 CIDR
-            if "/" in s or "::" in s:
+            # 裸 CIDR / 裸 IP（含 . 或 : 即尝试，内部校验）
+            if "." in s or ":" in s:
                 add_cidr(s)
     return ipcidr, asn
 
@@ -1396,7 +1415,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, mrs_cidrs)
+                write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
                 mrs_tasks.append(
                     f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
                 )
@@ -1429,7 +1448,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, mrs_cidrs)
+                write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
             # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
             qx_new = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
@@ -1522,7 +1541,7 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
         if mrs_cidrs:
             mrs_src = os.path.join(workdir, "ci_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, mrs_cidrs)
+            write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
         # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
         qx_append = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
