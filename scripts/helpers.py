@@ -499,7 +499,9 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
     mrs_lines = (
         [v for t, v in all_lines if t == "DOMAIN"] +
-        ["." + v.lstrip(".") for t, v in all_lines if t == "DOMAIN-SUFFIX"]
+        # mihomo trie: ".x" 只匹配子域名，"+.x" 才含主域名本身（源码实证），
+        # DOMAIN-SUFFIX 语义必须用 "+."
+        ["+." + v.lstrip(".") for t, v in all_lines if t == "DOMAIN-SUFFIX"]
     )
     if mrs_lines:
         write_lines(mrs_src, mrs_lines)
@@ -1309,7 +1311,7 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                     mrs_lines.append(line[7:])
                 elif line.startswith("DOMAIN-SUFFIX,"):
                     v = line[14:].split(",")[0]
-                    mrs_lines.append("." + v.lstrip("."))
+                    mrs_lines.append("+." + v.lstrip("."))
             if mrs_lines:
                 mrs_src = os.path.join(workdir, "dl_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
