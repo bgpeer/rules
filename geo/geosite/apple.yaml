@@ -85,8 +85,10 @@ payload:
   - DOMAIN,downloaddispatch.itunes.apple.com
   - DOMAIN,e16991.b.akamaiedge.net
   - DOMAIN,edge.apple
+  - DOMAIN,entitlements-edge.itunes.apple.com
   - DOMAIN,experiments.apple.com
   - DOMAIN,fides-pol.apple.com
+  - DOMAIN,fpinit.itunes.apple.com
   - DOMAIN,gs-loc-cn.apple.com
   - DOMAIN,gs-loc.apple.com
   - DOMAIN,gsp10-ssl-cn.ls.apple.com
@@ -118,7 +120,6 @@ payload:
   - DOMAIN,inappcheck-cn.itunes-apple.com.akadns.net
   - DOMAIN,inappcheck-lb.itunes-apple.com.akadns.net
   - DOMAIN,inappcheck.itunes.apple.com
-  - DOMAIN,ingest.apple-studies.com
   - DOMAIN,init-kt.apple.com
   - DOMAIN,init-p01md-lb.push-apple.com.akadns.net
   - DOMAIN,init-p01md.apple.com
@@ -349,6 +350,7 @@ payload:
   - DOMAIN-SUFFIX,apple-store.cn
   - DOMAIN-SUFFIX,apple-store.net
   - DOMAIN-SUFFIX,apple-store.wang
+  - DOMAIN-SUFFIX,apple-studies.com
   - DOMAIN-SUFFIX,apple-usa.net
   - DOMAIN-SUFFIX,apple-watch.com.ru
   - DOMAIN-SUFFIX,apple.ae
