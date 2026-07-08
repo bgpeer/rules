@@ -135,10 +135,3 @@ DOMAIN-REGEX,(?i)(^|\.)workos\.com$
 DOMAIN-REGEX,(?i)(^|\.)workoscdn\.com$
 DOMAIN-REGEX,(?i)^o[0-9]+\.ingest\.sentry\.io$
 DOMAIN-REGEX,^chatgpt-async-webps-prod-\S+-\d+\.webpubsub\.azure\.com$
-PROCESS-NAME,ChatGPT
-PROCESS-NAME,ChatGPT.exe
-PROCESS-NAME,com.openai.chatgpt
-PROCESS-NAME,com.openai.chatgpt.beta
-PROCESS-NAME-REGEX,(?i)^com\.openai\.chatgpt(\..+)?$
-PROCESS-PATH-REGEX,(?i).*/ChatGPT.*$
-PROCESS-PATH-REGEX,(?i).*\\ChatGPT.*\.exe$
