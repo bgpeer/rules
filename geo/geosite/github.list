@@ -119,13 +119,3 @@ DOMAIN-REGEX,(?i)(^|\.)githubcopilot\.com$
 DOMAIN-REGEX,(?i)(^|\.)githubusercontent\.com$
 DOMAIN-REGEX,(?i)^copilot-reports-[a-z0-9-]+\.b01\.azurefd\.net$
 DOMAIN-REGEX,(?i)^usagereports[a-z0-9-]*\.blob\.core\.windows\.net$
-PROCESS-NAME,GitHub Desktop.exe
-PROCESS-NAME,GitHubDesktop.exe
-PROCESS-NAME,com.github.android
-PROCESS-NAME,com.github.android.beta
-PROCESS-NAME,gh.exe
-PROCESS-NAME,git.exe
-PROCESS-PATH-REGEX,(?i).*/GitHub.*Desktop.*$
-PROCESS-PATH-REGEX,(?i).*/git$
-PROCESS-PATH-REGEX,(?i).*\\GitHub.*Desktop.*\.exe$
-PROCESS-PATH-REGEX,(?i).*\\Git\\.*git.*\.exe$

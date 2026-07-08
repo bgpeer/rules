@@ -896,23 +896,3 @@ DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
 DOMAIN-REGEX,^cdn\d-epicgames-\d+\.file\.myqcloud\.com$
 DOMAIN-REGEX,^epicgames-download\d-\d+\.file\.myqcloud\.com$
 DOMAIN-REGEX,^epicgames-download\d\.akamaized\.net$
-PROCESS-NAME,League of Legends.exe
-PROCESS-NAME,LeagueClient.exe
-PROCESS-NAME,LeagueClientUx.exe
-PROCESS-NAME,LeagueClientUxRender.exe
-PROCESS-NAME,Riot Vanguard.exe
-PROCESS-NAME,RiotClientCrashHandler.exe
-PROCESS-NAME,RiotClientServices.exe
-PROCESS-NAME,RiotClientUx.exe
-PROCESS-NAME,VALORANT-Win64-Shipping.exe
-PROCESS-NAME,VALORANT.exe
-PROCESS-NAME,com.riotgames.league.teamfighttactics
-PROCESS-NAME,com.riotgames.league.wildrift
-PROCESS-NAME,com.riotgames.league.wildrift.android
-PROCESS-NAME,com.riotgames.legendsofruneterra
-PROCESS-NAME,com.riotgames.valorant
-PROCESS-NAME,vanguard.exe
-PROCESS-NAME,vgc.exe
-PROCESS-NAME-REGEX,(?i)^(Riot|League|VALORANT|vgc|vanguard).*$
-PROCESS-NAME-REGEX,(?i)^com\.riotgames\..*$
-PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
