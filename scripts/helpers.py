@@ -147,6 +147,19 @@ MRS_SKIP_TYPES = {
     "USER-AGENT",
 }
 
+# geo/geosite/*.list 里要跳过的类型：进程类规则（Shadowrocket/小火箭
+# 不支持 PROCESS-*，导入即报错；这类进程名匹配对服务端分流规则集也无
+# 实际意义，json/srs/mrs/QX 早已跳过，此处让 .list 与它们对齐）。
+# 注意：.yaml 保留进程规则——桌面版 Clash（Verge/CFW）完整支持。
+LIST_SKIP_TYPES = {
+    "PROCESS-NAME",
+    "PROCESS-NAME-WILDCARD",
+    "PROCESS-NAME-REGEX",
+    "PROCESS-PATH",
+    "PROCESS-PATH-WILDCARD",
+    "PROCESS-PATH-REGEX",
+}
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # 统一排序
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -253,12 +266,16 @@ def rewrite_typed_outputs(dst_list, dst_yaml, typed, add_no_resolve_types=None):
     list_out = []
     yaml_out = ["payload:"]
     for t, v in typed:
+        # .list 跳过进程类（小火箭不支持）；.yaml 保留（桌面 Clash 支持）
+        skip_list = t in LIST_SKIP_TYPES
         if t in add_no_resolve_types:
-            list_out.append(f"{t},{v},no-resolve")
+            if not skip_list:
+                list_out.append(f"{t},{v},no-resolve")
             if t != "USER-AGENT":
                 yaml_out.append(f"  - {t},{v},no-resolve")
         else:
-            list_out.append(f"{t},{v}")
+            if not skip_list:
+                list_out.append(f"{t},{v}")
             if t != "USER-AGENT":
                 yaml_out.append(f"  - {t},{v}")
     write_lines(dst_list, list_out)
@@ -436,9 +453,11 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
         else:
             yaml_out.append(f"  - {t},{v}")
     write_lines(os.path.join(out_geosite, f"{tag}.yaml"), yaml_out)
-    # ── list（geosite 侧 IP 条目加 ,no-resolve）─────────────────────────
+    # ── list（geosite 侧 IP 条目加 ,no-resolve；跳过小火箭不支持的进程类）──
     list_out = []
     for t, v in all_lines:
+        if t in LIST_SKIP_TYPES:
+            continue
         if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
             list_out.append(f"{t},{v},no-resolve")
         else:
@@ -1191,9 +1210,11 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
         if (t, norm_value(t, v)) not in ip_seen
     ]
     all_typed = sort_typed_lines(existing + new_ip)
-    # 重写 list
+    # 重写 list（跳过小火箭不支持的进程类）
     list_out = []
     for t, v in all_typed:
+        if t in LIST_SKIP_TYPES:
+            continue
         if t in ("IP-CIDR", "IP-CIDR6", "IP-ASN"):
             list_out.append(f"{t},{v},no-resolve")
         else:
