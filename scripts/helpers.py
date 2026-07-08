@@ -106,25 +106,41 @@ TYPE_TO_BUCKET = {
     "USER-AGENT":             "user_agent",
 }
 
+# QuantumultX filter 支持的类型（据官方 sample.conf 核实）：
+#   HOST / HOST-SUFFIX / HOST-KEYWORD / HOST-WILDCARD / USER-AGENT /
+#   IP-CIDR / IP6-CIDR / IP-ASN / GEOIP
+# 注意：QX 的 IPv6 语法是 IP6-CIDR（不是 Clash 的 IP-CIDR6）；
+#       QX 无 DOMAIN-REGEX（只有 URL-REGEX，作用域不同，跳过）。
+QX_TYPE_MAP = {
+    "DOMAIN":          "HOST",
+    "DOMAIN-SUFFIX":   "HOST-SUFFIX",
+    "DOMAIN-KEYWORD":  "HOST-KEYWORD",
+    "DOMAIN-WILDCARD": "HOST-WILDCARD",
+    "IP-CIDR":         "IP-CIDR",
+    "IP-CIDR6":        "IP6-CIDR",
+    "IP-ASN":          "IP-ASN",
+    "USER-AGENT":      "USER-AGENT",
+}
+# 无 QX 对应类型的一律跳过（DOMAIN-REGEX、进程类）
 QX_SKIP_TYPES = {
     "DOMAIN-REGEX",
-    "DOMAIN-WILDCARD",
     "PROCESS-NAME",
     "PROCESS-NAME-WILDCARD",
     "PROCESS-NAME-REGEX",
     "PROCESS-PATH",
     "PROCESS-PATH-WILDCARD",
     "PROCESS-PATH-REGEX",
-    "USER-AGENT",
-    "IP-ASN",
 }
-QX_TYPE_MAP = {
-    "DOMAIN-SUFFIX":  "HOST-SUFFIX",
-    "DOMAIN":         "HOST",
-    "DOMAIN-KEYWORD": "HOST-KEYWORD",
-    "IP-CIDR":        "IP-CIDR",
-    "IP-CIDR6":       "IP-CIDR6",
-}
+
+def qx_line(t, v):
+    """把 (Clash 类型, 值) 转成一条 QuantumultX filter 行；QX 不支持的
+    类型返回 None。IP 类加 no-resolve（避免触发 DNS 解析）。"""
+    qt = QX_TYPE_MAP.get(t)
+    if not qt:
+        return None
+    if t in ("IP-CIDR", "IP-CIDR6"):
+        return f"{qt}, {v}, no-resolve"
+    return f"{qt}, {v}"
 JSON_SKIP_TYPES = {
     "DOMAIN-WILDCARD",
     "PROCESS-NAME",
@@ -147,11 +163,15 @@ MRS_SKIP_TYPES = {
     "USER-AGENT",
 }
 
-# geo/geosite/*.list 里要跳过的类型：进程类规则（Shadowrocket/小火箭
-# 不支持 PROCESS-*，导入即报错；这类进程名匹配对服务端分流规则集也无
-# 实际意义，json/srs/mrs/QX 早已跳过，此处让 .list 与它们对齐）。
-# 注意：.yaml 保留进程规则——桌面版 Clash（Verge/CFW）完整支持。
+# geo/geosite/*.list 供 Shadowrocket（小火箭）使用，跳过它不支持的类型：
+#   - 进程类 PROCESS-*：小火箭无进程规则；对服务端分流规则集也无意义
+#   - DOMAIN-REGEX：小火箭只有 URL-REGEX（作用于完整 URL），无 DOMAIN-REGEX，
+#     导入含 DOMAIN-REGEX 的 .list 会报错
+# 小火箭支持的其余类型（DOMAIN/-SUFFIX/-KEYWORD/-WILDCARD、USER-AGENT、
+# IP-CIDR/IP-CIDR6/IP-ASN）保留。
+# 注意：.yaml 保留全部类型——桌面版 Clash（Verge/CFW）完整支持进程/正则。
 LIST_SKIP_TYPES = {
+    "DOMAIN-REGEX",
     "PROCESS-NAME",
     "PROCESS-NAME-WILDCARD",
     "PROCESS-NAME-REGEX",
@@ -183,13 +203,16 @@ TYPE_ORDER = {
     "USER-AGENT": 13,
 }
 
-# QX 类型也纳入排序
+# QX 类型也纳入排序（用 QX 语法名；IPv6 是 IP6-CIDR）
 QX_TYPE_ORDER = {
     "HOST":            0,
     "HOST-SUFFIX":     1,
+    "HOST-WILDCARD":   2,
     "IP-CIDR":         3,
-    "IP-CIDR6":        3,
+    "IP6-CIDR":        3,
+    "IP-ASN":          4,
     "HOST-KEYWORD":    5,
+    "USER-AGENT":      6,
 }
 
 def sort_typed_lines(lines):
@@ -214,7 +237,7 @@ def sort_qx_lines(lines):
         t = parts[0].upper() if parts else ""
         v = parts[1] if len(parts) > 1 else ""
         order = QX_TYPE_ORDER.get(t, 99)
-        if t in ("IP-CIDR", "IP-CIDR6") and "/" in v:
+        if t in ("IP-CIDR", "IP6-CIDR") and "/" in v:
             try:
                 net = ipaddress.ip_network(v, strict=False)
                 is_v6 = 1 if net.version == 6 else 0
@@ -463,26 +486,14 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
         else:
             list_out.append(f"{t},{v}")
     write_lines(os.path.join(out_geosite, f"{tag}.list"), list_out)
-    # ── QX list（跳过 DOMAIN-REGEX / DOMAIN-WILDCARD / PROCESS-NAME 等）──
-    # geosite 侧 IP 条目加 ,no-resolve
+    # ── QX list（qx_line 统一映射 all_lines：HOST/HOST-SUFFIX/HOST-KEYWORD/
+    #    HOST-WILDCARD/IP-CIDR/IP6-CIDR/IP-ASN/USER-AGENT；DOMAIN-REGEX 与
+    #    进程类无 QX 对应，自动跳过。IP 加 no-resolve）──
     qx_out = []
-    for v in domain:
-        qx_out.append(f"HOST, {v}")
-    for v in suffix:
-        qx_out.append(f"HOST-SUFFIX, {v.lstrip('.')}")
-    for v in keyword:
-        qx_out.append(f"HOST-KEYWORD, {v}")
-    # wildcard: QX 不支持，跳过
-    # clash extras for QX（clash_extras 已去重，IP 加 no-resolve）
-    for t, v in clash_extras:
-        if t in QX_SKIP_TYPES:
-            continue
-        if t in ("IP-CIDR", "IP-CIDR6"):
-            qx_out.append(f"{t}, {v}, no-resolve")
-            continue
-        qx_t = QX_TYPE_MAP.get(t)
-        if qx_t:
-            qx_out.append(f"{qx_t}, {v}")
+    for t, v in all_lines:
+        line = qx_line(t, v)
+        if line:
+            qx_out.append(line)
     # 排序 QX 输出
     qx_out = sort_qx_lines(qx_out)
     write_lines(os.path.join(out_qx_geosite, f"{tag}.list"), qx_out)
@@ -575,13 +586,13 @@ def emit_geoip_tag(tag, ipcidr_lines, asn_lines, out_geoip, out_qx_geoip,
     # ── list（geoip 不加 no-resolve）──
     list_out = [f"{t},{v}" for t, v in typed]
     write_lines(os.path.join(out_geoip, f"{tag}.list"), list_out)
-    # ── QX list（跳过 ASN，加 no-resolve）──
+    # ── QX list（qx_line 映射：IP-CIDR/IP6-CIDR 加 no-resolve；QX 支持 IP-ASN）──
     qx_out = []
     for t, v in typed:
-        if t == "IP-ASN":
-            continue
-        qx_out.append(f"{t}, {v}, no-resolve")
-    write_lines(os.path.join(out_qx_geoip, f"{tag}.list"), qx_out)
+        line = qx_line(t, v)
+        if line:
+            qx_out.append(line)
+    write_lines(os.path.join(out_qx_geoip, f"{tag}.list"), sort_qx_lines(qx_out))
     # ── json ──
     sorted_cidrs = [v for t, v in typed if t in ("IP-CIDR", "IP-CIDR6")]
     rule = {"ip_cidr": sorted_cidrs} if sorted_cidrs else {}
@@ -957,20 +968,22 @@ def _norm_link_fmt(fmt, text, for_ip=False):
             # 去除 "  - " 前缀和引号后取第一字段
             prefix = s.lstrip("- ").strip().strip("'\"").split(",", 1)[0].strip().upper()
             if prefix in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD", "DOMAIN-REGEX",
-                          "DOMAIN-WILDCARD", "IP-CIDR", "IP-CIDR6", "IP-ASN",
+                          "DOMAIN-WILDCARD", "IP-CIDR", "IP-CIDR6", "IP6-CIDR", "IP-ASN",
                           "PROCESS-NAME", "PROCESS-NAME-WILDCARD", "PROCESS-NAME-REGEX",
                           "PROCESS-PATH", "PROCESS-PATH-WILDCARD", "PROCESS-PATH-REGEX",
                           "USER-AGENT",
-                          "HOST", "HOST-SUFFIX", "HOST-KEYWORD"}:
+                          "HOST", "HOST-SUFFIX", "HOST-KEYWORD", "HOST-WILDCARD"}:
                 return "clash"
         break
     return "ip-text" if for_ip else "domain-text"
 
 # QX 类型 → 标准 Clash 类型
 _QX_TYPE_REVERSE = {
-    "HOST":         "DOMAIN",
-    "HOST-SUFFIX":  "DOMAIN-SUFFIX",
-    "HOST-KEYWORD": "DOMAIN-KEYWORD",
+    "HOST":          "DOMAIN",
+    "HOST-SUFFIX":   "DOMAIN-SUFFIX",
+    "HOST-KEYWORD":  "DOMAIN-KEYWORD",
+    "HOST-WILDCARD": "DOMAIN-WILDCARD",
+    "IP6-CIDR":      "IP-CIDR6",
 }
 
 # 值本身可能含逗号的类型（远程行保留完整值；其余类型在首个逗号截断
@@ -1103,6 +1116,7 @@ def parse_remote_ip_entries(text, fmt):
             if len(parts) < 2:
                 continue
             t, v = parts[0].upper(), parts[1]
+            t = _QX_TYPE_REVERSE.get(t, t)  # QX IP6-CIDR → IP-CIDR6
             if t in ("IP-CIDR", "IP-CIDR6"):
                 add_cidr(v)
             elif t == "IP-ASN":
@@ -1115,6 +1129,7 @@ def parse_remote_ip_entries(text, fmt):
             if "," in s:
                 parts = [p.strip() for p in s.split(",", 2)]
                 t, v = parts[0].upper(), parts[1] if len(parts) > 1 else ""
+                t = _QX_TYPE_REVERSE.get(t, t)  # QX IP6-CIDR → IP-CIDR6
                 if not v:
                     continue
                 if t in ("IP-CIDR", "IP-CIDR6"):
@@ -1232,8 +1247,8 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
     write_lines(dst_yaml, yaml_out)
     _rebuild_geosite_json_from_list(dst_list, dst_json)
     srs_tasks.append(f"{dst_json}\t{dst_srs}")
-    # QX：IP-CIDR/IP-CIDR6 加 no-resolve，IP-ASN 跳过
-    qx_ip = [f"{t}, {v}, no-resolve" for t, v in ip_typed if t in ("IP-CIDR", "IP-CIDR6")]
+    # QX：IP-CIDR/IP6-CIDR 加 no-resolve，IP-ASN 保留（QX 支持）
+    qx_ip = [ln for t, v in ip_typed if (ln := qx_line(t, v))]
     if qx_ip:
         old_qx = read_lines(dst_qx)
         write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_ip))
@@ -1357,14 +1372,8 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
                 write_lines(mrs_src, mrs_lines)
                 mrs_tasks.append(f"domain\t{mrs_src}\t{dst_mrs}")
-            # QX 追加（跳过不支持类型）
-            qx_lines = []
-            for t, v in new_typed:
-                if t in QX_SKIP_TYPES:
-                    continue
-                qx_t = QX_TYPE_MAP.get(t)
-                if qx_t:
-                    qx_lines.append(f"{qx_t}, {v}")
+            # QX 追加（qx_line 统一映射，跳过 QX 不支持类型）
+            qx_lines = [ln for t, v in new_typed if (ln := qx_line(t, v))]
             if qx_lines:
                 old_qx = read_lines(dst_qx)
                 write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_lines))
@@ -1471,8 +1480,8 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
                 write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
-            # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
-            qx_new = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
+            # QX/geoip：qx_line 映射（IP 加 no-resolve，IP-ASN 保留），去重排序
+            qx_new = [ln for t, v in new_typed if (ln := qx_line(t, v))]
             if qx_new:
                 old_qx = read_lines(dst_qx)
                 write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_new))
@@ -1564,8 +1573,8 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
             write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
-        # QX/geoip：跳过 ASN，加 no-resolve，全量去重排序
-        qx_append = [f"{t}, {v}, no-resolve" for t, v in new_typed if t != "IP-ASN"]
+        # QX/geoip：qx_line 映射（IP 加 no-resolve，IP-ASN 保留），去重排序
+        qx_append = [ln for t, v in new_typed if (ln := qx_line(t, v))]
         if qx_append:
             old_qx = read_lines(dst_qx)
             write_lines(dst_qx, merge_sort_qx_lines(old_qx, qx_append))
