@@ -1146,10 +1146,10 @@ IP-CIDR, 52.48.0.0/14, no-resolve
 IP-CIDR, 34.248.0.0/13, no-resolve
 IP-CIDR, 35.160.0.0/13, no-resolve
 IP-CIDR, 34.208.0.0/12, no-resolve
-IP-CIDR6, 2620:10c:7000::/44, no-resolve
-IP-CIDR6, 2607:fb10::/32, no-resolve
-IP-CIDR6, 2a00:86c0::/32, no-resolve
-IP-CIDR6, 2a03:5640::/32, no-resolve
+IP6-CIDR, 2620:10c:7000::/44, no-resolve
+IP6-CIDR, 2607:fb10::/32, no-resolve
+IP6-CIDR, 2a00:86c0::/32, no-resolve
+IP6-CIDR, 2a03:5640::/32, no-resolve
 HOST-KEYWORD, apiproxy-device-prod-nlb-
 HOST-KEYWORD, dualstack.apiproxy-
 HOST-KEYWORD, dualstack.ichnaea-web-

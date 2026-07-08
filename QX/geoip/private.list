@@ -12,7 +12,7 @@ IP-CIDR, 0.0.0.0/8, no-resolve
 IP-CIDR, 10.0.0.0/8, no-resolve
 IP-CIDR, 127.0.0.0/8, no-resolve
 IP-CIDR, 224.0.0.0/3, no-resolve
-IP-CIDR6, ::/127, no-resolve
-IP-CIDR6, fe80::/10, no-resolve
-IP-CIDR6, ff00::/8, no-resolve
-IP-CIDR6, fc00::/7, no-resolve
+IP6-CIDR, ::/127, no-resolve
+IP6-CIDR, fe80::/10, no-resolve
+IP6-CIDR, ff00::/8, no-resolve
+IP6-CIDR, fc00::/7, no-resolve
