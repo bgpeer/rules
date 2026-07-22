@@ -190,6 +190,10 @@ payload:
   - DOMAIN-KEYWORD,cdn77
   - DOMAIN-KEYWORD,vercel
 
+  # 面板
+  - DOMAIN,board.zash.run.place
+  - DOMAIN-SUFFIX,run.place
+
   # ===== 👜亚马逊Amazon =====
   # Amazon 主站
   DOMAIN-SUFFIX,amazon.com,Amazon
@@ -270,10 +274,6 @@ payload:
   DOMAIN-SUFFIX,woot.com,Amazon
   # Zappos
   DOMAIN-SUFFIX,zappos.com,Amazon
-
-  # 面板
-  - DOMAIN,board.zash.run.place
-  - DOMAIN-SUFFIX,run.place
 
   # 美国运营商
   # ===== Red Pocket =====
