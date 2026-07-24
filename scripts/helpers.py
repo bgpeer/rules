@@ -247,6 +247,14 @@ def sort_qx_lines(lines):
         return (order, 0, 0, v.lower())
     return sorted(lines, key=qx_key)
 
+def sort_cidr_values(values):
+    """对纯 CIDR 值列表按与 yaml/list 相同的规则排序：
+    IPv4 在前、IPv6 在后；同族内按前缀长度降序（/32→/24→/16→/8，精确在前）。
+    所有 mrs 源文件写入前必须经过此排序（在 normalize_cidrs 之后调用，
+    保证排序作用于最终写入的规范化值），使 mrs 与 yaml 排序一致。"""
+    typed = [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in values]
+    return [v for _, v in sort_typed_lines(typed)]
+
 def merge_sort_qx_lines(old_lines, new_lines):
     """合并 QX 行，去重后重新排序"""
     seen = set()
@@ -501,47 +509,9 @@ def emit_geosite_tag(tag, buckets, clash_yaml, out_geosite,
     # sing-box domain_suffix 用裸形式（无前导点）：".x" 只匹配子域名，
     # 裸 "x" 才同时匹配主域名 + 子域名，与 DOMAIN-SUFFIX 语义一致
     # （已用 sing-box rule-set match 实测验证）
-    j_suffix = [v.lstrip(".") for v in suffix]
-    j_domain = list(domain)
-    j_keyword = list(keyword)
-    j_regexp = list(regexp)
-    # wildcard: json/srs 不支持，跳过
-    j_cidrs = []  # IP 条目从 clash_extras 获取（与 yaml/list 一致）
-    for t, v in clash_extras:
-        if t in JSON_SKIP_TYPES:
-            continue
-        if t == "DOMAIN-SUFFIX":
-            j_suffix.append(v.lstrip("."))
-        elif t == "DOMAIN":
-            j_domain.append(v)
-        elif t == "DOMAIN-KEYWORD":
-            j_keyword.append(v)
-        elif t == "DOMAIN-REGEX":
-            j_regexp.append(v)
-        elif t in ("IP-CIDR", "IP-CIDR6"):
-            j_cidrs.append(v)
-    # 去重（clash_extras 内 IP 条目大小写可能不一致）
-    if j_cidrs:
-        seen_cidr = set()
-        deduped = []
-        for v in j_cidrs:
-            k = v.lower()
-            if k not in seen_cidr:
-                seen_cidr.add(k)
-                deduped.append(v)
-        j_cidrs = deduped
-    # json 按 key 顺序排列（domain → domain_suffix → ip_cidr → domain_keyword → domain_regex）
-    rule = {}
-    if j_domain:   rule["domain"]         = j_domain
-    if j_suffix:   rule["domain_suffix"]  = j_suffix
-    if j_cidrs:    rule["ip_cidr"]        = j_cidrs
-    if j_keyword:  rule["domain_keyword"] = j_keyword
-    if j_regexp:   rule["domain_regex"]   = j_regexp
+    # 从已排序的 all_lines 提取，保证 json/srs 与 yaml/list/mrs 排序一致
     json_path = os.path.join(out_geosite, f"{tag}.json")
-    with open(json_path, "w") as f:
-        json.dump({"version": 3, "rules": [rule] if rule else []},
-                  f, ensure_ascii=False, separators=(",", ":"))
-        f.write("\n")
+    _build_geosite_json_from_typed(all_lines, json_path)
     # ── mrs 源文件（domain 在前，suffix 在后，从已排序的 all_lines 提取）────
     mrs_src = os.path.join(workdir, "gs_mrs", f"{tag}.txt")
     os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
@@ -772,12 +742,11 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                     if nv not in merged_cidr_seen:
                         merged_cidr_seen.add(nv)
                         merged_cidr.append(v)
-        # mrs 用合并后数据（解析→去重→排序→写入，IPv4 在前，IPv6 在后）
+        # mrs 用合并后数据（去重→规范化→按 yaml 同规则排序→写入）
         if merged_cidr:
-            merged_cidr.sort(key=lambda v: (0 if ":" not in v else 1, v))
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, normalize_cidrs(merged_cidr))
+            write_lines(mrs_src, sort_cidr_values(normalize_cidrs(merged_cidr)))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         ok += 1
@@ -810,12 +779,10 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                     ipcidr.append(v)
         if not ipcidr:
             continue
-        cidr_typed = sort_typed_lines([(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in ipcidr])
-        cidr_only = [v for t, v in cidr_typed]
         print(f"[GEOSITE-IP] geoip/{tag}.mrs <- geosite 侧 IP 溢出 (mrs only)")
         mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
         os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-        write_lines(mrs_src, normalize_cidrs(cidr_only))
+        write_lines(mrs_src, sort_cidr_values(normalize_cidrs(ipcidr)))
         mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         spill_ok += 1
@@ -1162,26 +1129,28 @@ _BUCKET_TO_TYPE = {
     "user_agent":             "USER-AGENT",
 }
 
-def _read_geosite_list_seen(list_path):
-    """读取 geo/geosite/<tag>.list，返回 {type: set(norm_value)} 用于去重"""
-    seen = {}
-    for line in read_lines(list_path):
-        # 格式: TYPE,value 或 TYPE,value,no-resolve
-        tv = split_rule_line(line)
-        if not tv or not tv[1]:
-            continue
-        t, v = tv
-        seen.setdefault(t, set()).add(norm_value(t, v))
-    return seen
+def read_geosite_full_typed(list_path, yaml_path):
+    """读取某 geosite tag 的全量已有条目 [(type, value), ...] 作为合并基准。
+    单个文件都不是全量：.list 缺 LIST_SKIP_TYPES（DOMAIN-REGEX/进程类），
+    .yaml 缺 USER-AGENT——必须取两者并集，否则追加路径重写文件时会丢条目。"""
+    merged = []
+    seen = set()
+    for t, v in read_typed_list(list_path) + parse_clash_entries(yaml_path):
+        key = (t, norm_value(t, v))
+        if key not in seen:
+            seen.add(key)
+            merged.append((t, v))
+    return merged
 
-def _rebuild_geosite_json_from_list(list_path, json_path):
-    """从 geo/geosite/<tag>.list 全量重建 .json（sing-box v3）"""
+def _build_geosite_json_from_typed(typed, json_path):
+    """从内存中已排序的 typed 行全量构建 .json（sing-box v3）。
+    必须用 typed 数据而非回读 .list：.list 为小火箭兼容跳过了
+    LIST_SKIP_TYPES（含 DOMAIN-REGEX），从 .list 重建会丢 domain_regex。
+    sing-box json/srs 不支持的类型（wildcard/进程类/USER-AGENT/IP-ASN）
+    在此按类型提取时自然跳过。"""
     j_domain, j_suffix, j_keyword, j_regexp, j_cidrs = [], [], [], [], []
-    for line in read_lines(list_path):
-        tv = split_rule_line(line)
-        if not tv or not tv[1]:
-            continue
-        t, v = tv
+    seen_cidr = set()
+    for t, v in typed:
         if t == "DOMAIN":
             j_domain.append(v)
         elif t == "DOMAIN-SUFFIX":
@@ -1192,7 +1161,10 @@ def _rebuild_geosite_json_from_list(list_path, json_path):
         elif t == "DOMAIN-REGEX":
             j_regexp.append(v)
         elif t in ("IP-CIDR", "IP-CIDR6"):
-            j_cidrs.append(v)
+            k = v.lower()
+            if k not in seen_cidr:
+                seen_cidr.add(k)
+                j_cidrs.append(v)
     rule = {}
     if j_domain:   rule["domain"]          = j_domain
     if j_suffix:   rule["domain_suffix"]   = j_suffix
@@ -1212,8 +1184,8 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
     dst_json = os.path.join(out_geosite, f"{name}.json")
     dst_srs  = os.path.join(out_geosite, f"{name}.srs")
     dst_qx   = os.path.join(out_qx_geosite, f"{name}.list")
-    # 读取已有 list 条目，与新 IP 合并后重新排序
-    existing = read_typed_list(dst_list)
+    # 读取已有全量条目（list+yaml 并集），与新 IP 合并后重新排序
+    existing = read_geosite_full_typed(dst_list, dst_yaml)
     ip_seen = {
         (t, norm_value(t, v))
         for t, v in existing
@@ -1245,7 +1217,7 @@ def _append_ip_to_geosite(name, ip_typed, out_geosite, out_qx_geosite,
         else:
             yaml_out.append(f"  - {t},{v}")
     write_lines(dst_yaml, yaml_out)
-    _rebuild_geosite_json_from_list(dst_list, dst_json)
+    _build_geosite_json_from_typed(all_typed, dst_json)
     srs_tasks.append(f"{dst_json}\t{dst_srs}")
     # QX：IP-CIDR/IP6-CIDR 加 no-resolve，IP-ASN 保留（QX 支持）
     qx_ip = [ln for t, v in ip_typed if (ln := qx_line(t, v))]
@@ -1304,9 +1276,13 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
             [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in all_cidr] +
             [("IP-ASN", v) for v in all_asn]
         )
-        # ── 对比已有 .list 去重 ──────────────────────────────────────────────
+        # ── 对比已有条目去重（list+yaml 并集，.list 无 DOMAIN-REGEX）─────────
         exist_list = os.path.join(out_geosite, f"{name}.list")
-        exist_seen = _read_geosite_list_seen(exist_list)  # {} if file absent
+        exist_yaml_path = os.path.join(out_geosite, f"{name}.yaml")
+        exist_typed = read_geosite_full_typed(exist_list, exist_yaml_path)
+        exist_seen = {}  # {} if files absent
+        for t, v in exist_typed:
+            exist_seen.setdefault(t, set()).add(norm_value(t, v))
         new_buckets = {k: [] for k in raw_buckets}
         for bkey, vals in raw_buckets.items():
             t = _BUCKET_TO_TYPE.get(bkey, bkey.upper())
@@ -1349,15 +1325,15 @@ def cmd_batch_domain_link(link_json_path, out_geosite, out_qx_geosite,
                     new_typed.append((t, v))
             new_typed = sort_typed_lines(new_typed)
             # geo/geosite：合并新增域名后，全量去重排序并重写 yaml/list
-            all_typed = merge_sort_typed_lines(read_typed_list(dst_list), new_typed)
+            all_typed = merge_sort_typed_lines(exist_typed, new_typed)
             rewrite_typed_outputs(
                 dst_list,
                 dst_yaml,
                 all_typed,
                 add_no_resolve_types={"IP-CIDR", "IP-CIDR6", "IP-ASN"},
             )
-            # json 从全量 list 重建
-            _rebuild_geosite_json_from_list(dst_list, dst_json)
+            # json 从内存中的全量排序数据重建（.list 无 DOMAIN-REGEX，不可回读）
+            _build_geosite_json_from_typed(all_typed, dst_json)
             srs_tasks.append(f"{dst_json}\t{dst_srs}")
             # mrs 全量重建（domain + suffix）
             mrs_lines = []
@@ -1445,7 +1421,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
+                write_lines(mrs_src, sort_cidr_values(normalize_cidrs(mrs_cidrs)))
                 mrs_tasks.append(
                     f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
                 )
@@ -1478,7 +1454,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
+                write_lines(mrs_src, sort_cidr_values(normalize_cidrs(mrs_cidrs)))
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
             # QX/geoip：qx_line 映射（IP 加 no-resolve，IP-ASN 保留），去重排序
             qx_new = [ln for t, v in new_typed if (ln := qx_line(t, v))]
@@ -1571,7 +1547,7 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
         if mrs_cidrs:
             mrs_src = os.path.join(workdir, "ci_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
+            write_lines(mrs_src, sort_cidr_values(normalize_cidrs(mrs_cidrs)))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
         # QX/geoip：qx_line 映射（IP 加 no-resolve，IP-ASN 保留），去重排序
         qx_append = [ln for t, v in new_typed if (ln := qx_line(t, v))]
