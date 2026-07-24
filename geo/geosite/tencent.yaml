@@ -2812,3 +2812,28 @@ payload:
   - DOMAIN-KEYWORD,weixin
   - DOMAIN-KEYWORD,wildrift
   - DOMAIN-KEYWORD,wxapp
+  - DOMAIN-REGEX,(?i)(^|\\.)extshort\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)game\\.gtimg\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\\.)lolm\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)lolma\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)lolmconn\\d+\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)mp\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)msdk\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)mta\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)open\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)servicewechat\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)short\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)szminorshort\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)szshort\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)tenpay\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)wx\\.tenpay\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)wximg\\.qq\\.com$
+  - PROCESS-NAME,WeChat.exe
+  - PROCESS-NAME,WeChatApp.exe
+  - PROCESS-NAME,com.tencent.lolm
+  - PROCESS-NAME,com.tencent.mm
+  - PROCESS-NAME-WILDCARD,WeChat*.exe
+  - PROCESS-NAME-WILDCARD,com.tencent.lolm*
+  - PROCESS-NAME-WILDCARD,com.tencent.mm*
+  - PROCESS-NAME-WILDCARD,wechat*.exe
