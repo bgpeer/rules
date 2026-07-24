@@ -247,6 +247,14 @@ def sort_qx_lines(lines):
         return (order, 0, 0, v.lower())
     return sorted(lines, key=qx_key)
 
+def sort_cidr_values(values):
+    """对纯 CIDR 值列表按与 yaml/list 相同的规则排序：
+    IPv4 在前、IPv6 在后；同族内按前缀长度降序（/32→/24→/16→/8，精确在前）。
+    所有 mrs 源文件写入前必须经过此排序（在 normalize_cidrs 之后调用，
+    保证排序作用于最终写入的规范化值），使 mrs 与 yaml 排序一致。"""
+    typed = [(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in values]
+    return [v for _, v in sort_typed_lines(typed)]
+
 def merge_sort_qx_lines(old_lines, new_lines):
     """合并 QX 行，去重后重新排序"""
     seen = set()
@@ -772,12 +780,11 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                     if nv not in merged_cidr_seen:
                         merged_cidr_seen.add(nv)
                         merged_cidr.append(v)
-        # mrs 用合并后数据（解析→去重→排序→写入，IPv4 在前，IPv6 在后）
+        # mrs 用合并后数据（去重→规范化→按 yaml 同规则排序→写入）
         if merged_cidr:
-            merged_cidr.sort(key=lambda v: (0 if ":" not in v else 1, v))
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, normalize_cidrs(merged_cidr))
+            write_lines(mrs_src, sort_cidr_values(normalize_cidrs(merged_cidr)))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         ok += 1
@@ -810,12 +817,10 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                     ipcidr.append(v)
         if not ipcidr:
             continue
-        cidr_typed = sort_typed_lines([(("IP-CIDR6" if ":" in v else "IP-CIDR"), v) for v in ipcidr])
-        cidr_only = [v for t, v in cidr_typed]
         print(f"[GEOSITE-IP] geoip/{tag}.mrs <- geosite 侧 IP 溢出 (mrs only)")
         mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
         os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-        write_lines(mrs_src, normalize_cidrs(cidr_only))
+        write_lines(mrs_src, sort_cidr_values(normalize_cidrs(ipcidr)))
         mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         spill_ok += 1
@@ -1445,7 +1450,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
+                write_lines(mrs_src, sort_cidr_values(normalize_cidrs(mrs_cidrs)))
                 mrs_tasks.append(
                     f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{name}.mrs')}"
                 )
@@ -1478,7 +1483,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             if mrs_cidrs:
                 mrs_src = os.path.join(workdir, "il_mrs", f"{name}.txt")
                 os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-                write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
+                write_lines(mrs_src, sort_cidr_values(normalize_cidrs(mrs_cidrs)))
                 mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
             # QX/geoip：qx_line 映射（IP 加 no-resolve，IP-ASN 保留），去重排序
             qx_new = [ln for t, v in new_typed if (ln := qx_line(t, v))]
@@ -1571,7 +1576,7 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
         if mrs_cidrs:
             mrs_src = os.path.join(workdir, "ci_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, normalize_cidrs(mrs_cidrs))
+            write_lines(mrs_src, sort_cidr_values(normalize_cidrs(mrs_cidrs)))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{dst_mrs}")
         # QX/geoip：qx_line 映射（IP 加 no-resolve，IP-ASN 保留），去重排序
         qx_append = [ln for t, v in new_typed if (ln := qx_line(t, v))]
