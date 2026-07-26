@@ -81,6 +81,44 @@ https://github.com/bgpeer/rules/tree/main/QX
 
 ---
 
+## 🛡️ adguard/ads.txt — DNS 层去广告名单（AdGuard Home / Pi-hole）
+
+给**装不了代理客户端的设备**用：智能电视、盒子、IoT、路由器，或安卓「私人 DNS」全系统去广告。
+挂着代理的设备本来就靠规则集里的 `category-ads-all` 拦广告，这份补的是「不挂代理」的场景。
+
+**订阅地址：**
+
+```
+https://raw.githubusercontent.com/bgpeer/rules/main/adguard/ads.txt
+```
+
+AdGuard Home 后台 → 过滤器 → DNS 拦截列表 → 添加黑名单，粘贴上面的地址即可。随主流水线每天 02:10 更新。
+
+**为什么要单独出这一份**：AdGuard Home / Pi-hole 只认 adblock(`||domain^`) 或 hosts 语法，
+本仓库现有的三种格式它**一种都读不了**——`.mrs` 是 zstd 压缩的二进制，`.yaml` / `.list` 是
+Clash 的 `DOMAIN-SUFFIX,x` 语法。
+
+**为什么只转 `category-ads-all` 一个**：其余 1500+ 个 geosite 是**分流**名单（`cn`、`google`、
+`netflix`…），回答的是「走哪个代理组」；AdGuard 没有这个概念，只能拦或放。把 `google.list`
+转进去等于**把 Google 全拦了**，与本意相反。只有拦截类转过去才有意义，而它们当中
+`category-ads-all` 占了 99%。
+
+**转换是无损的**：源文件 100% 为 `DOMAIN-SUFFIX`，而
+
+```
+DOMAIN-SUFFIX,foo.com   ≡   ||foo.com^        # 都是「该域名 + 它的所有子域」
+```
+
+语义严格对等，不是近似。生成由 `scripts/build_adguard_ads.sh` 完成，内含校验：源文件缺失/为空、
+上游混入非 `DOMAIN-SUFFIX` 类型、规则数与源不符或低于下限、抽查广告域缺失——任一条都会让
+工作流失败，避免悄悄产出一份空名单（空名单不报错，但等于完全没有拦截，是最难发现的故障）。
+
+> 💡 这份仍以欧美广告为主，**国内广告拦不住**。要补这块，在 AdGuard 后台
+> 「添加黑名单 → 从列表中选择」里勾 `CHN: anti-AD` 或 `CHN: AdRules DNS List`，两者选其一即可
+> （互相重叠严重，且 AdGuard 是把规则全量读进内存的，小内存机器别堆太多）。
+
+---
+
 ## 🔗 远程规则订阅
 
 ### clash/DOMAIN-Link.json — 远程规则订阅（全类型）
