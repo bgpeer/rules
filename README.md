@@ -103,15 +103,27 @@ Clash 的 `DOMAIN-SUFFIX,x` 语法。
 转进去等于**把 Google 全拦了**，与本意相反。只有拦截类转过去才有意义，而它们当中
 `category-ads-all` 占了 99%。
 
-**转换是无损的**：源文件 100% 为 `DOMAIN-SUFFIX`，而
+**包含自建同名文件与远程同名链接的插入**：本文件的输入是**合并后的最终产物**。
+`sync_loy_geo_mrs.sh` 先在 `[4/7]` 融合 `clash/category-ads-all.yaml`（自建同名）、
+在 `[4b/7]` 融合 `DOMAIN-Link.json` 里 `name` 为 `category-ads-all` 的远程链接，
+转换步骤在其之后运行——所以你插入的规则都会进 `ads.txt`。
 
-```
-DOMAIN-SUFFIX,foo.com   ≡   ||foo.com^        # 都是「该域名 + 它的所有子域」
-```
+**规则类型映射**（`.list` 保留全部类型，故按类型分别处理）：
 
-语义严格对等，不是近似。生成由 `scripts/build_adguard_ads.sh` 完成，内含校验：源文件缺失/为空、
-上游混入非 `DOMAIN-SUFFIX` 类型、规则数与源不符或低于下限、抽查广告域缺失——任一条都会让
-工作流失败，避免悄悄产出一份空名单（空名单不报错，但等于完全没有拦截，是最难发现的故障）。
+| 源类型 | 转换结果 | 说明 |
+| --- | --- | --- |
+| `DOMAIN-SUFFIX,foo.com` | `\|\|foo.com^` | 语义**严格对等**（该域名 + 所有子域） |
+| `DOMAIN,foo.com` | `\|\|foo.com^` | 略宽：adblock 无「仅精确域名」的干净写法，会连子域一起拦 |
+| `DOMAIN-KEYWORD,foo` | `foo` | adblock 无锚点即子串匹配，与 KEYWORD 语义一致 |
+| `DOMAIN-REGEX` | ⚠️ 跳过 | Go RE2 与 AdGuard 正则方言不同，错译比不译更糟（mrs / QX 同样跳过） |
+| `IP-CIDR` / `IP-ASN` / `PROCESS-NAME` 等 | ⚠️ 跳过 | DNS 层拦截没有 IP / 进程的概念 |
+
+产出会按首次出现顺序去重，`DOMAIN` 与 `DOMAIN-SUFFIX` 指向同一域名不会产生重复行。
+
+生成由 `scripts/build_adguard_ads.sh` 完成，内含校验：源文件缺失/为空、产出条数超过可转换条数、
+规则数低于下限、抽查广告域缺失——任一条都会让工作流失败，避免悄悄产出一份空名单
+（空名单不报错，但等于完全没有拦截，是最难发现的故障）。出现未知规则类型只告警不失败，
+以免连累 mrs/srs/QX 等其余格式的当日更新。
 
 > 💡 这份仍以欧美广告为主，**国内广告拦不住**。要补这块，在 AdGuard 后台
 > 「添加黑名单 → 从列表中选择」里勾 `CHN: anti-AD` 或 `CHN: AdRules DNS List`，两者选其一即可
