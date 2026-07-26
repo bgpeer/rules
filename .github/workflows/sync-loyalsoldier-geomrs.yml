@@ -11,6 +11,7 @@ on:
       - ".github/workflows/sync-loyalsoldier-geomrs.yml"
       - "scripts/sync_loy_geo_mrs.sh"
       - "scripts/helpers.py"
+      - "scripts/build_adguard_ads.sh"
       - "trigger"
 
 permissions:
@@ -204,6 +205,16 @@ jobs:
           chmod +x scripts/sync_loy_geo_mrs.sh
           scripts/sync_loy_geo_mrs.sh
 
+      # ── AdGuard/Pi-hole 去广告名单（给不挂代理的设备用）──────────────────
+      # 只由 category-ads-all 生成这一个文件；其余 geosite 是分流名单，
+      # AdGuard 没有「走哪个代理组」的概念，转过去反而会把正常站点拦掉。
+      # 脚本内含校验，产出为空/规则丢失/上游格式变了都会让本步骤失败。
+      - name: Build AdGuard ads list
+        run: |
+          set -eux
+          chmod +x scripts/build_adguard_ads.sh
+          scripts/build_adguard_ads.sh
+
       # ── 调试输出 ─────────────────────────────────────────────────────────
       - name: Show outputs (debug)
         run: |
@@ -218,6 +229,7 @@ jobs:
           echo "geosite srs  : $(find geo/geosite -name '*.srs'  | wc -l)"
           echo "geoip   mrs  : $(find geo/geoip   -name '*.mrs'  | wc -l)"
           echo "qx geosite   : $(find QX/geosite  -name '*.list' | wc -l)"
+          echo "adguard ads  : $(grep -c '^||' adguard/ads.txt || echo 0) 条"
           git status --porcelain || true
 
           echo "=== douyin IP debug ==="
@@ -240,7 +252,7 @@ jobs:
           # 把基座换成远端最新（reset --mixed 保留工作区产物），只重新
           # 提交产物目录即可，浅克隆下也不需要 merge-base
           for i in 1 2 3 4 5; do
-            git add -A geo/geosite geo/geoip QX
+            git add -A geo/geosite geo/geoip QX adguard
 
             if git diff --cached --quiet; then
               echo "No changes to commit."
