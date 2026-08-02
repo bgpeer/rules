@@ -1,0 +1,82 @@
+payload:
+  # 📱 新增进程名匹配
+  - PROCESS-NAME,com.google.android.apps.docs
+  - PROCESS-NAME,com.google.android.apps.photos
+  - PROCESS-NAME,com.google.android.apps.translate
+  - PROCESS-NAME,com.google.android.gm
+  - PROCESS-NAME,com.google.android.gms.persistent
+  - PROCESS-NAME,com.google.android.googlequicksearchbox
+  - PROCESS-NAME,com.google.android.inputmethod.latin
+  - PROCESS-NAME,com.google.android.tts
+  - PROCESS-NAME,com.google.android.youtube
+  - PROCESS-NAME,com.google.android.gms.unstable
+  - PROCESS-NAME,com.google.android.gms.ui
+  - PROCESS-NAME,com.google.android.gsf.login
+  - PROCESS-NAME,com.google.android.apps.maps
+  - PROCESS-NAME,com.google.android.apps.assistant
+  - PROCESS-NAME,com.google.android.as
+  - PROCESS-NAME,com.google.android.apps.tachyon
+  - PROCESS-NAME,com.google.android.calendar
+  - PROCESS-NAME,com.google.android.apps.subscriptions.red
+  - PROCESS-NAME,GoogleUpdate.exe
+  - PROCESS-NAME,GoogleCrashHandler.exe
+
+  # 🌐 新增域名后缀规则
+  - DOMAIN-SUFFIX,download.qatp1.net
+  - DOMAIN-SUFFIX,ggpht.com
+  - DOMAIN-SUFFIX,googlevideo.com
+  - DOMAIN-SUFFIX,monitoring.qpdp1.net
+  - DOMAIN-SUFFIX,qagpublic.qatp1.net
+  - DOMAIN-SUFFIX,qgadmin.qcpp1.net
+  - DOMAIN-SUFFIX,qualysapi.qatp1.net
+  - DOMAIN-SUFFIX,qualysguard.qpdp1.net
+  - DOMAIN-SUFFIX,scanservice1.qcpp1.net
+  - DOMAIN-SUFFIX,youtu.be
+  - DOMAIN-SUFFIX,youtube.com
+  - DOMAIN-SUFFIX,youtube-nocookie.com
+  - DOMAIN-SUFFIX,ytapi.com
+  - DOMAIN-SUFFIX,ytimg.com
+
+  # Google Pay 核心支付网关
+  - DOMAIN,pay.google.com
+  - DOMAIN,payments.google.com
+  - DOMAIN-SUFFIX,gstatic.com
+
+  # 📺YouTube规则
+  - DOMAIN-SUFFIX,wide-youtube.l.google.com
+  - DOMAIN-SUFFIX,youtube-ui.l.google.com
+  - DOMAIN-SUFFIX,youtube.googleapis.com
+  - DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
+  - DOMAIN-SUFFIX,youtubei.googleapis.com
+
+  # 🤖 Gemini / Google AI 新增规则
+  - DOMAIN-SUFFIX,gemini.google
+  - DOMAIN-SUFFIX,deepmind.google
+
+  # 🔑 新增域名关键词规则
+  - DOMAIN-KEYWORD,gstatic
+  - DOMAIN-KEYWORD,youtube
+  - DOMAIN-KEYWORD,ytimg
+  - DOMAIN-KEYWORD,generativelanguage
+  - DOMAIN-KEYWORD,gemini
+
+  # 🌐 新增 IP-ASN 规则
+  - IP-ASN,15169
+  - IP-ASN,396982
+
+  # 🤖 Gemini 新增进程名
+  - PROCESS-NAME,com.google.android.apps.bard
+  - PROCESS-NAME,com.google.android.apps.gemini
+  - PROCESS-NAME,Gemini
+  - PROCESS-NAME,Gemini.exe
+  - PROCESS-NAME,gemini
+  - PROCESS-NAME,gemini.exe
+  - PROCESS-NAME-WILDCARD,*Gemini*
+  - PROCESS-NAME-WILDCARD,*gemini*
+  - PROCESS-NAME-WILDCARD,*google*bard*
+  - PROCESS-NAME-WILDCARD,*google*gemini*
+
+  # 🧩 Google 进程正则兜底
+  - PROCESS-NAME-REGEX,(?i)^com\.google\.android\..+$
+  - PROCESS-NAME-REGEX,(?i)^com\.android\.vending$
+  - PROCESS-NAME-REGEX,(?i)^com\.google\.android\.gms(\..+)?$

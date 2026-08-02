@@ -1,0 +1,136 @@
+payload:
+  # 💬 WeChat / Weixin（微信）
+  - PROCESS-NAME,com.tencent.mm
+  - PROCESS-NAME-WILDCARD,com.tencent.mm*
+  - PROCESS-NAME,WeChat.exe
+  - PROCESS-NAME,WeChatApp.exe
+  - PROCESS-NAME-WILDCARD,WeChat*.exe
+  - PROCESS-NAME-WILDCARD,wechat*.exe
+  # ---- 登录 / OAuth / OpenAPI ----
+  - DOMAIN-SUFFIX,open.weixin.qq.com
+  - DOMAIN-SUFFIX,open.wechat.com
+  - DOMAIN-SUFFIX,weixin.qq.com
+  - DOMAIN-SUFFIX,wechat.com
+  - DOMAIN-SUFFIX,wx.qq.com
+  - DOMAIN,login.wx.qq.com
+  - DOMAIN,res.wx.qq.com
+  # ---- 核心通讯 / 基础域 ----
+  - DOMAIN-SUFFIX,weixin.com
+  - DOMAIN-SUFFIX,wx2.qq.com
+  - DOMAIN-SUFFIX,wx8.qq.com
+  - DOMAIN-SUFFIX,wx.qq.com
+  - DOMAIN-SUFFIX,wx-cdn.qq.com
+  - DOMAIN-SUFFIX,tc.mobileqq.com
+  - DOMAIN-SUFFIX,tc.qq.com
+  # 推送/短链/唤醒（很关键，尤其海外/FCM场景）
+  - DOMAIN,short.weixin.qq.com
+  - DOMAIN,extshort.weixin.qq.com
+  - DOMAIN,szshort.weixin.qq.com
+  - DOMAIN,szminorshort.weixin.qq.com
+  - DOMAIN-SUFFIX,short.weixin.qq.com
+  - DOMAIN-SUFFIX,extshort.weixin.qq.com
+  - DOMAIN-SUFFIX,szshort.weixin.qq.com
+  - DOMAIN-SUFFIX,szminorshort.weixin.qq.com
+  - DOMAIN-SUFFIX,dns.weixin.qq.com
+  # ---- 公众号 / 小程序 / 平台能力 ----
+  - DOMAIN,mp.weixin.qq.com
+  - DOMAIN-SUFFIX,mp.weixin.qq.com
+  - DOMAIN-SUFFIX,servicewechat.com
+  - DOMAIN-SUFFIX,miniprogram.qq.com
+  - DOMAIN-SUFFIX,wxapp.tc.qq.com
+  - DOMAIN-SUFFIX,developers.weixin.qq.com
+  - DOMAIN-SUFFIX,wxbridge.com
+  - DOMAIN-SUFFIX,weixinbridge.com
+  # ---- 图片/视频/文件/语音/CDN ----
+  - DOMAIN-SUFFIX,wximg.qq.com
+  - DOMAIN-SUFFIX,qpic.cn
+  - DOMAIN-SUFFIX,gtimg.cn
+  - DOMAIN-SUFFIX,gtimg.com
+  - DOMAIN-SUFFIX,qlogo.cn
+  - DOMAIN-SUFFIX,wechatfile.com
+  - DOMAIN-SUFFIX,wechatapp.com
+  - DOMAIN-SUFFIX,voice.weixin.qq.com
+  - DOMAIN-SUFFIX,file.wx2.qq.com
+  - DOMAIN-SUFFIX,vweixinf.tc.qq.com
+  # ---- 客服 / 安全 / 反诈 / 支持 ----
+  - DOMAIN-SUFFIX,support.weixin.qq.com
+  - DOMAIN-SUFFIX,kf.qq.com
+  - DOMAIN-SUFFIX,weixin110.qq.com
+  - DOMAIN-SUFFIX,security.wechat.com
+  # ---- 微信支付 / 商户 / 收银台 ----
+  - DOMAIN-SUFFIX,tenpay.com
+  - DOMAIN,wx.tenpay.com
+  - DOMAIN-SUFFIX,wx.tenpay.com
+  - DOMAIN-SUFFIX,mch.weixin.qq.com
+  - DOMAIN-SUFFIX,unipay.qq.com
+  - DOMAIN-SUFFIX,wechatpay.com
+  - DOMAIN-SUFFIX,weixinpay.com
+  # ---- 关键词（尽量少而准）----
+  - DOMAIN-KEYWORD,wechat
+  - DOMAIN-KEYWORD,weixin
+  - DOMAIN-KEYWORD,wxapp
+  - DOMAIN-KEYWORD,tenpay
+  # ---- 正则兜底（高命中，控制误伤）----
+  - DOMAIN-REGEX,(?i)(^|\\.)weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)open\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)mp\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)servicewechat\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)wximg\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)tenpay\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)wx\\.tenpay\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)short\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)extshort\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)szshort\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)szminorshort\\.weixin\\.qq\\.com$
+  # ---- ASN（腾讯相关）----
+  - IP-ASN,132203
+  - IP-ASN,45090
+  # ---- IP（可选：偏激进，想更“全”才加）----
+  - IP-CIDR,1.12.0.0/14,no-resolve
+
+  # 🎮 LOLM 国服（英雄联盟手游 / 腾讯代理）
+  - PROCESS-NAME,com.tencent.lolm
+  - PROCESS-NAME-WILDCARD,com.tencent.lolm*
+  # ---- 游戏核心域名 ----
+  - DOMAIN-SUFFIX,lolmaclient.qq.com
+  - DOMAIN-SUFFIX,lolm.qq.com
+  - DOMAIN-SUFFIX,lolma.qq.com
+  - DOMAIN-SUFFIX,lolmconn1.qq.com
+  - DOMAIN-SUFFIX,lolmconn2.qq.com
+  - DOMAIN-SUFFIX,lolmconn3.qq.com
+  - DOMAIN-SUFFIX,lolmconn4.qq.com
+  - DOMAIN-SUFFIX,lolmconn5.qq.com
+  - DOMAIN-SUFFIX,lolmconn6.qq.com
+  # ---- 登录/统计/SDK ----
+  - DOMAIN-SUFFIX,msdk.qq.com
+  - DOMAIN-SUFFIX,mta.qq.com
+  - DOMAIN-SUFFIX,gamesdk.qq.com
+  - DOMAIN-SUFFIX,gameguardian.qq.com
+  # ---- 资源/下载/静态 ----
+  - DOMAIN-SUFFIX,game.gtimg.cn
+  - DOMAIN-SUFFIX,tcdn.qq.com
+  - DOMAIN-SUFFIX,qpic.cn
+  - DOMAIN-SUFFIX,qqgamecdn.com
+  # ---- 可能相关的平台域 ----
+  - DOMAIN-SUFFIX,wegame.com
+  - DOMAIN-SUFFIX,lol.qq.com
+  # ---- 关键词 ----
+  - DOMAIN-KEYWORD,lolm
+  - DOMAIN-KEYWORD,wildrift
+  # ---- 正则兜底 ----
+  - DOMAIN-REGEX,(?i)(^|\\.)lolm\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)lolma\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)lolmconn\\d+\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)msdk\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)mta\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\\.)game\\.gtimg\\.cn$
+  # ---- 你原本的腾讯云/机房段（保留）----
+  - IP-CIDR,43.132.0.0/16,no-resolve
+  - IP-CIDR,129.226.0.0/16,no-resolve
+  - IP-CIDR,36.155.0.0/16,no-resolve
+  - IP-CIDR,183.3.0.0/16,no-resolve
+  - IP-CIDR,119.28.0.0/16,no-resolve
+  # ---- 反作弊/安全（保留+补强）----
+  - DOMAIN-SUFFIX,tpstech.com
+  - DOMAIN-SUFFIX,tps.mby.tencent.com
+  - DOMAIN-SUFFIX,mqtt.tencent.com

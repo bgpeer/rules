@@ -1,0 +1,319 @@
+name: Sync Loyalsoldier DAT -> Multi-format Rulesets
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "10 18 * * *"   # 北京时间 02:10（UTC 18:10）
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/sync-loyalsoldier-geomrs.yml"
+      - "scripts/sync_loy_geo_mrs.sh"
+      - "scripts/helpers.py"
+      - "scripts/build_adguard_ads.sh"
+      - "trigger"
+
+permissions:
+  contents: write
+  actions: read        # decide 作业需要读取本工作流的运行历史
+
+concurrency:
+  group: repo-geo-writer
+  cancel-in-progress: false
+
+jobs:
+  # ── 决策作业：计划触发时，若近期已成功同步过则跳过（让 schedule 仅作兜底）──
+  decide:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - name: Decide whether to run
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          # 检测锚点：固定为「今天 UTC 17:50」=「北京时间 01:50」，
+          # 即 CF 在北京 02:00（UTC 18:00）触发前 10 分钟。
+          # 用固定锚点而非滚动窗口的好处：
+          #   1) 精准判断「今天凌晨这一轮 CF 到底跑没跑」；
+          #   2) 不会被前一晚的手动运行误判为「已同步」；
+          #   3) 即使 GitHub 把计划任务拖延数小时才执行，锚点不动，仍能正确识别。
+          ANCHOR_UTC: "17:50:00"
+        run: |
+          set -euo pipefail
+
+          # 手动 / push 触发 → 一律执行
+          if [ "$EVENT" != "schedule" ]; then
+            echo "event=$EVENT -> run"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 计划触发 → 查「今天 UTC 17:50（北京 01:50）」之后是否已有成功运行
+          since="$(date -u +%Y-%m-%dT${ANCHOR_UTC}Z)"
+          echo "schedule trigger; checking successful runs since ${since}"
+
+          n="$(curl -s \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${REPO}/actions/workflows/sync-loyalsoldier-geomrs.yml/runs?status=success&per_page=30" \
+            | jq --arg s "$since" '[.workflow_runs[] | select(.created_at > $s)] | length')"
+
+          echo "recent successful runs in window: ${n}"
+
+          if [ "${n:-0}" -gt 0 ]; then
+            echo "已有近期成功同步（疑似 Cloudflare 已触发）-> 跳过本次计划运行"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "近期无成功同步 -> 计划任务兜底执行"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  sync:
+    needs: decide
+    if: needs.decide.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      # 浅克隆：仓库每日全量重写上万个规则文件，全历史克隆 30s+ 且随时间
+      # 持续增长；同步只需要 main 最新快照，深度 1 足够
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.repository.default_branch }}
+
+      # ── 固定工具版本（日常同步不直接追 latest）────────────────────────────
+      - name: Load pinned tool versions
+        id: vers
+        run: |
+          set -eux
+          test -f .github/tool-versions.env
+          cat .github/tool-versions.env
+          grep -E '^MIHOMO_VERSION=[0-9]' .github/tool-versions.env
+          grep -E '^SINGBOX_VERSION=[0-9]' .github/tool-versions.env
+          source .github/tool-versions.env
+          echo "mihomo=${MIHOMO_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "singbox=${SINGBOX_VERSION}" >> "$GITHUB_OUTPUT"
+          # v2dat 无版本固定（上游极少更新），按月重建一次缓存
+          echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+
+      # ── 工具缓存：命中则跳过 Go 编译与二进制下载（运行时长稳定的关键）────
+      - name: Cache tools (v2dat + mihomo + sing-box)
+        id: toolcache
+        uses: actions/cache@v4
+        with:
+          path: ~/nopt-tools
+          key: tools-${{ runner.os }}-${{ steps.vers.outputs.month }}-mihomo${{ steps.vers.outputs.mihomo }}-singbox${{ steps.vers.outputs.singbox }}
+
+      # ── Go 工具链（v2dat，仅缓存未命中时）────────────────────────────────
+      - name: Setup Go
+        if: steps.toolcache.outputs.cache-hit != 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Install v2dat (cache miss)
+        if: steps.toolcache.outputs.cache-hit != 'true'
+        run: |
+          set -eux
+          go install github.com/urlesistiana/v2dat@latest
+          mkdir -p ~/nopt-tools
+          cp "$(go env GOPATH)/bin/v2dat" ~/nopt-tools/v2dat
+
+      # ── mihomo（mrs 编译，仅缓存未命中时下载）─────────────────────────────
+      - name: Install mihomo (cache miss)
+        if: steps.toolcache.outputs.cache-hit != 'true'
+        run: |
+          set -eux
+          MIHOMO_VERSION="${{ steps.vers.outputs.mihomo }}"
+
+          if [ -z "${MIHOMO_VERSION:-}" ]; then
+            echo "::error::MIHOMO_VERSION is empty"
+            exit 1
+          fi
+
+          echo "mihomo pinned version: $MIHOMO_VERSION"
+          ARCH="amd64"
+          URL_TGZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.tar.gz"
+          URL_GZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.gz"
+
+          mkdir -p ~/nopt-tools
+          if curl -fL --retry 3 --retry-delay 2 "$URL_TGZ" -o mihomo.tar.gz 2>/dev/null; then
+            tar -xzf mihomo.tar.gz
+            BIN="$(find . -maxdepth 3 -type f -name mihomo | head -n 1)"
+            [ -f "$BIN" ] && cp -f "$BIN" ~/nopt-tools/mihomo
+          else
+            curl -fL --retry 3 --retry-delay 2 "$URL_GZ" -o mihomo.gz
+            gunzip -c mihomo.gz > ~/nopt-tools/mihomo
+          fi
+
+      # ── sing-box（srs 编译，仅缓存未命中时下载）───────────────────────────
+      - name: Install sing-box (cache miss)
+        if: steps.toolcache.outputs.cache-hit != 'true'
+        run: |
+          set -eux
+          SINGBOX_VERSION="${{ steps.vers.outputs.singbox }}"
+
+          if [ -z "${SINGBOX_VERSION:-}" ]; then
+            echo "::error::SINGBOX_VERSION is empty"
+            exit 1
+          fi
+
+          echo "sing-box pinned version: $SINGBOX_VERSION"
+          ARCH="amd64"
+          URL="https://github.com/SagerNet/sing-box/releases/download/v${SINGBOX_VERSION}/sing-box-${SINGBOX_VERSION}-linux-${ARCH}.tar.gz"
+
+          mkdir -p ~/nopt-tools
+          curl -fL --retry 3 --retry-delay 2 "$URL" -o singbox.tar.gz
+          tar -xzf singbox.tar.gz
+          BIN="$(find . -maxdepth 3 -type f -name sing-box | head -n 1)"
+          cp -f "$BIN" ~/nopt-tools/sing-box
+
+      # ── 统一注册工具路径并验证（命中/未命中都执行）────────────────────────
+      - name: Setup tool paths
+        run: |
+          set -eux
+          test -x ~/nopt-tools/v2dat || chmod +x ~/nopt-tools/v2dat
+          test -x ~/nopt-tools/mihomo || chmod +x ~/nopt-tools/mihomo
+          test -x ~/nopt-tools/sing-box || chmod +x ~/nopt-tools/sing-box
+          echo "$HOME/nopt-tools" >> "$GITHUB_PATH"
+          echo "MIHOMO_BIN=$HOME/nopt-tools/mihomo" >> "$GITHUB_ENV"
+          echo "SINGBOX_BIN=$HOME/nopt-tools/sing-box" >> "$GITHUB_ENV"
+          ~/nopt-tools/v2dat -h || true
+          ~/nopt-tools/mihomo -v
+          ~/nopt-tools/sing-box version
+
+      # ── 同步分支到最新 ────────────────────────────────────────────────────
+      - name: Sync branch (pre-run)
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eux
+          BRANCH="${DEFAULT_BRANCH:-main}"
+          # 浅克隆下 rebase 可能缺 merge-base；此时无本地修改，直接对齐远端
+          git fetch --depth=1 origin "${BRANCH}"
+          git reset --hard "origin/${BRANCH}"
+
+      # ── 执行脚本（MIHOMO_BIN/SINGBOX_BIN 已由 Setup tool paths 注入）──────
+      - name: Run sync script
+        run: |
+          set -eux
+          chmod +x scripts/sync_loy_geo_mrs.sh
+          scripts/sync_loy_geo_mrs.sh
+
+      # ── AdGuard/Pi-hole 去广告名单（发布到 Release，不进 git 历史）────────
+      # 只由 category-ads-all 生成这一个文件；其余 geosite 是分流名单，
+      # AdGuard 没有「走哪个代理组」的概念，转过去反而会把正常站点拦掉。
+      #
+      # 为什么发 Release 而不提交进仓库：ads.txt 17 万行 / 4MB，每天变动约
+      # 250 行。提交进来的话每天都会在 git 历史里沉淀一个新版本的大 blob，
+      # 仓库体积持续膨胀、push 越来越慢。Release 资产不进 git 历史，订阅地址
+      # 固定指向最新版，效果一样但零膨胀。
+      #
+      # 本步骤【绝不拖垮流水线】：任何一环出问题都只告警并 exit 0，
+      # mrs/srs/QX 等其余格式的当日更新不受影响。
+      - name: Build & publish AdGuard ads list
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ADGUARD_TAG: adguard
+        run: |
+          set -uo pipefail
+          mkdir -p adguard
+
+          # 取回上一版：build 脚本靠它做「较上一版跌幅」校验。ads.txt 不再进
+          # 仓库，checkout 后本地没有旧版，不取回的话该校验会永久失效。
+          ASSET_URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/${ADGUARD_TAG}/ads.txt"
+          if curl -fsSL --retry 3 --retry-delay 2 "$ASSET_URL" -o adguard/ads.txt; then
+            echo "  已取回上一版 ads.txt（$(grep -cve '^!' -e '^$' adguard/ads.txt || echo 0) 条）供跌幅校验"
+          else
+            echo "::warning::未取到上一版 ads.txt（首次发布或 Release 暂不可用），本次跳过跌幅校验"
+            rm -f adguard/ads.txt
+          fi
+
+          chmod +x scripts/build_adguard_ads.sh
+          scripts/build_adguard_ads.sh || echo "::warning::build_adguard_ads.sh 非零退出"
+
+          if [ ! -s adguard/ads.txt ]; then
+            echo "::warning::ads.txt 未产出，跳过发布（其余格式不受影响）"
+            exit 0
+          fi
+
+          # tag 不存在则建，存在则覆盖同名资产（订阅地址始终有效）
+          if ! gh release view "$ADGUARD_TAG" >/dev/null 2>&1; then
+            gh release create "$ADGUARD_TAG" \
+              --title "AdGuard / Pi-hole 去广告名单" \
+              --notes "DNS 层去广告名单，由 geo/geosite/category-ads-all.list 每日转换生成。
+
+          订阅地址（始终指向最新版）：
+          ${ASSET_URL}" || { echo "::warning::创建 Release 失败，跳过发布"; exit 0; }
+          fi
+
+          if gh release upload "$ADGUARD_TAG" adguard/ads.txt --clobber; then
+            echo "  ✓ 已发布：${ASSET_URL}"
+          else
+            echo "::warning::上传 Release 资产失败，本次沿用线上旧版"
+          fi
+
+      # ── 调试输出 ─────────────────────────────────────────────────────────
+      - name: Show outputs (debug)
+        run: |
+          set -eux
+          echo "=== geo/geosite/ ===" && ls geo/geosite/ | head -10 || true
+          echo "=== geo/geoip/ ===" && ls geo/geoip/ | head -10 || true
+          echo "=== QX/geosite/ ===" && ls QX/geosite/ | head -10 || true
+          echo "geosite mrs  : $(find geo/geosite -name '*.mrs'  | wc -l)"
+          echo "geosite yaml : $(find geo/geosite -name '*.yaml' | wc -l)"
+          echo "geosite list : $(find geo/geosite -name '*.list' | wc -l)"
+          echo "geosite json : $(find geo/geosite -name '*.json' | wc -l)"
+          echo "geosite srs  : $(find geo/geosite -name '*.srs'  | wc -l)"
+          echo "geoip   mrs  : $(find geo/geoip   -name '*.mrs'  | wc -l)"
+          echo "qx geosite   : $(find QX/geosite  -name '*.list' | wc -l)"
+          echo "adguard ads  : $(grep -c '^||' adguard/ads.txt || echo 0) 条"
+          git status --porcelain || true
+
+          echo "=== douyin IP debug ==="
+          grep -c "IP-CIDR" geo/geosite/douyin.yaml || true
+          grep -c "IP-CIDR" geo/geosite/douyin.list || true
+          grep -c "IP-ASN"  geo/geosite/douyin.yaml || true
+
+      # ── Commit & Push（浅克隆安全的重试：换底重提，不依赖 merge-base）────
+      - name: Commit & push (safe)
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eux
+          BRANCH="${DEFAULT_BRANCH:-main}"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 产物是本次全量生成的，竞态时无需 rebase 合并历史：
+          # 把基座换成远端最新（reset --mixed 保留工作区产物），只重新
+          # 提交产物目录即可，浅克隆下也不需要 merge-base
+          for i in 1 2 3 4 5; do
+            git add -A geo/geosite geo/geoip QX
+
+            if git diff --cached --quiet; then
+              echo "No changes to commit."
+              exit 0
+            fi
+
+            git commit -m "chore: sync Loyalsoldier dat -> multi-format rulesets (geo + QX)"
+
+            if git push origin "HEAD:${BRANCH}"; then
+              echo "Push success."; exit 0
+            fi
+
+            echo "Push rejected (race). retry=${i}"
+            git fetch --depth=1 origin "${BRANCH}"
+            git reset --mixed "origin/${BRANCH}"
+
+            sleep $((i*2))
+          done
+
+          echo "Failed to push after retries."
+          exit 1
