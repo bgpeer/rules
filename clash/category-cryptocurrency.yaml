@@ -1,0 +1,383 @@
+payload:
+  # Bitget / Bitget Wallet / BitKeep 加密货币
+  # 进程
+  - PROCESS-NAME,com.bitget.exchange
+  - PROCESS-NAME,com.bitkeep.wallet
+  - PROCESS-NAME,com.bitget.wallet
+  - PROCESS-NAME,Bitget.exe
+  - PROCESS-NAME,bitget.exe
+  - PROCESS-NAME,Bitget Wallet.exe
+  - PROCESS-NAME,bitget-wallet.exe
+  # 主站 / 备用站
+  - DOMAIN-SUFFIX,bitget.com
+  - DOMAIN-SUFFIX,bitgetapp.com
+  - DOMAIN-SUFFIX,bitgetapps.com
+  - DOMAIN-SUFFIX,krbitget.com
+  - DOMAIN-SUFFIX,bitget.site
+  - DOMAIN-SUFFIX,jjdsn.vip
+  # API / WebSocket
+  - DOMAIN,api.bitget.com
+  - DOMAIN,capi.bitget.com
+  - DOMAIN,ws.bitget.com
+  # 常用页面
+  - DOMAIN,www.bitget.com
+  - DOMAIN,app.bitget.com
+  - DOMAIN,m.bitget.com
+  - DOMAIN,web3.bitget.com
+  - DOMAIN,support.bitget.com
+  - DOMAIN,partner.bitget.com
+  - DOMAIN,affiliate.bitget.com
+  - DOMAIN,copytrade.bitget.com
+  - DOMAIN,futures.bitget.com
+  - DOMAIN,spot.bitget.com
+  - DOMAIN,academy.bitget.com
+  - DOMAIN,blog.bitget.com
+  # 下载 / 静态资源 / 图片 CDN
+  - DOMAIN-SUFFIX,bgstatic.com
+  - DOMAIN-SUFFIX,bitgetimg.com
+  - DOMAIN-SUFFIX,bitgetstatic.com
+  - DOMAIN,img.bgstatic.com
+  - DOMAIN,img.bitgetimg.com
+  # Bitget Wallet / BitKeep
+  - DOMAIN-SUFFIX,bitkeep.com
+  - DOMAIN-SUFFIX,bitkeep.org
+  - DOMAIN-SUFFIX,bitkeep.io
+  - DOMAIN-SUFFIX,bitkeep.me
+  - DOMAIN-SUFFIX,bitkeep.page
+  - DOMAIN-SUFFIX,bitkeep.fun
+  - DOMAIN-SUFFIX,bitkeep.biz
+  - DOMAIN-SUFFIX,bitkeep.life
+  - DOMAIN-SUFFIX,bitkeep.vip
+  - DOMAIN-SUFFIX,bitkeep.shop
+  - DOMAIN-SUFFIX,bitkeep.buzz
+  # BitKeep API / 分享 / 活动
+  - DOMAIN,api-web.bitkeep.com
+  - DOMAIN,api-web.bitkeep.asia
+  - DOMAIN,api-web.bitkeep.biz
+  - DOMAIN,api-web.bitkeep.life
+  - DOMAIN,api-web.bitkeep.fun
+  - DOMAIN,fp-constantid.bitkeep.vip
+  - DOMAIN,ta.bitkeep.buzz
+  - DOMAIN-SUFFIX,bwb.live
+  - DOMAIN-SUFFIX,bwb.site
+  - DOMAIN-SUFFIX,bwb.online
+  - DOMAIN-SUFFIX,bwb.global
+  - DOMAIN-SUFFIX,bwb.win
+  - DOMAIN-SUFFIX,bwb.inc
+  - DOMAIN-SUFFIX,bwb.space
+  - DOMAIN-SUFFIX,keepshare.info
+  - DOMAIN-SUFFIX,keepshare.xyz
+  - DOMAIN,share.bitkeep.shop
+  - DOMAIN,share.keepshare.info
+  - DOMAIN,share.bwb.live
+  - DOMAIN,share.bwb.site
+  - DOMAIN,share.bwb.online
+  - DOMAIN,share.bwb.global
+  - DOMAIN,share.bwb.win
+  - DOMAIN,share.bwb.inc
+  - DOMAIN,share.bwb.space
+  # 你原来已有的关联域名
+  - DOMAIN,log.noxiaohao.com
+  - DOMAIN,appapi.abcdstable.com
+  # Web3 / 钱包连接 / 公链 RPC
+  - DOMAIN-SUFFIX,walletconnect.com
+  - DOMAIN-SUFFIX,walletconnect.org
+  - DOMAIN-SUFFIX,web3modal.org
+  - DOMAIN-SUFFIX,reown.com
+  - DOMAIN-SUFFIX,cloudflare-eth.com
+  - DOMAIN-SUFFIX,llamarpc.com
+  - DOMAIN,eth.llamarpc.com
+  - DOMAIN,cloudflare-eth.com
+  - DOMAIN,api.trongrid.io
+  - DOMAIN,api.shasta.trongrid.io
+  - DOMAIN,api.nileex.io
+  - DOMAIN,sun.tronex.io
+  - DOMAIN,infragrid.v.network
+  # 登录验证 / 风控
+  - DOMAIN-SUFFIX,geetest.com
+  - DOMAIN-SUFFIX,geevisit.com
+  - DOMAIN-SUFFIX,gsensebot.com
+  - DOMAIN-SUFFIX,recaptcha.net
+  # 关键词兜底
+  - DOMAIN-KEYWORD,bitget
+  - DOMAIN-KEYWORD,bitkeep
+  - DOMAIN-KEYWORD,bgstatic
+  - DOMAIN-KEYWORD,bitgetimg
+  - DOMAIN-KEYWORD,bwb
+  - DOMAIN-KEYWORD,keepshare
+
+  # Binance / 币安 / BNB Chain 加密货币
+  # 进程
+  - PROCESS-NAME,com.binance.dev
+  - PROCESS-NAME,com.binance.us
+  - PROCESS-NAME,com.cloud.tr
+  - PROCESS-NAME,Binance.exe
+  - PROCESS-NAME,binance.exe
+  # 主站 / 全球站 / 静态资源
+  - DOMAIN-SUFFIX,binance.com
+  - DOMAIN-SUFFIX,binance.me
+  - DOMAIN-SUFFIX,binance.info
+  - DOMAIN-SUFFIX,binance.net
+  - DOMAIN-SUFFIX,binance.org
+  - DOMAIN-SUFFIX,binance.cloud
+  - DOMAIN-SUFFIX,binance.co
+  - DOMAIN-SUFFIX,binance.cc
+  - DOMAIN-SUFFIX,binance.charity
+  - DOMAIN-SUFFIX,binance.vision
+  - DOMAIN-SUFFIX,binancecnt.com
+  - DOMAIN-SUFFIX,binanceapi.com
+  - DOMAIN-SUFFIX,binancefuture.com
+  - DOMAIN-SUFFIX,binanceru.net
+  - DOMAIN-SUFFIX,bnbstatic.com
+  - DOMAIN-SUFFIX,nftstatic.com
+  - DOMAIN-SUFFIX,bntrace.com
+  - DOMAIN-SUFFIX,bsappapi.com
+  # 中文 / 备用域名
+  - DOMAIN-SUFFIX,binancezh.be
+  - DOMAIN-SUFFIX,binancezh.biz
+  - DOMAIN-SUFFIX,binancezh.cc
+  - DOMAIN-SUFFIX,binancezh.co
+  - DOMAIN-SUFFIX,binancezh.com
+  - DOMAIN-SUFFIX,binancezh.info
+  - DOMAIN-SUFFIX,binancezh.ink
+  - DOMAIN-SUFFIX,binancezh.kim
+  - DOMAIN-SUFFIX,binancezh.link
+  - DOMAIN-SUFFIX,binancezh.live
+  - DOMAIN-SUFFIX,binancezh.mobi
+  - DOMAIN-SUFFIX,binancezh.net
+  - DOMAIN-SUFFIX,binancezh.pro
+  - DOMAIN-SUFFIX,binancezh.sh
+  - DOMAIN-SUFFIX,binancezh.top
+  # 地区站
+  - DOMAIN-SUFFIX,binance.us
+  - DOMAIN-SUFFIX,binance.tr
+  - DOMAIN-SUFFIX,trbinance.com
+  - DOMAIN-SUFFIX,binance.com.tr
+  - DOMAIN-SUFFIX,binance.th
+  # API / WebSocket / Futures / Options
+  - DOMAIN,api.binance.com
+  - DOMAIN,api-gcp.binance.com
+  - DOMAIN,api1.binance.com
+  - DOMAIN,api2.binance.com
+  - DOMAIN,api3.binance.com
+  - DOMAIN,api4.binance.com
+  - DOMAIN,data-api.binance.vision
+  - DOMAIN,stream.binance.com
+  - DOMAIN,data-stream.binance.vision
+  - DOMAIN,ws-api.binance.com
+  - DOMAIN,fapi.binance.com
+  - DOMAIN,dapi.binance.com
+  - DOMAIN,papi.binance.com
+  - DOMAIN,eapi.binance.com
+  - DOMAIN,fstream.binance.com
+  - DOMAIN,dstream.binance.com
+  - DOMAIN,ws-fapi.binance.com
+  - DOMAIN,ws-dapi.binance.com
+  - DOMAIN,demo-fapi.binance.com
+  - DOMAIN,demo-dapi.binance.com
+  - DOMAIN,testnet.binancefuture.com
+  # 下载 / CDN
+  - DOMAIN-SUFFIX,bscdnweb.com
+  - DOMAIN-SUFFIX,bscdnweb.me
+  - DOMAIN-SUFFIX,bscdnweb.biz
+  - DOMAIN-SUFFIX,bscdnweb.cc
+  - DOMAIN,public.bscdnweb.com
+  # Binance SaaS / 附属服务
+  - DOMAIN-SUFFIX,saasexch.com
+  - DOMAIN-SUFFIX,saasexch.co
+  - DOMAIN-SUFFIX,saasexch.cc
+  - DOMAIN-SUFFIX,saasexch.io
+  - DOMAIN-SUFFIX,appsflyer.com
+  - DOMAIN-SUFFIX,appsflyersdk.com
+  # BNB Chain
+  - DOMAIN-SUFFIX,bnbchain.org
+  - DOMAIN-SUFFIX,bnbchain.com
+  - DOMAIN-SUFFIX,bnbchain.world
+  # BSC / opBNB / Greenfield RPC
+  - DOMAIN,bsc-dataseed.bnbchain.org
+  - DOMAIN,bsc-dataseed-public.bnbchain.org
+  - DOMAIN,bsc-dataseed.nariox.org
+  - DOMAIN,bsc-dataseed.defibit.io
+  - DOMAIN,bsc-dataseed.ninicoin.io
+  - DOMAIN,bsc.nodereal.io
+  - DOMAIN,opbnb-mainnet-rpc.bnbchain.org
+  - DOMAIN,opbnb-mainnet.nodereal.io
+  - DOMAIN,opbnb-testnet-rpc.bnbchain.org
+  - DOMAIN,greenfield-chain.bnbchain.org
+  - DOMAIN,greenfield-chain-ap.bnbchain.org
+  - DOMAIN,greenfield-chain-us.bnbchain.org
+  - DOMAIN,greenfield-chain-eu.bnbchain.org
+  - DOMAIN,greenfield.bnbchain.org
+  - DOMAIN,greenfield-sp.bnbchain.org
+  - DOMAIN,gnfd-blobhub.bnbchain.org
+  - DOMAIN,gnfd-blobhub-bsc.bnbchain.org
+  - DOMAIN,gnfd-bsc-archiver-mainnet.bnbchain.org
+  # BNB Chain 第三方基础设施 / 浏览器
+  - DOMAIN-SUFFIX,nodereal.io
+  - DOMAIN-SUFFIX,nariox.org
+  - DOMAIN-SUFFIX,defibit.io
+  - DOMAIN-SUFFIX,ninicoin.io
+  - DOMAIN-SUFFIX,bscscan.com
+  - DOMAIN-SUFFIX,greenfieldscan.com
+  # Binance Web3 / 钱包相关
+  - DOMAIN-SUFFIX,trustwallet.com
+  # 关键词兜底
+  - DOMAIN-KEYWORD,binance
+  - DOMAIN-KEYWORD,bnbstatic
+  - DOMAIN-KEYWORD,nftstatic
+  - DOMAIN-KEYWORD,binanceapi
+  - DOMAIN-KEYWORD,binancefuture
+  - DOMAIN-KEYWORD,bscdnweb
+  - DOMAIN-KEYWORD,bnbchain
+  - DOMAIN-KEYWORD,bscscan
+  - DOMAIN-KEYWORD,opbnb
+  - DOMAIN-KEYWORD,greenfieldscan
+
+  # OKX / OKCoin / OKLink / 欧易加密货币
+  # 进程
+  - PROCESS-NAME,com.okinc.okex.gp
+  - PROCESS-NAME,com.okinc.okex
+  - PROCESS-NAME,com.okex.wallet
+  - PROCESS-NAME,com.okx.wallet
+  - PROCESS-NAME,okx.exe
+  - PROCESS-NAME,OKX.exe
+  # 主站 / 旧品牌 / 地区站
+  - DOMAIN-SUFFIX,okx.com
+  - DOMAIN-SUFFIX,okx.cab
+  - DOMAIN-SUFFIX,okex.com
+  - DOMAIN-SUFFIX,okcoin.com
+  - DOMAIN-SUFFIX,okg.com
+  - DOMAIN-SUFFIX,oklink.com
+  - DOMAIN-SUFFIX,okx-dns.com
+  - DOMAIN-SUFFIX,okx-dns1.com
+  - DOMAIN-SUFFIX,okx-dns2.com
+  - DOMAIN,okx.com.cdn.cloudflare.net
+  # 常用页面
+  - DOMAIN,www.okx.com
+  - DOMAIN,app.okx.com
+  - DOMAIN,my.okx.com
+  - DOMAIN,tr.okx.com
+  - DOMAIN,eea.okx.com
+  - DOMAIN,support.okx.com
+  - DOMAIN,static.okx.com
+  # API / WebSocket
+  - DOMAIN,ws.okx.com
+  - DOMAIN,wsaws.okx.com
+  - DOMAIN,wseeapap.okx.com
+  # OKX Web3 / OKX Wallet
+  - DOMAIN,web3.okx.com
+  - DOMAIN-SUFFIX,okxwallet.com
+  # OKLink 区块链浏览器
+  - DOMAIN,www.oklink.com
+  - DOMAIN,static.oklink.com
+  # X Layer / OKX Layer2
+  - DOMAIN-SUFFIX,xlayer.tech
+  - DOMAIN,rpc.xlayer.tech
+  - DOMAIN,xlayerrpc.okx.com
+  # 下载 / 更新 / 备用解析兜底
+  - DOMAIN-KEYWORD,okx-dns
+  - DOMAIN-KEYWORD,okxcdn
+  - DOMAIN-KEYWORD,okxstatic
+  # 关键词兜底
+  - DOMAIN-KEYWORD,okx
+  - DOMAIN-KEYWORD,oklink
+  - DOMAIN-KEYWORD,okex
+  - DOMAIN-KEYWORD,okcoin
+  - DOMAIN-KEYWORD,xlayer
+
+  # Bybit / 拜比特加密货币
+  # 进程
+  - PROCESS-NAME,com.bybit.app
+  - PROCESS-NAME,com.bybit.eu
+  - PROCESS-NAME,Bybit.exe
+  - PROCESS-NAME,bybit.exe
+  # 主站 / 备用站 / 旧域名
+  - DOMAIN-SUFFIX,bybit.com
+  - DOMAIN-SUFFIX,bybit.biz
+  - DOMAIN-SUFFIX,bybit.cloud
+  - DOMAIN-SUFFIX,bybit-global.com
+  - DOMAIN-SUFFIX,bybitglobal.com
+  - DOMAIN-SUFFIX,bytick.com
+  - DOMAIN-SUFFIX,byapis.com
+  - DOMAIN-SUFFIX,bycsi.com
+  - DOMAIN-SUFFIX,bycbe.com
+  - DOMAIN-SUFFIX,bymj.io
+  - DOMAIN-SUFFIX,byabcde.com
+  - DOMAIN-SUFFIX,byapps.net
+  - DOMAIN-SUFFIX,byd3c3.com
+  - DOMAIN-SUFFIX,bybdc6.com
+  # 地区站
+  - DOMAIN-SUFFIX,bybit.nl
+  - DOMAIN-SUFFIX,bybit.tr
+  - DOMAIN-SUFFIX,bybit.kz
+  - DOMAIN-SUFFIX,bybitgeorgia.ge
+  - DOMAIN-SUFFIX,bybit.ae
+  - DOMAIN-SUFFIX,bybit.eu
+  # API / WebSocket
+  - DOMAIN,api.bybit.com
+  - DOMAIN,api.bytick.com
+  - DOMAIN,api-testnet.bybit.com
+  - DOMAIN,stream.bybit.com
+  - DOMAIN,stream-testnet.bybit.com
+  - DOMAIN,api.bybit.nl
+  - DOMAIN,api.bybit.tr
+  - DOMAIN,api.bybit.kz
+  - DOMAIN,api.bybitgeorgia.ge
+  - DOMAIN,api.bybit.ae
+  - DOMAIN,api.bybit.eu
+  - DOMAIN,stream.bybit.tr
+  - DOMAIN,stream.bybit.kz
+  - DOMAIN,stream.bybitgeorgia.ge
+  # 常用页面
+  - DOMAIN,www.bybit.com
+  - DOMAIN,app.bybit.com
+  - DOMAIN,m.bybit.com
+  - DOMAIN,learn.bybit.com
+  - DOMAIN,blog.bybit.com
+  - DOMAIN,announcements.bybit.com
+  - DOMAIN,announcement.bybit.com
+  - DOMAIN,support.bybit.com
+  - DOMAIN,help.bybit.com
+  - DOMAIN,affiliates.bybit.com
+  - DOMAIN,api2.bybit.com
+  - DOMAIN,testnet.bybit.com
+  # 下载 / App / 静态资源
+  - DOMAIN-SUFFIX,bybit-exchange.github.io
+  - DOMAIN,bybit-exchange.github.io
+  - DOMAIN,download.bybit.com
+  - DOMAIN,static.bybit.com
+  - DOMAIN,assets.bybit.com
+  - DOMAIN,cdn.bybit.com
+  - DOMAIN,api2.bybit.com
+  # 客服 / 支持
+  - DOMAIN,bybit.ada.support
+  - DOMAIN-SUFFIX,ada.support
+  # Web3 / 钱包连接 / 公链 RPC
+  - DOMAIN-SUFFIX,walletconnect.com
+  - DOMAIN-SUFFIX,walletconnect.org
+  - DOMAIN-SUFFIX,web3modal.org
+  - DOMAIN-SUFFIX,reown.com
+  - DOMAIN-SUFFIX,cloudflare-eth.com
+  - DOMAIN-SUFFIX,llamarpc.com
+  - DOMAIN,eth.llamarpc.com
+  - DOMAIN,cloudflare-eth.com
+  - DOMAIN,api.trongrid.io
+  - DOMAIN,api.shasta.trongrid.io
+  - DOMAIN,api.nileex.io
+  - DOMAIN,sun.tronex.io
+  - DOMAIN,infragrid.v.network
+  # 登录验证 / 风控
+  - DOMAIN-SUFFIX,geetest.com
+  - DOMAIN-SUFFIX,geevisit.com
+  - DOMAIN-SUFFIX,gsensebot.com
+  - DOMAIN-SUFFIX,recaptcha.net
+  # 关键词兜底
+  - DOMAIN-KEYWORD,bybit
+  - DOMAIN-KEYWORD,bytick
+  - DOMAIN-KEYWORD,byapis
+  - DOMAIN-KEYWORD,bycsi
+  - DOMAIN-KEYWORD,bycbe
+  - DOMAIN-KEYWORD,byapps
+  - DOMAIN-KEYWORD,bybitglobal
+  - DOMAIN-KEYWORD,bybit-global
+  

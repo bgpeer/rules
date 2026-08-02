@@ -1,0 +1,179 @@
+payload:
+  # App
+  - PROCESS-NAME,com.openai.chatgpt
+  - PROCESS-NAME,com.openai.chatgpt.beta
+  - PROCESS-NAME,ChatGPT
+  - PROCESS-NAME,ChatGPT.exe
+  - PROCESS-PATH-REGEX,(?i).*\\ChatGPT.*\.exe$
+  - PROCESS-PATH-REGEX,(?i).*/ChatGPT.*$
+  - PROCESS-NAME-REGEX,(?i)^com\.openai\.chatgpt(\..+)?$
+
+  # 核心域名
+  - DOMAIN-SUFFIX,openai.com
+  - DOMAIN-SUFFIX,chatgpt.com
+  - DOMAIN-SUFFIX,oaistatic.com
+  - DOMAIN-SUFFIX,oaiusercontent.com
+  - DOMAIN-SUFFIX,openaicdn.com
+  - DOMAIN-SUFFIX,openaimerge.com
+  - DOMAIN-SUFFIX,ai.com
+
+  # ChatGPT 入口
+  - DOMAIN,chat.openai.com
+  - DOMAIN,android.chat.openai.com
+  - DOMAIN,ios.chat.openai.com
+  - DOMAIN,desktop.chat.openai.com
+  - DOMAIN,ab.chatgpt.com
+  - DOMAIN,tcr9i.chat.openai.com
+  - DOMAIN,chat.openai.com.cdn.cloudflare.net
+
+  # API / 平台
+  - DOMAIN,api.openai.com
+  - DOMAIN,api.revenuecat.com
+  - DOMAIN,platform.openai.com
+  - DOMAIN,developers.openai.com
+  - DOMAIN,community.openai.com
+  - DOMAIN,help.openai.com
+  - DOMAIN,status.openai.com
+
+  # 文件 / 静态资源
+  - DOMAIN,cdn.openai.com
+  - DOMAIN,cdn.openaimerge.com
+  - DOMAIN,files.oaiusercontent.com
+  - DOMAIN-SUFFIX,files.oaiusercontent.com
+  - DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
+  - DOMAIN,openaicomproductionae4b.blob.core.windows.net
+  - DOMAIN,production-openaicom-storage.azureedge.net
+  - DOMAIN,openaiapi-site.azureedge.net
+  - DOMAIN,openaicom.imgix.net
+
+  # 登录 / 验证
+  - DOMAIN,auth0.openai.com
+  - DOMAIN,setup.auth.openai.com
+  - DOMAIN-SUFFIX,auth.openai.com
+  - DOMAIN-SUFFIX,auth0.openai.com
+  - DOMAIN-SUFFIX,auth0usercontent.com
+  - DOMAIN,openai-api.arkoselabs.com
+  - DOMAIN,client-api.arkoselabs.com
+  - DOMAIN,challenges.cloudflare.com
+  - DOMAIN-SUFFIX,arkoselabs.com
+
+  # 语音 / 实时
+  - DOMAIN-SUFFIX,realtime.openai.com
+  - DOMAIN-SUFFIX,chatgpt.livekit.cloud
+  - DOMAIN-SUFFIX,host.livekit.cloud
+  - DOMAIN-SUFFIX,turn.livekit.cloud
+
+  # Sora / 视频
+  - DOMAIN-SUFFIX,sora.com
+  - DOMAIN-SUFFIX,sora.openai.com
+  - DOMAIN-SUFFIX,video.openai.com
+  - DOMAIN-SUFFIX,media.openai.com
+  - DOMAIN-SUFFIX,openai-video.com
+  - DOMAIN-SUFFIX,openai-media.com
+  - DOMAIN-SUFFIX,livestream.openai.com
+
+  # 企业登录
+  - DOMAIN,cdn.workos.com
+  - DOMAIN,forwarder.workos.com
+  - DOMAIN,images.workoscdn.com
+  - DOMAIN,setup.workos.com
+  - DOMAIN-SUFFIX,workos.com
+  - DOMAIN-SUFFIX,workoscdn.com
+  - DOMAIN-SUFFIX,workos.imgix.net
+
+  # 配置 / 统计
+  - DOMAIN,canary.statsig.com
+  - DOMAIN-SUFFIX,statsig.com
+  - DOMAIN-SUFFIX,api.statsig.com
+  - DOMAIN-SUFFIX,statsigapi.net
+  - DOMAIN-SUFFIX,events.statsigapi.net
+  - DOMAIN-SUFFIX,featuregates.org
+  - DOMAIN-SUFFIX,featureassets.org
+  - DOMAIN-SUFFIX,prodregistryv2.org
+
+  # 错误上报
+  - DOMAIN,browser-intake-datadoghq.com
+  - DOMAIN,rum.browser-intake-datadoghq.com
+  - DOMAIN,o207216.ingest.sentry.io
+  - DOMAIN,o33249.ingest.sentry.io
+  - DOMAIN-REGEX,(?i)^o[0-9]+\.ingest\.sentry\.io$
+
+  # 客服 / 支付
+  - DOMAIN,js.intercomcdn.com
+  - DOMAIN,widget.intercom.io
+  - DOMAIN,api-iam.intercom.io
+  - DOMAIN,js.stripe.com
+
+  # 邮件 / 验证
+  - DOMAIN-SUFFIX,mail.openai.com
+  - DOMAIN-SUFFIX,tm.openai.com
+  - DOMAIN-SUFFIX,tm1.openai.com
+  - DOMAIN-SUFFIX,c-openai.com
+  - DOMAIN-SUFFIX,sales.openai.com
+  - DOMAIN-WILDCARD,*.ct.sendgrid.net
+
+  # Apple 精准补充
+  - DOMAIN,humb.apple.com
+
+  # 正则兜底
+  - DOMAIN-REGEX,(?i)(^|\.)chatgpt\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)chat\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)android\.chat\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)ios\.chat\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)desktop\.chat\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.chat\.openai\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)auth0\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)setup\.auth\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.auth\.openai\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)oaiusercontent\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.oaiusercontent\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)oaistatic\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.oaistatic\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)openaicdn\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)cdn\.openai\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)api\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)realtime\.openai\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)sora\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)sora\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)video\.openai\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)media\.openai\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)chatgpt\.livekit\.cloud$
+  - DOMAIN-REGEX,(?i)(^|\.)host\.livekit\.cloud$
+  - DOMAIN-REGEX,(?i)(^|\.)turn\.livekit\.cloud$
+
+  - DOMAIN-REGEX,(?i)(^|\.)openai-api\.arkoselabs\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)client-api\.arkoselabs\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)arkoselabs\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)challenges\.cloudflare\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)statsig\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)api\.statsig\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)statsigapi\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)events\.statsigapi\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)featuregates\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)featureassets\.org$
+  - DOMAIN-REGEX,(?i)(^|\.)prodregistryv2\.org$
+
+  - DOMAIN-REGEX,(?i)(^|\.)browser-intake-datadoghq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)rum\.browser-intake-datadoghq\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)workos\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)workoscdn\.com$
+
+  - DOMAIN-REGEX,(?i)(^|\.)js\.intercomcdn\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)widget\.intercom\.io$
+  - DOMAIN-REGEX,(?i)(^|\.)api-iam\.intercom\.io$
+  - DOMAIN-REGEX,(?i)(^|\.)js\.stripe\.com$
+
+  # 关键词兜底
+  - DOMAIN-KEYWORD,openai
+  - DOMAIN-KEYWORD,chatgpt
+  - DOMAIN-KEYWORD,oaistatic
+  - DOMAIN-KEYWORD,oaiusercontent
+  - DOMAIN-KEYWORD,openaicdn
+  - DOMAIN-KEYWORD,openaimerge

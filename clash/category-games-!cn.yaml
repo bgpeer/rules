@@ -1,0 +1,111 @@
+payload:
+  # 🎮国际版LOL英雄联盟手游
+  - PROCESS-NAME,com.riotgames.league.wildrift
+  - PROCESS-NAME,com.riotgames.league.wildrift.android
+  - PROCESS-NAME,com.riotgames.league.teamfighttactics
+  - PROCESS-NAME,com.riotgames.legendsofruneterra
+  - PROCESS-NAME,com.riotgames.valorant
+  - PROCESS-NAME,RiotClientServices.exe
+  - PROCESS-NAME,RiotClientUx.exe
+  - PROCESS-NAME,RiotClientCrashHandler.exe
+  - PROCESS-NAME,LeagueClient.exe
+  - PROCESS-NAME,LeagueClientUx.exe
+  - PROCESS-NAME,LeagueClientUxRender.exe
+  - PROCESS-NAME,League of Legends.exe
+  - PROCESS-NAME,VALORANT.exe
+  - PROCESS-NAME,VALORANT-Win64-Shipping.exe
+  - PROCESS-NAME,Riot Vanguard.exe
+  - PROCESS-NAME,vgc.exe
+  - PROCESS-NAME,vanguard.exe
+  # App 正则
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\..*$
+  - PROCESS-NAME-REGEX,(?i)^com\.riotgames\.league\.wildrift(\..+)?$
+  - PROCESS-NAME-REGEX,(?i)^(Riot|League|VALORANT|vgc|vanguard).*$
+  # Riot 核心
+  - DOMAIN-SUFFIX,riotgames.com
+  - DOMAIN-SUFFIX,riot.com
+  - DOMAIN-SUFFIX,rgpub.io
+  - DOMAIN-SUFFIX,rdatasrv.net
+  - DOMAIN-SUFFIX,pvp.net
+  # 账号 / 登录 / 鉴权
+  - DOMAIN,auth.riotgames.com
+  - DOMAIN,account.riotgames.com
+  - DOMAIN,api.riotgames.com
+  - DOMAIN,entitlements.auth.riotgames.com
+  - DOMAIN,clientconfig.rpg.riotgames.com
+  - DOMAIN,playerpreferences.riotgames.com
+  - DOMAIN,riot-geo.pas.si.riotgames.com
+  - DOMAIN,edge.rms.si.riotgames.com
+  # 游戏服务
+  - DOMAIN-SUFFIX,leagueoflegends.com
+  - DOMAIN-SUFFIX,wildrift.leagueoflegends.com
+  - DOMAIN-SUFFIX,playvalorant.com
+  - DOMAIN-SUFFIX,valorant.com
+  - DOMAIN-SUFFIX,teamfighttactics.com
+  - DOMAIN-SUFFIX,playruneterra.com
+  - DOMAIN-SUFFIX,legendsofruneterra.com
+  - DOMAIN-SUFFIX,2xko.riotgames.com
+  # Wild Rift
+  - DOMAIN,wr.pvp.net
+  - DOMAIN-SUFFIX,wr.pvp.net
+  - DOMAIN-SUFFIX,wr-assets.riotcdn.net
+  - DOMAIN-SUFFIX,wildrift.leagueoflegends.com
+  # LoL / TFT / VALORANT 后端
+  - DOMAIN-SUFFIX,a.pvp.net
+  - DOMAIN-SUFFIX,glz.pvp.net
+  - DOMAIN-SUFFIX,riotcdn.net
+  - DOMAIN-SUFFIX,riotcdn.com
+  - DOMAIN-SUFFIX,riotgamesmedia.com
+  - DOMAIN-SUFFIX,lolstatic.com
+  - DOMAIN-SUFFIX,lolstatic-a.akamaihd.net
+  # 下载 / 更新 / 补丁
+  - DOMAIN,l3cdn.riotgames.com
+  - DOMAIN,riotgamespatcher-a.akamaized.net
+  - DOMAIN,lol.secure.dyn.riotcdn.net
+  - DOMAIN-SUFFIX,riotgamespatcher-a.akamaized.net
+  # 语音 / 聊天 / 好友
+  - DOMAIN-SUFFIX,vivox.com
+  - DOMAIN,chat.si.riotgames.com
+  - DOMAIN-SUFFIX,chat.si.riotgames.com
+  # 反作弊 / 客户端配置
+  - DOMAIN-SUFFIX,anticheat.riotgames.com
+  - DOMAIN-SUFFIX,clientconfig.rpg.riotgames.com
+  # 支持 / 帮助
+  - DOMAIN,riotgames.zendesk.com
+  - DOMAIN-SUFFIX,riotgames.zendesk.com
+  - DOMAIN-SUFFIX,support-valorant.riotgames.com
+  - DOMAIN-SUFFIX,support-leagueoflegends.riotgames.com
+  - DOMAIN-SUFFIX,support-wildrift.riotgames.com
+  # hCaptcha 登录验证，保守补充
+  - DOMAIN,js.hcaptcha.com
+  - DOMAIN,newassets.hcaptcha.com
+  - DOMAIN-SUFFIX,hcaptcha.com
+  # 关键词兜底
+  - DOMAIN-KEYWORD,riotgames
+  - DOMAIN-KEYWORD,riotcdn
+  - DOMAIN-KEYWORD,rgpub
+  - DOMAIN-KEYWORD,leagueoflegends
+  - DOMAIN-KEYWORD,wildrift
+  - DOMAIN-KEYWORD,valorant
+  # 域名正则
+  - DOMAIN-REGEX,(?i)(^|\.)riotgames\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)riot\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.a\.pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)glz-[a-z0-9-]+\.[a-z0-9-]+\.a\.pvp\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.riotcdn\.net$
+  - DOMAIN-REGEX,(?i)(^|\.)vx[a-z0-9]+\.vivox\.com$
+  # Riot 官方 / 常见海外 IP
+  - IP-CIDR,104.160.128.0/17,no-resolve
+  - IP-CIDR,162.249.72.0/21,no-resolve
+  - IP-CIDR,192.64.168.0/21,no-resolve
+  - IP-CIDR,43.229.64.0/22,no-resolve
+  - IP-CIDR,103.219.128.0/22,no-resolve
+  - IP-CIDR,103.240.224.0/22,no-resolve
+  - IP-CIDR,151.106.246.0/23,no-resolve
+  - IP-CIDR,151.106.248.0/22,no-resolve
+  - IP-CIDR,151.106.252.0/22,no-resolve
+  # ASN 兜底
+  - IP-ASN,6507,no-resolve
+  - IP-ASN,38118,no-resolve
+  - IP-ASN,62830,no-resolve

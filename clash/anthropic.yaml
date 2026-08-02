@@ -1,0 +1,116 @@
+payload:
+  # App
+  - PROCESS-NAME,com.anthropic.claude
+  - PROCESS-NAME,Claude
+  - PROCESS-NAME,Claude.exe
+  - PROCESS-NAME,claude
+  - PROCESS-NAME,claude.exe
+  - PROCESS-NAME,claude-desktop
+  - PROCESS-NAME,claude-desktop.exe
+  - PROCESS-NAME,claude-code
+  - PROCESS-NAME,claude-code.exe
+  - PROCESS-NAME,Anthropic
+  - PROCESS-NAME,Anthropic.exe
+
+  # Claude 入口
+  - DOMAIN,claude.ai
+  - DOMAIN,www.claude.ai
+  - DOMAIN,app.claude.ai
+  - DOMAIN,console.anthropic.com
+  - DOMAIN,platform.claude.com
+  - DOMAIN,code.claude.com
+
+  # API
+  - DOMAIN,api.anthropic.com
+  - DOMAIN,a-api.anthropic.com
+  - DOMAIN-SUFFIX,api.anthropic.com
+
+  # 核心域名
+  - DOMAIN-SUFFIX,anthropic.com
+  - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,claude.com
+  - DOMAIN-SUFFIX,anthropic-cdn.com
+  - DOMAIN-SUFFIX,claudeusercontent.com
+  - DOMAIN-SUFFIX,claudeusercontent.net
+  - DOMAIN-SUFFIX,datadog.pool.ntp.org
+
+  # Stripe 支付收银台
+  - DOMAIN-SUFFIX,stripe.com
+  - DOMAIN-SUFFIX,stripe.network
+  - DOMAIN-KEYWORD,stripe
+
+  # 登录 / 账号
+  - DOMAIN,auth.anthropic.com
+  - DOMAIN,accounts.anthropic.com
+  - DOMAIN-SUFFIX,auth.anthropic.com
+  - DOMAIN-SUFFIX,accounts.anthropic.com
+
+  # 文档 / 支持 / 状态
+  - DOMAIN,docs.anthropic.com
+  - DOMAIN,docs.claude.com
+  - DOMAIN,support.claude.com
+  - DOMAIN,status.claude.com
+  - DOMAIN,status.anthropic.com
+  - DOMAIN,trust.anthropic.com
+
+  # 下载 / 更新
+  - DOMAIN,downloads.claude.ai
+  - DOMAIN,storage.googleapis.com
+  - DOMAIN,raw.githubusercontent.com
+
+  # Claude Code / MCP
+  - DOMAIN-SUFFIX,modelcontextprotocol.io
+  - DOMAIN-WILDCARD,*.modelcontextprotocol.io
+  - DOMAIN-WILDCARD,*.mcp.claude.com
+  - DOMAIN,bridge.claudeusercontent.com
+
+  # 文件 / 用户内容
+  - DOMAIN-SUFFIX,claudeusercontent.com
+  - DOMAIN-SUFFIX,claudeusercontent.net
+  - DOMAIN-WILDCARD,*.claudeusercontent.com
+  - DOMAIN-WILDCARD,*.claudeusercontent.net
+
+  # CDN
+  - DOMAIN-SUFFIX,anthropic-cdn.com
+  - DOMAIN-WILDCARD,*.anthropic-cdn.com
+
+  # 统计 / 上报
+  - DOMAIN,cdn.usefathom.com
+  - DOMAIN,browser-intake-us5-datadoghq.com
+  - DOMAIN,statsig.anthropic.com
+  - DOMAIN-SUFFIX,sentry.io
+
+  # 通配兜底
+  - DOMAIN-WILDCARD,*.anthropic.com
+  - DOMAIN-WILDCARD,*.claude.ai
+  - DOMAIN-WILDCARD,*.claude.com
+
+  # App 兜底
+  - PROCESS-NAME-WILDCARD,*Claude*
+  - PROCESS-NAME-WILDCARD,*claude*
+  - PROCESS-NAME-WILDCARD,*Anthropic*
+  - PROCESS-NAME-WILDCARD,*anthropic*
+  - PROCESS-NAME-WILDCARD,*claude-desktop*
+  - PROCESS-NAME-WILDCARD,*claude-code*
+  - PROCESS-NAME-WILDCARD,*claude_*
+  - PROCESS-NAME-WILDCARD,*anthropic_*
+
+  # 关键词兜底
+  - DOMAIN-KEYWORD,anthropic
+  - DOMAIN-KEYWORD,claude
+  - DOMAIN-KEYWORD,claudeai
+
+  # 正则兜底
+  - DOMAIN-REGEX,(?i)(^|\.)claude\.ai$
+  - DOMAIN-REGEX,(?i)(^|\.)anthropic\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)claude\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.claude\.ai$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.anthropic\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.claude\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]+\.mcp\.claude\.com$
+  - DOMAIN-REGEX,(?i)^a[0-9]?-api\.anthropic\.com$
+
+  # IP / ASN
+  - IP-CIDR,160.79.104.0/23,no-resolve
+  - IP-CIDR6,2607:6bc0::/48,no-resolve
+  - IP-ASN,399358,no-resolve
