@@ -1,3 +1,11 @@
+Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / 规则集文件
+https://github.com/bgpeer/rules/tree/main/geo
+
+QuantumultX / 规则集文件
+https://github.com/bgpeer/rules/tree/main/QX
+
+---
+
 #### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
 
 #### ClashMi 配置核心复写
@@ -37,13 +45,6 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5
 
 ---
 
-Mihomo / Clash Meta / Sing-box / 小火箭 Shadowrocket / Surge / 规则集文件
-https://github.com/bgpeer/rules/tree/main/geo
-
-QuantumultX / 规则集文件
-https://github.com/bgpeer/rules/tree/main/QX
-
----
 
 # 🌍 Loyalsoldier Geo Rules → Multi-format Rulesets
 
