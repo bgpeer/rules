@@ -205,15 +205,58 @@ jobs:
           chmod +x scripts/sync_loy_geo_mrs.sh
           scripts/sync_loy_geo_mrs.sh
 
-      # ── AdGuard/Pi-hole 去广告名单（给不挂代理的设备用）──────────────────
+      # ── AdGuard/Pi-hole 去广告名单（发布到 Release，不进 git 历史）────────
       # 只由 category-ads-all 生成这一个文件；其余 geosite 是分流名单，
       # AdGuard 没有「走哪个代理组」的概念，转过去反而会把正常站点拦掉。
-      # 脚本内含校验，产出为空/规则丢失/上游格式变了都会让本步骤失败。
-      - name: Build AdGuard ads list
+      #
+      # 为什么发 Release 而不提交进仓库：ads.txt 17 万行 / 4MB，每天变动约
+      # 250 行。提交进来的话每天都会在 git 历史里沉淀一个新版本的大 blob，
+      # 仓库体积持续膨胀、push 越来越慢。Release 资产不进 git 历史，订阅地址
+      # 固定指向最新版，效果一样但零膨胀。
+      #
+      # 本步骤【绝不拖垮流水线】：任何一环出问题都只告警并 exit 0，
+      # mrs/srs/QX 等其余格式的当日更新不受影响。
+      - name: Build & publish AdGuard ads list
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ADGUARD_TAG: adguard
         run: |
-          set -eux
+          set -uo pipefail
+          mkdir -p adguard
+
+          # 取回上一版：build 脚本靠它做「较上一版跌幅」校验。ads.txt 不再进
+          # 仓库，checkout 后本地没有旧版，不取回的话该校验会永久失效。
+          ASSET_URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/${ADGUARD_TAG}/ads.txt"
+          if curl -fsSL --retry 3 --retry-delay 2 "$ASSET_URL" -o adguard/ads.txt; then
+            echo "  已取回上一版 ads.txt（$(grep -cve '^!' -e '^$' adguard/ads.txt || echo 0) 条）供跌幅校验"
+          else
+            echo "::warning::未取到上一版 ads.txt（首次发布或 Release 暂不可用），本次跳过跌幅校验"
+            rm -f adguard/ads.txt
+          fi
+
           chmod +x scripts/build_adguard_ads.sh
-          scripts/build_adguard_ads.sh
+          scripts/build_adguard_ads.sh || echo "::warning::build_adguard_ads.sh 非零退出"
+
+          if [ ! -s adguard/ads.txt ]; then
+            echo "::warning::ads.txt 未产出，跳过发布（其余格式不受影响）"
+            exit 0
+          fi
+
+          # tag 不存在则建，存在则覆盖同名资产（订阅地址始终有效）
+          if ! gh release view "$ADGUARD_TAG" >/dev/null 2>&1; then
+            gh release create "$ADGUARD_TAG" \
+              --title "AdGuard / Pi-hole 去广告名单" \
+              --notes "DNS 层去广告名单，由 geo/geosite/category-ads-all.list 每日转换生成。
+
+          订阅地址（始终指向最新版）：
+          ${ASSET_URL}" || { echo "::warning::创建 Release 失败，跳过发布"; exit 0; }
+          fi
+
+          if gh release upload "$ADGUARD_TAG" adguard/ads.txt --clobber; then
+            echo "  ✓ 已发布：${ASSET_URL}"
+          else
+            echo "::warning::上传 Release 资产失败，本次沿用线上旧版"
+          fi
 
       # ── 调试输出 ─────────────────────────────────────────────────────────
       - name: Show outputs (debug)
@@ -252,7 +295,7 @@ jobs:
           # 把基座换成远端最新（reset --mixed 保留工作区产物），只重新
           # 提交产物目录即可，浅克隆下也不需要 merge-base
           for i in 1 2 3 4 5; do
-            git add -A geo/geosite geo/geoip QX adguard
+            git add -A geo/geosite geo/geoip QX
 
             if git diff --cached --quiet; then
               echo "No changes to commit."

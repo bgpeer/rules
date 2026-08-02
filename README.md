@@ -81,7 +81,7 @@ https://github.com/bgpeer/rules/tree/main/QX
 
 ---
 
-## 🛡️ adguard/ads.txt — DNS 层去广告名单（AdGuard Home / Pi-hole）
+## 🛡️ ads.txt — DNS 层去广告名单（AdGuard Home / Pi-hole）
 
 给**装不了代理客户端的设备**用：智能电视、盒子、IoT、路由器，或安卓「私人 DNS」全系统去广告。
 挂着代理的设备本来就靠规则集里的 `category-ads-all` 拦广告，这份补的是「不挂代理」的场景。
@@ -89,10 +89,15 @@ https://github.com/bgpeer/rules/tree/main/QX
 **订阅地址：**
 
 ```
-https://raw.githubusercontent.com/bgpeer/rules/main/adguard/ads.txt
+https://github.com/bgpeer/rules/releases/download/adguard/ads.txt
 ```
 
 AdGuard Home 后台 → 过滤器 → DNS 拦截列表 → 添加黑名单，粘贴上面的地址即可。随主流水线每天 02:10 更新。
+
+> 📌 这份名单**发布在 Release，不在仓库目录里**。它有 17 万行 / 4MB，每天变动约 250 行，
+> 提交进 git 会让仓库历史每天沉淀一个新版本的大 blob、push 越来越慢。Release 资产不进
+> git 历史，上面这个地址固定指向最新版，更新频率和用法都不变。
+> （旧地址 `raw.githubusercontent.com/.../adguard/ads.txt` 已停用，请改用上面的。）
 
 **为什么要单独出这一份**：AdGuard Home / Pi-hole 只认 adblock(`||domain^`) 或 hosts 语法，
 本仓库现有的三种格式它**一种都读不了**——`.mrs` 是 zstd 压缩的二进制，`.yaml` / `.list` 是
