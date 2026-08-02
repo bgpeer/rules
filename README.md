@@ -43,6 +43,8 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5
 
 [QuantumultX样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/8c4b2b9685791f097ad183da3d29e4d0/raw/QX.conf)
 
+[VPS节点一键部署](https://github.com/bgpeer/nodekit)
+
 ---
 
 
