@@ -89,15 +89,15 @@ https://github.com/bgpeer/rules/tree/main/QX
 **订阅地址：**
 
 ```
-https://github.com/bgpeer/rules/releases/download/adguard/ads.txt
+https://raw.githubusercontent.com/bgpeer/rules/adguard/ads.txt
 ```
 
 AdGuard Home 后台 → 过滤器 → DNS 拦截列表 → 添加黑名单，粘贴上面的地址即可。随主流水线每天 02:10 更新。
 
-> 📌 这份名单**发布在 Release，不在仓库目录里**。它有 17 万行 / 4MB，每天变动约 250 行，
-> 提交进 git 会让仓库历史每天沉淀一个新版本的大 blob、push 越来越慢。Release 资产不进
-> git 历史，上面这个地址固定指向最新版，更新频率和用法都不变。
-> （旧地址 `raw.githubusercontent.com/.../adguard/ads.txt` 已停用，请改用上面的。）
+> 📌 这份名单托管在**独立的 `adguard` 分支**，不在 `main` 的目录树里。它有 17 万行 / 4MB，
+> 每天变动约 250 行：提交进 `main` 会让历史每天沉淀一个大 blob、push 越来越慢；发 Release
+> 又会占据仓库首页最显眼的位置，与本仓库「分流规则集」的定位不符。独立分支每次强推一个
+> 全新的无父提交，历史零累积，上面这个地址固定指向最新版，更新频率和用法都不变。
 
 **为什么要单独出这一份**：AdGuard Home / Pi-hole 只认 adblock(`||domain^`) 或 hosts 语法，
 本仓库现有的三种格式它**一种都读不了**——`.mrs` 是 zstd 压缩的二进制，`.yaml` / `.list` 是

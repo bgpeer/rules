@@ -205,32 +205,35 @@ jobs:
           chmod +x scripts/sync_loy_geo_mrs.sh
           scripts/sync_loy_geo_mrs.sh
 
-      # ── AdGuard/Pi-hole 去广告名单（发布到 Release，不进 git 历史）────────
+      # ── AdGuard/Pi-hole 去广告名单（托管在独立的 adguard 分支）────────────
       # 只由 category-ads-all 生成这一个文件；其余 geosite 是分流名单，
       # AdGuard 没有「走哪个代理组」的概念，转过去反而会把正常站点拦掉。
       #
-      # 为什么发 Release 而不提交进仓库：ads.txt 17 万行 / 4MB，每天变动约
-      # 250 行。提交进来的话每天都会在 git 历史里沉淀一个新版本的大 blob，
-      # 仓库体积持续膨胀、push 越来越慢。Release 资产不进 git 历史，订阅地址
-      # 固定指向最新版，效果一样但零膨胀。
+      # 为什么放独立分支：ads.txt 17 万行 / 4MB，每天变动约 250 行。
+      #   - 提交进 main：每天在历史里沉淀一个大 blob，仓库体积持续膨胀
+      #   - 发 Release：会占据仓库首页最显眼的位置，让这个「分流规则」仓库
+      #     看起来像个去广告项目，与仓库定位不符
+      # 独立分支两头都避开：每次推的是一个【全新的无父提交】并强制覆盖，
+      # 历史零累积；main 的目录树里看不到它；首页也不出现 Releases 栏目。
       #
       # 本步骤【绝不拖垮流水线】：任何一环出问题都只告警并 exit 0，
       # mrs/srs/QX 等其余格式的当日更新不受影响。
       - name: Build & publish AdGuard ads list
         env:
           GH_TOKEN: ${{ github.token }}
-          ADGUARD_TAG: adguard
+          ADGUARD_BRANCH: adguard
         run: |
           set -uo pipefail
           mkdir -p adguard
 
-          # 取回上一版：build 脚本靠它做「较上一版跌幅」校验。ads.txt 不再进
-          # 仓库，checkout 后本地没有旧版，不取回的话该校验会永久失效。
-          ASSET_URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/${ADGUARD_TAG}/ads.txt"
-          if curl -fsSL --retry 3 --retry-delay 2 "$ASSET_URL" -o adguard/ads.txt; then
+          RAW_URL="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${ADGUARD_BRANCH}/ads.txt"
+
+          # 取回上一版：build 脚本靠它做「较上一版跌幅」校验。ads.txt 不在
+          # main 里，checkout 后本地没有旧版，不取回的话该校验会永久失效。
+          if curl -fsSL --retry 3 --retry-delay 2 "$RAW_URL" -o adguard/ads.txt; then
             echo "  已取回上一版 ads.txt（$(grep -cve '^!' -e '^$' adguard/ads.txt || echo 0) 条）供跌幅校验"
           else
-            echo "::warning::未取到上一版 ads.txt（首次发布或 Release 暂不可用），本次跳过跌幅校验"
+            echo "::warning::未取到上一版 ads.txt（首次发布或 raw 暂不可用），本次跳过跌幅校验"
             rm -f adguard/ads.txt
           fi
 
@@ -242,20 +245,34 @@ jobs:
             exit 0
           fi
 
-          # tag 不存在则建，存在则覆盖同名资产（订阅地址始终有效）
-          if ! gh release view "$ADGUARD_TAG" >/dev/null 2>&1; then
-            gh release create "$ADGUARD_TAG" \
-              --title "AdGuard / Pi-hole 去广告名单" \
-              --notes "DNS 层去广告名单，由 geo/geosite/category-ads-all.list 每日转换生成。
-
-          订阅地址（始终指向最新版）：
-          ${ASSET_URL}" || { echo "::warning::创建 Release 失败，跳过发布"; exit 0; }
-          fi
-
-          if gh release upload "$ADGUARD_TAG" adguard/ads.txt --clobber; then
-            echo "  ✓ 已发布：${ASSET_URL}"
+          # 在独立工作区新建一个单提交仓库再强推：无父提交 = 历史零累积；
+          # 也不碰主仓库的索引/工作树（后面的 Commit & push 依赖它保持干净）
+          pubdir="$(mktemp -d)"
+          cp adguard/ads.txt "$pubdir/ads.txt"
+          if (
+            set -e
+            cd "$pubdir"
+            git init -q -b "$ADGUARD_BRANCH"
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add ads.txt
+            git commit -q -m "chore: update AdGuard ads list ($(grep -c '^||' ads.txt) 条)"
+            git push -q --force \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+              "HEAD:refs/heads/${ADGUARD_BRANCH}"
+          ); then
+            echo "  ✓ 已发布：${RAW_URL}"
           else
-            echo "::warning::上传 Release 资产失败，本次沿用线上旧版"
+            echo "::warning::推送 ${ADGUARD_BRANCH} 分支失败，本次沿用线上旧版"
+          fi
+          rm -rf "$pubdir"
+
+          # 迁移清理：删掉早先的 Release + tag（幂等，删净后即空操作）。
+          # 确认首页不再出现 Releases 栏目后，这一块可以整段移除。
+          if gh release view "$ADGUARD_BRANCH" >/dev/null 2>&1; then
+            gh release delete "$ADGUARD_BRANCH" --yes --cleanup-tag \
+              && echo "  ✓ 已删除旧 Release（含 tag）" \
+              || echo "::warning::删除旧 Release 失败，可在网页端手动删除"
           fi
 
       # ── 调试输出 ─────────────────────────────────────────────────────────
