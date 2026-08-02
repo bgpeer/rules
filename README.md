@@ -88,6 +88,8 @@ https://github.com/bgpeer/rules/tree/main/QX
 
 **订阅地址：**
 
+**[📄 点此查看名单内容](https://github.com/bgpeer/rules/blob/adguard/ads.txt)**（文件较大，网页只展示开头一段，完整内容点页面里的 `Raw`）
+
 ```
 https://raw.githubusercontent.com/bgpeer/rules/adguard/ads.txt
 ```
