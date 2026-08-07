@@ -3,7 +3,14 @@ name: Sync Loyalsoldier DAT -> Multi-format Rulesets
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "10 18 * * *"   # 北京时间 02:10（UTC 18:10）
+    # 主班次：北京 02:10（UTC 18:10），CF 未触发时兜底
+    - cron: "10 18 * * *"
+    # 补救班次：北京 05:10 / 08:10（UTC 21:10 / 次日 00:10）。
+    # GitHub 高负载时分不到 runner、甚至会直接丢弃计划任务，CF 主触发与
+    # 主班次会一起失效（2026-08-06 就这样漏了一整天）。多排两班让它能自愈。
+    # 当天已成功同步过的话，decide 几秒内就判定跳过，几乎零成本。
+    - cron: "10 21 * * *"
+    - cron: "10 0 * * *"
   push:
     branches:
       - main
@@ -26,6 +33,8 @@ jobs:
   # ── 决策作业：计划触发时，若近期已成功同步过则跳过（让 schedule 仅作兜底）──
   decide:
     runs-on: ubuntu-latest
+    # 只是一次 API 查询，正常 3 秒内完成
+    timeout-minutes: 5
     outputs:
       run: ${{ steps.check.outputs.run }}
     steps:
@@ -35,10 +44,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           EVENT: ${{ github.event_name }}
-          # 检测锚点：固定为「今天 UTC 17:50」=「北京时间 01:50」，
-          # 即 CF 在北京 02:00（UTC 18:00）触发前 10 分钟。
-          # 用固定锚点而非滚动窗口的好处：
-          #   1) 精准判断「今天凌晨这一轮 CF 到底跑没跑」；
+          # 检测锚点：UTC 17:50 =「北京时间 01:50」，即 CF 在北京 02:00
+          # （UTC 18:00）触发前 10 分钟。取【最近一次已经过去的】17:50，
+          # 也就是当前这一轮同步周期的起点。
+          # 用锚点而非滚动窗口的好处：
+          #   1) 精准判断「本轮周期 CF 到底跑没跑」；
           #   2) 不会被前一晚的手动运行误判为「已同步」；
           #   3) 即使 GitHub 把计划任务拖延数小时才执行，锚点不动，仍能正确识别。
           ANCHOR_UTC: "17:50:00"
@@ -52,8 +62,15 @@ jobs:
             exit 0
           fi
 
-          # 计划触发 → 查「今天 UTC 17:50（北京 01:50）」之后是否已有成功运行
-          since="$(date -u +%Y-%m-%dT${ANCHOR_UTC}Z)"
+          # 计划触发 → 查【最近一次经过的 UTC 17:50】之后是否已有成功运行。
+          # 必须用「最近经过的」而不是「今天的」：北京 08:10 那班补救落在
+          # UTC 次日 00:10，此时 date -u 已翻页，取今天的锚点会指向 17 小时后
+          # 的未来，永远查不到成功运行 → 每天都白跑一次全量同步。
+          if [[ "$(date -u +%H:%M:%S)" > "$ANCHOR_UTC" ]]; then
+            since="$(date -u +%Y-%m-%d)T${ANCHOR_UTC}Z"          # 今天的 17:50 已过
+          else
+            since="$(date -u -d yesterday +%Y-%m-%d)T${ANCHOR_UTC}Z"   # 尚未到，用昨天的
+          fi
           echo "schedule trigger; checking successful runs since ${since}"
 
           n="$(curl -s \
@@ -77,6 +94,10 @@ jobs:
     needs: decide
     if: needs.decide.outputs.run == 'true'
     runs-on: ubuntu-latest
+    # 正常 2 分钟内跑完；卡住时快速失败，好让后续补救班次接手。
+    # 注意：timeout-minutes 从【拿到 runner 开始】计时，管不到排队等待，
+    # 因此它防的是「跑挂住」，排不到机器那种情况靠上面的补救班次自愈。
+    timeout-minutes: 30
     steps:
       # 浅克隆：仓库每日全量重写上万个规则文件，全历史克隆 30s+ 且随时间
       # 持续增长；同步只需要 main 最新快照，深度 1 足够
