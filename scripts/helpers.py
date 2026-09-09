@@ -328,6 +328,40 @@ def parse_clash_to_buckets(yaml_path):
         buckets[bucket].append(v)
     return buckets
 
+# geoip 是「某国家/地区的公网 IP 段」，组播 / 私有 / 保留 / 环回 / 链路本地
+# 这些根本不是可路由的公网单播地址，出现在国家表里就是脏数据。
+# 实测上游 Loyalsoldier geoip 的 cn 表里带了 926 条组播（225.1.1.9/32 之类）
+# 和 5 条私有地址（10.255.128.136/32、192.168.10.1/32 …）。
+# 危害不大（组播本来就不走代理），但 192.168.x / 172.16.x 混进「中国 IP」里，
+# 万一被别的规则引用会出意外，而且这类条目每天跟着同步进 5 种格式。
+#
+# private 表必须豁免：它的存在意义【就是】装这些段（192.0.0.0/24、169.254.0.0/16…），
+# 一刀切会把 rule-set:private 直接清空，模板里靠它做内网直连和 fake-ip-filter。
+BOGON_KEEP_TAGS = {"private"}
+
+def drop_bogon_cidrs(values, tag=None):
+    """从 geoip 数据里剔掉非公网单播段。tag 在 BOGON_KEEP_TAGS 里则原样返回。
+
+       只用 ipaddress 自带的属性判定，不硬编码前缀表——标准库跟着 RFC 走，
+       比自己维护一张表可靠（这也是本仓库一贯的做法：能查权威就不猜）。"""
+    if tag in BOGON_KEEP_TAGS:
+        return list(values)
+    out, dropped = [], 0
+    for v in values:
+        try:
+            net = ipaddress.ip_network(str(v).strip(), strict=False)
+        except ValueError:
+            out.append(v)          # 非法值交给 normalize_cidrs 去报错丢弃，这里不越权
+            continue
+        if (net.is_multicast or net.is_private or net.is_loopback
+                or net.is_link_local or net.is_reserved or net.is_unspecified):
+            dropped += 1
+            continue
+        out.append(v)
+    if dropped:
+        print(f"[BOGON] {tag or '?'}: 剔除 {dropped} 条非公网段（组播/私有/保留/环回/链路本地）")
+    return out
+
 def normalize_cidrs(values):
     """把 IP 值规范化为标准 CIDR 形式（裸 IP 补 /32 或 /128、主机位清零、
     IPv6 小写），非法值丢弃，去重保序。
@@ -721,7 +755,7 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         if tag.startswith("geoip_"):
             tag = tag[6:]
         tag = tag.removesuffix(".txt")
-        ipcidr_lines = read_lines(f)
+        ipcidr_lines = drop_bogon_cidrs(read_lines(f), tag)
         if not ipcidr_lines:
             continue
         # 五种格式 + QX（纯 Loyalsoldier 数据）
@@ -746,7 +780,8 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         if merged_cidr:
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-            write_lines(mrs_src, sort_cidr_values(normalize_cidrs(merged_cidr)))
+            write_lines(mrs_src,
+                        sort_cidr_values(normalize_cidrs(drop_bogon_cidrs(merged_cidr, tag))))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         ok += 1
@@ -782,7 +817,8 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
         print(f"[GEOSITE-IP] geoip/{tag}.mrs <- geosite 侧 IP 溢出 (mrs only)")
         mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
         os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
-        write_lines(mrs_src, sort_cidr_values(normalize_cidrs(ipcidr)))
+        write_lines(mrs_src,
+                    sort_cidr_values(normalize_cidrs(drop_bogon_cidrs(ipcidr, tag))))
         mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         spill_ok += 1
@@ -1487,7 +1523,7 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
         tag = os.path.basename(cyaml).removesuffix(".yaml")
         print(f"[CLASH-IP] processing {tag} <- {cyaml}")
         cb = parse_clash_to_buckets(cyaml)
-        ci_ipcidr = cb.get("ipcidr", [])
+        ci_ipcidr = drop_bogon_cidrs(cb.get("ipcidr", []), tag)
         ci_asn = cb.get("asn", [])
         if not ci_ipcidr and not ci_asn:
             print(f"[CLASH-IP] {tag}: no IP entries, skip")
