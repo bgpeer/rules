@@ -195,19 +195,23 @@ if [[ "$mrs_total" -gt 0 ]]; then
   export MIHOMO_BIN mrs_fail_log
   compile_one_mrs() {
     local line="$1"
-    local behavior src dst tmp
+    local behavior src dst tmp errf
     behavior="$(printf '%s' "$line" | cut -f1)"
     src="$(printf '%s' "$line" | cut -f2)"
     dst="$(printf '%s' "$line" | cut -f3)"
-    tmp="${dst}.tmp"
-    rm -f "$tmp" 2>/dev/null || true
-    if "$MIHOMO_BIN" convert-ruleset "$behavior" text "$src" "$tmp" 2>/dev/null \
+    tmp="${dst}.${BASHPID}.tmp"
+    errf="${tmp}.err"
+    rm -f "$tmp" "$errf" 2>/dev/null || true
+    if "$MIHOMO_BIN" convert-ruleset "$behavior" text "$src" "$tmp" 2>"$errf" \
        && [ -s "$tmp" ]; then
       mv -f "$tmp" "$dst"
     else
+      # 连工具自己的报错一起记：只记一行 "FAIL: 路径" 的话，下次排查还得靠猜
+      printf 'FAIL: %s\t%s\n' "$dst" \
+        "$(tr '\n' ' ' < "$errf" 2>/dev/null | cut -c1-300)" >> "$mrs_fail_log"
       rm -f "$tmp" 2>/dev/null || true
-      echo "FAIL: $dst" >> "$mrs_fail_log"
     fi
+    rm -f "$errf" 2>/dev/null || true
   }
   export -f compile_one_mrs
   cat "$MRS_DEDUP" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_mrs "$@"' _ {}
@@ -222,26 +226,34 @@ if [[ "$srs_total" -gt 0 ]]; then
   export SINGBOX_BIN srs_fail_log
   compile_one_srs() {
     local line="$1"
-    local json_file srs tmp
+    local json_file srs tmp errf
     json_file="$(printf '%s' "$line" | cut -f1)"
     srs="$(printf '%s' "$line" | cut -f2)"
     tmp="${srs}.${BASHPID}.tmp"
-    rm -f "$tmp" 2>/dev/null || true
-    if "$SINGBOX_BIN" rule-set compile --output "$tmp" "$json_file" 2>/dev/null \
+    errf="${tmp}.err"
+    rm -f "$tmp" "$errf" 2>/dev/null || true
+    if "$SINGBOX_BIN" rule-set compile --output "$tmp" "$json_file" 2>"$errf" \
        && [ -s "$tmp" ]; then
       mv -f "$tmp" "$srs"
     else
+      printf 'FAIL: %s\t%s\n' "$srs" \
+        "$(tr '\n' ' ' < "$errf" 2>/dev/null | cut -c1-300)" >> "$srs_fail_log"
       rm -f "$tmp" 2>/dev/null || true
-      echo "FAIL: $srs" >> "$srs_fail_log"
     fi
+    rm -f "$errf" 2>/dev/null || true
   }
   export -f compile_one_srs
   cat "$SRS_DEDUP" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_srs "$@"' _ {}
   echo "[INFO] srs compile done"
 fi
 
-mrs_fail="$(grep -c "^FAIL:" "$mrs_fail_log" 2>/dev/null || echo 0)"
-srs_fail="$(grep -c "^FAIL:" "$srs_fail_log" 2>/dev/null || echo 0)"
+# ⚠ 别用 `grep -c ... || echo 0`：grep 没匹配时【会打印 0 而且退出码是 1】，
+#   `|| echo 0` 于是也执行，变量拿到的是两行 "0\n0"，下面 [[ $mrs_fail -gt 0 ]]
+#   直接报 "syntax error in expression"、整个判断块被跳过 —— 编译失败就这么被
+#   静默吞了三天（geo/geoip/cn.srs 从 09-06 起没再更新，日志里一个字都没有）。
+#   wc -l 不依赖退出码，日志文件在上面已用 `: >` 建好，必然存在。
+mrs_fail="$(wc -l < "$mrs_fail_log" | tr -d ' ')"
+srs_fail="$(wc -l < "$srs_fail_log" | tr -d ' ')"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 7. 统计
@@ -260,10 +272,30 @@ echo "  geo/geoip/     srs  : $(find "$OUT_GEOIP"      -name '*.srs'  | wc -l | 
 echo "  QX/geosite/    list : $(find "$OUT_QX_GEOSITE" -name '*.list' | wc -l | tr -d ' ')"
 echo "  QX/geoip/      list : $(find "$OUT_QX_GEOIP"   -name '*.list' | wc -l | tr -d ' ')"
 
-if [[ $mrs_fail -gt 0 ]] || [[ $srs_fail -gt 0 ]]; then
+total_fail=$(( mrs_fail + srs_fail ))
+if [[ "$total_fail" -gt 0 ]]; then
   echo "[WARN] compilation failures: mrs=$mrs_fail  srs=$srs_fail"
-  [[ $mrs_fail -gt 0 ]] && cat "$mrs_fail_log"
-  [[ $srs_fail -gt 0 ]] && cat "$srs_fail_log"
+  # 用 ::error:: 而不是普通 echo：GitHub 把它挂成红色注解贴在运行页顶部，
+  # 不会淹没在几千行日志里。产物照常提交（编译失败只是沿用上一版文件，
+  # 是【旧】不是【坏】），但运行结果会由最后一步置为失败，避免连续失败无人察觉。
+  while IFS=$'\t' read -r target reason; do
+    [[ -z "$target" ]] && continue
+    echo "::error::规则集编译失败 ${target#FAIL: } ${reason}"
+  done < <(cat "$mrs_fail_log" "$srs_fail_log")
+  if [[ -n "${GITHUB_ENV:-}" ]]; then
+    echo "COMPILE_FAILURES=$total_fail" >> "$GITHUB_ENV"
+  fi
+  if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
+    {
+      echo "### ⚠ 规则集编译失败 ${total_fail} 个（mrs=${mrs_fail} srs=${srs_fail}）"
+      echo
+      echo "这些目标沿用了上一版文件——内容是旧的，不是坏的。"
+      echo
+      echo '```'
+      cat "$mrs_fail_log" "$srs_fail_log"
+      echo '```'
+    } >> "$GITHUB_STEP_SUMMARY"
+  fi
 fi
 
 echo "Done."
