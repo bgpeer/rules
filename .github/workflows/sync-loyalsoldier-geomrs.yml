@@ -360,7 +360,7 @@ jobs:
       # 放在 commit&push 【之后】：编译失败只是让那几个目标沿用上一版文件
       # （内容旧，不是坏），当天其余几千个规则集的更新照常发布，不能因为一个
       # 目标失败就整批不发。但运行结果必须是红的——之前守卫写坏（grep -c 的
-      # "0\n0"）导致失败被静默吞掉，geo/geoip/cn.srs 停更三天都没人发现。
+      # "0\n0"），那个 if 从来没跑起来过，真出编译失败也只会静默沿用旧文件。
       # COMPILE_FAILURES 由 sync 脚本写进 $GITHUB_ENV，没失败时压根不设。
       - name: Fail run if any ruleset failed to compile
         if: always() && env.COMPILE_FAILURES != '' && env.COMPILE_FAILURES != '0'
