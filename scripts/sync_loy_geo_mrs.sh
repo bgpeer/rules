@@ -249,8 +249,8 @@ fi
 
 # ⚠ 别用 `grep -c ... || echo 0`：grep 没匹配时【会打印 0 而且退出码是 1】，
 #   `|| echo 0` 于是也执行，变量拿到的是两行 "0\n0"，下面 [[ $mrs_fail -gt 0 ]]
-#   直接报 "syntax error in expression"、整个判断块被跳过 —— 编译失败就这么被
-#   静默吞了三天（geo/geoip/cn.srs 从 09-06 起没再更新，日志里一个字都没有）。
+#   直接报 "syntax error in expression"、整个判断块被跳过。也就是说这个守卫
+#   【从来没生效过】：每次运行日志末尾那两行语法错误就是它，真出编译失败也不会报。
 #   wc -l 不依赖退出码，日志文件在上面已用 `: >` 建好，必然存在。
 mrs_fail="$(wc -l < "$mrs_fail_log" | tr -d ' ')"
 srs_fail="$(wc -l < "$srs_fail_log" | tr -d ' ')"
