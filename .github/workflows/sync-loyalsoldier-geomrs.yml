@@ -208,6 +208,24 @@ jobs:
           ~/nopt-tools/mihomo -v
           ~/nopt-tools/sing-box version
 
+      # ── 编译缓存：滚动复用上一次的编译清单 ────────────────────────────────
+      # 每天要编 1817 个 mrs + 1806 个 srs，占整条流水线一半时间，可上游一天
+      # 只动几十个文件。清单记着「上次每个产物是拿什么输入编出来的」，脚本据此
+      # 只重编内容真变了的那几个（判据见 helpers.py 的编译缓存一节）。
+      #
+      # key 带 run_id 所以必然未命中 -> 每次运行结束都会存一份新的；
+      # restore-keys 前缀匹配，取回最近一次存的那份。缓存过期或被清掉也只是
+      # 退回全量重编，不会出错。
+      #
+      # 清单【不进 git】：仓库 .git 已经 1.5G，不想再每天塞一个 200KB 的 blob。
+      - name: Cache compile manifest
+        uses: actions/cache@v4
+        with:
+          path: .compile-cache
+          key: compile-manifest-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            compile-manifest-${{ runner.os }}-
+
       # ── 同步分支到最新 ────────────────────────────────────────────────────
       - name: Sync branch (pre-run)
         env:
