@@ -20,6 +20,8 @@
 # 性能优化：
 #   - Python 批处理：一次 python3 调用处理所有 tag 的全部文本格式（消除 6000+ 次进程启动）
 #   - 并行编译：mrs/srs 用 xargs -P 多核并行
+#   - 编译缓存：上游一天只动几十个文件，按内容哈希只重编真变了的目标
+#     （FORCE_RECOMPILE=1 强制全量重编）
 set -euo pipefail
 
 GEOIP_URL='https://raw.githubusercontent.com/Loyalsoldier/geoip/release/geoip.dat'
@@ -37,6 +39,11 @@ MIHOMO_BIN="${MIHOMO_BIN:-./mihomo}"
 SINGBOX_BIN="${SINGBOX_BIN:-./sing-box}"
 
 PARALLEL="${PARALLEL:-$(nproc 2>/dev/null || echo 2)}"
+
+# 编译缓存清单存放处（不进 git，CI 里由 actions/cache 滚动复用）。
+# FORCE_RECOMPILE=1 可强制整批重编，用来排查「产物是不是被缓存卡住了」。
+COMPILE_CACHE_DIR="${COMPILE_CACHE_DIR:-.compile-cache}"
+COMPILE_MANIFEST="${COMPILE_CACHE_DIR}/manifest.tsv"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
@@ -99,9 +106,16 @@ fi
 # ══════════════════════════════════════════════════════════════════════════════
 # 3. 清空旧输出（增删同步）
 # ══════════════════════════════════════════════════════════════════════════════
-echo "[3/7] Clean output dirs (full sync)..."
-rm -rf "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"
-mkdir -p "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"
+echo "[3/7] Clean output dirs (text formats only; keep compiled mrs/srs)..."
+# 文本格式（yaml/list/json/QX）每次全量重写，先删干净，保证「上游删了 tag，
+# 这边也跟着删」。
+# 已编译的 .mrs/.srs 【留着】：第 6 步会按内容哈希判断能不能直接复用
+# （见 helpers.py 的编译缓存一节）。上游已删 tag 的残留产物不会漏网——
+# 第 6 步拿本次的任务清单做兜底清理，清单里没有的一律删掉。
+for d in "$OUT_GEOSITE" "$OUT_GEOIP" "$OUT_QX_GEOSITE" "$OUT_QX_GEOIP"; do
+  mkdir -p "$d"
+  find "$d" -type f ! -name '*.mrs' ! -name '*.srs' -delete
+done
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 4. Python 批处理 geosite（一次调用处理所有 tag，输出 yaml/list/json/QX）
@@ -187,11 +201,32 @@ mrs_total="$(wc -l < "$MRS_DEDUP" | tr -d ' ')"
 srs_total="$(wc -l < "$SRS_DEDUP" | tr -d ' ')"
 echo "[INFO] mrs tasks: $mrs_total   srs tasks: $srs_total"
 
+# ── 编译缓存：挑出内容真变了的目标，其余直接沿用仓库里那份 ──────────────────
+# 判据是「编译输入的哈希」+「上一版产物自己的哈希」两个都对得上，
+# 详见 helpers.py 的编译缓存一节。工具版本进 key，一升级就整批重编。
+TOOL_KEY="mihomo=$("$MIHOMO_BIN" -v 2>/dev/null | head -1) singbox=$("$SINGBOX_BIN" version 2>/dev/null | head -1)"
+MRS_BUILD="${WORKDIR}/mrs_tasks_build.txt"
+SRS_BUILD="${WORKDIR}/srs_tasks_build.txt"
+
+if [[ "${FORCE_RECOMPILE:-0}" == "1" ]]; then
+  echo "[CACHE] FORCE_RECOMPILE=1 -> 跳过缓存，全量重编"
+  cp "$MRS_DEDUP" "$MRS_BUILD"
+  cp "$SRS_DEDUP" "$SRS_BUILD"
+else
+  python3 "$HELPERS" compile_plan \
+    "$MRS_DEDUP" "$SRS_DEDUP" "$COMPILE_MANIFEST" "$TOOL_KEY" \
+    "$MRS_BUILD" "$SRS_BUILD" \
+    "$OUT_GEOSITE" "$OUT_GEOIP"
+fi
+
+mrs_build_n="$(wc -l < "$MRS_BUILD" | tr -d ' ')"
+srs_build_n="$(wc -l < "$SRS_BUILD" | tr -d ' ')"
+
 # ── 并行编译 mrs ─────────────────────────────────────────────────────────────
 mrs_fail_log="${WORKDIR}/mrs_failures.log"
 : > "$mrs_fail_log"
 
-if [[ "$mrs_total" -gt 0 ]]; then
+if [[ "$mrs_build_n" -gt 0 ]]; then
   export MIHOMO_BIN mrs_fail_log
   compile_one_mrs() {
     local line="$1"
@@ -214,15 +249,17 @@ if [[ "$mrs_total" -gt 0 ]]; then
     rm -f "$errf" 2>/dev/null || true
   }
   export -f compile_one_mrs
-  cat "$MRS_DEDUP" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_mrs "$@"' _ {}
+  cat "$MRS_BUILD" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_mrs "$@"' _ {}
   echo "[INFO] mrs compile done"
+else
+  echo "[INFO] mrs 全部命中缓存，无需编译"
 fi
 
 # ── 并行编译 srs ─────────────────────────────────────────────────────────────
 srs_fail_log="${WORKDIR}/srs_failures.log"
 : > "$srs_fail_log"
 
-if [[ "$srs_total" -gt 0 ]]; then
+if [[ "$srs_build_n" -gt 0 ]]; then
   export SINGBOX_BIN srs_fail_log
   compile_one_srs() {
     local line="$1"
@@ -243,8 +280,10 @@ if [[ "$srs_total" -gt 0 ]]; then
     rm -f "$errf" 2>/dev/null || true
   }
   export -f compile_one_srs
-  cat "$SRS_DEDUP" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_srs "$@"' _ {}
+  cat "$SRS_BUILD" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_srs "$@"' _ {}
   echo "[INFO] srs compile done"
+else
+  echo "[INFO] srs 全部命中缓存，无需编译"
 fi
 
 # ⚠ 别用 `grep -c ... || echo 0`：grep 没匹配时【会打印 0 而且退出码是 1】，
@@ -254,6 +293,12 @@ fi
 #   wc -l 不依赖退出码，日志文件在上面已用 `: >` 建好，必然存在。
 mrs_fail="$(wc -l < "$mrs_fail_log" | tr -d ' ')"
 srs_fail="$(wc -l < "$srs_fail_log" | tr -d ' ')"
+
+# ── 刷新编译缓存清单 ─────────────────────────────────────────────────────────
+# 按【编译跑完后的实际产物】重算，编译失败的目标（产物缺失或为空）压根不写进
+# 清单，下次必然重编，不会被缓存把失败掩盖过去。
+python3 "$HELPERS" compile_save \
+  "$MRS_DEDUP" "$SRS_DEDUP" "$TOOL_KEY" "$COMPILE_MANIFEST"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 7. 统计

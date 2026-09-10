@@ -17,6 +17,9 @@ helpers.py — sync_loy_geo_mrs.sh 的统一 Python 引擎
   python3 helpers.py merge_dedup            <geo_file> <clash_file> <out_file> <bucket_type>
   python3 helpers.py diff_new_entries       <exist_file> <new_file> <out_file> <type>
   python3 helpers.py rebuild_json_from_list <list_file> <json_dst>
+  编译缓存（见文件末尾「编译缓存」一节）:
+  python3 helpers.py compile_plan <mrs_tasks> <srs_tasks> <manifest> <tool_key> <mrs_build> <srs_build> <prune_dir>...
+  python3 helpers.py compile_save <mrs_tasks> <srs_tasks> <tool_key> <manifest_out>
 """
 
 import sys
@@ -24,6 +27,8 @@ import os
 import re
 import json
 import glob
+import functools
+import hashlib
 import ipaddress
 from urllib.request import Request, urlopen
 
@@ -238,12 +243,10 @@ def sort_qx_lines(lines):
         v = parts[1] if len(parts) > 1 else ""
         order = QX_TYPE_ORDER.get(t, 99)
         if t in ("IP-CIDR", "IP6-CIDR") and "/" in v:
-            try:
-                net = ipaddress.ip_network(v, strict=False)
+            net = _net_cached(v)
+            if net is not None:
                 is_v6 = 1 if net.version == 6 else 0
                 return (order, is_v6, -net.prefixlen, str(net.network_address), v.lower())
-            except ValueError:
-                pass
         return (order, 0, 0, v.lower())
     return sorted(lines, key=qx_key)
 
@@ -339,6 +342,25 @@ def parse_clash_to_buckets(yaml_path):
 # 一刀切会把 rule-set:private 直接清空，模板里靠它做内网直连和 fake-ip-filter。
 BOGON_KEEP_TAGS = {"private"}
 
+# ── ip_network 结果缓存 ───────────────────────────────────────────────────────
+# geoip 每天要过 100 万+ 条 CIDR，同一条值在一次运行里会被解析三遍：
+# drop_bogon_cidrs 判 bogon 一次、QX 排序取网络地址一次、normalize_cidrs 规范化
+# 一次。ipaddress.ip_network 本身就不便宜，is_private/is_reserved 更是拿目标网段
+# 去和一张网段表逐个做 __contains__（profile 里 4900 万次调用），三遍下来光解析
+# 就占掉 geoip 阶段近一半时间。
+#
+# 这里只加缓存，判定逻辑一个字没改——命中缓存返回的就是同一个 ipaddress 对象，
+# 语义与直接调用完全一致，省下的纯粹是重复解析。
+# maxsize 取 2^19 = 524288：最大的单个 tag 是 geoip_us（29 万条），一个 tag 的
+# 数据能整个装下，跨 tag 淘汰不影响正确性、只是回到原来的速度。
+@functools.lru_cache(maxsize=1 << 19)
+def _net_cached(text):
+    """ipaddress.ip_network(text, strict=False) 的带缓存版本；非法值返回 None。"""
+    try:
+        return ipaddress.ip_network(text, strict=False)
+    except ValueError:
+        return None
+
 def drop_bogon_cidrs(values, tag=None):
     """从 geoip 数据里剔掉非公网单播段。tag 在 BOGON_KEEP_TAGS 里则原样返回。
 
@@ -348,9 +370,8 @@ def drop_bogon_cidrs(values, tag=None):
         return list(values)
     out, dropped = [], 0
     for v in values:
-        try:
-            net = ipaddress.ip_network(str(v).strip(), strict=False)
-        except ValueError:
+        net = _net_cached(str(v).strip())
+        if net is None:
             out.append(v)          # 非法值交给 normalize_cidrs 去报错丢弃，这里不越权
             continue
         if (net.is_multicast or net.is_private or net.is_loopback
@@ -370,11 +391,11 @@ def normalize_cidrs(values):
     out = []
     seen = set()
     for v in values:
-        try:
-            nv = str(ipaddress.ip_network(str(v).strip(), strict=False))
-        except ValueError:
+        net = _net_cached(str(v).strip())
+        if net is None:
             print(f"[WARN] 丢弃非法 CIDR: {v!r}")
             continue
+        nv = str(net)
         if nv not in seen:
             seen.add(nv)
             out.append(nv)
@@ -778,10 +799,15 @@ def cmd_batch_geoip(geoip_txt_dir, clash_dir, clash_ip_from_geosite_dir,
                         merged_cidr.append(v)
         # mrs 用合并后数据（去重→规范化→按 yaml 同规则排序→写入）
         if merged_cidr:
+            # bogon 只过滤【新合进来的那截】：merged_cidr 的前 len(ipcidr_lines) 条
+            # 就是上面刚过滤干净的 geo 数据（merge_ip_cache 保序、只往后追加），
+            # 整表再过一遍等于把全量 110 万条重新解析一次，白花十几秒。
+            head = merged_cidr[:len(ipcidr_lines)]
+            tail = drop_bogon_cidrs(merged_cidr[len(ipcidr_lines):], tag)
             mrs_src = os.path.join(workdir, "geoip_mrs", f"{tag}.txt")
             os.makedirs(os.path.dirname(mrs_src), exist_ok=True)
             write_lines(mrs_src,
-                        sort_cidr_values(normalize_cidrs(drop_bogon_cidrs(merged_cidr, tag))))
+                        sort_cidr_values(normalize_cidrs(head + tail)))
             mrs_tasks.append(f"ipcidr\t{mrs_src}\t{os.path.join(out_geoip, f'{tag}.mrs')}")
         processed.add(tag)
         ok += 1
@@ -1642,6 +1668,113 @@ def cmd_rebuild_json_from_list(list_file, json_dst):
         f.write("\n")
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# 编译缓存：只重编内容真变了的规则集
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 每天要编译 1817 个 mrs + 1806 个 srs，实测占整条流水线一半时间（4 核 runner 上
+# 约 50 秒），可上游数据一天只动【6~53 个文件】——绝大多数目标编出来跟昨天的
+# 一模一样（git 每天的 diff 就是证据）。
+#
+# 清单记两个哈希，缺一不可：
+#   src  —— 编译输入的内容哈希，输入没变 → 输出不会变
+#   out  —— 上一版产物自己的哈希，用来确认仓库里那份【确实还是当时编出来的那份】
+# 只有两个都对得上，才敢跳过。少了 out 这一项，别人手改/回滚过产物就会被
+# 悄悄沿用错的版本；有了它，产物一旦对不上就老老实实重编。
+#
+# 工具版本进 key：mihomo / sing-box 一升级，编码格式可能变，整批重编。
+#
+# 清单本身不进 git（仓库 .git 已经 1.5G，不想再每天塞一个 200KB 的 blob），
+# 放 GitHub Actions cache 里滚动复用；缓存丢了也只是慢回原样，不会出错。
+
+def _sha16(path):
+    """文件内容哈希，取 sha256 前 16 位十六进制（64 bit，几千条目撞不上）。"""
+    h = hashlib.sha256()
+    try:
+        with open(path, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+    except OSError:
+        return ""
+    return h.hexdigest()[:16]
+
+def _read_tasks(path):
+    """读任务清单，返回 [(整行, src 路径, dst 路径)]。
+       mrs 行是 behavior\tsrc\tdst，srs 行是 src\tdst。"""
+    out = []
+    for line in read_lines(path):
+        parts = line.split("\t")
+        if len(parts) == 3:
+            out.append((line, parts[1], parts[2]))
+        elif len(parts) == 2:
+            out.append((line, parts[0], parts[1]))
+    return out
+
+def _load_manifest(path, tool_key):
+    """读缓存清单；工具版本对不上或文件不存在就当空清单（整批重编）。"""
+    if not os.path.isfile(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        head = f.readline().rstrip("\n")
+        if head != f"#key\t{tool_key}":
+            print(f"[CACHE] 工具版本变了（清单里是 {head[5:]!r}），本次全量重编")
+            return {}
+        man = {}
+        for line in f:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) == 3:
+                man[parts[0]] = (parts[1], parts[2])
+        return man
+
+def cmd_compile_plan(mrs_tasks, srs_tasks, manifest_in, tool_key,
+                     mrs_build, srs_build, prune_dirs):
+    man = _load_manifest(manifest_in, tool_key)
+    keep_dst = set()
+    stats = {}
+    for name, tasks_file, build_file in (("mrs", mrs_tasks, mrs_build),
+                                         ("srs", srs_tasks, srs_build)):
+        tasks = _read_tasks(tasks_file)
+        build = []
+        reused = 0
+        for line, src, dst in tasks:
+            keep_dst.add(os.path.normpath(dst))
+            prev = man.get(dst)
+            if (prev and prev[0] == _sha16(src)
+                    and os.path.isfile(dst) and os.path.getsize(dst) > 0
+                    and prev[1] == _sha16(dst)):
+                reused += 1
+                continue
+            build.append(line)
+        write_lines(build_file, build)
+        stats[name] = (len(tasks), reused, len(build))
+        print(f"[CACHE] {name}: 共 {len(tasks)} 个，复用 {reused} 个，需重编 {len(build)} 个")
+
+    # 上游删掉的 tag：任务清单里没有它，仓库里却还留着编译产物 → 清掉
+    pruned = 0
+    for d in prune_dirs:
+        for ext in ("mrs", "srs"):
+            for f in glob.glob(os.path.join(d, f"*.{ext}")):
+                if os.path.normpath(f) not in keep_dst:
+                    os.remove(f)
+                    pruned += 1
+    if pruned:
+        print(f"[CACHE] 清掉 {pruned} 个已无对应 tag 的旧产物")
+
+def cmd_compile_save(mrs_tasks, srs_tasks, tool_key, manifest_out):
+    """编译跑完后重算清单：只记【产物确实存在且非空】的目标。
+       编译失败的目标压根不写进去，下次必然重编，不会被缓存掩盖。"""
+    lines = []
+    for tasks_file in (mrs_tasks, srs_tasks):
+        for _, src, dst in _read_tasks(tasks_file):
+            if os.path.isfile(dst) and os.path.getsize(dst) > 0:
+                lines.append(f"{dst}\t{_sha16(src)}\t{_sha16(dst)}")
+    lines.sort()
+    os.makedirs(os.path.dirname(manifest_out) or ".", exist_ok=True)
+    with open(manifest_out, "w", encoding="utf-8") as f:
+        f.write(f"#key\t{tool_key}\n")
+        f.write("\n".join(lines) + ("\n" if lines else ""))
+    print(f"[CACHE] 清单已写入 {manifest_out}（{len(lines)} 条）")
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # 主入口
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -1655,6 +1788,8 @@ COMMANDS = {
     "merge_dedup":            lambda a: cmd_merge_dedup(a[0], a[1], a[2], a[3]),
     "diff_new_entries":       lambda a: cmd_diff_new_entries(a[0], a[1], a[2], a[3]),
     "rebuild_json_from_list": lambda a: cmd_rebuild_json_from_list(a[0], a[1]),
+    "compile_plan":           lambda a: cmd_compile_plan(a[0], a[1], a[2], a[3], a[4], a[5], a[6:]),
+    "compile_save":           lambda a: cmd_compile_save(a[0], a[1], a[2], a[3]),
 }
 
 def main():
