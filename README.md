@@ -84,74 +84,6 @@ https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5
 
 ---
 
-## 🛡️ ads.txt — DNS 层去广告名单（AdGuard Home / Pi-hole）
-
-给**装不了代理客户端的设备**用：智能电视、盒子、IoT、路由器，或安卓「私人 DNS」全系统去广告。
-挂着代理的设备本来就靠规则集里的 `category-ads-all` 拦广告，这份补的是「不挂代理」的场景。
-
-**订阅地址：**
-
-**[📄 点此查看名单内容](https://github.com/bgpeer/rules/blob/adguard/ads.txt)**（文件较大，网页只展示开头一段，完整内容点页面里的 `Raw`）
-
-```
-https://raw.githubusercontent.com/bgpeer/rules/adguard/ads.txt
-```
-
-AdGuard Home 后台 → 过滤器 → DNS 拦截列表 → 添加黑名单，粘贴上面的地址即可。随主流水线每天 02:10 更新。
-
-> 📌 这份名单托管在**独立的 `adguard` 分支**，不在 `main` 的目录树里。它有 17 万行 / 4MB，
-> 每天变动约 250 行：提交进 `main` 会让历史每天沉淀一个大 blob、push 越来越慢；发 Release
-> 又会占据仓库首页最显眼的位置，与本仓库「分流规则集」的定位不符。独立分支每次强推一个
-> 全新的无父提交，历史零累积，上面这个地址固定指向最新版，更新频率和用法都不变。
-
-**为什么要单独出这一份**：AdGuard Home / Pi-hole 只认 adblock(`||domain^`) 或 hosts 语法，
-本仓库现有的三种格式它**一种都读不了**——`.mrs` 是 zstd 压缩的二进制，`.yaml` / `.list` 是
-Clash 的 `DOMAIN-SUFFIX,x` 语法。
-
-**为什么只转 `category-ads-all` 一个**：其余 1500+ 个 geosite 是**分流**名单（`cn`、`google`、
-`netflix`…），回答的是「走哪个代理组」；AdGuard 没有这个概念，只能拦或放。把 `google.list`
-转进去等于**把 Google 全拦了**，与本意相反。只有拦截类转过去才有意义，而它们当中
-`category-ads-all` 占了 99%。
-
-**包含自建同名文件与远程同名链接的插入**：本文件的输入是**合并后的最终产物**。
-`sync_loy_geo_mrs.sh` 先在 `[4/7]` 融合 `clash/category-ads-all.yaml`（自建同名）、
-在 `[4b/7]` 融合 `DOMAIN-Link.json` 里 `name` 为 `category-ads-all` 的远程链接，
-转换步骤在其之后运行——所以你插入的规则都会进 `ads.txt`。
-
-**规则类型映射**（`.list` 保留全部类型，故按类型分别处理）：
-
-| 源类型 | 转换结果 | 说明 |
-| --- | --- | --- |
-| `DOMAIN-SUFFIX,foo.com` | `\|\|foo.com^` | 语义**严格对等**（该域名 + 所有子域） |
-| `DOMAIN,foo.com` | `\|\|foo.com^` | 略宽：adblock 无「仅精确域名」的干净写法，会连子域一起拦 |
-| `DOMAIN-KEYWORD,foo` | `foo` | adblock 无锚点即子串匹配，与 KEYWORD 语义一致 |
-| `DOMAIN-REGEX` | ⚠️ 跳过 | Go RE2 与 AdGuard 正则方言不同，错译比不译更糟（mrs / QX 同样跳过） |
-| `IP-CIDR` / `IP-ASN` / `PROCESS-NAME` 等 | ⚠️ 跳过 | DNS 层拦截没有 IP / 进程的概念 |
-
-产出会按首次出现顺序去重，`DOMAIN` 与 `DOMAIN-SUFFIX` 指向同一域名不会产生重复行。
-
-**上游与自己任意增删都不会让产出出问题**——`scripts/build_adguard_ads.sh` 按这几条设计：
-
-1. **先写临时文件，全部校验通过才替换正式产物**——绝不会写出半成品或空名单
-2. **校验不过就保留上一版并告警，然后正常退出**——绝不因为本步骤失败而拖垮
-   `mrs`/`srs`/`QX` 等其余格式的当日更新。宁可 `ads.txt` 停在上一版，也不能让整条流水线红掉、
-   或者产出一份坏名单
-3. **条目数看「相对上一版的跌幅」（阈值 50%），不用写死的绝对下限**——上游正常增删不误报，
-   真出事（名单被清空、结构大改）才拦下
-4. **抽查知名广告域只告警不拦截**——上游有权删掉任何一条，不该因此中断
-5. **逐条校验域名合法性**，空值、带空格、引号残留、以 `.` 开头等非法值一律跳过并列出，
-   保证输出的每一行 AdGuard 都认
-6. **未知规则类型只告警不失败**，上游将来加新类型不会中断构建
-
-主动大幅精简名单时用 `ADGUARD_FORCE=1 scripts/build_adguard_ads.sh` 跳过跌幅检查。
-
-> ⚠️ 非 ASCII 域名（如中文域名）目前会被跳过并在日志中列出——未做 punycode 转换。
-
-> 💡 这份仍以欧美广告为主，**国内广告拦不住**。要补这块，在 AdGuard 后台
-> 「添加黑名单 → 从列表中选择」里勾 `CHN: anti-AD` 或 `CHN: AdRules DNS List`，两者选其一即可
-> （互相重叠严重，且 AdGuard 是把规则全量读进内存的，小内存机器别堆太多）。
-
----
 
 ## 🔗 远程规则订阅
 
@@ -433,6 +365,75 @@ https://raw.githubusercontent.com/bgpeer/rules/main/QX/geoip/cn.list, tag=CN-IP,
 | 域名关键字 | `HOST-KEYWORD, openai` |
 | IPv4 | `IP-CIDR, 1.1.1.1/32` |
 | IPv6 | `IP-CIDR6, 2606::/32` |
+
+---
+
+## 🛡️ ads.txt — DNS 层去广告名单（AdGuard Home / Pi-hole）
+
+给**装不了代理客户端的设备**用：智能电视、盒子、IoT、路由器，或安卓「私人 DNS」全系统去广告。
+挂着代理的设备本来就靠规则集里的 `category-ads-all` 拦广告，这份补的是「不挂代理」的场景。
+
+**订阅地址：**
+
+**[📄 点此查看名单内容](https://github.com/bgpeer/rules/blob/adguard/ads.txt)**（文件较大，网页只展示开头一段，完整内容点页面里的 `Raw`）
+
+```
+https://raw.githubusercontent.com/bgpeer/rules/adguard/ads.txt
+```
+
+AdGuard Home 后台 → 过滤器 → DNS 拦截列表 → 添加黑名单，粘贴上面的地址即可。随主流水线每天 02:10 更新。
+
+> 📌 这份名单托管在**独立的 `adguard` 分支**，不在 `main` 的目录树里。它有 17 万行 / 4MB，
+> 每天变动约 250 行：提交进 `main` 会让历史每天沉淀一个大 blob、push 越来越慢；发 Release
+> 又会占据仓库首页最显眼的位置，与本仓库「分流规则集」的定位不符。独立分支每次强推一个
+> 全新的无父提交，历史零累积，上面这个地址固定指向最新版，更新频率和用法都不变。
+
+**为什么要单独出这一份**：AdGuard Home / Pi-hole 只认 adblock(`||domain^`) 或 hosts 语法，
+本仓库现有的三种格式它**一种都读不了**——`.mrs` 是 zstd 压缩的二进制，`.yaml` / `.list` 是
+Clash 的 `DOMAIN-SUFFIX,x` 语法。
+
+**为什么只转 `category-ads-all` 一个**：其余 1500+ 个 geosite 是**分流**名单（`cn`、`google`、
+`netflix`…），回答的是「走哪个代理组」；AdGuard 没有这个概念，只能拦或放。把 `google.list`
+转进去等于**把 Google 全拦了**，与本意相反。只有拦截类转过去才有意义，而它们当中
+`category-ads-all` 占了 99%。
+
+**包含自建同名文件与远程同名链接的插入**：本文件的输入是**合并后的最终产物**。
+`sync_loy_geo_mrs.sh` 先在 `[4/7]` 融合 `clash/category-ads-all.yaml`（自建同名）、
+在 `[4b/7]` 融合 `DOMAIN-Link.json` 里 `name` 为 `category-ads-all` 的远程链接，
+转换步骤在其之后运行——所以你插入的规则都会进 `ads.txt`。
+
+**规则类型映射**（`.list` 保留全部类型，故按类型分别处理）：
+
+| 源类型 | 转换结果 | 说明 |
+| --- | --- | --- |
+| `DOMAIN-SUFFIX,foo.com` | `\|\|foo.com^` | 语义**严格对等**（该域名 + 所有子域） |
+| `DOMAIN,foo.com` | `\|\|foo.com^` | 略宽：adblock 无「仅精确域名」的干净写法，会连子域一起拦 |
+| `DOMAIN-KEYWORD,foo` | `foo` | adblock 无锚点即子串匹配，与 KEYWORD 语义一致 |
+| `DOMAIN-REGEX` | ⚠️ 跳过 | Go RE2 与 AdGuard 正则方言不同，错译比不译更糟（mrs / QX 同样跳过） |
+| `IP-CIDR` / `IP-ASN` / `PROCESS-NAME` 等 | ⚠️ 跳过 | DNS 层拦截没有 IP / 进程的概念 |
+
+产出会按首次出现顺序去重，`DOMAIN` 与 `DOMAIN-SUFFIX` 指向同一域名不会产生重复行。
+
+**上游与自己任意增删都不会让产出出问题**——`scripts/build_adguard_ads.sh` 按这几条设计：
+
+1. **先写临时文件，全部校验通过才替换正式产物**——绝不会写出半成品或空名单
+2. **校验不过就保留上一版并告警，然后正常退出**——绝不因为本步骤失败而拖垮
+   `mrs`/`srs`/`QX` 等其余格式的当日更新。宁可 `ads.txt` 停在上一版，也不能让整条流水线红掉、
+   或者产出一份坏名单
+3. **条目数看「相对上一版的跌幅」（阈值 50%），不用写死的绝对下限**——上游正常增删不误报，
+   真出事（名单被清空、结构大改）才拦下
+4. **抽查知名广告域只告警不拦截**——上游有权删掉任何一条，不该因此中断
+5. **逐条校验域名合法性**，空值、带空格、引号残留、以 `.` 开头等非法值一律跳过并列出，
+   保证输出的每一行 AdGuard 都认
+6. **未知规则类型只告警不失败**，上游将来加新类型不会中断构建
+
+主动大幅精简名单时用 `ADGUARD_FORCE=1 scripts/build_adguard_ads.sh` 跳过跌幅检查。
+
+> ⚠️ 非 ASCII 域名（如中文域名）目前会被跳过并在日志中列出——未做 punycode 转换。
+
+> 💡 这份仍以欧美广告为主，**国内广告拦不住**。要补这块，在 AdGuard 后台
+> 「添加黑名单 → 从列表中选择」里勾 `CHN: anti-AD` 或 `CHN: AdRules DNS List`，两者选其一即可
+> （互相重叠严重，且 AdGuard 是把规则全量读进内存的，小内存机器别堆太多）。
 
 ---
 
