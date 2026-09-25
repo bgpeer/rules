@@ -321,8 +321,6 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\\.)pan\\.quark\\.cn$
   - DOMAIN-REGEX,(?i)(^|\\.)doc\\.quark\\.cn$
   - DOMAIN-REGEX,(?i)(^|\\.)image\\.quark\\.cn$
-  # ===== ASN（后端基本都在阿里系 ASN 上）=====
-  - IP-ASN,37963
 
   # 115生活/网盘
   - DOMAIN-SUFFIX,115.com
