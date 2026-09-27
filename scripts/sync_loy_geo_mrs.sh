@@ -13,7 +13,10 @@
 #   融合策略：
 #     yaml / list           -> 保留所有规则类型
 #     mrs                   -> 仅 domain/suffix 和 IP-CIDR/IP-CIDR6，其余跳过
-#     json / srs            -> 跳过 PROCESS-NAME / PROCESS-NAME-REGEX / IP-ASN
+#     json / srs            -> 进程类单独成 rule（process_name / package_name /
+#                              process_path / process_path_regex），DOMAIN-WILDCARD 转
+#                              domain_regex；跳过 PROCESS-NAME-REGEX / IP-ASN / USER-AGENT
+#                              （对照表见 helpers.py 的 _build_geosite_json_from_typed）
 #     QX list               -> 跳过 DOMAIN-REGEX / PROCESS-NAME / PROCESS-NAME-REGEX / IP-ASN
 #   若 clash/<n>.yaml 存在但 geo 无同名文件，则纯从 clash 数据建档。
 #
@@ -269,8 +272,12 @@ if [[ "$srs_build_n" -gt 0 ]]; then
     tmp="${srs}.${BASHPID}.tmp"
     errf="${tmp}.err"
     rm -f "$tmp" "$errf" 2>/dev/null || true
+    # compile 不校验正则，坏正则照样出 srs，客户端加载时才 FATAL、整份配置起不来。
+    # 带 *_regex 的顺手用 rule-set match 真加载一遍（会编译正则），过不了就不替换。
     if "$SINGBOX_BIN" rule-set compile --output "$tmp" "$json_file" 2>"$errf" \
-       && [ -s "$tmp" ]; then
+       && [ -s "$tmp" ] \
+       && { ! grep -q '_regex"' "$json_file" \
+            || "$SINGBOX_BIN" rule-set match -f binary "$tmp" example.invalid >/dev/null 2>"$errf"; }; then
       mv -f "$tmp" "$srs"
     else
       printf 'FAIL: %s\t%s\n' "$srs" \
