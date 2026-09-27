@@ -177,13 +177,21 @@ payload:
 | DOMAIN | ✅ | ✅ | ✅ | ✅ | ✅ |
 | DOMAIN-KEYWORD | ✅ | ✅ | ⚠️ 跳过 | ✅ | ✅ |
 | DOMAIN-REGEX | ✅ | ✅ | ⚠️ 跳过 | ✅ | ⚠️ 跳过 |
-| DOMAIN-WILDCARD | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+| DOMAIN-WILDCARD | ✅ | ✅ | ⚠️ 跳过 | ↪️ 转 domain_regex | ⚠️ 跳过 |
 | IP-CIDR / IP-CIDR6 | ✅ | ✅ | ↪️ 转 geoip/mrs | ✅ | ✅ |
 | IP-ASN | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
-| PROCESS-NAME | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
-| PROCESS-NAME-REGEX | ✅ | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ⚠️ 跳过 |
+| PROCESS-NAME | ✅ | ✅ | ⚠️ 跳过 | ✅ process_name / package_name | ⚠️ 跳过 |
+| PROCESS-NAME-WILDCARD | ✅ | ✅ | ⚠️ 跳过 | ↪️ process_path_regex + package_name_regex（后者仅 json） | ⚠️ 跳过 |
+| PROCESS-NAME-REGEX | ✅ | ✅ | ⚠️ 跳过 | ↪️ package_name_regex（仅 json） | ⚠️ 跳过 |
+| PROCESS-PATH / -REGEX / -WILDCARD | ✅ | ⚠️ 跳过 | ⚠️ 跳过 | ✅ process_path / process_path_regex | ⚠️ 跳过 |
 
 > ⚠️ 跳过不是丢失，是该格式/软件本身不支持该规则类型，自动过滤以确保兼容性。
+>
+> 💡 json/srs 里进程类各自单独一条 rule（和域名那条是「或」的关系），包名长相的（`com.xxx.yyy`）进 `package_name`（Android），其余进 `process_name`（桌面）。
+>
+> 🔢 **json 与 srs 的版本分工：**
+> - `.json` 为 `"version": 5`，规则最全（含 1.14 新增的 `package_name_regex`），**需要 sing-box 1.14+**。
+> - `.srs` 编译前剥掉 `package_name_regex`，产物为 v2，**sing-box 1.10+ 都能读**。内核低于 1.14 的请用 srs。
 >
 > 💡 `clash/` 中的 IP 类条目（IP-CIDR / IP-CIDR6 / IP-ASN）会同时融合进 `geo/geosite/` 和 `geo/geoip/` 对应的同名文件。
 

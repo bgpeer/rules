@@ -13,7 +13,12 @@
 #   融合策略：
 #     yaml / list           -> 保留所有规则类型
 #     mrs                   -> 仅 domain/suffix 和 IP-CIDR/IP-CIDR6，其余跳过
-#     json / srs            -> 跳过 PROCESS-NAME / PROCESS-NAME-REGEX / IP-ASN
+#     json / srs            -> 进程类单独成 rule（process_name / package_name /
+#                              process_path / process_path_regex），DOMAIN-WILDCARD 转
+#                              domain_regex，PROCESS-NAME-REGEX 转 package_name_regex；
+#                              跳过 IP-ASN / USER-AGENT。json 为 version 5（1.14+）；
+#                              srs 编译前剥掉 package_name_regex，产物 v2 给旧内核用
+#                              （对照表见 helpers.py 的 _build_geosite_json_from_typed）
 #     QX list               -> 跳过 DOMAIN-REGEX / PROCESS-NAME / PROCESS-NAME-REGEX / IP-ASN
 #   若 clash/<n>.yaml 存在但 geo 无同名文件，则纯从 clash 数据建档。
 #
@@ -260,16 +265,26 @@ srs_fail_log="${WORKDIR}/srs_failures.log"
 : > "$srs_fail_log"
 
 if [[ "$srs_build_n" -gt 0 ]]; then
-  export SINGBOX_BIN srs_fail_log
+  export SINGBOX_BIN srs_fail_log HELPERS
   compile_one_srs() {
     local line="$1"
-    local json_file srs tmp errf
+    local json_file srs tmp errf src
     json_file="$(printf '%s' "$line" | cut -f1)"
     srs="$(printf '%s' "$line" | cut -f2)"
     tmp="${srs}.${BASHPID}.tmp"
     errf="${tmp}.err"
     rm -f "$tmp" "$errf" 2>/dev/null || true
-    if "$SINGBOX_BIN" rule-set compile --output "$tmp" "$json_file" 2>"$errf" \
+    # compile 不校验正则，坏正则照样出 srs，客户端加载时才 FATAL、整份配置起不来。
+    # 带 *_regex 的先用 rule-set match 把完整 json 真加载一遍（会编译全部正则，
+    # 含只进 json 的 package_name_regex），过不了就不替换 srs。
+    # srs 用剥掉 v5 专有字段的兼容源编译（helpers.py srs_source），保持旧内核能读。
+    src="$json_file"
+    if grep -q '"package_name_regex"' "$json_file"; then src="${tmp}.json"; fi
+    if { ! grep -q '_regex"' "$json_file" \
+         || "$SINGBOX_BIN" rule-set match "$json_file" example.invalid >/dev/null 2>"$errf"; } \
+       && { [ "$src" = "$json_file" ] \
+            || python3 "$HELPERS" srs_source "$json_file" "$src" 2>"$errf"; } \
+       && "$SINGBOX_BIN" rule-set compile --output "$tmp" "$src" 2>"$errf" \
        && [ -s "$tmp" ]; then
       mv -f "$tmp" "$srs"
     else
@@ -278,6 +293,7 @@ if [[ "$srs_build_n" -gt 0 ]]; then
       rm -f "$tmp" 2>/dev/null || true
     fi
     rm -f "$errf" 2>/dev/null || true
+    [ "$src" = "$json_file" ] || rm -f "$src" 2>/dev/null || true
   }
   export -f compile_one_srs
   cat "$SRS_BUILD" | xargs -P "$PARALLEL" -I{} bash -c 'compile_one_srs "$@"' _ {}

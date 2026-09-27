@@ -623,7 +623,7 @@ def emit_geoip_tag(tag, ipcidr_lines, asn_lines, out_geoip, out_qx_geoip,
     rule = {"ip_cidr": sorted_cidrs} if sorted_cidrs else {}
     json_path = os.path.join(out_geoip, f"{tag}.json")
     with open(json_path, "w") as f:
-        json.dump({"version": 3, "rules": [rule] if rule else []},
+        json.dump({"version": SINGBOX_JSON_VERSION, "rules": [rule] if rule else []},
                   f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
     # mrs + srs 任务
@@ -1204,13 +1204,64 @@ def read_geosite_full_typed(list_path, yaml_path):
             merged.append((t, v))
     return merged
 
+# ── sing-box 规则集版本 ───────────────────────────────────────────────────────
+# 版本号只决定「能用哪些字段」，不影响匹配结果（官方 source-format 文档）：
+#   2 = 1.10  domain_suffix 内存优化        3 = 1.11  network_type 等
+#   4 = 1.13  network_interface_address 等  5 = 1.14  package_name_regex
+# 5 是 sing-box 目前的上限（constant/rule.go RuleSetVersionCurrent）。
+#
+# .json 统一写 5、规则补全（含 package_name_regex），给 1.14+ 用。
+# .srs 是给旧内核的兼容版：编译前由 srs_source 剥掉 package_name_regex，
+# `rule-set compile` 再按实际字段自动降版本（downgradeRuleSetVersion），产物是 v2，
+# 1.10+ 都能读。不剥的话带包名正则的 srs 也是 v5，<1.14 的客户端、以及 nodekit
+# 服务端 cn-block 白名单（拉 bytedance/tiktok/alibaba/tencent 等 srs）会整份起不来。
+SINGBOX_JSON_VERSION = 5
+SRS_STRIP_FIELDS = ("package_name_regex",)
+
+# Android 包名长相：两段以上、字母开头的反向域名，且不是 Windows/桌面可执行文件名
+RE_ANDROID_PKG = re.compile(r"^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$")
+DESKTOP_EXE_EXT = {"exe", "app", "bin", "sh", "bat", "cmd", "appimage"}
+
+def _is_android_pkg(v):
+    return bool(RE_ANDROID_PKG.match(v)) and v.rsplit(".", 1)[-1].lower() not in DESKTOP_EXE_EXT
+
+def _glob_to_re(pattern, star=".*", one="."):
+    """mihomo 通配（* 任意串、? 单字符，其余按字面）→ 正则片段，不带锚点。"""
+    return "".join(star if c == "*" else one if c == "?" else re.escape(c)
+                   for c in pattern)
+
+def _ci(regex):
+    """mihomo 的进程正则用 regexp2.IgnoreCase 编译，统一补 (?i) 保持同样不分大小写。"""
+    return regex if regex.startswith("(?i)") else "(?i)" + regex
+
+def _uniq(values):
+    return list(dict.fromkeys(values))
+
 def _build_geosite_json_from_typed(typed, json_path):
-    """从内存中已排序的 typed 行全量构建 .json（sing-box v3）。
+    """从内存中已排序的 typed 行全量构建 sing-box 规则集 .json。
     必须用 typed 数据而非回读 .list：.list 为小火箭兼容跳过了
-    LIST_SKIP_TYPES（含 DOMAIN-REGEX），从 .list 重建会丢 domain_regex。
-    sing-box json/srs 不支持的类型（wildcard/进程类/USER-AGENT/IP-ASN）
-    在此按类型提取时自然跳过。"""
+    LIST_SKIP_TYPES（含 DOMAIN-REGEX / 进程类），从 .list 重建会丢数据。
+
+    Clash → sing-box headless rule 对照（均为 v3 以内字段）：
+      DOMAIN / -SUFFIX / -KEYWORD / -REGEX  → domain / domain_suffix / domain_keyword / domain_regex
+      DOMAIN-WILDCARD        → domain_regex（mihomo 通配：* 含点、? 单字符、不分大小写）
+      IP-CIDR / IP-CIDR6     → ip_cidr
+      PROCESS-NAME           → 包名长相的进 package_name（mihomo 在 Android 上拿包名比），
+                               其余进 process_name
+      PROCESS-PATH           → process_path
+      PROCESS-PATH-REGEX     → process_path_regex
+      PROCESS-PATH-WILDCARD  → process_path_regex
+      PROCESS-NAME-WILDCARD  → process_path_regex（进程名 = 路径最后一段，* 不跨目录）；
+                               另外整条进 package_name_regex（mihomo 在 Android 上拿包名比）
+      PROCESS-NAME-REGEX     → package_name_regex（v5，只进 json，srs 里剥掉）；
+                               桌面进程名正则没法等价改写成路径正则，跳过
+      IP-ASN / USER-AGENT    → sing-box 无对应，跳过
+
+    关键：headless rule 同一个对象里「域名/IP 组」和进程字段是 AND 关系
+    （(domain||…||ip_cidr) && process_name），混在一起会变成「既是这个域名又是这个进程」
+    才命中。所以进程/包名每类单独一个 rule 对象，rules 数组内各对象是 OR。"""
     j_domain, j_suffix, j_keyword, j_regexp, j_cidrs = [], [], [], [], []
+    p_name, p_pkg, p_path, p_path_re, p_pkg_re = [], [], [], [], []
     seen_cidr = set()
     for t, v in typed:
         if t == "DOMAIN":
@@ -1222,19 +1273,43 @@ def _build_geosite_json_from_typed(typed, json_path):
             j_keyword.append(v)
         elif t == "DOMAIN-REGEX":
             j_regexp.append(v)
+        elif t == "DOMAIN-WILDCARD":
+            j_regexp.append("^" + _glob_to_re(v.lower()) + "$")
         elif t in ("IP-CIDR", "IP-CIDR6"):
             k = v.lower()
             if k not in seen_cidr:
                 seen_cidr.add(k)
                 j_cidrs.append(v)
+        elif t == "PROCESS-NAME":
+            (p_pkg if _is_android_pkg(v) else p_name).append(v)
+        elif t == "PROCESS-PATH":
+            p_path.append(v)
+        elif t == "PROCESS-PATH-REGEX":
+            p_path_re.append(_ci(v))
+        elif t == "PROCESS-PATH-WILDCARD":
+            p_path_re.append("(?i)^" + _glob_to_re(v) + "$")
+        elif t == "PROCESS-NAME-WILDCARD":
+            if not _is_android_pkg(v.replace("*", "x").replace("?", "x")):
+                p_path_re.append("(?i)(?:^|[/\\\\])"
+                                 + _glob_to_re(v, "[^/\\\\]*", "[^/\\\\]") + "$")
+            p_pkg_re.append("(?i)^" + _glob_to_re(v) + "$")
+        elif t == "PROCESS-NAME-REGEX":
+            p_pkg_re.append(_ci(v))
     rule = {}
     if j_domain:   rule["domain"]          = j_domain
     if j_suffix:   rule["domain_suffix"]   = j_suffix
     if j_cidrs:    rule["ip_cidr"]         = j_cidrs
     if j_keyword:  rule["domain_keyword"]  = j_keyword
-    if j_regexp:   rule["domain_regex"]    = j_regexp
+    if j_regexp:   rule["domain_regex"]    = _uniq(j_regexp)
+    rules = [rule] if rule else []
+    for field, vals in (("process_name", p_name), ("package_name", p_pkg),
+                        ("process_path", p_path), ("process_path_regex", p_path_re)):
+        if vals:
+            rules.append({field: _uniq(vals)})
+    if p_pkg_re:
+        rules.append({"package_name_regex": _uniq(p_pkg_re)})
     with open(json_path, "w") as f:
-        json.dump({"version": 3, "rules": [rule] if rule else []},
+        json.dump({"version": SINGBOX_JSON_VERSION, "rules": rules},
                   f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
@@ -1507,7 +1582,7 @@ def cmd_batch_ip_link(link_json_path, out_geoip, out_qx_geoip,
             all_cidrs_full = [v for t, v in all_typed if t in ("IP-CIDR", "IP-CIDR6")]
             rule = {"ip_cidr": all_cidrs_full} if all_cidrs_full else {}
             with open(dst_json, "w") as f:
-                json.dump({"version": 3, "rules": [rule] if rule else []},
+                json.dump({"version": SINGBOX_JSON_VERSION, "rules": [rule] if rule else []},
                           f, ensure_ascii=False, separators=(",", ":"))
                 f.write("\n")
             srs_tasks.append(f"{dst_json}\t{dst_srs}")
@@ -1599,7 +1674,7 @@ def cmd_batch_clash_ip(clash_ip_dir, out_geoip, out_qx_geoip,
         all_cidrs = [v for t, v in all_typed if t in ("IP-CIDR", "IP-CIDR6")]
         rule = {"ip_cidr": all_cidrs} if all_cidrs else {}
         with open(dst_json, "w") as f:
-            json.dump({"version": 3, "rules": [rule] if rule else []},
+            json.dump({"version": SINGBOX_JSON_VERSION, "rules": [rule] if rule else []},
                       f, ensure_ascii=False, separators=(",", ":"))
             f.write("\n")
         srs_tasks.append(f"{dst_json}\t{dst_srs}")
@@ -1663,7 +1738,7 @@ def cmd_rebuild_json_from_list(list_file, json_dst):
             cidrs.append(line[8:])
     rule = {"ip_cidr": cidrs} if cidrs else {}
     with open(json_dst, "w") as f:
-        json.dump({"version": 3, "rules": [rule] if rule else []},
+        json.dump({"version": SINGBOX_JSON_VERSION, "rules": [rule] if rule else []},
                   f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
@@ -1778,6 +1853,21 @@ def cmd_compile_save(mrs_tasks, srs_tasks, tool_key, manifest_out):
 # 主入口
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def cmd_srs_source(json_src, out):
+    """给 srs 编译准备兼容源：剥掉 SRS_STRIP_FIELDS（v5 专有字段），剥空的 rule 丢掉。
+       剩下的字段 1.10 就有，compile 会自动降到最低版本。"""
+    with open(json_src, encoding="utf-8") as f:
+        d = json.load(f)
+    rules = []
+    for r in d.get("rules", []):
+        r = {k: v for k, v in r.items() if k not in SRS_STRIP_FIELDS}
+        if r:
+            rules.append(r)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump({"version": d.get("version", SINGBOX_JSON_VERSION), "rules": rules},
+                  f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
+
 COMMANDS = {
     "batch_geosite":          lambda a: cmd_batch_geosite(a[0], a[1], a[2], a[3], a[4], a[5], a[6]),
     "batch_geoip":            lambda a: cmd_batch_geoip(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]),
@@ -1790,6 +1880,7 @@ COMMANDS = {
     "rebuild_json_from_list": lambda a: cmd_rebuild_json_from_list(a[0], a[1]),
     "compile_plan":           lambda a: cmd_compile_plan(a[0], a[1], a[2], a[3], a[4], a[5], a[6:]),
     "compile_save":           lambda a: cmd_compile_save(a[0], a[1], a[2], a[3]),
+    "srs_source":             lambda a: cmd_srs_source(a[0], a[1]),
 }
 
 def main():
