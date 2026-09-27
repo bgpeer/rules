@@ -1208,18 +1208,15 @@ def read_geosite_full_typed(list_path, yaml_path):
 # 版本号只决定「能用哪些字段」，不影响匹配结果（官方 source-format 文档）：
 #   2 = 1.10  domain_suffix 内存优化        3 = 1.11  network_type 等
 #   4 = 1.13  network_interface_address 等  5 = 1.14  package_name_regex
-# .json 写 3（1.11+ 能读），不跟着升：json 是给 format:source 用的，客户端内核
-# 比文件版本旧就直接报 unknown version、整份配置起不来。
-# .srs 不用操心：`rule-set compile` 会按实际用到的字段自动降到最低版本
-# （cmd_rule_set_compile.go downgradeRuleSetVersion），现在产物实际是 v2。
-SINGBOX_JSON_VERSION = 3
-
-# package_name_regex（1.14 / v5）开关，默认关。
-# 一旦打开，凡是带 PROCESS-NAME-REGEX / 包名通配的规则集（telegram、bytedance、
-# tiktok、google、alibaba、tencent…）整份变 v5：sing-box <1.14 的客户端加载失败、
-# 整份配置起不来；nodekit 服务端 cn-block 白名单也拉这些 srs，服务端内核 <1.14
-# 会直接起不来、节点断掉。等 1.14 普及、服务端内核都升上去再开。
-SINGBOX_PKG_REGEX = False
+# 5 是 sing-box 目前的上限（constant/rule.go RuleSetVersionCurrent）。
+#
+# .json 统一写 5、规则补全（含 package_name_regex），给 1.14+ 用。
+# .srs 是给旧内核的兼容版：编译前由 srs_source 剥掉 package_name_regex，
+# `rule-set compile` 再按实际字段自动降版本（downgradeRuleSetVersion），产物是 v2，
+# 1.10+ 都能读。不剥的话带包名正则的 srs 也是 v5，<1.14 的客户端、以及 nodekit
+# 服务端 cn-block 白名单（拉 bytedance/tiktok/alibaba/tencent 等 srs）会整份起不来。
+SINGBOX_JSON_VERSION = 5
+SRS_STRIP_FIELDS = ("package_name_regex",)
 
 # Android 包名长相：两段以上、字母开头的反向域名，且不是 Windows/桌面可执行文件名
 RE_ANDROID_PKG = re.compile(r"^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$")
@@ -1255,8 +1252,8 @@ def _build_geosite_json_from_typed(typed, json_path):
       PROCESS-PATH-REGEX     → process_path_regex
       PROCESS-PATH-WILDCARD  → process_path_regex
       PROCESS-NAME-WILDCARD  → process_path_regex（进程名 = 路径最后一段，* 不跨目录）；
-                               包名通配（com.aliyun.*）桌面上无意义，只能走 package_name_regex
-      PROCESS-NAME-REGEX     → 只能走 package_name_regex（v5，见 SINGBOX_PKG_REGEX）；
+                               另外整条进 package_name_regex（mihomo 在 Android 上拿包名比）
+      PROCESS-NAME-REGEX     → package_name_regex（v5，只进 json，srs 里剥掉）；
                                桌面进程名正则没法等价改写成路径正则，跳过
       IP-ASN / USER-AGENT    → sing-box 无对应，跳过
 
@@ -1309,12 +1306,10 @@ def _build_geosite_json_from_typed(typed, json_path):
                         ("process_path", p_path), ("process_path_regex", p_path_re)):
         if vals:
             rules.append({field: _uniq(vals)})
-    version = SINGBOX_JSON_VERSION
-    if SINGBOX_PKG_REGEX and p_pkg_re:
+    if p_pkg_re:
         rules.append({"package_name_regex": _uniq(p_pkg_re)})
-        version = 5
     with open(json_path, "w") as f:
-        json.dump({"version": version, "rules": rules},
+        json.dump({"version": SINGBOX_JSON_VERSION, "rules": rules},
                   f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
@@ -1858,6 +1853,21 @@ def cmd_compile_save(mrs_tasks, srs_tasks, tool_key, manifest_out):
 # 主入口
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def cmd_srs_source(json_src, out):
+    """给 srs 编译准备兼容源：剥掉 SRS_STRIP_FIELDS（v5 专有字段），剥空的 rule 丢掉。
+       剩下的字段 1.10 就有，compile 会自动降到最低版本。"""
+    with open(json_src, encoding="utf-8") as f:
+        d = json.load(f)
+    rules = []
+    for r in d.get("rules", []):
+        r = {k: v for k, v in r.items() if k not in SRS_STRIP_FIELDS}
+        if r:
+            rules.append(r)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump({"version": d.get("version", SINGBOX_JSON_VERSION), "rules": rules},
+                  f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
+
 COMMANDS = {
     "batch_geosite":          lambda a: cmd_batch_geosite(a[0], a[1], a[2], a[3], a[4], a[5], a[6]),
     "batch_geoip":            lambda a: cmd_batch_geoip(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]),
@@ -1870,6 +1880,7 @@ COMMANDS = {
     "rebuild_json_from_list": lambda a: cmd_rebuild_json_from_list(a[0], a[1]),
     "compile_plan":           lambda a: cmd_compile_plan(a[0], a[1], a[2], a[3], a[4], a[5], a[6:]),
     "compile_save":           lambda a: cmd_compile_save(a[0], a[1], a[2], a[3]),
+    "srs_source":             lambda a: cmd_srs_source(a[0], a[1]),
 }
 
 def main():
