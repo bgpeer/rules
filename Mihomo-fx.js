@@ -1,5 +1,5 @@
 // ============================================================================
-// bgpeer 覆写脚本，版本5.10 (Mihomo 系通用: Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox)
+// bgpeer 覆写脚本，版本5.11 (Mihomo 系通用: Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox)
 // 用法: 在客户端"覆写"处粘贴链接导入,或复制导入，或做文件名称__复写.js 导入
 //       ClashMi把链接添加到➜核心设置➜复写➜右上➕里面去，类型选js，然后选择这个复写。
 // 入口约定: 客户端会调用 main(config), config 为订阅解析后的对象, 返回修改后的 config。
@@ -50,10 +50,10 @@ const FN_SWITCHES = {
 function groupOn(n) { return ruleOptionsEnable[n] !== false; }
 
 // ------------------- 其余可调参数 (非布尔, 做不成开关, 需要时进来改) -------------------
-const ICON = "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/";
-const RULES = "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/";
-const GEO_MMDB = "https://gh-proxy.com/https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-Country.mmdb";
-const GEO_ASN  = "https://gh-proxy.com/https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-ASN.mmdb";
+const ICON = "https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/";
+const RULES = "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/";
+const GEO_MMDB = "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-Country.mmdb";
+const GEO_ASN  = "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb";
 const threshold = 2;             // 某国节点数 < 该值则不生成该组 (1=有就生成, 2=至少2个才显示)
 const PANEL_SECRET = "88888888"; // 面板密码: 可自行修改 | "random"=随机密码 | 端口：9092，一般会被软件覆盖端口=9090
 const FETCH_VIA = "fallback";    // 规则集下载通道: ""=DIRECT直连; "fallback"=DIRECT优先,连不上自动切代理; "🌍全球加速"=强制走代理。path 缓存始终保留
@@ -429,7 +429,7 @@ function main(config) {
     Object.assign({ name: "🔗链式中转", type: "select", icon: ICON + "chaintransfer.png",
       proxies: ["🌍全球加速", "♻️全部随机"].concat(tail) }, AUTO),
   ].concat(
-    // FETCH_VIA="fallback": 规则集下载走 DIRECT优先, 健康检查指向真实下载源(gh-proxy),
+    // FETCH_VIA="fallback": 规则集下载走 DIRECT优先, 健康检查指向真实下载源(jsDelivr),
     // 直连连得上就用直连, 连不上才自动切到 🌍全球加速。冷启动默认用列表第一个(DIRECT)。
     FETCH_VIA === "fallback" ? [{
       name: FETCH_GROUP, type: "fallback", icon: ICON + "bypass.png",
@@ -623,7 +623,7 @@ function main(config) {
     "ipv6": true,
     ...(setGeo ? {
       // 分流全走 rule-provider(.mrs/.yaml), 无内置 GEOSITE/GEOIP 规则, 故不下 geoip.dat/geosite.dat;
-      // 只要 mmdb(连接信息/国旗)+asn(IP-ASN 规则). 走 gh-proxy 拉, 与本脚本其他外部资源一致.
+      // 只要 mmdb(连接信息/国旗)+asn(IP-ASN 规则). 走 jsDelivr 拉, 与本脚本其他外部资源一致.
       "geodata-mode": false,
       "geo-auto-update": true,
       "geo-update-interval": 24,
@@ -663,8 +663,9 @@ function main(config) {
       ? { "allow-origins": ["*"], "allow-private-network": true }  // 全开: 允许站外/跨私网面板访问
       : { "allow-origins": ["*"] };                                // 本机: 无需私网放行
     config["external-ui"] = "./ui";
-    // zashboard 下载套 gh-proxy: 与全脚本其他外部资源一致, 否则大陆冷启动直连 GitHub 拉不下面板
-    config["external-ui-url"] = "https://gh-proxy.com/https://codeload.github.com/Zephyruso/zashboard/zip/refs/heads/gh-pages";
+    // zashboard 面板包: jsDelivr 发不了 zip, 只能写 GitHub 的 codeload 链接(与 Clashmi-fx 一致)。
+    // 内核拉面板走的是自己的出站, 会按规则分流, GitHub 域名命中 😈GitHub 组走代理, 大陆也拉得下来。
+    config["external-ui-url"] = "https://codeload.github.com/Zephyruso/zashboard/zip/refs/heads/gh-pages";
     // 全开 + random: 把派生口令显示成一个 display-only 假组, 开 App 在组列表一眼可见, 抄进外部浏览器登录即可
     // (自己填了固定串的不显示——你本就知道; local 档不暴露端口, 也无需显示)
     if (panel === "lan" && PANEL_SECRET === "random") {
