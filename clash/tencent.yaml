@@ -71,17 +71,17 @@ payload:
   - DOMAIN-KEYWORD,wxapp
   - DOMAIN-KEYWORD,tenpay
   # ---- 正则兜底（高命中，控制误伤）----
-  - DOMAIN-REGEX,(?i)(^|\\.)weixin\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)open\\.weixin\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)mp\\.weixin\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)servicewechat\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)wximg\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)tenpay\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)wx\\.tenpay\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)short\\.weixin\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)extshort\\.weixin\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)szshort\\.weixin\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)szminorshort\\.weixin\\.qq\\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)weixin\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)open\.weixin\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)mp\.weixin\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)servicewechat\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)wximg\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)tenpay\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)wx\.tenpay\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)short\.weixin\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)extshort\.weixin\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)szshort\.weixin\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)szminorshort\.weixin\.qq\.com$
   # ---- ASN（腾讯相关）----
   - IP-ASN,132203
   - IP-ASN,45090
@@ -116,14 +116,13 @@ payload:
   - DOMAIN-SUFFIX,lol.qq.com
   # ---- 关键词 ----
   - DOMAIN-KEYWORD,lolm
-  - DOMAIN-KEYWORD,wildrift
   # ---- 正则兜底 ----
-  - DOMAIN-REGEX,(?i)(^|\\.)lolm\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)lolma\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)lolmconn\\d+\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)msdk\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)mta\\.qq\\.com$
-  - DOMAIN-REGEX,(?i)(^|\\.)game\\.gtimg\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)lolm\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)lolma\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)lolmconn\d+\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)msdk\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)mta\.qq\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)game\.gtimg\.cn$
   # ---- 你原本的腾讯云/机房段（保留）----
   - IP-CIDR,43.132.0.0/16,no-resolve
   - IP-CIDR,129.226.0.0/16,no-resolve

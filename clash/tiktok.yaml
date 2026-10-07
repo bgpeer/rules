@@ -89,13 +89,9 @@ payload:
   - DOMAIN-SUFFIX,tlivecdn.com
   - DOMAIN-SUFFIX,byteoversea.com
   - DOMAIN-SUFFIX,byteoversea.net
-  - DOMAIN-KEYWORD,webcast
   - DOMAIN-KEYWORD,ttlive
   - DOMAIN-KEYWORD,tiktoklive
   - DOMAIN-KEYWORD,tiktokcdn
-  - DOMAIN-KEYWORD,pull-flv
-  - DOMAIN-KEYWORD,pull-hls
-  - DOMAIN-KEYWORD,pull-rtmp
 
   # 🛒 TikTok Shop / 电商
   - DOMAIN-SUFFIX,tiktokshop.com
@@ -145,7 +141,6 @@ payload:
   - IP-CIDR,71.18.162.252/32,no-resolve
   - IP-CIDR,71.18.162.253/32,no-resolve
   - IP-CIDR,71.18.162.254/32,no-resolve
-  - IP-CIDR,161.117.0.0/16,no-resolve
   - IP-CIDR,170.176.0.0/12,no-resolve
   - IP-ASN,396986,no-resolve
   - IP-ASN,138699,no-resolve
@@ -156,7 +151,6 @@ payload:
   - DOMAIN-KEYWORD,tiktokcdn
   - DOMAIN-KEYWORD,tiktoklive
   - DOMAIN-KEYWORD,tiktokshop
-  - DOMAIN-KEYWORD,musical
   - DOMAIN-KEYWORD,musically
   - DOMAIN-KEYWORD,byteoversea
   - DOMAIN-KEYWORD,ibytedtos

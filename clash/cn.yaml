@@ -48,7 +48,6 @@ payload:
   - DOMAIN-SUFFIX,cdn.baidubce.com
   - DOMAIN-SUFFIX,cdn.bcebos.com
   ## 🟠 华为云（Huawei Cloud）
-  - DOMAIN-SUFFIX,hwcdn.net
   - DOMAIN-SUFFIX,huaweicloud.com
   - DOMAIN-SUFFIX,myhuaweicloud.com
   - DOMAIN-SUFFIX,hwclouds.com
@@ -119,8 +118,6 @@ payload:
   - DOMAIN-SUFFIX,mservice.jd.com
   # ==== 静态资源 ====
   - DOMAIN-KEYWORD,360buyimg
-  - DOMAIN-KEYWORD,img10
-  - DOMAIN-KEYWORD,img11
   - DOMAIN-KEYWORD,jdstatic
   - DOMAIN-KEYWORD,jdcdn
   - DOMAIN-KEYWORD,scdn.jd
@@ -162,7 +159,6 @@ payload:
   - DOMAIN-KEYWORD,10jqka
   - DOMAIN-KEYWORD,ifind
   - DOMAIN-KEYWORD,hexin
-  - DOMAIN-KEYWORD,ths
   - DOMAIN-KEYWORD,thskline
 
   # 📈 平安证券 Ping An Securities
@@ -219,7 +215,6 @@ payload:
   - DOMAIN-SUFFIX,wx.ccb.com
   - DOMAIN-SUFFIX,creditcard.ccb.com
   - DOMAIN-SUFFIX,ccblogin.ccb.com
-  - DOMAIN-KEYWORD,ccb
 
   # 🏦 中国工商银行 (ICBC)
   - PROCESS-NAME,com.icbc
@@ -292,7 +287,6 @@ payload:
   - DOMAIN-KEYWORD,jiaoguan
   - DOMAIN-KEYWORD,jtgj
   - DOMAIN-KEYWORD,gongan
-  - DOMAIN-KEYWORD,mps
 
   # 💿 夸克进程名（Android / TV / PC）
   - PROCESS-NAME,com.quark.browser
@@ -316,11 +310,11 @@ payload:
   - DOMAIN-KEYWORD,quarkcloud
   - DOMAIN-KEYWORD,quarkpan
   # ===== 正则兜底（夸克系域名）=====
-  - DOMAIN-REGEX,(?i)(^|\\.)quark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)myquark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)pan\\.quark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)doc\\.quark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)image\\.quark\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)quark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)myquark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)pan\.quark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)doc\.quark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)image\.quark\.cn$
 
   # 115生活/网盘
   - DOMAIN-SUFFIX,115.com
