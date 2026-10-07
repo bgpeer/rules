@@ -48769,7 +48769,6 @@ payload:
   - DOMAIN-SUFFIX,hwbs.org
   - DOMAIN-SUFFIX,hwbz.net
   - DOMAIN-SUFFIX,hwccpc.com
-  - DOMAIN-SUFFIX,hwcdn.net
   - DOMAIN-SUFFIX,hwcdnsre.com
   - DOMAIN-SUFFIX,hwcloudlive.com
   - DOMAIN-SUFFIX,hwclouds-dns.com
@@ -111507,7 +111506,6 @@ payload:
   - DOMAIN-KEYWORD,12123
   - DOMAIN-KEYWORD,360buyimg
   - DOMAIN-KEYWORD,baitiao
-  - DOMAIN-KEYWORD,ccb
   - DOMAIN-KEYWORD,cmb
   - DOMAIN-KEYWORD,cmbchina
   - DOMAIN-KEYWORD,cmblife
@@ -111519,8 +111517,6 @@ payload:
   - DOMAIN-KEYWORD,hexin
   - DOMAIN-KEYWORD,icbc
   - DOMAIN-KEYWORD,ifind
-  - DOMAIN-KEYWORD,img10
-  - DOMAIN-KEYWORD,img11
   - DOMAIN-KEYWORD,jdcdn
   - DOMAIN-KEYWORD,jdedge
   - DOMAIN-KEYWORD,jdpay
@@ -111528,7 +111524,6 @@ payload:
   - DOMAIN-KEYWORD,jiaoguan
   - DOMAIN-KEYWORD,jingdong
   - DOMAIN-KEYWORD,jtgj
-  - DOMAIN-KEYWORD,mps
   - DOMAIN-KEYWORD,myquark
   - DOMAIN-KEYWORD,pabank
   - DOMAIN-KEYWORD,pingan
@@ -111540,14 +111535,13 @@ payload:
   - DOMAIN-KEYWORD,scdn.jd
   - DOMAIN-KEYWORD,svs0a33sd
   - DOMAIN-KEYWORD,svs1a03sd
-  - DOMAIN-KEYWORD,ths
   - DOMAIN-KEYWORD,thskline
   - DOMAIN-KEYWORD,tmri
-  - DOMAIN-REGEX,(?i)(^|\\.)doc\\.quark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)image\\.quark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)myquark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)pan\\.quark\\.cn$
-  - DOMAIN-REGEX,(?i)(^|\\.)quark\\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)doc\.quark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)image\.quark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)myquark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)pan\.quark\.cn$
+  - DOMAIN-REGEX,(?i)(^|\.)quark\.cn$
   - DOMAIN-REGEX,.+\.awsdns-cn-[0-9][0-9]\.(biz|com|net|top)$
   - DOMAIN-REGEX,.+\.awsdns-cn-[0-9][a-e0-9]\.cn$
   - DOMAIN-REGEX,^(.+\.)*zh\.okaapps\.com$
