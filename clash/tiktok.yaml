@@ -47,6 +47,10 @@ payload:
   - DOMAIN,log2.musical.ly
   - DOMAIN,mon.musical.ly
 
+  # 注意：byteimg / pstatp / bytecdn.cn / bytetos / bytegecko / bytedapm / bytednsdoc / bytedns /
+  # vegslb / bdgslb / bytefcdn.com 是抖音、头条在国内用的 CDN 和调度，别放这里——TikTok 规则排在
+  # 抖音前面，放进来抖音的图片会被抢去走海外节点 + 国外 DNS（评论区图片加载慢）。
+  # TikTok 用的是带 i / sg / -oversea 的那一套（ibyteimg、ipstatp、ibytedtos、bytefcdn-oversea…）。
   # 📺 TikTok 视频 / 图片 / 静态资源 CDN
   - DOMAIN-SUFFIX,tiktokcdn.com
   - DOMAIN-SUFFIX,tiktokcdn-us.com
@@ -66,17 +70,12 @@ payload:
   - DOMAIN-SUFFIX,muscdn.com
   - DOMAIN-SUFFIX,ibyteimg.com
   - DOMAIN-SUFFIX,ibytedtos.com
-  - DOMAIN-SUFFIX,byteimg.com
   - DOMAIN-SUFFIX,ipstatp.com
   - DOMAIN-SUFFIX,sgpstatp.com
-  - DOMAIN-SUFFIX,pstatp.com
 
   # 📦 常见 TikTok CDN 子域名
   - DOMAIN-SUFFIX,bytefcdn-oversea.com
   - DOMAIN-SUFFIX,bytefcdn-ttpeu.com
-  - DOMAIN-SUFFIX,bytefcdn.com
-  - DOMAIN-SUFFIX,bytecdn.cn
-  - DOMAIN-SUFFIX,bytetos.com
   - DOMAIN-SUFFIX,bytedance.map.fastly.net
   - DOMAIN-SUFFIX,worldfcdn.com
   - DOMAIN-SUFFIX,worldfcdn2.com
@@ -111,16 +110,10 @@ payload:
   - DOMAIN-SUFFIX,ttoversea.com
   - DOMAIN-SUFFIX,ttoversea.net
   - DOMAIN-SUFFIX,byteintlapi.com
-  - DOMAIN-SUFFIX,bytegecko.com
   - DOMAIN-SUFFIX,bytegecko-i18n.com
-  - DOMAIN-SUFFIX,bytedapm.com
   - DOMAIN-SUFFIX,ibytedapm.com
   - DOMAIN-SUFFIX,isnssdk.com
   - DOMAIN-SUFFIX,sgsnssdk.com
-  - DOMAIN-SUFFIX,bytednsdoc.com
-  - DOMAIN-SUFFIX,bytedns.net
-  - DOMAIN-SUFFIX,vegslb.com
-  - DOMAIN-SUFFIX,bdgslb.com
 
   # 🎨 TikTok 特效 / 素材 / AI 客户端资源
   - DOMAIN,lf16-effectcdn.byteeffecttos-g.com
@@ -167,7 +160,6 @@ payload:
   - DOMAIN-KEYWORD,musically
   - DOMAIN-KEYWORD,byteoversea
   - DOMAIN-KEYWORD,ibytedtos
-  - DOMAIN-KEYWORD,bytefcdn
   - DOMAIN-KEYWORD,ttlive
   - DOMAIN-KEYWORD,ttwstatic
 
@@ -178,7 +170,7 @@ payload:
   - DOMAIN-REGEX,(?i)(^|\.)musical\.ly$
   - DOMAIN-REGEX,(?i)(^|\.)ttoversea\.(com|net)$
   - DOMAIN-REGEX,(?i)(^|\.)byteoversea\.(com|net)$
-  - DOMAIN-REGEX,(?i)(^|\.)(i?bytedapm|byteintlapi|bytegecko|bytegecko-i18n)\.com$
+  - DOMAIN-REGEX,(?i)(^|\.)(ibytedapm|byteintlapi|bytegecko-i18n)\.com$
   - DOMAIN-REGEX,(?i)(^|\.)(isnssdk|sgsnssdk|sgpstatp|ipstatp)\.com$
   - DOMAIN-REGEX,(?i)(^|\.)tiktokcdn(-us|-in)?\.com(\..+)?$
   - DOMAIN-REGEX,(?i)(^|\.)tiktokv\.com(\..+)?$
