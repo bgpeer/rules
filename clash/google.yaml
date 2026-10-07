@@ -22,15 +22,8 @@ payload:
   - PROCESS-NAME,GoogleCrashHandler.exe
 
   # 🌐 新增域名后缀规则
-  - DOMAIN-SUFFIX,download.qatp1.net
   - DOMAIN-SUFFIX,ggpht.com
   - DOMAIN-SUFFIX,googlevideo.com
-  - DOMAIN-SUFFIX,monitoring.qpdp1.net
-  - DOMAIN-SUFFIX,qagpublic.qatp1.net
-  - DOMAIN-SUFFIX,qgadmin.qcpp1.net
-  - DOMAIN-SUFFIX,qualysapi.qatp1.net
-  - DOMAIN-SUFFIX,qualysguard.qpdp1.net
-  - DOMAIN-SUFFIX,scanservice1.qcpp1.net
   - DOMAIN-SUFFIX,youtu.be
   - DOMAIN-SUFFIX,youtube.com
   - DOMAIN-SUFFIX,youtube-nocookie.com
@@ -54,11 +47,9 @@ payload:
   - DOMAIN-SUFFIX,deepmind.google
 
   # 🔑 新增域名关键词规则
-  - DOMAIN-KEYWORD,gstatic
   - DOMAIN-KEYWORD,youtube
   - DOMAIN-KEYWORD,ytimg
   - DOMAIN-KEYWORD,generativelanguage
-  - DOMAIN-KEYWORD,gemini
 
   # 🌐 新增 IP-ASN 规则
   - IP-ASN,15169

@@ -545,7 +545,6 @@ payload:
   - DOMAIN-KEYWORD,moomooapp
   # ✅ 富途域名正则兜底
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futunn[a-z0-9-]*\.(com|net|cn|com\.cn|hk|sg|au|ca|jp|my)$
-  - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futu[0-9a-z-]*\.(com|net|cn|com\.cn|hk|sg|au|ca|jp|my)$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futubull[a-z0-9-]*\.(com|net|cn|hk|sg|au|ca|jp|my)$
   - DOMAIN-REGEX,(?i)(^|\.)[a-z0-9-]*futuholdings[a-z0-9-]*\.com$
   # ✅ moomoo 域名正则兜底
