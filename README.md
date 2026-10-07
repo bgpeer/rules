@@ -6,12 +6,12 @@ https://github.com/bgpeer/rules/tree/main/QX
 
 ---
 
-#### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/01f635bc410f3503a218e03e537cb135/raw/ClashMi.yaml)
+#### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://github.com/bgpeer/rules/blob/main/ClashMi.yaml)
 
 #### ClashMi 配置核心复写
 
 ```yaml
-https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/cfd6fcf7bc40c166984b87ecf4fbf920/raw/Clashmi-fx.yaml
+https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Clashmi-fx.yaml
 ```
 
 `打开Clashmi→核心设置→复写→点击右上角➕→添加配置链接`
@@ -33,15 +33,15 @@ https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Mih
 
 ### Shadowrocket（小火箭）
 
-[小火箭（Shadowrocket）懒人配置](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf)
+[小火箭（Shadowrocket）懒人配置](https://cdn.gh-proxy.org/https://github.com/bgpeer/rules/blob/main/Shadowrocket.conf)
 
 ```
-https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/b0400d50f3fd5a63d77757ec0413d824/raw/Shadowrocket.conf
+https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Shadowrocket.conf
 ```
 
-[Surge样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/9e5b1e02fd8f69af7dc57da2aa59510b/raw/Surge.conf)
+[Surge样板](https://cdn.gh-proxy.org/https://github.com/bgpeer/rules/blob/main/Surge.conf)
 
-[QuantumultX样板](https://cdn.gh-proxy.org/https://gist.githubusercontent.com/bgpeer/8c4b2b9685791f097ad183da3d29e4d0/raw/QX.conf)
+[QuantumultX样板](https://cdn.gh-proxy.org/https://github.com/bgpeer/rules/blob/main/QX.conf)
 
 [VPS节点一键部署](https://github.com/bgpeer/nodekit)
 
