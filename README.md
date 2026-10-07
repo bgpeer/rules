@@ -8,7 +8,7 @@ https://github.com/bgpeer/rules/tree/main/QX
 
 #### [可用于 Clash Mi 的样板](https://cdn.gh-proxy.org/https://github.com/bgpeer/rules/blob/main/ClashMi-fx.yaml)
 
-#### [ClashMi 配置核心复写]（https://github.com/bgpeer/rules/blob/main/Clashmi-fx.yaml）
+#### [ClashMi 配置核心复写] (https://github.com/bgpeer/rules/blob/main/Clashmi-fx.yaml)
 
 ```yaml
 https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Clashmi-fx.yaml
