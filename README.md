@@ -19,7 +19,7 @@ https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Cla
 **[Mihomo通用JS复写](https://github.com/bgpeer/rules/blob/main/Mihomo-fx.js)**
 
 ```js
-https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Mihomo-fx.js
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/Mihomo-fx.js
 ```
 
 ---
@@ -36,7 +36,7 @@ https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Mih
 [小火箭（Shadowrocket）懒人配置](https://github.com/bgpeer/rules/blob/main/Shadowrocket.conf)
 
 ```
-https://cdn.gh-proxy.org/https://raw.githubusercontent.com/bgpeer/rules/main/Shadowrocket.conf
+https://cdn.jsdelivr.net/gh/bgpeer/rules@main/Shadowrocket.conf
 ```
 
 [Surge样板](https://github.com/bgpeer/rules/blob/main/Surge.conf)
