@@ -42,8 +42,8 @@ geodata-mode: false
 geo-auto-update: true
 geo-update-interval: 24
 geox-url:
-  mmdb: "https://gh-proxy.com/https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-Country.mmdb"
-  asn: "https://gh-proxy.com/https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-ASN.mmdb"
+  mmdb: "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-Country.mmdb"
+  asn: "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb"
 
 tun:
   enable: true
@@ -137,7 +137,7 @@ sniffer:
   skip-dst-address: ["17.0.0.0/8","149.154.160.0/20","91.108.0.0/16"]
 
 pg-anchor:
-  - &URLTEST_COMMON {type: url-test, lazy: true, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/bypass.png, include-all: true, exclude-type: direct, url: "https://www.gstatic.com/generate_204", interval: 120, tolerance: 30, timeout: 5000, hidden: true}
+  - &URLTEST_COMMON {type: url-test, lazy: true, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/bypass.png, include-all: true, exclude-type: direct, url: "https://www.gstatic.com/generate_204", interval: 120, tolerance: 30, timeout: 5000, hidden: true}
   - &GLOBAL_PROXIES ["🌍全球加速","🔗链式出口","♻️全部随机","🇭🇰香港随机","🇹🇼台湾随机","🇯🇵日本随机","🇸🇬新加坡随机","🇰🇷韩国随机","🇺🇸美国随机","🎯直连"]
   - &GLOBAL_WITH_DIRECT ["🎯直连","🌍全球加速","🔗链式出口","♻️全部随机","🇭🇰香港随机","🇹🇼台湾随机","🇯🇵日本随机","🇸🇬新加坡随机","🇰🇷韩国随机","🇺🇸美国随机"]
   - &CN_PAT "🇨🇳|\\bCN\\b|\\bcn\\b|中国大陆"
@@ -148,29 +148,29 @@ pg-anchor:
   - &CHAIN_RELAY_LIST ["🌍全球加速","♻️全部随机","🇭🇰香港随机","🇹🇼台湾随机","🇯🇵日本随机","🇸🇬新加坡随机","🇰🇷韩国随机","🇺🇸美国随机"]
   
 proxy-groups:
-  - {name: "🌍全球加速", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/global.png, proxies: ["♻️全部随机","🔗链式出口","🇭🇰香港随机","🇹🇼台湾随机","🇯🇵日本随机","🇸🇬新加坡随机","🇰🇷韩国随机","🇺🇸美国随机"], <<: *AUTO_COMMON, url: "https://www.gstatic.com/generate_204", interval: 120, timeout: 5000}
-  - {name: "🎷抖音", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/douyin_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "🎬TikTok", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/tiktok_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "🎮国际游戏", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/game_2.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "💻Telegram", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/telegram.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "🧠OpenAI", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/chatgpt.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "🤖Claude", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/claude_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "💳PayPal", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/paypal_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "🌐Google服务", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/google_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "📱Meta", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/meta.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "🐦X", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/x.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "📽️Netflix", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/netflix.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "😈GitHub", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/github.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
-  - {name: "😊微软服务", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/microsoft.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
-  - {name: "🍎苹果服务", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/apple.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
-  - {name: "💰加密货币", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/cryptocurrency.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
-  - {name: "📺哔哩哔哩", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/bilibili_2.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
-  - {name: "📕小红书", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/xiaohongshu_1.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
-  - {name: "⛩️阿里腾讯", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/alibaba_tencent.png, proxies: ["🎯直连","🌍全球加速"]}
-  - {name: "🎯直连", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/china.png, proxies: ["DIRECT", "🇨🇳中国随机", "🌍全球加速"], include-all: true, filter: *CN_PAT, exclude-filter: *CN_EXCL, url: "http://connect.rom.miui.com/generate_204"}
-  - {name: "🤡漏网之鱼", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/match_1.png, proxies: ["🌍全球加速","🎯直连"]}
-  - {name: "🔗链式出口", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/chainexport.png, override: {dialer-proxy: "🔗链式中转"}, proxies: *CHAIN_EXIT_LIST, <<: *AUTO_COMMON}
-  - {name: "🔗链式中转", type: select, icon: https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/icons/main/color/chaintransfer.png, proxies: *CHAIN_RELAY_LIST, <<: *AUTO_ALL}
+  - {name: "🌍全球加速", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/global.png, proxies: ["♻️全部随机","🔗链式出口","🇭🇰香港随机","🇹🇼台湾随机","🇯🇵日本随机","🇸🇬新加坡随机","🇰🇷韩国随机","🇺🇸美国随机"], <<: *AUTO_COMMON, url: "https://www.gstatic.com/generate_204", interval: 120, timeout: 5000}
+  - {name: "🎷抖音", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/douyin_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "🎬TikTok", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/tiktok_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "🎮国际游戏", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/game_2.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "💻Telegram", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/telegram.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "🧠OpenAI", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/chatgpt.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "🤖Claude", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/claude_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "💳PayPal", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/paypal_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "🌐Google服务", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/google_1.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "📱Meta", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/meta.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "🐦X", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/x.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "📽️Netflix", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/netflix.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "😈GitHub", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/github.png, proxies: *GLOBAL_PROXIES, <<: *AUTO_COMMON}
+  - {name: "😊微软服务", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/microsoft.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
+  - {name: "🍎苹果服务", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/apple.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
+  - {name: "💰加密货币", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/cryptocurrency.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
+  - {name: "📺哔哩哔哩", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/bilibili_2.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
+  - {name: "📕小红书", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/xiaohongshu_1.png, proxies: *GLOBAL_WITH_DIRECT, <<: *AUTO_COMMON}
+  - {name: "⛩️阿里腾讯", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/alibaba_tencent.png, proxies: ["🎯直连","🌍全球加速"]}
+  - {name: "🎯直连", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/china.png, proxies: ["DIRECT", "🇨🇳中国随机", "🌍全球加速"], include-all: true, filter: *CN_PAT, exclude-filter: *CN_EXCL, url: "http://connect.rom.miui.com/generate_204"}
+  - {name: "🤡漏网之鱼", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/match_1.png, proxies: ["🌍全球加速","🎯直连"]}
+  - {name: "🔗链式出口", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/chainexport.png, override: {dialer-proxy: "🔗链式中转"}, proxies: *CHAIN_EXIT_LIST, <<: *AUTO_COMMON}
+  - {name: "🔗链式中转", type: select, icon: https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/chaintransfer.png, proxies: *CHAIN_RELAY_LIST, <<: *AUTO_ALL}
   - {name: "🇭🇰香港随机", <<: *URLTEST_COMMON, filter: "🇭🇰|HK|Hong|hong|香港|深港|沪港|京港|港"}
   - {name: "🇹🇼台湾随机", <<: *URLTEST_COMMON, filter: "🇹🇼|TW|TWN|Taiwan|Taipei|台湾|台灣|台北"}
   - {name: "🇯🇵日本随机", <<: *URLTEST_COMMON, filter: "🇯🇵|JP|Japan|japan|Tokyo|东京|大阪|日本"}
@@ -234,36 +234,36 @@ rule-anchor:
   class-yaml: &class-yaml {type: http, behavior: classical, interval: 86400, format: yaml}
   
 rule-providers:
-  reject: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/category-ads-all.mrs"}
-  douyin-zj: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/bytedance.mrs"}
-  TikTok-zj: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/tiktok.mrs"}
-  Telegram-zj: {<<: *class-yaml, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/telegram.yaml"}
-  OpenAI-zj: {<<: *class-yaml, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/openai.yaml"}
-  Facebook-zj: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/meta.mrs"}
-  Netflix: {<<: *class-yaml, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/netflix.yaml"}
-  Google-zj: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/google.mrs"}
-  GitHub-zj: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/github.mrs"}
-  Claude-zj: {<<: *class-yaml, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/anthropic.yaml"}
-  PayPal: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/paypal.mrs"}
-  Cryptocurrency: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/category-cryptocurrency.mrs"}
-  games-!cn: {<<: *class-yaml, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/category-games-!cn.yaml"}
-  twitter: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/twitter.mrs"}
-  google-ip: {<<: *mrs-ipcidr, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/google.mrs"}
-  cloudflare-ip: {<<: *mrs-ipcidr, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/cloudflare.mrs"}
-  cloudfront-ip: {<<: *mrs-ipcidr, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/cloudfront.mrs"}
-  fastly-ip: {<<: *mrs-ipcidr, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/fastly.mrs"}
-  icloud: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/icloud.mrs"}
-  Apple: {<<: *class-yaml, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/apple.yaml"}
-  Microsoft: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/microsoft.mrs"}
-  gfw: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/gfw.mrs"}
-  greatfire: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/greatfire.mrs"}
-  geolocation-!cn: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/geolocation-!cn.mrs"}
-  games-cn: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/category-games-cn.mrs"}
-  bilibili: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/bilibili.mrs"}
-  xiaohongshu: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/xiaohongshu.mrs"}
-  Alibaba: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/alibaba.mrs"}
-  Tencent: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/tencent.mrs"}
-  private: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/private.mrs"}
-  cn-domain: {<<: *mrs-domain, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geosite/cn.mrs"}
-  private-ip: {<<: *mrs-ipcidr, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/private.mrs"}
-  cn-ip: {<<: *mrs-ipcidr, url: "https://gh-proxy.com/https://raw.githubusercontent.com/bgpeer/rules/main/geo/geoip/cn.mrs"}
+  reject: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/category-ads-all.mrs"}
+  douyin-zj: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/bytedance.mrs"}
+  TikTok-zj: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/tiktok.mrs"}
+  Telegram-zj: {<<: *class-yaml, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/telegram.yaml"}
+  OpenAI-zj: {<<: *class-yaml, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/openai.yaml"}
+  Facebook-zj: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/meta.mrs"}
+  Netflix: {<<: *class-yaml, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/netflix.yaml"}
+  Google-zj: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/google.mrs"}
+  GitHub-zj: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/github.mrs"}
+  Claude-zj: {<<: *class-yaml, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/anthropic.yaml"}
+  PayPal: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/paypal.mrs"}
+  Cryptocurrency: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/category-cryptocurrency.mrs"}
+  games-!cn: {<<: *class-yaml, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/category-games-!cn.yaml"}
+  twitter: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/twitter.mrs"}
+  google-ip: {<<: *mrs-ipcidr, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/google.mrs"}
+  cloudflare-ip: {<<: *mrs-ipcidr, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/cloudflare.mrs"}
+  cloudfront-ip: {<<: *mrs-ipcidr, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/cloudfront.mrs"}
+  fastly-ip: {<<: *mrs-ipcidr, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/fastly.mrs"}
+  icloud: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/icloud.mrs"}
+  Apple: {<<: *class-yaml, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/apple.yaml"}
+  Microsoft: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/microsoft.mrs"}
+  gfw: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/gfw.mrs"}
+  greatfire: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/greatfire.mrs"}
+  geolocation-!cn: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/geolocation-!cn.mrs"}
+  games-cn: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/category-games-cn.mrs"}
+  bilibili: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/bilibili.mrs"}
+  xiaohongshu: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/xiaohongshu.mrs"}
+  Alibaba: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/alibaba.mrs"}
+  Tencent: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/tencent.mrs"}
+  private: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/private.mrs"}
+  cn-domain: {<<: *mrs-domain, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geosite/cn.mrs"}
+  private-ip: {<<: *mrs-ipcidr, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/private.mrs"}
+  cn-ip: {<<: *mrs-ipcidr, url: "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/geo/geoip/cn.mrs"}
