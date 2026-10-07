@@ -26,7 +26,7 @@ https://cdn.jsdelivr.net/gh/bgpeer/rules@main/Mihomo-fx.js
 
 ### Sing-box
 
-[可用于 Sing-box 1.14的样板](https://cdn.gh-proxy.org/https://gist.github.com/bgpeer/ea81e07938efe1b2e892db7a9bee872e/raw/singbox-config.json)
+[可用于 Sing-box 1.14的样板](https://github.com/bgpeer/rules/blob/main/singbox-model.json)
 
 ---
 > ⚠️ 下面是苹果系列配置自己没有测试过，不敢保证可用，懂得可以自行修改。
