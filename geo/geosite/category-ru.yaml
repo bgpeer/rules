@@ -99,7 +99,6 @@ payload:
   - DOMAIN,edge.geo.kaspersky.com
   - DOMAIN,edu.tinkoff.ru
   - DOMAIN,education.tbank.ru
-  - DOMAIN,error-tracking.megamarket.tech
   - DOMAIN,google-analytics-suite.ozon.ru
   - DOMAIN,informer.yandex.ru
   - DOMAIN,ksn-cinfo-geo.kaspersky-labs.com
@@ -134,7 +133,6 @@ payload:
   - DOMAIN,mc.yandex.net
   - DOMAIN,mc.yango.com
   - DOMAIN,mdr.ksn.kaspersky-labs.com
-  - DOMAIN,metrics.21-school.ru
   - DOMAIN,metrika.kontur.ru
   - DOMAIN,metro.spb.ru
   - DOMAIN,mos.transport.vtb.ru
@@ -192,7 +190,6 @@ payload:
   - DOMAIN,s17.upd.kaspersky.com
   - DOMAIN,s18.upd.kaspersky.com
   - DOMAIN,s19.upd.kaspersky.com
-  - DOMAIN,sberpro.vedomosti.ru
   - DOMAIN,sentry-ng.g.smailru.net
   - DOMAIN,sentry.dev-my.com
   - DOMAIN,sentry.dev-my.games
@@ -202,7 +199,6 @@ payload:
   - DOMAIN,sentry.ozon.ru
   - DOMAIN,sentry.popmechanic.ru
   - DOMAIN,sentry.rustore.ru
-  - DOMAIN,sentry.sberauto.com
   - DOMAIN,sentry.viqeo.tv
   - DOMAIN,sentry.wb.ru
   - DOMAIN,sentry.x5.ru
@@ -220,7 +216,6 @@ payload:
   - DOMAIN,target.vk.com
   - DOMAIN,taxi.yandex.ru
   - DOMAIN,top-staging.mail.ru
-  - DOMAIN,tracing-http.megamarket.tech
   - DOMAIN,transport.mos.ru
   - DOMAIN,visor.sberbank.ru
   - DOMAIN,web-analytics.wildberries.ru
@@ -235,24 +230,10 @@ payload:
   - DOMAIN,xray.mail.ru
   - DOMAIN-SUFFIX,1917live.red
   - DOMAIN-SUFFIX,24h.tv
-  - DOMAIN-SUFFIX,2gis.ae
-  - DOMAIN-SUFFIX,2gis.am
-  - DOMAIN-SUFFIX,2gis.az
-  - DOMAIN-SUFFIX,2gis.by
-  - DOMAIN-SUFFIX,2gis.com
-  - DOMAIN-SUFFIX,2gis.com.cy
-  - DOMAIN-SUFFIX,2gis.cz
-  - DOMAIN-SUFFIX,2gis.ge
-  - DOMAIN-SUFFIX,2gis.kg
-  - DOMAIN-SUFFIX,2gis.kz
-  - DOMAIN-SUFFIX,2gis.tech
-  - DOMAIN-SUFFIX,2gis.tj
-  - DOMAIN-SUFFIX,2gis.uz
   - DOMAIN-SUFFIX,3ebra.net
   - DOMAIN-SUFFIX,4epenaxa.com
   - DOMAIN-SUFFIX,5post.market
   - DOMAIN-SUFFIX,a.mts.ru
-  - DOMAIN-SUFFIX,accesspoint.uz
   - DOMAIN-SUFFIX,acmvid.com
   - DOMAIN-SUFFIX,actualidad-rt.com
   - DOMAIN-SUFFIX,ad.mail.ru
@@ -330,7 +311,6 @@ payload:
   - DOMAIN-SUFFIX,ciciq.net
   - DOMAIN-SUFFIX,clck.yandex.ru
   - DOMAIN-SUFFIX,clickstream.sberbank.ru
-  - DOMAIN-SUFFIX,cloudru.cn
   - DOMAIN-SUFFIX,clstorage.net
   - DOMAIN-SUFFIX,cm.expert
   - DOMAIN-SUFFIX,codeseason.by
@@ -389,12 +369,12 @@ payload:
   - DOMAIN-SUFFIX,eadaily.info
   - DOMAIN-SUFFIX,eadaily.net
   - DOMAIN-SUFFIX,eadaily.org
-  - DOMAIN-SUFFIX,eaptechka.online
   - DOMAIN-SUFFIX,edu22.info
   - DOMAIN-SUFFIX,eligens.cl
   - DOMAIN-SUFFIX,eligens.com.br
   - DOMAIN-SUFFIX,eligens.io
   - DOMAIN-SUFFIX,emias.info
+  - DOMAIN-SUFFIX,energotransbank.com
   - DOMAIN-SUFFIX,envybox.company
   - DOMAIN-SUFFIX,envybox.family
   - DOMAIN-SUFFIX,envybox.io
@@ -442,7 +422,6 @@ payload:
   - DOMAIN-SUFFIX,genotek.eu
   - DOMAIN-SUFFIX,genotek.health
   - DOMAIN-SUFFIX,gerwin.io
-  - DOMAIN-SUFFIX,getsynapse.io
   - DOMAIN-SUFFIX,gib-global.com
   - DOMAIN-SUFFIX,gib.sg
   - DOMAIN-SUFFIX,gibdev.net
@@ -473,6 +452,7 @@ payload:
   - DOMAIN-SUFFIX,hayya.ae
   - DOMAIN-SUFFIX,hh.by
   - DOMAIN-SUFFIX,hh.kz
+  - DOMAIN-SUFFIX,home.bank
   - DOMAIN-SUFFIX,hva.im
   - DOMAIN-SUFFIX,icq-download.com
   - DOMAIN-SUFFIX,icq-mobile.com
@@ -526,18 +506,6 @@ payload:
   - DOMAIN-SUFFIX,ixbt.site
   - DOMAIN-SUFFIX,ixbt.video
   - DOMAIN-SUFFIX,jinrieluosi.cn
-  - DOMAIN-SUFFIX,jivo.chat
-  - DOMAIN-SUFFIX,jivochat.co.in
-  - DOMAIN-SUFFIX,jivochat.co.za
-  - DOMAIN-SUFFIX,jivochat.com
-  - DOMAIN-SUFFIX,jivochat.com.br
-  - DOMAIN-SUFFIX,jivochat.com.co
-  - DOMAIN-SUFFIX,jivochat.com.pe
-  - DOMAIN-SUFFIX,jivochat.com.tr
-  - DOMAIN-SUFFIX,jivochat.de
-  - DOMAIN-SUFFIX,jivochat.es
-  - DOMAIN-SUFFIX,jivochat.ng
-  - DOMAIN-SUFFIX,jivosite.com
   - DOMAIN-SUFFIX,jump.taxi
   - DOMAIN-SUFFIX,justveryok.com
   - DOMAIN-SUFFIX,kaspersky-labs.com
@@ -582,7 +550,7 @@ payload:
   - DOMAIN-SUFFIX,knightspeak.com
   - DOMAIN-SUFFIX,kontur-inc.com
   - DOMAIN-SUFFIX,kontur.host
-  - DOMAIN-SUFFIX,korona.com
+  - DOMAIN-SUFFIX,koronapay.com
   - DOMAIN-SUFFIX,koshelek.app
   - DOMAIN-SUFFIX,ktech.team
   - DOMAIN-SUFFIX,lenta.com
@@ -592,13 +560,13 @@ payload:
   - DOMAIN-SUFFIX,magnit.com
   - DOMAIN-SUFFIX,mail-carrotquest.io
   - DOMAIN-SUFFIX,mailicq.org
+  - DOMAIN-SUFFIX,maritimebank.com
   - DOMAIN-SUFFIX,mc.yandex.ru
   - DOMAIN-SUFFIX,mcc250.pub.3gppnetwork.org
   - DOMAIN-SUFFIX,mcs.st
   - DOMAIN-SUFFIX,medsi.com
   - DOMAIN-SUFFIX,medsi.pro
   - DOMAIN-SUFFIX,megafon.com
-  - DOMAIN-SUFFIX,megamarket.tech
   - DOMAIN-SUFFIX,mel.fm
   - DOMAIN-SUFFIX,memealerts.com
   - DOMAIN-SUFFIX,meteofor.com
@@ -640,7 +608,6 @@ payload:
   - DOMAIN-SUFFIX,mytopf.com
   - DOMAIN-SUFFIX,mytrk.link
   - DOMAIN-SUFFIX,naydex.net
-  - DOMAIN-SUFFIX,neon.click
   - DOMAIN-SUFFIX,netcraze.club
   - DOMAIN-SUFFIX,netcraze.link
   - DOMAIN-SUFFIX,netcraze.pro
@@ -702,9 +669,11 @@ payload:
   - DOMAIN-SUFFIX,poudobnee.com
   - DOMAIN-SUFFIX,premier.one
   - DOMAIN-SUFFIX,premiumlive.site
+  - DOMAIN-SUFFIX,priovtb.com
   - DOMAIN-SUFFIX,prod-my.games
   - DOMAIN-SUFFIX,prodcontest.com
   - DOMAIN-SUFFIX,promodj.com
+  - DOMAIN-SUFFIX,pskb.com
   - DOMAIN-SUFFIX,ptsecurity.com
   - DOMAIN-SUFFIX,public.express
   - DOMAIN-SUFFIX,pushgrow.io
@@ -804,12 +773,7 @@ payload:
   - DOMAIN-SUFFIX,sage-observability.tech
   - DOMAIN-SUFFIX,sayeasy.eu
   - DOMAIN-SUFFIX,sber-bank.by
-  - DOMAIN-SUFFIX,sber.pro
-  - DOMAIN-SUFFIX,sberauto.com
-  - DOMAIN-SUFFIX,sberbank-tele.com
   - DOMAIN-SUFFIX,sberbank.com
-  - DOMAIN-SUFFIX,sbercloud.tech
-  - DOMAIN-SUFFIX,sbermarketing.ru
   - DOMAIN-SUFFIX,seclab.lat
   - DOMAIN-SUFFIX,selcdn.net
   - DOMAIN-SUFFIX,selectel.academy
@@ -824,6 +788,7 @@ payload:
   - DOMAIN-SUFFIX,servicepipe.tech
   - DOMAIN-SUFFIX,sfunpay.com
   - DOMAIN-SUFFIX,shedevrum.ai
+  - DOMAIN-SUFFIX,shedevrum.com
   - DOMAIN-SUFFIX,shop-rt.com
   - DOMAIN-SUFFIX,sistema-capital.com
   - DOMAIN-SUFFIX,skbx.pro
@@ -974,6 +939,7 @@ payload:
   - DOMAIN-SUFFIX,vscale.blog
   - DOMAIN-SUFFIX,vscale.io
   - DOMAIN-SUFFIX,vtb-direct.com
+  - DOMAIN-SUFFIX,vtb.com
   - DOMAIN-SUFFIX,vtbglobalperspectives.com
   - DOMAIN-SUFFIX,warehouse.domains
   - DOMAIN-SUFFIX,watchingthehawks.com
@@ -1035,11 +1001,13 @@ payload:
   - DOMAIN-SUFFIX,xn--p1acf
   - DOMAIN-SUFFIX,xn--p1ai
   - DOMAIN-SUFFIX,ya.cc
-  - DOMAIN-SUFFIX,yabs.yandex.ru
+  - DOMAIN-SUFFIX,yadi.sk
   - DOMAIN-SUFFIX,yads.tech
   - DOMAIN-SUFFIX,yandex
+  - DOMAIN-SUFFIX,yandex-ad.cn
   - DOMAIN-SUFFIX,yandex-bank.net
   - DOMAIN-SUFFIX,yandex-metrica.ru
+  - DOMAIN-SUFFIX,yandex-team.com
   - DOMAIN-SUFFIX,yandex.aero
   - DOMAIN-SUFFIX,yandex.asia
   - DOMAIN-SUFFIX,yandex.az
@@ -1062,21 +1030,26 @@ payload:
   - DOMAIN-SUFFIX,yandex.kz
   - DOMAIN-SUFFIX,yandex.lt
   - DOMAIN-SUFFIX,yandex.lv
+  - DOMAIN-SUFFIX,yandex.market
   - DOMAIN-SUFFIX,yandex.md
   - DOMAIN-SUFFIX,yandex.mobi
   - DOMAIN-SUFFIX,yandex.net
   - DOMAIN-SUFFIX,yandex.org
   - DOMAIN-SUFFIX,yandex.pl
+  - DOMAIN-SUFFIX,yandex.pro
   - DOMAIN-SUFFIX,yandex.st
   - DOMAIN-SUFFIX,yandex.sx
+  - DOMAIN-SUFFIX,yandex.taxi
   - DOMAIN-SUFFIX,yandex.tj
   - DOMAIN-SUFFIX,yandex.tm
   - DOMAIN-SUFFIX,yandex.tr
+  - DOMAIN-SUFFIX,yandex.travel
   - DOMAIN-SUFFIX,yandex.ua
   - DOMAIN-SUFFIX,yandex.uz
   - DOMAIN-SUFFIX,yandexadexchange.net
   - DOMAIN-SUFFIX,yandexcloud.net
   - DOMAIN-SUFFIX,yandexcom.net
+  - DOMAIN-SUFFIX,yandexdataschool.com
   - DOMAIN-SUFFIX,yandexgo.com
   - DOMAIN-SUFFIX,yandexmetrica.com
   - DOMAIN-SUFFIX,yandexwebcache.net
@@ -1099,8 +1072,7 @@ payload:
   - DOMAIN-SUFFIX,yastat.net
   - DOMAIN-SUFFIX,yastatic.net
   - DOMAIN-SUFFIX,yclients.com
+  - DOMAIN-SUFFIX,ydb.tech
   - DOMAIN-SUFFIX,yndx.net
   - DOMAIN-SUFFIX,youla.io
   - DOMAIN-SUFFIX,yourgood.app
-  - DOMAIN-SUFFIX,zvuk-b2b.com
-  - DOMAIN-SUFFIX,zvuk.com
