@@ -1,5 +1,5 @@
 // ============================================================================
-// bgpeer 覆写脚本，版本5.11 (Mihomo 系通用: Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox)
+// bgpeer 覆写脚本，版本v5.11 (Mihomo 系通用: Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox)
 // 用法: 在客户端"覆写"处粘贴链接导入,或复制导入，或做文件名称__复写.js 导入
 //       ClashMi把链接添加到➜核心设置➜复写➜右上➕里面去，类型选js，然后选择这个复写。
 // 入口约定: 客户端会调用 main(config), config 为订阅解析后的对象, 返回修改后的 config。
