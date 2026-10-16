@@ -715,22 +715,7 @@ function main(config) {
     "dns.adguard.com": ["94.140.14.14", "94.140.15.15"],
   }, config.hosts || {});
 
-  // —— tunnels (端口转发, 与 Clashmi-fx 一致) —— [本地端口, 目标, 走哪个组]; network 都是 tcp+udp
-  const TUN = [
-    [7788, "jp1.wildrift.riotgames.com:443", "🎮国际游戏"],
-    [7789, "jp1.pvp.net:443", "🎮国际游戏"],
-    [9000, "149.154.167.91:443", "💻Telegram"],
-    [9001, "149.154.167.92:443", "💻Telegram"],
-    [9002, "149.154.175.100:443", "💻Telegram"],
-    [7999, "api.openai.com:443", "🧠OpenAI"],
-    [7443, "chat.openai.com:443", "🧠OpenAI"],
-    [7700, "www.google.com:443", "🌐Google服务"],
-    [7701, "accounts.google.com:443", "🌐Google服务"],
-    [7702, "www.googleapis.com:443", "🌐Google服务"],
-  ];
-  config.tunnels = TUN.filter(([, , proxy]) => LIVE.has(proxy)).map(([port, target, proxy]) => ({
-    network: ["tcp", "udp"], address: "127.0.0.1:" + port, target, proxy,
-  }));
+  // tunnels（本机端口转发）10/16 仓库主人同意删掉：手机上没程序去连，切配置时还抢端口报 address already in use
 
   // —— 给"吃 uTLS 指纹"的节点补 client-fingerprint=chrome(替代已废弃的 global-client-fingerprint)——
   // 只处理走标准 TLS 的协议(FP_OK 白名单); QUIC系(hysteria/hysteria2/tuic)、wireguard、ssh、
