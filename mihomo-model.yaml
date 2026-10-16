@@ -124,13 +124,14 @@ dns:
     "rule-set:games-cn": *cn-dns
     "rule-set:cn-domain": *cn-dns
 
-hosts: 
-  "*.backloop.dev": 127.0.0.1
-  "*.localtest.me": 127.0.0.1
-  "*.lvh.me": 127.0.0.1
-  "*.vcap.me": 127.0.0.1
-  "*.traefik.me": 127.0.0.1
-  "*.readymade.dev": 127.0.0.1
+# 加密 DNS 服务器的域名直接对上 IP：不用先发明文 DNS 问它在哪（不被抢答污染）；
+# 浏览器「安全 DNS」选谷歌 / Cloudflare 时也直接拿到真 IP。都是各家官方公布、多年不变的 anycast IP。
+hosts:
+  "doh.pub": [1.12.12.12, 120.53.53.53]
+  "dns.alidns.com": [223.5.5.5, 223.6.6.6]
+  "dns.google": [8.8.8.8, 8.8.4.4]
+  "cloudflare-dns.com": [1.1.1.1, 1.0.0.1]
+  "dns.adguard.com": [94.140.14.14, 94.140.15.15]
 
 sniffer:
   enable: true

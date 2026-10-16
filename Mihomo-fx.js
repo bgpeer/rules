@@ -706,12 +706,14 @@ function main(config) {
     config.tun = t;
   }
 
-  // —— hosts (与 Clashmi-fx 一致) —— 值都是 127.0.0.1, 只列域名
-  config.hosts = Object.assign(
-    ["*.backloop.dev", "*.localtest.me", "*.lvh.me", "*.vcap.me", "*.traefik.me", "*.readymade.dev"]
-      .reduce((h, d) => (h[d] = "127.0.0.1", h), {}),
-    config.hosts || {}
-  );
+  // —— hosts (与 Clashmi-fx 一致) —— 加密 DNS 服务器的域名直接对上官方 IP, 不用先发明文 DNS 问它在哪; 原配置自带的 hosts 优先
+  config.hosts = Object.assign({
+    "doh.pub": ["1.12.12.12", "120.53.53.53"],
+    "dns.alidns.com": ["223.5.5.5", "223.6.6.6"],
+    "dns.google": ["8.8.8.8", "8.8.4.4"],
+    "cloudflare-dns.com": ["1.1.1.1", "1.0.0.1"],
+    "dns.adguard.com": ["94.140.14.14", "94.140.15.15"],
+  }, config.hosts || {});
 
   // —— tunnels (端口转发, 与 Clashmi-fx 一致) —— [本地端口, 目标, 走哪个组]; network 都是 tcp+udp
   const TUN = [
