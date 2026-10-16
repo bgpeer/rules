@@ -98,6 +98,7 @@ DOMAIN,dnl-19.geo.kaspersky.com
 DOMAIN,edge.geo.kaspersky.com
 DOMAIN,edu.tinkoff.ru
 DOMAIN,education.tbank.ru
+DOMAIN,error-tracking.megamarket.tech
 DOMAIN,google-analytics-suite.ozon.ru
 DOMAIN,informer.yandex.ru
 DOMAIN,ksn-cinfo-geo.kaspersky-labs.com
@@ -132,6 +133,7 @@ DOMAIN,mc.yandex.com
 DOMAIN,mc.yandex.net
 DOMAIN,mc.yango.com
 DOMAIN,mdr.ksn.kaspersky-labs.com
+DOMAIN,metrics.21-school.ru
 DOMAIN,metrika.kontur.ru
 DOMAIN,metro.spb.ru
 DOMAIN,mos.transport.vtb.ru
@@ -189,6 +191,7 @@ DOMAIN,s16.upd.kaspersky.com
 DOMAIN,s17.upd.kaspersky.com
 DOMAIN,s18.upd.kaspersky.com
 DOMAIN,s19.upd.kaspersky.com
+DOMAIN,sberpro.vedomosti.ru
 DOMAIN,sentry-ng.g.smailru.net
 DOMAIN,sentry.dev-my.com
 DOMAIN,sentry.dev-my.games
@@ -198,6 +201,7 @@ DOMAIN,sentry.mindbox.ru
 DOMAIN,sentry.ozon.ru
 DOMAIN,sentry.popmechanic.ru
 DOMAIN,sentry.rustore.ru
+DOMAIN,sentry.sberauto.com
 DOMAIN,sentry.viqeo.tv
 DOMAIN,sentry.wb.ru
 DOMAIN,sentry.x5.ru
@@ -215,7 +219,9 @@ DOMAIN,t.mail.ru
 DOMAIN,target.vk.com
 DOMAIN,taxi.yandex.ru
 DOMAIN,top-staging.mail.ru
+DOMAIN,tracing-http.megamarket.tech
 DOMAIN,transport.mos.ru
+DOMAIN,visor.sberbank.ru
 DOMAIN,visor.sberbank.ru
 DOMAIN,web-analytics.wildberries.ru
 DOMAIN,whiteline.mail.ru
@@ -229,10 +235,24 @@ DOMAIN,xapi.ozonru.me
 DOMAIN,xray.mail.ru
 DOMAIN-SUFFIX,1917live.red
 DOMAIN-SUFFIX,24h.tv
+DOMAIN-SUFFIX,2gis.ae
+DOMAIN-SUFFIX,2gis.am
+DOMAIN-SUFFIX,2gis.az
+DOMAIN-SUFFIX,2gis.by
+DOMAIN-SUFFIX,2gis.com
+DOMAIN-SUFFIX,2gis.com.cy
+DOMAIN-SUFFIX,2gis.cz
+DOMAIN-SUFFIX,2gis.ge
+DOMAIN-SUFFIX,2gis.kg
+DOMAIN-SUFFIX,2gis.kz
+DOMAIN-SUFFIX,2gis.tech
+DOMAIN-SUFFIX,2gis.tj
+DOMAIN-SUFFIX,2gis.uz
 DOMAIN-SUFFIX,3ebra.net
 DOMAIN-SUFFIX,4epenaxa.com
 DOMAIN-SUFFIX,5post.market
 DOMAIN-SUFFIX,a.mts.ru
+DOMAIN-SUFFIX,accesspoint.uz
 DOMAIN-SUFFIX,acmvid.com
 DOMAIN-SUFFIX,actualidad-rt.com
 DOMAIN-SUFFIX,ad.mail.ru
@@ -240,6 +260,7 @@ DOMAIN-SUFFIX,adfox.ru
 DOMAIN-SUFFIX,adfox.yandex.ru
 DOMAIN-SUFFIX,admetrica.ru
 DOMAIN-SUFFIX,adriver.ru
+DOMAIN-SUFFIX,ads.sber.ru
 DOMAIN-SUFFIX,ads.sber.ru
 DOMAIN-SUFFIX,ads.viqeo.tv
 DOMAIN-SUFFIX,ads.yandex
@@ -310,6 +331,8 @@ DOMAIN-SUFFIX,cian.site
 DOMAIN-SUFFIX,ciciq.net
 DOMAIN-SUFFIX,clck.yandex.ru
 DOMAIN-SUFFIX,clickstream.sberbank.ru
+DOMAIN-SUFFIX,clickstream.sberbank.ru
+DOMAIN-SUFFIX,cloudru.cn
 DOMAIN-SUFFIX,clstorage.net
 DOMAIN-SUFFIX,cm.expert
 DOMAIN-SUFFIX,codeseason.by
@@ -368,6 +391,7 @@ DOMAIN-SUFFIX,eadaily.com
 DOMAIN-SUFFIX,eadaily.info
 DOMAIN-SUFFIX,eadaily.net
 DOMAIN-SUFFIX,eadaily.org
+DOMAIN-SUFFIX,eaptechka.online
 DOMAIN-SUFFIX,edu22.info
 DOMAIN-SUFFIX,eligens.cl
 DOMAIN-SUFFIX,eligens.com.br
@@ -421,6 +445,7 @@ DOMAIN-SUFFIX,genotek.es
 DOMAIN-SUFFIX,genotek.eu
 DOMAIN-SUFFIX,genotek.health
 DOMAIN-SUFFIX,gerwin.io
+DOMAIN-SUFFIX,getsynapse.io
 DOMAIN-SUFFIX,gib-global.com
 DOMAIN-SUFFIX,gib.sg
 DOMAIN-SUFFIX,gibdev.net
@@ -505,6 +530,18 @@ DOMAIN-SUFFIX,ixbt.shop
 DOMAIN-SUFFIX,ixbt.site
 DOMAIN-SUFFIX,ixbt.video
 DOMAIN-SUFFIX,jinrieluosi.cn
+DOMAIN-SUFFIX,jivo.chat
+DOMAIN-SUFFIX,jivochat.co.in
+DOMAIN-SUFFIX,jivochat.co.za
+DOMAIN-SUFFIX,jivochat.com
+DOMAIN-SUFFIX,jivochat.com.br
+DOMAIN-SUFFIX,jivochat.com.co
+DOMAIN-SUFFIX,jivochat.com.pe
+DOMAIN-SUFFIX,jivochat.com.tr
+DOMAIN-SUFFIX,jivochat.de
+DOMAIN-SUFFIX,jivochat.es
+DOMAIN-SUFFIX,jivochat.ng
+DOMAIN-SUFFIX,jivosite.com
 DOMAIN-SUFFIX,jump.taxi
 DOMAIN-SUFFIX,justveryok.com
 DOMAIN-SUFFIX,kaspersky-labs.com
@@ -566,6 +603,7 @@ DOMAIN-SUFFIX,mcs.st
 DOMAIN-SUFFIX,medsi.com
 DOMAIN-SUFFIX,medsi.pro
 DOMAIN-SUFFIX,megafon.com
+DOMAIN-SUFFIX,megamarket.tech
 DOMAIN-SUFFIX,mel.fm
 DOMAIN-SUFFIX,memealerts.com
 DOMAIN-SUFFIX,meteofor.com
@@ -607,6 +645,7 @@ DOMAIN-SUFFIX,myoffice.team
 DOMAIN-SUFFIX,mytopf.com
 DOMAIN-SUFFIX,mytrk.link
 DOMAIN-SUFFIX,naydex.net
+DOMAIN-SUFFIX,neon.click
 DOMAIN-SUFFIX,netcraze.club
 DOMAIN-SUFFIX,netcraze.link
 DOMAIN-SUFFIX,netcraze.pro
@@ -772,7 +811,12 @@ DOMAIN-SUFFIX,safeliner.tech
 DOMAIN-SUFFIX,sage-observability.tech
 DOMAIN-SUFFIX,sayeasy.eu
 DOMAIN-SUFFIX,sber-bank.by
+DOMAIN-SUFFIX,sber.pro
+DOMAIN-SUFFIX,sberauto.com
+DOMAIN-SUFFIX,sberbank-tele.com
 DOMAIN-SUFFIX,sberbank.com
+DOMAIN-SUFFIX,sbercloud.tech
+DOMAIN-SUFFIX,sbermarketing.ru
 DOMAIN-SUFFIX,seclab.lat
 DOMAIN-SUFFIX,selcdn.net
 DOMAIN-SUFFIX,selectel.academy
@@ -1075,3 +1119,5 @@ DOMAIN-SUFFIX,ydb.tech
 DOMAIN-SUFFIX,yndx.net
 DOMAIN-SUFFIX,youla.io
 DOMAIN-SUFFIX,yourgood.app
+DOMAIN-SUFFIX,zvuk-b2b.com
+DOMAIN-SUFFIX,zvuk.com
