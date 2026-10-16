@@ -124,8 +124,6 @@ dns:
     "rule-set:games-cn": *cn-dns
     "rule-set:cn-domain": *cn-dns
 
-# 加密 DNS 服务器的域名直接对上 IP：不用先发明文 DNS 问它在哪（不被抢答污染）；
-# 浏览器「安全 DNS」选谷歌 / Cloudflare 时也直接拿到真 IP。都是各家官方公布、多年不变的 anycast IP。
 hosts:
   "doh.pub": [1.12.12.12, 120.53.53.53]
   "dns.alidns.com": [223.5.5.5, 223.6.6.6]
