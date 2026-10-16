@@ -1,36 +1,32 @@
-// ============================================================================
-// bgpeer 覆写脚本，版本v5.11 (Mihomo 系通用: Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox)
-// 用法: 在客户端"覆写"处粘贴链接导入,或复制导入，或做文件名称__复写.js 导入
-//       ClashMi把链接添加到➜核心设置➜复写➜右上➕里面去，类型选js，然后选择这个复写。
-// 入口约定: 客户端会调用 main(config), config 为订阅解析后的对象, 返回修改后的 config。
+/**
+ * bgpeer Mihomo 覆写脚本
+ * @version 5.12.0
+ * @date    2026-10-16
+ * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
+ * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
+ */
 
-// 适配 Bettbox 可视化开关 (v1.18.8+): 有了这行声明, 下面 ruleOptionsEnable 里的开关会直接出现在
-// 软件界面上, 点一下即改, 不用再进来改脚本。其它客户端(ClashMi/Verge/Party/FlClash)忽略此行, 不受影响。
+// Bettbox 可视化开关
 const Compatible_With_Bettbox = { ruleOptionsEnable: true };
 
-// 开关总表。内容在下面 SVC 之后统一填充, 界面顺序 = 分流策略组在前、功能开关在后。
-// 已实测: Bettbox 读的是这个对象运行时的键, 不是源码文本, 所以键可以由代码生成。
+// 开关总表 (由下方 SVC + FN_SWITCHES 填充, Bettbox 界面按此显示)
 const ruleOptionsEnable = {};
 
-// 想让某个分流组默认关闭: 把组名填进来, 例如 ["🎬TikTok", "📽️Netflix"]。留空 = 全部默认开启。
+// 默认关闭的分流组, 例: ["🎬TikTok", "📽️Netflix"]
 const GROUP_OFF = [];
 
-/**
- * 功能开关   true = 启用 | false = 禁用
- * 分流策略组的开关不在这里, 由下面 SVC 表自动生成(见「自动生成」段), 增删组只改 SVC 一处。
- * 端口/正则/链接/各种表这类非布尔参数做不成开关, 都在下面「其余可调参数」里, 仍需手动改。
- */
+// 功能开关 (true 开 / false 关)
 const FN_SWITCHES = {
   链式代理: true,
-  严格链式: false,         // 落地节点名字要带"落地"或🏠, 否则自动跳过
-  广告拦截: true,          // 关掉可少加载 18 万行广告规则(iOS 内存吃紧时)
+  严格链式: false,         // 落地节点名需含「落地」或 🏠
+  广告拦截: true,          // 关掉省内存 (iOS)
   DNS配置: true,
   域名嗅探: true,
   TUN网卡: true,
   Geo数据库: true,
-  客户端参数: true,        // 入站端口/局域网/认证; 与客户端自身设置冲突(GUI连不上内核)时关掉
+  客户端参数: true,        // 与客户端设置冲突时关
   浏览器面板: true,
-  面板局域网访问: false,   // 需先开「浏览器面板」; 开=0.0.0.0局域网可连(需口令), 关=仅本机
+  面板局域网访问: false,   // 需开「浏览器面板」; 开 = 局域网可连
   机场订阅: true,
   单节点链接: true,
   自建节点: true,
@@ -38,69 +34,57 @@ const FN_SWITCHES = {
   其他随机组: true,
   美国旗规范: true,
   量子加密: true,
-  多路复用: false,         // 服务端没开 mux 会连不上 -> 保持关闭
+  多路复用: false,         // 服务端没开 mux 会连不上
 };
 
-// 注意: 开关的值一律在 main() 里现读(见下方「读开关」段), 不在这里存成顶层常量。
-// 原因: Bettbox 是在脚本求值完、调用 main() 之前才把界面上的选择注入 ruleOptionsEnable 对象,
-// 顶层常量拿到的是注入前的旧值 -> 界面上关了开关却不生效, 甚至组删了规则还在导致内核报错。
+// 开关在 main() 内现读: Bettbox 调用 main() 前才注入界面选择
 
-// 策略组开关查表: 键就是完整组名("🎷抖音"), 直接查, 不用做任何名字加工。
-// 表里没有的键一律视为开启 —— 核心组(🌍全球加速/🎯直连/🤡漏网之鱼)、国家组照常生成, 不会被误删。
+// 分流组开关查表; 未列出的组 (核心组 / 国家组) 视为开启
 function groupOn(n) { return ruleOptionsEnable[n] !== false; }
 
-// ------------------- 其余可调参数 (非布尔, 做不成开关, 需要时进来改) -------------------
+// ---------- 其余参数 (非布尔, 需手动改) ----------
 const ICON = "https://cdn.jsdelivr.net/gh/bgpeer/icons@main/color/";
 const RULES = "https://cdn.jsdelivr.net/gh/bgpeer/rules@main/";
 const GEO_MMDB = "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-Country.mmdb";
 const GEO_ASN  = "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb";
-const threshold = 2;             // 某国节点数 < 该值则不生成该组 (1=有就生成, 2=至少2个才显示)
-const PANEL_SECRET = "88888888"; // 面板密码: 可自行修改 | "random"=随机密码 | 端口：9092，一般会被软件覆盖端口=9090
-const FETCH_VIA = "fallback";    // 规则集下载通道: ""=DIRECT直连; "fallback"=DIRECT优先,连不上自动切代理; "🌍全球加速"=强制走代理。path 缓存始终保留
-const TUN_STACK = "mixed";       // TUN栈: mixed=均衡(默认,手机推荐) | system=最快但挑环境 | gvisor=最稳最兼容(UDP不通时用) | mips=mihomo自研新栈(内核需≥1.19.31,旧内核填了直接报错起不来)
-const TUN_CC = "";               // 仅 mips 栈生效的 TCP 拥塞控制: ""=内核默认(cubic) | cubic | reno | bbr | bbr3
-const CHAIN_EXIT = "落地|🏠";     // 哪些算"落地节点"：名字含"落地"或🏠的就是(「严格链式」开关用它认人)
-// 协议白名单(将来有新协议要纳入, 只需在这里加协议名; 不在名单的一律不碰, 保持订阅原样)
-const FP_OK   = ["vless", "vmess", "trojan"];        // 吃 uTLS 指纹(client-fingerprint)的协议
-const SMUX_OK = ["ss", "vmess", "vless", "trojan"];  // 支持 smux 多路复用的协议
+const threshold = 2;             // 节点数少于此值不建该国家组
+const PANEL_SECRET = "88888888"; // 面板密码 (端口 9092); "random" = 按节点自动生成
+const FETCH_VIA = "fallback";    // 规则集下载: "" 直连 | "fallback" 直连优先、失败走代理 | 组名 = 强制走该组
+const TUN_STACK = "mixed";       // mixed (默认) | system | gvisor (最兼容) | mips (内核 ≥1.19.31)
+const TUN_CC = "";               // 仅 mips 栈: "" 默认 | cubic | reno | bbr | bbr3
+const CHAIN_EXIT = "落地|🏠";     // 落地节点名关键字 (严格链式用)
+// 协议白名单
+const FP_OK   = ["vless", "vmess", "trojan"];        // 支持 uTLS 指纹的协议
+const SMUX_OK = ["ss", "vmess", "vless", "trojan"];  // 支持 smux 的协议
 
-// 机场订阅 (proxy-providers)。节点由订阅或机场提供, 经各组 include-all 自动并入, 无需改组。
-// 两种写法可混用: "机场1": "链接", 只有上标(¹东京); "机场1": ["链接", "⚡"], 会自定义前缀+上标(⚡¹东京)。前缀随意换 🅰️/超/★ 等
-// 注意: 别拿国家旗帜当前缀(如 🇺🇸), 否则该机场全部节点会被吸进对应国家组
-// 开关「机场订阅」在顶部 ruleOptionsEnable 里。常开稳定: 没填/占位的槽位自动跳过, 且与软件已有 provider 合并
-const PROVIDER_URLS = {              // 机场名: 链接。上标 ¹²³… 按顺序自动加且不可去除, 加多少个都行; 保留两边引号
-  "机场1": "#填自己机场订阅",   // 添加更多机场链接，此处链接节点不会被收集到动态国家随机分组，原因：有软件壁垒
+// 机场订阅: "名称": "链接" 或 "名称": ["链接", "前缀"]; 节点自动加上标 ¹²³
+// 前缀勿用国旗 (会被吸进国家组)
+const PROVIDER_URLS = {
+  "机场1": "#填自己机场订阅",   // 更多机场照此添加
   "机场2": "#填自己机场订阅",
   "机场3": "#填自己机场订阅",
 };
-const PROVIDER_PROXY = "📥订阅下载"; // 拉机场订阅的通道: 默认 DIRECT优先, 直连不通自动切🌍全球加速。也可直接填 "DIRECT" 或 "🌍全球加速"
+const PROVIDER_PROXY = "📥订阅下载"; // "📥订阅下载" 直连优先 | "DIRECT" | "🌍全球加速"
 
-// 单节点分享链接添加(非机场订阅链接)，支持: vless:// vmess:// ss:// trojan:// hysteria2://(hy2://) tuic:// anytls:// socks://(socks5://) http://(https://)
-// 想进某国家组, 名称里要带旗子/关键词(自定义名写 🇺🇸 或保留链接原本的 #🇺🇸xxx); 不带的进 🎲其他随机。
-// 开关「单节点链接」在顶部 FN_SWITCHES 里。关掉就完全不解析; LINKS 为空时本就是空操作
-const LINK_TAG = "📌";     // 单链接节点名前缀, 用来和机场订阅的 ¹²³ 区分。效果: 📌¹洛杉矶。想换成 🏷️/📎/⚡ 等随意; 留空 "" 则只剩序号
+// 单节点分享链接: vless / vmess / ss / trojan / hy2 / tuic / anytls / socks / http
+// 名称带国旗或地名才进对应国家组, 否则进 🎲其他随机
+const LINK_TAG = "📌";     // 单节点名前缀, 如 📌¹洛杉矶
 const LINKS = [
-  // 用法: 去掉行首 // 换成你的真链接即可。三种写法(可混用):括号引号和后面的逗号不可删除
-  // ["🇺🇸洛杉矶家宽", "vless://....."],   // 自定义名 + 链接
-  // "http://user:pass@5.6.7.8:8080#🇯🇵东京HTTP家宽",         // 只填链接(用链接自带 #备注)
-  // "hysteria2://....",               // 只填链接(无备注 → 用协议名)
+  // 三种写法, 去掉行首 // 填入真实链接:
+  // ["🇺🇸洛杉矶家宽", "vless://....."],               // 自定义名 + 链接
+  // "http://user:pass@5.6.7.8:8080#🇯🇵东京HTTP家宽",  // 用链接自带名
+  // "hysteria2://....",                                // 无名则用协议名
 ];
 
-// 自建节点 YAML写法(proxies 口子): 直接粘订阅/客户端里 proxies: 下那种 YAML 节点(单行 flow 写法, 行首 "- " 可有可无)。
-// 同样加 PROXY_TAG 前缀; 留空就是空操作。注: 仅支持单行 {k: v,...} flow 式, 不支持缩进多行块式。
-// 下面带#号是单行yaml写法样本可供参考，自己写的时候要把前面的#和例子都删掉，只支持用压缩yaml写法
-// 开关「自建节点」在顶部 ruleOptionsEnable 里。关掉就完全不并入; PROXIES_YAML 为空时本就是空操作
-const PROXY_TAG = "🏠";    // 自建节点名前缀, 区分自建与机场(¹²³)/链接(📌)。效果: 🏠洛杉矶自建。可改 🛠️/⭐/🏡 等; 留空 "" 则用原名。不带上标序号
+// 自建节点: 单行 YAML flow 写法, 删掉示例行首 # 后填入
+const PROXY_TAG = "🏠";    // 自建节点名前缀
 const PROXIES_YAML = `
 # - {name: "🇺🇸 VLESS_TCP/TLS_Vision", type: vless, server: a.com, port: 443, uuid: your-uuid, udp: true, tls: true, network: tcp, client-fingerprint: chrome, flow: xtls-rprx-vision, servername: a.com, skip-cert-verify: false}
 # - {name: "🇺🇸美国SOCKS5", type: socks5, server: 1.2.3.4, port: 1080, username: user, password: pass, udp: true}
 # - {name: "🇯🇵日本HTTP", type: http, server: 5.6.7.8, port: 8080, username: user, password: pass, tls: false}
 `;
 
-// 国家组: [组名, 匹配正则]。顺序即面板展示顺序; 只输出命中的。美国旗一律 🇺🇸。
-// ["🏠自建美国随机", /^🏠.*(🇺🇸|美国|洛杉矶|自建)/],也可以像这样锚定前缀写法来识别自建
-// 英文短代码一律带 \b 词边界: 防 US 误吸 RUSSIA、TH 误吸 SOUTH、AR 误吸 WARP/STAR、CA 误吸 AFRICA 之类
-// 开关「动态国家组」在顶部 ruleOptionsEnable 里: 开=扫描节点自动创建(受 threshold 约束) | 关=整段不扫不建(下面 CUSTOM_RANDOM 自定义组不受影响, 恒生成)
+// 国家组: [组名, 匹配正则], 顺序即显示顺序; 英文代码带 \b 防误匹配
 const COUNTRY = [
   ["🇭🇰香港随机",   /🇭🇰|\bHK\b|Hong|hong|香港|深港|沪港|京港/],
   ["🇹🇼台湾随机",   /🇹🇼|\bTW\b|\bTWN\b|Taiwan|Taipei|台湾|台灣|台北/],
@@ -127,21 +111,20 @@ const COUNTRY = [
   ["🇦🇷阿根廷随机",  /🇦🇷|\bAR\b|Argentina|argentina|阿根廷|布宜诺斯艾利斯/],
 ];
 
-// 中国节点(回国/国内BGP/自建国内机): 直接扫进 🎯直连(单节点可手选) + 隐藏的 🇨🇳中国随机(自动测速), 只挂在 🎯直连 下;
-// 不进 🌍全球加速/♻️全部随机/🎲其他随机/服务组。不受「动态国家组」开关和 threshold 约束: 有 1 个就生效。
+// 中国节点: 归入 🎯直连 与隐藏的 🇨🇳中国随机, 不进出国组
 const CN_GROUP = "🇨🇳中国随机";
 const CN_PAT = /🇨🇳|\bCN\b|\bcn\b|中国大陆/;
-const CN_TEST_URL = "http://connect.rom.miui.com/generate_204";   // 国内测速地址: 国内机连不上 gstatic, 不能用它测
+const CN_TEST_URL = "http://connect.rom.miui.com/generate_204";   // 国内测速地址
 
-// 自定义显式国家随机分组 (脚本里的机场订阅可在这里国家随机分组扫到)，自己写的时候删掉前面两个斜杠和样品
+// 自定义国家组 (同名替代动态组), 去掉 // 后填写
 const CUSTOM_RANDOM = [
-  // ["🇺🇸美国随机", /\bUS\b|\bUSA\b|🇺🇸|美国|洛杉矶/],   // 占名示例: 上面动态的 🇺🇸美国随机 让位不再生成
+  // ["🇺🇸美国随机", /\bUS\b|\bUSA\b|🇺🇸|美国|洛杉矶/],   // 同名: 替代动态组
   // ["🇰🇷韩国随机", /\bKR\b|🇰🇷|韩国|首尔/],
-  // ["🏠家宽随机",   /家宽|住宅|ISP/],                    // 不占名示例: 纯新增组, 与动态组并存
+  // ["🏠家宽随机",   /家宽|住宅|ISP/],                    // 新名: 新增一组
 ];
 
-// 规则集锚点。FETCH_VIA 决定下载通道(见上); path: 下成功后本地缓存, 之后冷启动直接读缓存
-const FETCH_GROUP = "📥规则下载";   // FETCH_VIA="fallback" 时, 规则集走这个"DIRECT优先回落"组下载
+// 规则集下载通道 + 本地缓存路径
+const FETCH_GROUP = "📥规则下载";   // fallback 模式的下载组
 const P = (u) => {
   const o = {};
   if (FETCH_VIA === "fallback") o.proxy = FETCH_GROUP;
@@ -149,14 +132,13 @@ const P = (u) => {
   o.path = "./bgpeer/" + u.replace(/[\/!]/g, "_");
   return o;
 };
-const CN_DNS = ["https://223.5.5.5/dns-query#🎯直连", "https://doh.pub/dns-query#🎯直连"];  // 阿里用 IP 形式免一次解析; DNSPod 2024-09 起不再公开 IP 接入, 保留域名
-const SYS_DNS = ["system"];   // 私有/内网域名交给系统(路由器/运营商)DNS 解析
-// 全部 IP 形式: dns.google / cloudflare-dns.com / dns.quad9.net 这些域名在国内被污染,
-// 用域名形式会先被 default-nameserver 解析到假 IP, TLS 握手失败 -> 该条目静默失效。
+const CN_DNS = ["https://223.5.5.5/dns-query#🎯直连", "https://doh.pub/dns-query#🎯直连"];  // DNSPod 无公开 IP, 保留域名
+const SYS_DNS = ["system"];   // 内网域名走系统 DNS
+// 国外 DoH 一律写 IP (域名形式在国内会被污染)
 const G_DNS  = ["https://1.1.1.1/dns-query#🌍全球加速", "https://8.8.8.8/dns-query#🌐Google服务", "https://9.9.9.9/dns-query#🌍全球加速", "tls://1.1.1.1:853#🌍全球加速", "tls://8.8.8.8:853#🌐Google服务"];
-// 主表: [规则集名, 类型, 文件基名, 目标组, no-resolve?, DNS归属?] —— providers / rules / DNS分流 全从这里生成
-//   类型: d=域名mrs/geosite  c=域名yaml/geosite  i=IP mrs/geoip
-//   no-resolve: IP规则(i)填1, 其余填0或直接省略;  DNS归属: g=走国外DNS, z=走国内DNS, 不写=默认DNS (位置无关)
+// 规则主表: [规则集, 类型, 文件名, 目标组, no-resolve, DNS]
+//   类型: d = 域名 mrs | c = 域名 yaml | i = IP mrs
+//   no-resolve: IP 规则填 1; DNS: g 国外 | z 国内 | s 系统
 const META = { d: ["geosite", "domain", "mrs"], c: ["geosite", "classical", "yaml"], i: ["geoip", "ipcidr", "mrs"] };
 const T = [
   ["reject", "d", "category-ads-all", "REJECT"],
@@ -193,8 +175,7 @@ const T = [
   ["private-ip", "i", "private", "🎯直连", 1],
   ["cn-ip", "i", "cn", "🎯直连", 1],
 ];
-// 尾部可选项解析(位置无关): 值===1 -> no-resolve; 值==="g"/"z"/"s" -> DNS归属(国外/国内/系统); 其余(0/""/省略)忽略=默认DNS
-// T 表从第5位(idx4)起扫, CUSTOM 从第4位(idx3)起扫。故 no-resolve 与 g/z 都可省略, 不报错。
+// 解析行尾可选项 (位置无关): 1 = no-resolve; g / z / s = DNS 归属
 function tailOpts(arr, from) {
   let nr = false, dns = "";
   for (let i = from; i < arr.length; i++) {
@@ -204,11 +185,8 @@ function tailOpts(arr, from) {
   }
   return { nr: nr, dns: dns };
 }
-// 生效规则表 T_ON 与 G_SETS / CN_SETS 都依赖开关, 因此在 main() 里现算(见「读开关」段), 这里不预先算。
 
-// 服务组表: [组名, 图标, 默认直连?]  —— 图标可省略; 默认直连填1(🎯直连开头), 省略=🌍全球加速开头
-//   四种写法: ["组名","图标.png"] / ["组名","图标.png",1] / ["组名"](无图标) / ["组名",1](无图标,直连)
-//   规则: 第2位是字符串=图标; 是数字=直连标志(此时无图标)。图标想换/想给无图标组配图 -> 用下面 ICONS 口子
+// 服务组: [组名, 图标, 默认直连]; 图标可省, 默认直连填 1
 const SVC = [
   ["🎷抖音", "douyin_1.png", 1], ["🎬TikTok", "tiktok_1.png"], ["🎮国际游戏", "game_2.png"],
   ["💻Telegram", "telegram.png"], ["🧠OpenAI", "chatgpt.png"], ["🤖Claude", "claude_1.png"],
@@ -219,71 +197,61 @@ const SVC = [
 ];
 
 
-// 可以在上面SVC组创建一个策略组例如["🎬Emby"],然后自定义图标 (优先级高于 SVC 及默认图标; 给任意组换图标) 
-// [组名, 图标完整URL]。组名匹配到则覆盖其图标; 这里填的是完整链接(不走 ICON 前缀, 想用啥源都行)。
-// 此组只可以自定义图标没有其他功能; 组若本就没图标也不会凭空报错。留空 [] = no-op。
+// 自定义组图标: [组名, 图标完整 URL], 优先级最高
 const ICONS = [
-  // ["🎬Emby",       "https://gh.669588.xyz/bgpeer/icons/main/color/emby.png"],
+  // ["🎬Emby",       "https://example.com/emby.png"],
   // ["🌐Google服务", "https://example.com/my-google.png"],   // 覆盖 SVC 里给的图标
 ];
 
-// ── 填充开关总表 ── 插入顺序 = 界面显示顺序: 先分流策略组, 后功能开关。
-// 分流组的键 = 完整组名, 默认全开(GROUP_OFF 里列出的除外)。增删策略组只改上面 SVC 一处, 不会漏改。
+// 填充开关总表: 分流组在前, 功能开关在后
 const SWITCH_META = SVC.map((s) => [s[0], typeof s[1] === "string" ? s[1] : null])
-  .concat([["⛩️阿里腾讯", "alibaba_tencent.png"]]);        // 阿里腾讯不在 SVC 里, 单独补上
+  .concat([["⛩️阿里腾讯", "alibaba_tencent.png"]]);        // 不在 SVC 里, 单独补
 const SWITCH_GROUPS = SWITCH_META.map((x) => x[0]);
 for (const n of SWITCH_GROUPS) ruleOptionsEnable[n] = !GROUP_OFF.includes(n);
 Object.assign(ruleOptionsEnable, FN_SWITCHES);
 
-// ── Bettbox 开关图标 ── 据作者说明: 图标要在 serviceConfigs 里显式给出, 按 key 与开关键对应。
-// 这里直接从 SVC 生成, 图标沿用该组自己的图标(ICONS 里有覆盖则用覆盖的), 所以不用二次维护。
-// 其它客户端不认识这个变量, 只是多一个没人用的常量, 不影响任何功能。
+// Bettbox 开关图标 (key 对应开关名)
 const serviceConfigs = SWITCH_META.map(function (x) {
   const over = (ICONS || []).find((i) => i && i[0] === x[0]);
   return { key: x[0], name: x[0], icon: over ? over[1] : x[1] ? ICON + x[1] : "" };
 });
 
-// 自定义添加单条分流规则: [规则类型, 值, 目标组,]  —— 表内顺序=匹配优先级(谁在前谁先命中)，不可SET规则集
+// 自定义规则: [类型, 值, 目标组, no-resolve, DNS], 排在所有规则集之前
 const CUSTOM = [
   ["IP-CIDR", "223.5.5.5/32", "🎯直连", 1],
-  // ["DOMAIN-SUFFIX",  "emby.某机场域名.com", "🎬Emby", 0, "g"],   // 机场 Emby 域名, 走国外DNS
-  // ["DOMAIN-SUFFIX",  "example.com",        "🌍全球加速", "g"],     // 省 no-resolve, 只给 DNS 归属
-  // ["DOMAIN-KEYWORD", "emby",               "🎬Emby"],             // 啥都不写=默认DNS(关键词本就不做DNS分流)
-  // ["IP-CIDR",        "1.2.3.0/24",         "🎷抖音", 1],        // IP类: 填1=no-resolve, 不写 g/z
+  // ["DOMAIN-SUFFIX",  "emby.某机场域名.com", "🎬Emby", 0, "g"],   // 走国外 DNS
+  // ["DOMAIN-SUFFIX",  "example.com",        "🌍全球加速", "g"],     // 只给 DNS 归属
+  // ["DOMAIN-KEYWORD", "emby",               "🎬Emby"],             // 默认 DNS
+  // ["IP-CIDR",        "1.2.3.0/24",         "🎷抖音", 1],        // IP 规则填 1
 ];
 
 function main(config) {
 
-  // ── 读开关(必须在 main 里读, 不能提到顶层): Bettbox 在调用 main() 之前才把界面上的选择注入
-  //    ruleOptionsEnable, 提到顶层会拿到注入前的旧值。其它客户端没有注入, 读到的就是脚本里写的值。──
+  // 读开关 (须在 main 内读)
   const {
     DNS配置: setDNS, 域名嗅探: setSniffer, TUN网卡: setTun, Geo数据库: setGeo, 客户端参数: setClientOpts,
     机场订阅: useProviders, 单节点链接: useLinks, 自建节点: useProxies,
     动态国家组: autoCountry, 其他随机组: otherGroup, 链式代理: CHAIN, 严格链式: CHAIN_STRICT,
     美国旗规范: fixUSFlag, 量子加密: MLKEM_OK, 多路复用: SMUX_FILL, 广告拦截: ADBLOCK,
   } = ruleOptionsEnable;
-  // 面板三档由两个布尔合成: 关=false | 开=仅本机(local) | 开+局域网访问=全开(lan)
+  // 面板: 关 | 仅本机 | 局域网
   const setPanel = !ruleOptionsEnable.浏览器面板 ? false : (ruleOptionsEnable.面板局域网访问 ? "lan" : "local");
-  // 生效规则表: 只保留"目标组确实会被生成"的规则行 —— 规则指向不存在的策略组内核会直接报错
-  // ("proxy [xxx] not found")。两种情况都能兜住: ①界面上把某个分流组关了; ②你直接从 SVC 里删了一行
-  // (删组不用再回来删规则)。关广告同理: reject 规则集与规则一起跳过。摘掉后流量回落到后面的兜底行。
+  // 只保留目标组存在的规则 (组被关或删掉时规则一并跳过, 否则内核报错)
   const LIVE = new Set(SWITCH_GROUPS.filter(groupOn).concat(["🎯直连", "🌍全球加速", "🤡漏网之鱼", "REJECT", "DIRECT"]));
   const T_ON = T.filter(function (r) { return (ADBLOCK || r[0] !== "reject") && LIVE.has(r[3]); });
-  // G_SETS / CN_SETS / SYS_SETS 从 T_ON 的 DNS归属自动分出 (位置无关, 见 tailOpts; 增减只在 T 行尾改 g/z/s)
-  // 必须用 T_ON 而不是 T: 否则 nameserver-policy 会引用到已被摘掉的 rule-set, 内核报错
+  // DNS 分流集合 (须基于 T_ON)
   const G_SETS  = T_ON.filter(r => tailOpts(r, 4).dns === "g").map(r => r[0]);
   const CN_SETS = T_ON.filter(r => tailOpts(r, 4).dns === "z").map(r => r[0]);
   const SYS_SETS = T_ON.filter(r => tailOpts(r, 4).dns === "s").map(r => r[0]);
 
-  // 空 config / 没传 config 兜底: 即使客户端给空壳(proxies: [])甚至什么都不给, 也能输出完整配置。
-  // 注: 这只保证 js 自身不崩; 客户端是否允许"无订阅启动"由客户端决定, 多数仍需一个空壳订阅当载体。
+  // 空配置兜底
   if (!config || typeof config !== "object") config = {};
   if (!Array.isArray(config.proxies)) config.proxies = [];
   const proxies = config.proxies;
-  // 合并而非覆盖: 保留软件 yaml 里已有的 proxy-providers; 机场节点经 include-all 自动并入各组
+  // 机场订阅: 与已有 proxy-providers 合并
   if (useProviders) config["proxy-providers"] = Object.assign({}, config["proxy-providers"], buildProviders());
 
-  // 单节点分享链接 -> 解析成节点对象并入 proxies (去重: 同名自动加后缀, 不丢节点)。单条解析失败只跳过该条。
+  // 单节点链接 (同名自动加序号)
   if (useLinks) {
     const added = parseLinks(LINKS);
     const seen = {};
@@ -296,14 +264,14 @@ function main(config) {
     }
   }
 
-  // 自建节点 -> 直接并入 proxies (加 PROXY_TAG 前缀, 不加上标; 去重同上)。来源: PROXIES_YAML(YAML文本)。缺 server 跳过。
+  // 自建节点 (加前缀, 同名自动加序号)
   if (useProxies) {
     const seen = {};
     for (const p of proxies) if (p && p.name) seen[p.name] = 1;
     const selfNodes = parseYamlProxies(PROXIES_YAML);
     for (const raw of selfNodes) {
-      if (!raw || typeof raw !== "object" || !raw.server) continue;   // 没 server 的当占位/写错 -> 跳过, 不丢其他
-      const p = Object.assign({}, raw);                               // 拷贝, 不改动源对象
+      if (!raw || typeof raw !== "object" || !raw.server) continue;   // 缺 server 跳过
+      const p = Object.assign({}, raw);                               // 拷贝
       const base = (p.name == null ? "" : String(p.name)).trim() || String(p.server);
       let nm = PROXY_TAG + base, root = nm, k = 2;
       while (seen[nm]) nm = root + " " + (k++);
@@ -319,52 +287,51 @@ function main(config) {
     }
   }
 
-  // 1.5) 节点名 YAML 安全化前移(原在 makeYamlSafe 里最后才做): 让国家检测/漏网检测/运行期 filter
-  //      全部作用于同一份"最终名字", 消除 ^锚定 等写法的编译期/运行期分裂
+  // 1.5) 节点名 YAML 安全化 (先于国家检测)
   for (const p of proxies) if (p && p.name) p.name = safeName(p.name);
 
-  // 2) 自定义随机分组: 无视 threshold/autoCountry 强制生成(显示卡片)。坏行(缺名/坏正则)跳过, 不影响其他行
+  // 2) 自定义国家组: 强制生成, 坏行跳过
   const custom = [];
   for (const c of (CUSTOM_RANDOM || [])) {
     if (!c || !c[0] || !c[1]) continue;
     let re = c[1];
-    if (!re.source) { try { re = new RegExp(String(re)); } catch (e) { continue; } }   // 兼容手滑写成字符串
+    if (!re.source) { try { re = new RegExp(String(re)); } catch (e) { continue; } }   // 兼容字符串写法
     custom.push([c[0], re]);
   }
   const customNames = custom.map(function (c) { return c[0]; });
 
-  // 2.1) 动态检测国家 (autoCountry=false 时整段不扫不建): 节点数 >= threshold; 已被自定义占名的让位, 不重复建
+  // 2.1) 动态国家组: 节点数 ≥ threshold, 同名让位给自定义组
   const present = !autoCountry ? [] : COUNTRY.filter(function (c) {
-    if (customNames.indexOf(c[0]) !== -1) return false;      // 同名压制: 自定义优先
+    if (customNames.indexOf(c[0]) !== -1) return false;      // 自定义优先
     let n = 0;
     for (const p of proxies) if (p && p.name && c[1].test(p.name)) n++;
     return n >= threshold;
   });
   const countryNames = customNames.concat(present.map(function (c) { return c[0]; }));
 
-  // 2.2) 中国节点检测: 命中 CN_PAT 且不命中任何其它国家正则才算 (🇨🇳台湾/深港中转 不算)。有 1 个就生效; 开了机场订阅也生效。
+  // 2.2) 中国节点: 命中 CN_PAT 且不含其它国家标记
   const OTHER_CC_PAT = COUNTRY.map(function (c) { return c[1].source; }).join("|");
   const OTHER_CC_RE = new RegExp(OTHER_CC_PAT);
-  //      cnSeen = 真的扫到了中国节点 -> 才建 🇨🇳中国随机 (空组=COMPATIBLE 连不上, 绝不能建空的)
-  //      hasCN  = 扫到了 或 开了机场订阅(provider 节点脚本看不到) -> 🎯直连 用 include-all 把中国节点扫进来; 没有就什么都不多
-  //      CN_EXACT = 看得到的中国节点名拼成的精确正则, 出国组/🎲其他随机 用它排除(见 CN_PAT 处说明)
+  // cnSeen: 扫到中国节点才建 🇨🇳中国随机 (空组会报错)
+  // hasCN: 扫到或开了机场订阅 → 🎯直连 收中国节点
+  // CN_EXACT: 中国节点名精确正则, 出国组用它排除
   const cnNames = proxies.filter(function (p) { return p && p.name && CN_PAT.test(p.name) && !OTHER_CC_RE.test(p.name); })
     .map(function (p) { return p.name; });
   const CN_EXACT = cnNames.length ? "^(?:" + cnNames.map(reEsc).join("|") + ")$" : "";
   const cnSeen = customNames.indexOf(CN_GROUP) === -1 && cnNames.length > 0;
   const hasCN = cnSeen || useProviders;
 
-  // 2.5) 检测是否有"未归入任何组"的漏网节点 (归属判定 = 自定义组 + 启用中的动态表 + 大陆组; autoCountry 关了动态表不算)
+  // 2.5) 漏网节点 (不属于任何国家组) → 🎲其他随机
   const ALL_PAT = custom.map(function (c) { return c[1].source; })
     .concat(autoCountry ? COUNTRY.map(function (c) { return c[1].source; }) : [])
     .concat(CN_EXACT ? [CN_EXACT] : [])
     .join("|");
-  const ALL_RE = ALL_PAT ? new RegExp(ALL_PAT) : null;       // 两表皆空 -> 无归属正则, 所有节点都算漏网
+  const ALL_RE = ALL_PAT ? new RegExp(ALL_PAT) : null;       // 无归属正则时全算漏网
   let hasOther = false;
   for (const p of proxies) { if (p && p.name && (!ALL_RE || !ALL_RE.test(p.name))) { hasOther = true; break; } }
   const useOther = otherGroup && hasOther;
   const OTHER = "🎲其他随机";
-  const tail = countryNames.concat(useOther ? [OTHER] : []);  // 国家组 + (可选)其他随机
+  const tail = countryNames.concat(useOther ? [OTHER] : []);  // 国家组 + 🎲其他随机
 
   // 3) 公共片段
   const URLTEST = {
@@ -374,7 +341,7 @@ function main(config) {
   };
   const AUTO = { "include-all": true, "exclude-type": "direct", filter: ".*" };
 
-  // 4) 三处列表 (随国家动态变化)
+  // 4) 组成员列表
   const ACCEL   = ["♻️全部随机", "🔗链式出口"].concat(tail);
   const GLOBAL  = ["🌍全球加速", "🔗链式出口", "♻️全部随机"].concat(tail, ["🎯直连"]);
   const GLOBAL_D = ["🎯直连", "🌍全球加速", "🔗链式出口", "♻️全部随机"].concat(tail);
@@ -385,20 +352,20 @@ function main(config) {
     return Object.assign({ name: name, type: "select", icon: ICON + icon, proxies: list }, AUTO);
   };
 
-  // 6) 自定义随机组(显示卡片)在前 + 动态国家组(只含命中的)在后 + (可选)其他随机 + 全部随机兜底
+  // 6) 国家组 + 🎲其他随机 + ♻️全部随机
   const countryGroups = custom.map(function (c) {
     return Object.assign({}, URLTEST, { name: c[0], filter: safeFilter(c[1].source) });
   }).concat(present.map(function (c) {
     return Object.assign({}, URLTEST, { name: c[0], filter: safeFilter(c[1].source) });
   }));
   if (useOther) {
-    // include-all 收全部, 再用 exclude-filter 排除所有已归类关键字 = 只剩没归类的; 无任何归类正则时=直接收全部
+    // 收全部节点, 排除已归类的
     const og = Object.assign({}, URLTEST, { name: OTHER });
     if (ALL_PAT) og["exclude-filter"] = safeFilter(ALL_PAT);
     countryGroups.push(og);
   }
   countryGroups.push(Object.assign({}, URLTEST, { name: "♻️全部随机", filter: ".*" }));
-  // 🇨🇳中国随机(隐藏): 只收中国节点(exclude-filter 踢掉同时带其它国家标记的), 用国内地址测速
+  // 🇨🇳中国随机 (隐藏): 国内地址测速
   if (cnSeen) {
     countryGroups.push(Object.assign({}, URLTEST, {
       name: CN_GROUP, filter: safeFilter(CN_PAT.source),
@@ -411,26 +378,24 @@ function main(config) {
     Object.assign({ name: "🌍全球加速", type: "select", icon: ICON + "global.png", proxies: ACCEL },
                   AUTO, { url: "https://www.gstatic.com/generate_204", interval: 300, timeout: 5000 }),
     ...SVC.map(function (s) {
-      const hasIcon = typeof s[1] === "string";   // 第2位: 字符串=图标; 数字=直连标志(此时无图标)
+      const hasIcon = typeof s[1] === "string";   // 字符串 = 图标, 数字 = 直连标志
       return sel(s[0], hasIcon ? s[1] : null, (hasIcon ? s[2] : s[1]) ? GLOBAL_D : GLOBAL);
     }),
     { name: "⛩️阿里腾讯", type: "select", icon: ICON + "alibaba_tencent.png", proxies: ["🎯直连", "🌍全球加速"] },
-    // 🎯直连: 有中国节点时 include-all 把中国单节点直接扫进来(排在 DIRECT/🇨🇳中国随机/🌍全球加速 之后), 可手选
+    // 🎯直连: 有中国节点时一并收入, 可手选
     Object.assign({ name: "🎯直连", type: "select", icon: ICON + "china.png", proxies: ["DIRECT"].concat(cnSeen ? [CN_GROUP] : [], ["🌍全球加速"]), url: CN_TEST_URL },
-      // 注意: 这里绝不能加 exclude-type: direct —— 它会把 proxies 里的 DIRECT(本地直连)一起踢掉
+      // 不能加 exclude-type: direct (会踢掉 DIRECT)
       hasCN ? { "include-all": true, filter: safeFilter(CN_PAT.source), "exclude-filter": safeFilter(OTHER_CC_PAT) } : {}),
     { name: "🤡漏网之鱼", type: "select", icon: ICON + "match_1.png", proxies: ["🌍全球加速", "🎯直连"] },
-    // ── 链式 出口/中转 (可见卡片, 放漏网之鱼后面; 直接点卡片进组选节点) ──
-    // 出口(落地): override.dialer-proxy 给 include-all 单节点注入前置=中转; 选"单节点"才成链, 不含🌍全球加速(否则成环)
+    // 链式代理: 出口 (落地) 经 dialer-proxy 走中转; 不含 🌍全球加速 防成环
     Object.assign({ name: "🔗链式出口", type: "select", icon: ICON + "chainexport.png",
       override: { "dialer-proxy": "🔗链式中转" },
       proxies: ["♻️全部随机"].concat(tail) }, AUTO),
-    // 中转(前置跳板): 🌍全球加速 + 国家动态组 + ♻️全部随机 + 单节点
+    // 中转: 前置跳板
     Object.assign({ name: "🔗链式中转", type: "select", icon: ICON + "chaintransfer.png",
       proxies: ["🌍全球加速", "♻️全部随机"].concat(tail) }, AUTO),
   ].concat(
-    // FETCH_VIA="fallback": 规则集下载走 DIRECT优先, 健康检查指向真实下载源(jsDelivr),
-    // 直连连得上就用直连, 连不上才自动切到 🌍全球加速。冷启动默认用列表第一个(DIRECT)。
+    // 📥规则下载: 直连优先, 失败切 🌍全球加速
     FETCH_VIA === "fallback" ? [{
       name: FETCH_GROUP, type: "fallback", icon: ICON + "bypass.png",
       proxies: ["DIRECT", "🌍全球加速"],
@@ -438,8 +403,7 @@ function main(config) {
       interval: 300, lazy: false, hidden: true,
     }] : []
   ).concat(
-    // 📥订阅下载: 机场订阅下载通道。DIRECT优先(健康检查直连能过就用直连), 不通自动切🌍全球加速。
-    // 也解决纯机场冷启动: 首启组里还没节点时, 先用 DIRECT 拉订阅把节点引导起来。
+    // 📥订阅下载: 直连优先, 失败切 🌍全球加速
     (useProviders && PROVIDER_PROXY === "📥订阅下载") ? [{
       name: "📥订阅下载", type: "fallback", icon: ICON + "bypass.png",
       proxies: ["DIRECT", "🌍全球加速"],
@@ -448,22 +412,20 @@ function main(config) {
     }] : []
   ).concat(countryGroups);
 
-  // 8.4) 分流策略组开关: 把被关掉的组直接剔除。核心组(🌍全球加速/🎯直连/🤡漏网之鱼)、国家组、♻️全部随机
-  //       在开关表里没有对应键, groupOn 一律返回 true, 不会被误删。放在 GLOBAL 之前, 让 GLOBAL 只收活着的组。
+  // 8.4) 剔除被关掉的分流组
   config["proxy-groups"] = config["proxy-groups"].filter(function (g) { return g && groupOn(g.name); });
 
-  // 8.5) 自定义内置 GLOBAL 组。
+  // 8.5) GLOBAL 组
   const orderedGroups = config["proxy-groups"].filter(g => !g.hidden && g.name !== "GLOBAL").map(g => g.name);
   config["proxy-groups"].push({
     name: "GLOBAL",
     type: "select",
     icon: ICON + "match.png",
     "include-all": true,                          
-    proxies: [...new Set(orderedGroups.concat(ACCEL, ["DIRECT"]))],  // 去重: 🔗链式出口在orderedGroups和ACCEL里各一次
+    proxies: [...new Set(orderedGroups.concat(ACCEL, ["DIRECT"]))],  // 去重
   });
 
-  // 8.55) 链式开关: CHAIN=false 时删除 🔗链式出口/🔗链式中转 两组, 并清掉其它组(含 GLOBAL)对它们的引用
-  //       所有组建完后统一处理, 一次搞定; 引用被删后若某组 proxies 空了, 用 DIRECT 兜底防止内核报错。
+  // 8.55) 关闭链式: 删两组及其引用, 空组补 DIRECT
   if (!CHAIN) {
     const CHAIN_GROUPS = ["🔗链式出口", "🔗链式中转"];
     config["proxy-groups"] = config["proxy-groups"].filter(g => !CHAIN_GROUPS.includes(g.name));
@@ -475,11 +437,9 @@ function main(config) {
     }
   }
 
-  // 8.555) 大陆节点隔离: 从所有"出国"用途的 include-all 组(🌍全球加速/♻️全部随机/服务组/🔗链式出口…)剔除大陆节点,
-  //        防止被手选或 url-test 选中后国外流量走国内机。保留在: 🎯直连、🇨🇳中国随机、国家组(自带精确 filter)、
-  //        🔗链式中转(国内BGP机做前置跳板是正经用法)、GLOBAL(全局模式什么都能选)。放在 8.56 前, 让严格链式合并 exclude-filter。
+  // 8.555) 出国组排除中国节点 (保留在 🎯直连 / 国家组 / 链式中转 / GLOBAL)
   if (CN_EXACT) {
-    const keep = new Set(["🎯直连", CN_GROUP, "GLOBAL", "🔗链式中转", OTHER].concat(countryNames));   // OTHER 已经靠 ALL_PAT 排除过大陆, 不重复加
+    const keep = new Set(["🎯直连", CN_GROUP, "GLOBAL", "🔗链式中转", OTHER].concat(countryNames));   // 🎲其他随机 已排除过
     const cnf = safeFilter(CN_EXACT);
     for (const g of config["proxy-groups"]) {
       if (!g || !g["include-all"] || keep.has(g.name)) continue;
@@ -487,10 +447,7 @@ function main(config) {
     }
   }
 
-  // 8.56) 严格链式(CHAIN_STRICT): 把 CHAIN_EXIT 认定的"落地/出口"节点【只】留在🔗链式出口组、
-  //        从其它所有 include-all 组剔除(含 url-test 健康检查会直拨的 ♻️全部随机/国家组)。
-  //        效果: 家宽永远只经🔗链式中转到达落地, 绝不直连落地(连探测都不会)。
-  //        没有节点匹配 CHAIN_EXIT 时跳过——避免把🔗链式出口变成空组导致内核报错。
+  // 8.56) 严格链式: 落地节点只留在 🔗链式出口, 其余组全部排除; 无落地节点时跳过
   if (CHAIN && CHAIN_STRICT) {
     let exitRe = null;
     try { exitRe = new RegExp(CHAIN_EXIT); } catch (e) { exitRe = null; }
@@ -502,19 +459,17 @@ function main(config) {
       for (const g of config["proxy-groups"]) {
         if (!g || !g["include-all"]) continue;
         if (g.name === "🔗链式出口") {
-          g.filter = exf;          // 出口组只收落地节点(include-all + filter)
-          delete g.proxies;        // 去掉 ♻️全部随机/国家组 等引用, 只留落地节点; 每次拨号都走 override.dialer-proxy=🔗链式中转
+          g.filter = exf;          // 只收落地节点
+          delete g.proxies;        // 只走 🔗链式中转
         } else {
-          // 其它所有 include-all 组(国家组/♻️全部随机/全球加速/GLOBAL/🔗链式中转…)剔除落地节点:
-          // 既不会被误选直连, 也不会被 url-test 直接探测(家宽直连落地的根源)
+          // 其它组排除落地节点 (防直连落地)
           g["exclude-filter"] = g["exclude-filter"] ? "(?:" + g["exclude-filter"] + ")|(?:" + CHAIN_EXIT + ")" : exf;
         }
       }
     }
   }
 
-  // 8.6) 图标覆盖: 优先级高于 SVC 及默认图标。所有组建好后统一覆盖, ICONS 里有同名组则换图(完整URL)。
-  //      没写 URL / 占位(#) / 空表 -> 跳过, 不动任何组(也不报错)。
+  // 8.6) 自定义图标覆盖
   const ICON_MAP = {};
   for (const it of (ICONS || [])) {
     if (!it || !it[0] || !it[1] || String(it[1]).charAt(0) === "#") continue;
@@ -524,18 +479,17 @@ function main(config) {
     if (g && g.name && ICON_MAP[g.name]) g.icon = ICON_MAP[g.name];
   }
 
-  // 8+9) rule-providers 与 rules 由主表 T 一次生成
-  //      provider 是 map (顺序无所谓); rules 是数组 (顺序=T 的顺序, 即匹配优先级)
+  // 9) rule-providers + rules (顺序 = 匹配优先级)
   config["rule-providers"] = {};
   config.rules = [];
-  // 自定义内联规则: 按表内顺序, 整批排在所有 RULE-SET 之前 = 最高优先级。no-resolve 由 tailOpts 识别(位置无关)
+  // 自定义规则排最前
   for (const c of CUSTOM) {
-    if (!LIVE.has(c[2])) continue;                 // 目标组不存在(被关掉或已从 SVC 删除) -> 这条一起跳过
+    if (!LIVE.has(c[2])) continue;                 // 目标组不存在则跳过
     config.rules.push(c[0] + "," + c[1] + "," + c[2] + (tailOpts(c, 3).nr ? ",no-resolve" : ""));
   }
   for (const r of T_ON) {
     const [name, t, file, group] = r;
-    const [dir, behavior, ext] = META[t];          // d/c/i -> [目录, behavior, 扩展名(也是format)]
+    const [dir, behavior, ext] = META[t];          // [目录, behavior, 格式]
     const u = "geo/" + dir + "/" + file + "." + ext;
     config["rule-providers"][name] = Object.assign(
       { type: "http", behavior: behavior, format: ext, interval: 86400, url: RULES + u }, P(u)
@@ -546,39 +500,33 @@ function main(config) {
 
   // 10) DNS (可选)
   if (setDNS) {
-    // —— 机场订阅自带的私有 DNS: 先接住, 后面合并回去 (不接的话整段会被下面的赋值抹掉) ——
-    // 有些机场把只有自家 DNS 才解析得出的内网域名写在 proxy-server-nameserver / nameserver-policy 里,
-    // 抹掉之后他们的节点就连不上了。fake-ip-filter 同理。
+    // 保留机场订阅自带的 DNS 设置, 稍后合并
     const subDNS    = config.dns || {};
     const subPSN    = [].concat(subDNS["proxy-server-nameserver"] || []);
     const subPolicy = Object.assign({}, subDNS["nameserver-policy"] || {});
     const subFilter = [].concat(subDNS["fake-ip-filter"] || []);
-    // 防御1: 机场若写了 '+.' / '*' 这种通吃键, 会把下面所有分流策略架空 -> 丢弃
-    // 防御2: rule-providers 已被本脚本清空重建, 订阅里指向旧 provider 的 rule-set: 键会变成悬空引用,
-    //        内核直接报 "not found rule-set: xxx" 并拒绝启动(startService failed) -> 一并丢弃。
-    //        例: 订阅写 rule-set:cn, 而本脚本生成的是 cn-domain / cn-ip。
+    // 丢弃通吃键 ('+.' / '*') 与指向不存在规则集的键 (否则内核报错)
     const OWN_SETS = new Set(T_ON.map(r => r[0]));
     for (const k of Object.keys(subPolicy)) {
       if (k === "+." || k === "*" || k === "+") { delete subPolicy[k]; continue; }
       if (k.indexOf("rule-set:") === 0 && !OWN_SETS.has(k.slice(9))) delete subPolicy[k];
     }
-    // fake-ip-filter 同理: 订阅里的 rule-set: 项也可能悬空
+    // fake-ip-filter 同样去掉悬空的 rule-set
     const subFilterSafe = subFilter.filter(
       v => typeof v !== "string" || v.indexOf("rule-set:") !== 0 || OWN_SETS.has(v.slice(9))
     );
 
-    // 由 G_SETS/CN_SETS 自动生成 nameserver-policy (增减只改顶部那两个数组)
+    // nameserver-policy 由规则表的 DNS 归属生成
     const nsPolicy = {};
     for (const s of SYS_SETS) nsPolicy["rule-set:" + s] = SYS_DNS;
     if (ADBLOCK) nsPolicy["rule-set:reject"] = ["https://dns.adguard.com/dns-query"];
     for (const s of G_SETS)  nsPolicy["rule-set:" + s] = G_DNS;
     for (const s of CN_SETS) nsPolicy["rule-set:" + s] = CN_DNS;
-    // 追加: CUSTOM 内联域名的 DNS 归属。仅 DOMAIN(精确) / DOMAIN-SUFFIX(+.) 可转 policy key;
-    //       关键词/正则/IP 无法按域名做 DNS 分流 -> 跳过(规则本身照常生效, 只是不进 DNS 分流)
+    // 自定义规则的 DNS 归属 (仅 DOMAIN / DOMAIN-SUFFIX)
     for (const c of CUSTOM) {
       const dns = tailOpts(c, 3).dns;
       if (dns !== "g" && dns !== "z" && dns !== "s") continue;
-      if (!LIVE.has(c[2])) continue;               // 规则本身已被跳过, DNS 分流也不必留
+      if (!LIVE.has(c[2])) continue;               // 规则已跳过
       let key = null;
       if (c[0] === "DOMAIN") key = c[1];
       else if (c[0] === "DOMAIN-SUFFIX") key = "+." + c[1];
@@ -597,7 +545,7 @@ function main(config) {
       nameserver: [...CN_DNS, ...G_DNS],
       "proxy-server-nameserver": [...new Set([...subPSN, "https://1.1.1.1/dns-query", "https://8.8.8.8/dns-query", "https://9.9.9.9/dns-query"])],
       "direct-nameserver-follow-policy": true,
-      // 本脚本的 rule-set: 键优先, 机场独有的域名键(如 +.某机场.com)原样保留
+      // 本脚本规则集优先, 保留机场独有域名
       "nameserver-policy": Object.assign({}, subPolicy, nsPolicy),
     };
   }
@@ -614,16 +562,15 @@ function main(config) {
     };
   }
 
-  // —— 顶层配置 (与 Clashmi-fx 一致; setClientOpts 见顶部参数区) ——
+  // 12) 顶层配置
   Object.assign(config, {
     "mode": "rule",
-    "find-process-mode": "strict",   // 内核默认档: always 桌面端每连接查进程有开销, iOS 不支持
+    "find-process-mode": "strict",   // iOS 不支持 always
     "unified-delay": true,
     "tcp-concurrent": true,
     "ipv6": true,
     ...(setGeo ? {
-      // 分流全走 rule-provider(.mrs/.yaml), 无内置 GEOSITE/GEOIP 规则, 故不下 geoip.dat/geosite.dat;
-      // 只要 mmdb(连接信息/国旗)+asn(IP-ASN 规则). 走 jsDelivr 拉, 与本脚本其他外部资源一致.
+      // 只下 mmdb + asn (规则全走 rule-provider)
       "geodata-mode": false,
       "geo-auto-update": true,
       "geo-update-interval": 24,
@@ -640,7 +587,7 @@ function main(config) {
       "bind-address": "*",
       "keep-alive-idle": 300,
       "keep-alive-interval": 30,
-      // 入站认证口令按节点确定性派生(复用 resolveSecret): 每人不同, 避免公开脚本全网同一口令被蹭代理
+      // 入站口令按节点派生, 每人不同
       "authentication": ["meta:" + resolveSecret("random", config.proxies)],
       "skip-auth-prefixes": ["127.0.0.1/8", "::1/128"],
       "lan-allowed-ips": ["0.0.0.0/0", "::/0"],
@@ -651,30 +598,27 @@ function main(config) {
     } : {}),
   });
 
-  // —— 浏览器面板 (控制器 API) —— 三档: false=关 | "local"=仅本机(默认) | "lan"=局域网。与 setClientOpts 解耦
-  // secret 由 PANEL_SECRET 决定; "random" 走 resolveSecret 按节点确定性派生(覆写脚本无持久存储,故同批节点恒定同值)
-  let panel = setPanel === true ? "lan" : setPanel;            // 兼容老写法: 旧配置里的 setPanel=true 视作全开
-  if (panel === "lan" && PANEL_SECRET === "") panel = "local"; // 全开必须有口令, 留空则自动降回本机, 杜绝无口令裸奔
+  // 13) 浏览器面板: false 关 | local 仅本机 | lan 局域网
+  let panel = setPanel === true ? "lan" : setPanel;            // 兼容旧写法
+  if (panel === "lan" && PANEL_SECRET === "") panel = "local"; // 局域网必须有口令
   if (panel === "local" || panel === "lan") {
     const realSecret = resolveSecret(PANEL_SECRET, config.proxies);
     config["external-controller"] = (panel === "lan" ? "0.0.0.0" : "127.0.0.1") + ":9092";
     config["secret"] = realSecret;
     config["external-controller-cors"] = panel === "lan"
-      ? { "allow-origins": ["*"], "allow-private-network": true }  // 全开: 允许站外/跨私网面板访问
-      : { "allow-origins": ["*"] };                                // 本机: 无需私网放行
+      ? { "allow-origins": ["*"], "allow-private-network": true }  // 局域网
+      : { "allow-origins": ["*"] };                                // 仅本机
     config["external-ui"] = "./ui";
-    // zashboard 面板包: jsDelivr 发不了 zip, 只能写 GitHub 的 codeload 链接(与 Clashmi-fx 一致)。
-    // 内核拉面板走的是自己的出站, 会按规则分流, GitHub 域名命中 😈GitHub 组走代理, 大陆也拉得下来。
+    // zashboard 面板包 (codeload 链接, 经 😈GitHub 组下载)
     config["external-ui-url"] = "https://codeload.github.com/Zephyruso/zashboard/zip/refs/heads/gh-pages";
-    // 全开 + random: 把派生口令显示成一个 display-only 假组, 开 App 在组列表一眼可见, 抄进外部浏览器登录即可
-    // (自己填了固定串的不显示——你本就知道; local 档不暴露端口, 也无需显示)
+    // 局域网 + random: 用一个假组显示口令
     if (panel === "lan" && PANEL_SECRET === "random") {
       config["proxy-groups"].push({ name: "🔑面板口令:" + realSecret, type: "select", proxies: ["DIRECT"] });
     }
   }
   config.profile = Object.assign({ "store-selected": true, "store-fake-ip": true }, config.profile || {});
 
-  // —— TUN (裸订阅必须有, 否则抓不到系统流量; 已补全到与 Clashmi-fx 一致; TUN_STACK 见顶部参数区) ——
+  // 14) TUN
   if (setTun) {
     const t = {
       enable: true,
@@ -692,21 +636,18 @@ function main(config) {
       "route-exclude-address-set": ["private-ip"],
       "route-exclude-cidr": ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12", "100.64.0.0/10", "fc00::/7", "fe80::/10"],
     };
-    // auto-redirect / gso 只在 system/mixed/mips 栈下有意义(mips 自带 Linux GSO 收发), gvisor 下加了可能报错, 故按栈区分
-    // auto-redirect/gso 为 Linux 内核专属优化, 其他平台注入会崩(iOS NE 实测)。
-    // 仅在 JS 环境能确认 Linux 时(如 Mihomo Party@Linux 有 process.platform)才注入; 检测不到=不加, 安全兜底。
+    // auto-redirect / gso: 仅 Linux 且非 gvisor 栈
     const isLinux = (function () {
       try { return typeof process !== "undefined" && process.platform === "linux"; } catch (e) { return false; }
     })();
     if (TUN_STACK !== "gvisor" && isLinux) { t["auto-redirect"] = true; t["gso"] = true; t["gso-max-size"] = 65536; }
-    // congestion-controller 只对 mips 有效; 内核只认 cubic/reno/bbr/bbr3, 填错整个 TUN 起不来, 所以只放行这四个
-    // (≥1.19.31 但还没这个字段的内核会直接忽略, 不报错)
+    // 拥塞控制: 仅 mips 栈, 只放行 cubic / reno / bbr / bbr3
     const cc = String(TUN_CC).toLowerCase();
     if (TUN_STACK === "mips" && ["cubic", "reno", "bbr", "bbr3"].includes(cc)) t["congestion-controller"] = cc;
     config.tun = t;
   }
 
-  // —— hosts (与 Clashmi-fx 一致) —— 加密 DNS 服务器的域名直接对上官方 IP, 不用先发明文 DNS 问它在哪; 原配置自带的 hosts 优先
+  // 15) hosts: 加密 DNS 域名直连官方 IP; 原配置 hosts 优先
   config.hosts = Object.assign({
     "doh.pub": ["1.12.12.12", "120.53.53.53"],
     "dns.alidns.com": ["223.5.5.5", "223.6.6.6"],
@@ -715,54 +656,44 @@ function main(config) {
     "dns.adguard.com": ["94.140.14.14", "94.140.15.15"],
   }, config.hosts || {});
 
-  // tunnels（本机端口转发）10/16 仓库主人同意删掉：手机上没程序去连，切配置时还抢端口报 address already in use
-
-  // —— 给"吃 uTLS 指纹"的节点补 client-fingerprint=chrome(替代已废弃的 global-client-fingerprint)——
-  // 只处理走标准 TLS 的协议(FP_OK 白名单); QUIC系(hysteria/hysteria2/tuic)、wireguard、ssh、
-  // 纯 ss/ssr、anytls 等不在名单内一律跳过(它们不吃 uTLS, 强加可能告警/握手失败)。已自带指纹的也不动。
+  // 16) 补 uTLS 指纹 chrome (仅 TLS 协议, 已有不覆盖)
   (config.proxies || []).forEach(function (p) {
-    if (!p || FP_OK.indexOf(p.type) === -1) return;   // 协议不在白名单 -> 跳过
-    if (p["client-fingerprint"]) return;              // 已自带(含 REALITY 自带) -> 不覆盖
+    if (!p || FP_OK.indexOf(p.type) === -1) return;   // 协议不在白名单
+    if (p["client-fingerprint"]) return;              // 已有
     var usesTLS = p.type === "trojan" || p.tls === true || p["reality-opts"];
-    if (usesTLS) p["client-fingerprint"] = "chrome";  // 仅确实走 TLS 时才补
+    if (usesTLS) p["client-fingerprint"] = "chrome";  // 仅走 TLS 时
   });
-  // 注: 不再给 proxy-providers 统一加 override.client-fingerprint —— 那是"整份订阅强制套用",
-  // 会把订阅里的 hy2/tuic 等也一起套, 反而可能出问题。订阅模式请在订阅/机场侧配置指纹。
 
-  // —— 给支持 smux 的节点补 smux h2mux(SMUX_FILL 开关; 服务端没开 mux 会连不上 -> 关掉)——
-  // 仅 SMUX_OK 白名单内的协议; 且排除 XTLS Vision(有 flow 字段, 叠 smux 会破坏 XTLS);
-  // hy2/tuic/wireguard/ssh/anytls 不在名单 -> 不碰(QUIC/自带mux/不支持)。已自带 smux 的不覆盖。
+  // 17) 补 smux (排除 XTLS Vision, 已有不覆盖)
   if (SMUX_FILL) {
     (config.proxies || []).forEach(function (p) {
-      if (!p || SMUX_OK.indexOf(p.type) === -1) return;   // 协议不支持 -> 跳过
-      if (p.smux) return;                    // 已自带 -> 不动
-      if (p.flow) return;                    // XTLS Vision(flow非空) -> 绝不加
+      if (!p || SMUX_OK.indexOf(p.type) === -1) return;   // 协议不支持
+      if (p.smux) return;                    // 已有
+      if (p.flow) return;                    // XTLS Vision 不加
       p.smux = { enable: true, protocol: "h2mux", "max-connections": 4, "min-streams": 4, padding: true };
     });
   }
 
-  // —— 给 Reality 节点补 support-x25519mlkem768(MLKEM_OK 开关; 后量子混合密钥交换)——
-  // 只碰带 reality-opts 的节点; 已显式设置过该字段(含 false)的不覆盖。
-  // 覆盖范围: 订阅主 proxies + LINKS + PROXIES_YAML; PROVIDER_URLS 机场节点运行时才下载, JS 摸不到。
+  // 18) Reality 节点补 X25519MLKEM768 后量子密钥交换 (已设置不覆盖)
   if (MLKEM_OK) {
     (config.proxies || []).forEach(function (p) {
-      if (!p || !p["reality-opts"]) return;                       // 非 Reality -> 跳过
-      if ("support-x25519mlkem768" in p["reality-opts"]) return;  // 已显式设置 -> 不覆盖
+      if (!p || !p["reality-opts"]) return;                       // 非 Reality
+      if ("support-x25519mlkem768" in p["reality-opts"]) return;  // 已设置
       p["reality-opts"]["support-x25519mlkem768"] = true;
     });
   }
 
-  // —— YAML 安全化: 无条件执行(都是功能等价改写) ——
+  // YAML 安全化
   return makeYamlSafe(config);
 }
 
-// 把单个节点名改成 YAML 安全。只动会破坏裸标量的字符; 国家匹配正则不含这些字符, 匹配不受影响。
+// 节点名 YAML 安全化 (替换会破坏裸标量的字符)
 function safeName(name) {
   let s = String(name)
     .replace(/:/g, "：").replace(/,/g, "，")
     .replace(/\[/g, "【").replace(/\]/g, "】")
     .replace(/\{/g, "｛").replace(/\}/g, "｝");
-  // 行首保留字符(* & ! | > @ % # ?)会被当成指示符 -> 替成全角; 行首引号/反引号直接去掉
+  // 行首指示符转全角, 行首引号去掉
   s = s.replace(/^\*/, "＊").replace(/^&/, "＆").replace(/^!/, "！")
        .replace(/^\|/, "｜").replace(/^>/, "＞").replace(/^@/, "＠")
        .replace(/^%/, "％").replace(/^#/, "＃").replace(/^\?/, "？")
@@ -770,25 +701,22 @@ function safeName(name) {
   return s;
 }
 
-// 组 filter/exclude-filter 的正则源若以 YAML 指示符开头(如 [ { & ! > | * 等, 裸标量序列化后非法),
-// 包一层 (?:...) 等价规避——(?: 以 "(" 开头, 天然 YAML 安全, 且不改变正则语义。emoji/普通字母开头原样返回。
-// 节点名 -> 正则字面量。只转义正则元字符: Go 正则不认 "\ " 这类对非标点的转义, 不能用通用写法。
+// 节点名 → 正则字面量 (仅转义正则元字符)
 function reEsc(s) {
   return String(s).replace(/[\\.+*?()|\[\]{}^$]/g, "\\$&");
 }
 
+// filter 以 YAML 指示符开头时包一层 (?:...)
 function safeFilter(src) {
   return /^[\[\]{}>|*&!%@`"',#?:-]/.test(src) ? "(?:" + src + ")" : src;
 }
 
-// 数字 -> 上标 (1->¹, 10->¹⁰, 100->¹⁰⁰)。任意位数, 不设上限。
+// 数字 → 上标 (1 → ¹)
 function sup(n) {
-  const S = "⁰¹²³⁴⁵⁶⁷⁸⁹";  // ⁰¹²³⁴⁵⁶⁷⁸⁹
+  const S = "⁰¹²³⁴⁵⁶⁷⁸⁹";
   return String(n).replace(/\d/g, function (d) { return S[+d]; });
 }
-// 解析 PANEL_SECRET: 非 "random" 直接返回原串; "random" 按节点名做 djb2 确定性派生。
-// 覆写脚本无持久存储、每次重载重跑 main(), 无法"生成一次永久记住", 故用派生: 同批节点恒定同值, 换节点才变, 且每人不同。
-// 注: 纯机场(proxies 为空)时 basis 回落 "bgpeer", 此时各用户派生值相同——介意可在 lan 档手填固定串代替 random。
+// PANEL_SECRET = "random" 时按节点名派生 (djb2), 同批节点结果不变
 function resolveSecret(raw, proxies) {
   if (raw !== "random") return raw;
   let h = 5381;
@@ -796,25 +724,25 @@ function resolveSecret(raw, proxies) {
   for (let i = 0; i < basis.length; i++) h = ((h << 5) + h + basis.charCodeAt(i)) >>> 0;
   return "p" + h.toString(36);
 }
-// 生成 proxy-providers: 展开原锚点 *p, 按顺序自动加上标前缀。节点靠各组 include-all 自动收入。
+// 生成 proxy-providers (自动加上标前缀)
 function buildProviders() {
   const out = {}, names = Object.keys(PROVIDER_URLS);
   for (let i = 0; i < names.length; i++) {
     const v = PROVIDER_URLS[names[i]];
-    const url = Array.isArray(v) ? v[0] : v;                      // 数组写法取第0位=链接
-    const tag = (Array.isArray(v) && v[1]) ? String(v[1]) : "";   // 第1位=自定义前缀, 没填=空
-    if (!url || url.charAt(0) === "#") continue;   // 空 / 占位符(#机场订阅) -> 跳过, 上标序号不占用
+    const url = Array.isArray(v) ? v[0] : v;                      // 数组: 第 0 位为链接
+    const tag = (Array.isArray(v) && v[1]) ? String(v[1]) : "";   // 第 1 位为前缀
+    if (!url || url.charAt(0) === "#") continue;   // 空或占位跳过
     out[names[i]] = {
       type: "http", interval: 3600, proxy: PROVIDER_PROXY,
       "health-check": { enable: true, url: "https://www.gstatic.com/generate_204", interval: 300 },
-      url: url, override: { "additional-prefix": tag + sup(i + 1) },  // 前缀在前, 上标恒定保留不可去除
+      url: url, override: { "additional-prefix": tag + sup(i + 1) },  // 前缀 + 上标
     };
   }
   return out;
 }
 
-// ===================== 分享链接解析器 (自带, 不依赖 atob/URL/Buffer) =====================
-// base64 -> 字节数组 (兼容 url-safe 与缺省填充)
+// ===================== 分享链接解析 =====================
+// base64 → 字节 (兼容 url-safe / 无填充)
 function b64bytes(s) {
   s = String(s).replace(/-/g, "+").replace(/_/g, "/").replace(/\s+/g, "");
   while (s.length % 4) s += "=";
@@ -828,7 +756,7 @@ function b64bytes(s) {
   }
   return out;
 }
-// 字节数组 -> UTF-8 字符串 (支持中文/emoji 节点名)
+// 字节 → UTF-8 字符串
 function utf8(b) {
   let s = "", i = 0;
   while (i < b.length) {
@@ -858,7 +786,7 @@ function splitURI(u) {
   const q = rest.indexOf("?"); if (q >= 0) { query = rest.slice(q + 1); rest = rest.slice(0, q); }
   return { scheme: m[1].toLowerCase(), rest: rest, query: query, frag: frag };
 }
-// userinfo@host:port[/path] -> 各字段 (支持 IPv6 [..])
+// userinfo@host:port[/path] (支持 IPv6)
 function splitAuthority(rest) {
   let path = ""; const sl = rest.indexOf("/"); if (sl >= 0) { path = rest.slice(sl); rest = rest.slice(0, sl); }
   let userinfo = "", hp = rest; const at = rest.lastIndexOf("@");
@@ -918,7 +846,7 @@ function ssObj(name, host, port, cipher, password, q) {
 function pSS(s) {
   if (s.rest.indexOf("@") >= 0) {
     const a = splitAuthority(s.rest); let mp = a.userinfo;
-    if (mp.indexOf(":") < 0) mp = b64str(mp);          // userinfo 是 base64(method:pass)
+    if (mp.indexOf(":") < 0) mp = b64str(mp);          // base64(method:pass)
     const ci = mp.indexOf(":");
     return ssObj(s.frag || "", a.host, a.port, mp.slice(0, ci), mp.slice(ci + 1), qparse(s.query));
   }
@@ -933,7 +861,7 @@ function pHy2(s) {
   if (insec(q)) p["skip-cert-verify"] = true;
   if (q.obfs && q.obfs !== "none") { p.obfs = q.obfs; if (q["obfs-password"]) p["obfs-password"] = q["obfs-password"]; }
   if (q.alpn) p.alpn = q.alpn.split(",");
-  if (q.mport) p.ports = q.mport;                       // 端口跳跃 30000-31000
+  if (q.mport) p.ports = q.mport;                       // 端口跳跃
   return p;
 }
 function pTuic(s) {
@@ -957,13 +885,13 @@ function pAnytls(s) {
   if (q.alpn) p.alpn = q.alpn.split(",");
   return p;
 }
-// userinfo 取用户名/密码: 先试 base64(user:pass), 再试明文 user:pass。塞进目标对象。
+// userinfo → 用户名 / 密码 (base64 或明文)
 function authCreds(userinfo, p) {
   if (!userinfo) return;
   let ui = userinfo;
-  if (ui.indexOf(":") < 0) { try { ui = b64str(ui); } catch (e) {} }  // 无冒号 -> 当 base64(user:pass)
+  if (ui.indexOf(":") < 0) { try { ui = b64str(ui); } catch (e) {} }  // base64
   const ci = ui.indexOf(":");
-  if (ci < 0) { p.username = dec(ui); return; }                       // 只有用户名
+  if (ci < 0) { p.username = dec(ui); return; }                       // 仅用户名
   p.username = dec(ui.slice(0, ci));
   p.password = dec(ui.slice(ci + 1));
 }
@@ -976,7 +904,7 @@ function pSocks(s) {
   if (insec(q)) p["skip-cert-verify"] = true;
   return p;
 }
-// http://(https://) [user:pass@]host:port[?sni=...]#name  (https:// 或 ?tls=1 -> 走 TLS)
+// http(s)://[user:pass@]host:port[?sni=]#name
 function pHttp(s) {
   const a = splitAuthority(s.rest), q = qparse(s.query);
   const p = { name: s.frag || "", type: "http", server: a.host, port: +a.port };
@@ -1000,50 +928,46 @@ function parseOne(u) {
     default: return null;
   }
 }
-// 遍历链接列表 -> 节点对象数组。
-// 元素两种写法: "链接"  或  ["自定义名","链接"]。空行/注释(#开头)/坏链接跳过, 且不占序号。
-// 名称优先级: 自定义名 > 链接自带#备注(parseOne 存进 p.name) > 协议名; 最终统一加上标序号前缀 ¹²³…
+// 链接列表 → 节点; 写法: "链接" 或 ["名称", "链接"]; 坏链接跳过不占序号
 function parseLinks(list) {
   const out = [];
   let n = 0;
   for (let item of (list || [])) {
     let nm = "", link = "";
-    if (Array.isArray(item)) {                                   // ["名称","链接"]
+    if (Array.isArray(item)) {                                   // [名称, 链接]
       nm = String(item[0] == null ? "" : item[0]).trim();
       link = String(item[1] == null ? "" : item[1]).trim();
-    } else {                                                     // "链接"
+    } else {                                                     // 链接
       link = String(item == null ? "" : item).trim();
     }
-    if (!link || link.charAt(0) === "#") continue;               // 空/占位 -> 跳过, 不占序号
+    if (!link || link.charAt(0) === "#") continue;               // 空或占位
     let p = null;
     try { p = parseOne(link); } catch (e) { p = null; }
-    if (!p || !p.server || !p.port) continue;                    // 解析失败 -> 跳过, 不占序号
+    if (!p || !p.server || !p.port) continue;                    // 解析失败
     n++;
-    const base = nm || p.name || p.type;                         // 自定义名 > 链接#备注 > 协议名
-    p.name = LINK_TAG + sup(n) + base;                           // 前缀: 区分标记 + 上标序号, 如 📌¹洛杉矶
+    const base = nm || p.name || p.type;                         // 自定义名 > #备注 > 协议名
+    p.name = LINK_TAG + sup(n) + base;                           // 如 📌¹洛杉矶
     out.push(p);
   }
   return out;
 }
 
-// 解析"订阅 proxies: 下的 YAML 节点"(flow 写法子集): 每行一个 {k: v, ...} 映射, 行首 "- " 可有可无。
-// 支持: 双引号/裸标量, 整数/小数/布尔, 嵌套 {} 与 []; 端口段(30000-31000)、uuid、域名等带"-"或"."的串原样保留为字符串。
-// 不支持: 缩进多行块式写法(必须单行 flow)。解析失败的行整条跳过, 不影响其他行。
+// 解析单行 YAML flow 节点 ({...}, 行首 "- " 可省); 坏行跳过
 function parseYamlProxies(text) {
   const out = [];
   if (!text) return out;
   for (let line of String(text).split(/\r?\n/)) {
     line = line.trim();
     if (!line || line.charAt(0) === "#") continue;            // 空行 / 注释
-    if (line.charAt(0) === "-") line = line.slice(1).trim();  // 去掉块序列标记 "- "
-    if (line.charAt(0) !== "{") continue;                     // 只收 flow 映射
+    if (line.charAt(0) === "-") line = line.slice(1).trim();  // 去掉 "- "
+    if (line.charAt(0) !== "{") continue;                     // 只收 {...}
     let obj = null;
     try { obj = yflow(line); } catch (e) { obj = null; }
     if (obj && typeof obj === "object" && obj.server) out.push(obj);
   }
   return out;
 }
-// 极简 flow 解析器: 解析单个 {map} / [seq] / 标量。仅覆盖节点配置所需子集, 不是完整 YAML。
+// 极简 YAML flow 解析器 (仅覆盖节点配置所需)
 function yflow(s) {
   let i = 0;
   const ws = function () { while (i < s.length && /\s/.test(s[i])) i++; };
@@ -1085,14 +1009,14 @@ function yflow(s) {
     ws();
     if (s[i] === '"' || s[i] === "'") return parseQuoted();
     let j = i;
-    while (i < s.length && ",}]".indexOf(s[i]) === -1) i++;   // 裸标量到结构符为止(冒号不算, 故 URL 可保留)
+    while (i < s.length && ",}]".indexOf(s[i]) === -1) i++;   // 裸标量读到结构符为止
     const raw = s.slice(j, i).trim();
     if (raw === "true") return true;
     if (raw === "false") return false;
     if (raw === "null" || raw === "~" || raw === "") return null;
-    if (/^-?\d+$/.test(raw)) return parseInt(raw, 10);        // 纯整数 -> 数字 (端口段含"-"不在此列, 保持字符串)
-    if (/^-?\d+\.\d+$/.test(raw)) return parseFloat(raw);     // 小数 -> 数字
-    return raw;                                                // 其余(uuid/域名/端口段/密钥…) -> 字符串
+    if (/^-?\d+$/.test(raw)) return parseInt(raw, 10);        // 整数
+    if (/^-?\d+\.\d+$/.test(raw)) return parseFloat(raw);     // 小数
+    return raw;                                                // 其余为字符串
   }
   function parseQuoted() {
     const q = s[i]; i++;
@@ -1101,24 +1025,22 @@ function yflow(s) {
       if (s[i] === "\\" && i + 1 < s.length) { buf += s[i + 1]; i += 2; continue; }
       buf += s[i]; i++;
     }
-    i++;                                            // 跳过结束引号
+    i++;                                            // 结束引号
     return buf;
   }
   return parseValue();
 }
 
-// 把整份配置改成 YAML 安全(无条件执行)。逐项功能等价, 不删任何"功能", 只换 ClashMi 内核
-// 序列化时不会加引号、会导致启动报错的写法。对 FlClash/Verge/Party 也无副作用。
-// 注: 节点名 safeName 已前移到 main() 第 1.5 步(国家检测之前), 此处不再重复处理。
+// 整份配置 YAML 安全化 (ClashMi 序列化兼容)
 function makeYamlSafe(config) {
-  if (config["bind-address"] === "*") delete config["bind-address"];      // = 默认监听全部
+  if (config["bind-address"] === "*") delete config["bind-address"];      // 默认即全部
 
   const cors = config["external-controller-cors"];
   if (cors && Array.isArray(cors["allow-origins"]) && cors["allow-origins"].indexOf("*") !== -1) {
-    delete cors["allow-origins"];                                          // 裸 '*' 无安全等价, 仅去此项
+    delete cors["allow-origins"];                                          // 去掉裸 '*'
   }
 
-  if (config.hosts && typeof config.hosts === "object") {                  // '*.x' -> '.x'
+  if (config.hosts && typeof config.hosts === "object") {                  // '*.x' → '.x'
     const h = {};
     for (const k of Object.keys(config.hosts)) h[k.indexOf("*.") === 0 ? k.slice(1) : k] = config.hosts[k];
     config.hosts = h;
@@ -1126,5 +1048,5 @@ function makeYamlSafe(config) {
   return config;
 }
 
-// 兼容部分客户端的导出习惯; 浏览器/纯脚本环境忽略即可
+// CommonJS 导出 (部分客户端需要)
 if (typeof module !== "undefined") { module.exports = main; module.exports.main = main; }
