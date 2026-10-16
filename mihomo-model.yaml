@@ -188,18 +188,6 @@ proxy-groups:
   - {name: "♻️全部随机", <<: *URLTEST_COMMON, filter: ".*", exclude-filter: *CN_PAT}
   - {name: "🇨🇳中国随机", <<: *URLTEST_COMMON, filter: *CN_PAT, exclude-filter: *CN_EXCL, url: "http://connect.rom.miui.com/generate_204"}
   
-tunnels:
-  - {network: [tcp, udp], address: 127.0.0.1:7788, target: jp1.wildrift.riotgames.com:443, proxy: "🎮国际游戏"}
-  - {network: [tcp, udp], address: 127.0.0.1:7789, target: jp1.pvp.net:443, proxy: "🎮国际游戏"}
-  - {network: [tcp, udp], address: 127.0.0.1:9000, target: 149.154.167.91:443, proxy: "💻Telegram"}
-  - {network: [tcp, udp], address: 127.0.0.1:9001, target: 149.154.167.92:443, proxy: "💻Telegram"}
-  - {network: [tcp, udp], address: 127.0.0.1:9002, target: 149.154.175.100:443, proxy: "💻Telegram"}
-  - {network: [tcp, udp], address: 127.0.0.1:7999, target: api.openai.com:443, proxy: "🧠OpenAI"}
-  - {network: [tcp, udp], address: 127.0.0.1:7443, target: chat.openai.com:443, proxy: "🧠OpenAI"}
-  - {network: [tcp, udp], address: 127.0.0.1:7700, target: www.google.com:443, proxy: "🌐Google服务"}
-  - {network: [tcp, udp], address: 127.0.0.1:7701, target: accounts.google.com:443, proxy: "🌐Google服务"}
-  - {network: [tcp, udp], address: 127.0.0.1:7702, target: www.googleapis.com:443, proxy: "🌐Google服务"}
-
 rules:
   - RULE-SET,reject,REJECT
   - RULE-SET,TikTok-zj,🎬TikTok
