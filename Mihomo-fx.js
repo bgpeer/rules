@@ -1,6 +1,6 @@
 /**
  * bgpeer Mihomo 覆写脚本
- * @version 5.12.2
+ * @version 5.12.3
  * @date    2026-10-21
  * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
  * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
@@ -117,11 +117,13 @@ const CN_GROUP = "🇨🇳中国随机";
 const CN_PAT = /🇨🇳|\bCN\b|\bcn\b|中国大陆/;
 const CN_TEST_URL = "http://connect.rom.miui.com/generate_204";   // 国内测速地址
 
-// 自定义国家组 (同名替代动态组), 去掉 // 后填写
+// 自定义国家组 (同名替代动态组, 固定建; 机场订阅的地区写在这), 去掉 // 后填写
+// 组名在上面 COUNTRY 表里的可只写组名, 自动用表里的正则; 表里没有的必须写正则, 否则跳过
 const CUSTOM_RANDOM = [
+  // ["🇯🇵日本随机"],                                    // 只写组名: 用 COUNTRY 表里的正则
   // ["🇺🇸美国随机", /\bUS\b|\bUSA\b|🇺🇸|美国|洛杉矶/],   // 同名: 替代动态组
   // ["🇰🇷韩国随机", /\bKR\b|🇰🇷|韩国|首尔/],
-  // ["🏠家宽随机",   /家宽|住宅|ISP/],                    // 新名: 新增一组
+  // ["🏠家宽随机",   /家宽|住宅|ISP/],                    // 新名: 新增一组 (必须写正则)
 ];
 
 // 规则集下载通道 + 本地缓存路径
@@ -296,8 +298,13 @@ function main(config) {
   // 2) 自定义国家组: 强制生成, 坏行跳过
   const custom = [];
   for (const c of (CUSTOM_RANDOM || [])) {
-    if (!c || !c[0] || !c[1]) continue;
+    if (!c || !c[0]) continue;
     let re = c[1];
+    if (!re) {                                                  // 只写组名: 查 COUNTRY 表
+      const hit = COUNTRY.find(function (x) { return x[0] === c[0]; });
+      if (!hit) { try { console.log("[CUSTOM_RANDOM] " + c[0] + " 不在 COUNTRY 表里, 要写正则, 已跳过"); } catch (e) {} continue; }
+      re = hit[1];
+    }
     if (!re.source) { try { re = new RegExp(String(re)); } catch (e) { continue; } }   // 兼容字符串写法
     custom.push([c[0], re]);
   }
