@@ -1,7 +1,7 @@
 /**
  * bgpeer Mihomo 覆写脚本
- * @version 5.12.0
- * @date    2026-10-16
+ * @version 5.12.1
+ * @date    2026-10-21
  * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
  * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
  */
@@ -65,6 +65,9 @@ const PROVIDER_URLS = {
   "机场3": "#填自己机场订阅",
 };
 const PROVIDER_PROXY = "📥订阅下载"; // "📥订阅下载" 直连优先 | "DIRECT" | "🌍全球加速"
+// 填了机场订阅时固定建的国家组: 订阅节点是客户端之后才拉的, 脚本运行时数不到, 没法按节点数建组
+// 机场没有的地区组会是空的, 删掉对应项即可; 其余地区的订阅节点进 🎲其他随机
+const PROVIDER_COUNTRIES = ["🇭🇰香港随机", "🇹🇼台湾随机", "🇯🇵日本随机", "🇸🇬新加坡随机", "🇰🇷韩国随机", "🇺🇸美国随机"];
 
 // 单节点分享链接: vless / vmess / ss / trojan / hy2 / tuic / anytls / socks / http
 // 名称带国旗或地名才进对应国家组, 否则进 🎲其他随机
@@ -249,7 +252,9 @@ function main(config) {
   if (!Array.isArray(config.proxies)) config.proxies = [];
   const proxies = config.proxies;
   // 机场订阅: 与已有 proxy-providers 合并
-  if (useProviders) config["proxy-providers"] = Object.assign({}, config["proxy-providers"], buildProviders());
+  const providers = useProviders ? buildProviders() : {};
+  const hasProviders = Object.keys(providers).length > 0;    // 真填了链接 (占位不算)
+  if (useProviders) config["proxy-providers"] = Object.assign({}, config["proxy-providers"], providers);
 
   // 单节点链接 (同名自动加序号)
   if (useLinks) {
@@ -300,9 +305,10 @@ function main(config) {
   }
   const customNames = custom.map(function (c) { return c[0]; });
 
-  // 2.1) 动态国家组: 节点数 ≥ threshold, 同名让位给自定义组
+  // 2.1) 动态国家组: 节点数 ≥ threshold, 同名让位给自定义组; 填了机场订阅时 PROVIDER_COUNTRIES 固定建
   const present = !autoCountry ? [] : COUNTRY.filter(function (c) {
     if (customNames.indexOf(c[0]) !== -1) return false;      // 自定义优先
+    if (hasProviders && PROVIDER_COUNTRIES.indexOf(c[0]) !== -1) return true;
     let n = 0;
     for (const p of proxies) if (p && p.name && c[1].test(p.name)) n++;
     return n >= threshold;
@@ -321,15 +327,16 @@ function main(config) {
   const cnSeen = customNames.indexOf(CN_GROUP) === -1 && cnNames.length > 0;
   const hasCN = cnSeen || useProviders;
 
-  // 2.5) 漏网节点 (不属于任何国家组) → 🎲其他随机
+  // 2.5) 漏网节点 (不属于任何已建的国家组) → 🎲其他随机
+  // 只排除建了组的地区: 没建组的 (节点不够数 / 订阅里的冷门地区) 进 🎲其他随机, 不然哪个国家组都不收
   const ALL_PAT = custom.map(function (c) { return c[1].source; })
-    .concat(autoCountry ? COUNTRY.map(function (c) { return c[1].source; }) : [])
+    .concat(present.map(function (c) { return c[1].source; }))
     .concat(CN_EXACT ? [CN_EXACT] : [])
     .join("|");
   const ALL_RE = ALL_PAT ? new RegExp(ALL_PAT) : null;       // 无归属正则时全算漏网
   let hasOther = false;
   for (const p of proxies) { if (p && p.name && (!ALL_RE || !ALL_RE.test(p.name))) { hasOther = true; break; } }
-  const useOther = otherGroup && hasOther;
+  const useOther = otherGroup && (hasOther || hasProviders);   // 订阅节点看不到, 填了订阅就建
   const OTHER = "🎲其他随机";
   const tail = countryNames.concat(useOther ? [OTHER] : []);  // 国家组 + 🎲其他随机
 
