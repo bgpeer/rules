@@ -1,6 +1,6 @@
 /**
  * bgpeer Mihomo 覆写脚本
- * @version 5.12.3
+ * @version 5.12.4
  * @date    2026-10-21
  * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
  * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
@@ -50,7 +50,7 @@ const GEO_ASN  = "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite
 const threshold = 2;             // 节点数少于此值不建该国家组
 const PANEL_SECRET = "88888888"; // 面板密码 (端口 9092); "random" = 按节点自动生成
 const FETCH_VIA = "fallback";    // 规则集下载: "" 直连 | "fallback" 直连优先、失败走代理 | 组名 = 强制走该组
-const TUN_STACK = "mixed";       // mixed (默认) | system | gvisor (最兼容) | mips (内核 ≥1.19.31)
+const TUN_STACK = "mips";        // mips (默认, 内核 ≥1.19.31; 旧内核报 invalid tun stack 整份配置起不来, 改 mixed) | mixed | system | gvisor (最兼容)
 const TUN_CC = "";               // 仅 mips 栈: "" 默认 | cubic | reno | bbr | bbr3
 const CHAIN_EXIT = "落地|🏠";     // 落地节点名关键字 (严格链式用)
 // 协议白名单
