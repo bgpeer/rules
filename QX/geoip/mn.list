@@ -151,7 +151,6 @@ IP-CIDR, 37.191.127.0/24, no-resolve
 IP-CIDR, 38.79.152.0/24, no-resolve
 IP-CIDR, 43.250.125.0/24, no-resolve
 IP-CIDR, 62.197.155.0/24, no-resolve
-IP-CIDR, 82.149.82.0/24, no-resolve
 IP-CIDR, 82.27.181.0/24, no-resolve
 IP-CIDR, 103.139.146.0/23, no-resolve
 IP-CIDR, 103.140.10.0/23, no-resolve
@@ -316,10 +315,6 @@ IP6-CIDR, 2606:54c1:1:333::/64, no-resolve
 IP6-CIDR, 2606:54c3:0:640::/64, no-resolve
 IP6-CIDR, 2606:54c3:0:a68::/64, no-resolve
 IP6-CIDR, 2606:54c3:0:e7d::/64, no-resolve
-IP6-CIDR, 2a02:26f7:b640:4000::/64, no-resolve
-IP6-CIDR, 2a02:26f7:b640:ce02::/64, no-resolve
-IP6-CIDR, 2a02:26f7:b641:4000::/64, no-resolve
-IP6-CIDR, 2a02:26f7:b641:ce02::/64, no-resolve
 IP6-CIDR, 2a02:26f7:b642:4000::/64, no-resolve
 IP6-CIDR, 2a02:26f7:b643:4000::/64, no-resolve
 IP6-CIDR, 2a02:26f7:b644:4000::/64, no-resolve
@@ -348,8 +343,6 @@ IP6-CIDR, 2a09:bac1:4be0:2058::/64, no-resolve
 IP6-CIDR, 2a09:bac1:4be0:8::/64, no-resolve
 IP6-CIDR, 2001:470:24:918::/63, no-resolve
 IP6-CIDR, 2001:470:d:cfe::/63, no-resolve
-IP6-CIDR, 2a02:26f7:b640:ce00::/63, no-resolve
-IP6-CIDR, 2a02:26f7:b641:ce00::/63, no-resolve
 IP6-CIDR, 2a02:26f7:b644:ce00::/63, no-resolve
 IP6-CIDR, 2a02:26f7:b648:ce00::/63, no-resolve
 IP6-CIDR, 2a0b:4e07:3:4960::/60, no-resolve
@@ -446,6 +439,7 @@ IP6-CIDR, 2a14:67c2:82b::/48, no-resolve
 IP6-CIDR, 2001:470:fb06::/47, no-resolve
 IP6-CIDR, 2001:470:ffe6::/47, no-resolve
 IP6-CIDR, 2001:df3:62c0::/47, no-resolve
+IP6-CIDR, 2a02:26f7:b640::/47, no-resolve
 IP6-CIDR, 2a09:a702:16::/47, no-resolve
 IP6-CIDR, 2a0a:8e00:7000::/47, no-resolve
 IP6-CIDR, 2a0a:9606:7000::/47, no-resolve
@@ -466,7 +460,6 @@ IP6-CIDR, 2a09:bac6:4940::/44, no-resolve
 IP6-CIDR, 2406:2d40:3300::/40, no-resolve
 IP6-CIDR, 2406:2d40:3d00::/40, no-resolve
 IP6-CIDR, 2a07:d887:9200::/40, no-resolve
-IP6-CIDR, 2a13:241:3900::/40, no-resolve
 IP6-CIDR, 2400:7480::/32, no-resolve
 IP6-CIDR, 2400:bde0::/32, no-resolve
 IP6-CIDR, 2400:d4e0::/32, no-resolve
