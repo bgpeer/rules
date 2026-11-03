@@ -17,6 +17,7 @@ payload:
   - PROCESS-NAME,com.oculus.ocms
   - PROCESS-NAME,com.meta.quest
   - PROCESS-NAME,com.meta.oculus
+  - PROCESS-NAME,com.facebook.aura
   # === 新增域名后缀规则 ===
   - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,metacdn.net
@@ -24,6 +25,16 @@ payload:
   - DOMAIN-SUFFIX,threads.com
   - DOMAIN-SUFFIX,threads.net
   - DOMAIN-SUFFIX,tfbnw.net
+  # === Muse（Meta 个人 AI 智能体，2026-09 上线；安卓包名 com.facebook.aura）===
+  # muse.ai：网页版 / api / auth / applink / vm / platform（开发者平台）等子域
+  # museai.com：production / voice（语音）等后端
+  # metaaivm.com：Muse 自己的云电脑（<uuid>.metaaivm.com，含 ws）
+  # metaaiusercontent.com：分享链接、生成的文件（cf.metaaiusercontent.com）
+  # 其余走 meta.com / fbcdn.net（上游已有）。Muse 只在美国 / 加拿大 / 日本 / 新加坡开放，出口要在这几个地区
+  - DOMAIN-SUFFIX,muse.ai
+  - DOMAIN-SUFFIX,museai.com
+  - DOMAIN-SUFFIX,metaaivm.com
+  - DOMAIN-SUFFIX,metaaiusercontent.com
   # === 新增域名关键词规则 ===
   - DOMAIN-KEYWORD,instagram
   - DOMAIN-KEYWORD,whatsapp
