@@ -4278,6 +4278,7 @@ payload:
   - DOMAIN-SUFFIX,beget.cloud
   - DOMAIN-SUFFIX,beget.com
   - DOMAIN-SUFFIX,beget.de
+  - DOMAIN-SUFFIX,beget.email
   - DOMAIN-SUFFIX,beget.hosting
   - DOMAIN-SUFFIX,beget.pro
   - DOMAIN-SUFFIX,beget.ru
@@ -4501,6 +4502,7 @@ payload:
   - DOMAIN-SUFFIX,bili2.cc
   - DOMAIN-SUFFIX,bili888.com
   - DOMAIN-SUFFIX,bili999.com
+  - DOMAIN-SUFFIX,bilibili.tv
   - DOMAIN-SUFFIX,bilinovel.com
   - DOMAIN-SUFFIX,biliplus.com
   - DOMAIN-SUFFIX,biliworld.com
@@ -27686,7 +27688,7 @@ payload:
   - DOMAIN-REGEX,(^|\.)783([a-z][a-z]?)?\.tv$
   - DOMAIN-REGEX,(^|\.)7mm0([0-1][0-9]?)?\.com$
   - DOMAIN-REGEX,(^|\.)8dgo[1-57-9]\.com$
-  - DOMAIN-REGEX,(^|\.)91cg([1-9]|[0-9][1-9])?.com$
+  - DOMAIN-REGEX,(^|\.)91cg([1-9]|[0-9][1-9])?\.com$
   - DOMAIN-REGEX,(^|\.)91p[0-9][0-9]?\.com$
   - DOMAIN-REGEX,(^|\.)91porn[0-9]?\.store$
   - DOMAIN-REGEX,(^|\.)91porn[0-9]{3}\.me$
@@ -27745,6 +27747,7 @@ payload:
   - DOMAIN-REGEX,(^|\.)hkfg[1-7]\.xyz$
   - DOMAIN-REGEX,(^|\.)hs[1-9]{2}\.vip$
   - DOMAIN-REGEX,(^|\.)jav777\.(cc|tv|work)$
+  - DOMAIN-REGEX,(^|\.)javdb\d+\.com$
   - DOMAIN-REGEX,(^|\.)jb[1-9][0-9]\.lol$
   - DOMAIN-REGEX,(^|\.)jbk0([0-1][0-9]?)?\.com$
   - DOMAIN-REGEX,(^|\.)jdyy[1-9]?\.me$
@@ -27824,7 +27827,6 @@ payload:
   - DOMAIN-REGEX,^epicgames-download\d\.akamaized\.net$
   - DOMAIN-REGEX,^ewcdn[0-9]+\.nowe\.com$
   - DOMAIN-REGEX,^hses[1-7]?\.akamaized\.net$
-  - DOMAIN-REGEX,javdb\d+\.com$
   - PROCESS-NAME,cn.futu.trader
   - PROCESS-NAME,com.eastwestbank.mobilebanking
   - PROCESS-NAME,com.elink.xesim
