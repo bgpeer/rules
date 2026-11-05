@@ -57,6 +57,10 @@ IP-CIDR, 5.62.60.106/31, no-resolve
 IP-CIDR, 87.81.249.194/31, no-resolve
 IP-CIDR, 87.81.250.194/31, no-resolve
 IP-CIDR, 87.81.251.194/31, no-resolve
+IP-CIDR, 87.81.253.194/31, no-resolve
+IP-CIDR, 94.192.72.208/31, no-resolve
+IP-CIDR, 94.192.74.208/31, no-resolve
+IP-CIDR, 94.192.76.208/31, no-resolve
 IP-CIDR, 104.28.207.44/30, no-resolve
 IP-CIDR, 104.28.239.44/30, no-resolve
 IP-CIDR, 140.248.40.16/30, no-resolve
@@ -86,7 +90,6 @@ IP-CIDR, 102.201.210.0/24, no-resolve
 IP-CIDR, 102.210.208.0/24, no-resolve
 IP-CIDR, 102.212.5.0/24, no-resolve
 IP-CIDR, 102.215.226.0/24, no-resolve
-IP-CIDR, 102.215.228.0/24, no-resolve
 IP-CIDR, 102.216.81.0/24, no-resolve
 IP-CIDR, 102.217.105.0/24, no-resolve
 IP-CIDR, 102.217.106.0/24, no-resolve
@@ -125,9 +128,6 @@ IP-CIDR, 196.10.137.0/24, no-resolve
 IP-CIDR, 196.10.251.0/24, no-resolve
 IP-CIDR, 196.13.191.0/24, no-resolve
 IP-CIDR, 196.192.125.0/24, no-resolve
-IP-CIDR, 196.197.107.0/24, no-resolve
-IP-CIDR, 196.198.107.0/24, no-resolve
-IP-CIDR, 196.199.107.0/24, no-resolve
 IP-CIDR, 196.201.0.0/24, no-resolve
 IP-CIDR, 196.216.171.0/24, no-resolve
 IP-CIDR, 196.216.204.0/24, no-resolve
@@ -145,11 +145,7 @@ IP-CIDR, 196.43.233.0/24, no-resolve
 IP-CIDR, 196.43.245.0/24, no-resolve
 IP-CIDR, 196.46.17.0/24, no-resolve
 IP-CIDR, 196.46.24.0/24, no-resolve
-IP-CIDR, 196.48.107.0/24, no-resolve
 IP-CIDR, 196.49.0.0/24, no-resolve
-IP-CIDR, 196.56.107.0/24, no-resolve
-IP-CIDR, 196.57.107.0/24, no-resolve
-IP-CIDR, 196.58.107.0/24, no-resolve
 IP-CIDR, 196.6.0.0/24, no-resolve
 IP-CIDR, 196.6.200.0/24, no-resolve
 IP-CIDR, 45.221.27.0/24, no-resolve
@@ -391,9 +387,13 @@ IP6-CIDR, 2a02:26f7:c244:cac0::/63, no-resolve
 IP6-CIDR, 2a02:26f7:c248:cac0::/63, no-resolve
 IP6-CIDR, 2a0b:4e07:3:3840::/60, no-resolve
 IP6-CIDR, 2620:0:876:8300::/56, no-resolve
+IP6-CIDR, 2a04:4e41:80:5c00::/56, no-resolve
+IP6-CIDR, 2a04:4e41:84:5c00::/56, no-resolve
+IP6-CIDR, 2a04:4e41:88:5c00::/56, no-resolve
 IP6-CIDR, 2a04:4e41:64:c200::/55, no-resolve
 IP6-CIDR, 2a04:4e41:68:c200::/55, no-resolve
 IP6-CIDR, 2a04:4e41:6c:c200::/55, no-resolve
+IP6-CIDR, 2a04:4e41:74:c200::/55, no-resolve
 IP6-CIDR, 2606:40:2240:6000::/54, no-resolve
 IP6-CIDR, 2606:40:22e0:6000::/54, no-resolve
 IP6-CIDR, 2a00:ca0:2004:3000::/52, no-resolve

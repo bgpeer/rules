@@ -89,6 +89,10 @@ IP-CIDR, 5.62.60.18/31, no-resolve
 IP-CIDR, 87.81.249.246/31, no-resolve
 IP-CIDR, 87.81.250.246/31, no-resolve
 IP-CIDR, 87.81.251.246/31, no-resolve
+IP-CIDR, 87.81.253.246/31, no-resolve
+IP-CIDR, 94.192.72.148/31, no-resolve
+IP-CIDR, 94.192.74.148/31, no-resolve
+IP-CIDR, 94.192.76.148/31, no-resolve
 IP-CIDR, 104.28.192.172/30, no-resolve
 IP-CIDR, 104.28.20.172/30, no-resolve
 IP-CIDR, 104.28.224.172/30, no-resolve
@@ -217,14 +221,6 @@ IP-CIDR, 194.39.241.0/24, no-resolve
 IP-CIDR, 194.39.243.0/24, no-resolve
 IP-CIDR, 194.61.76.0/24, no-resolve
 IP-CIDR, 195.216.230.0/24, no-resolve
-IP-CIDR, 196.196.42.0/24, no-resolve
-IP-CIDR, 196.197.42.0/24, no-resolve
-IP-CIDR, 196.198.42.0/24, no-resolve
-IP-CIDR, 196.199.42.0/24, no-resolve
-IP-CIDR, 196.48.42.0/24, no-resolve
-IP-CIDR, 196.56.42.0/24, no-resolve
-IP-CIDR, 196.57.42.0/24, no-resolve
-IP-CIDR, 196.58.42.0/24, no-resolve
 IP-CIDR, 198.145.224.0/24, no-resolve
 IP-CIDR, 198.55.110.0/24, no-resolve
 IP-CIDR, 204.3.195.0/24, no-resolve
@@ -528,9 +524,13 @@ IP6-CIDR, 2a02:26f7:e1c8:ca00::/63, no-resolve
 IP6-CIDR, 2a0b:4e07:3:310::/60, no-resolve
 IP6-CIDR, 2001:3786:3373:400::/56, no-resolve
 IP6-CIDR, 2001:3786:5015:200::/56, no-resolve
+IP6-CIDR, 2a04:4e41:80:3e00::/56, no-resolve
+IP6-CIDR, 2a04:4e41:84:3e00::/56, no-resolve
+IP6-CIDR, 2a04:4e41:88:3e00::/56, no-resolve
 IP6-CIDR, 2a04:4e41:64:f600::/55, no-resolve
 IP6-CIDR, 2a04:4e41:68:f600::/55, no-resolve
 IP6-CIDR, 2a04:4e41:6c:f600::/55, no-resolve
+IP6-CIDR, 2a04:4e41:74:f600::/55, no-resolve
 IP6-CIDR, 2a04:4e41:1400:1000::/52, no-resolve
 IP6-CIDR, 2a04:4e41:1800:3000::/52, no-resolve
 IP6-CIDR, 2a04:4e41:200:4000::/52, no-resolve
@@ -606,7 +606,6 @@ IP6-CIDR, 2a00:9100::/32, no-resolve
 IP6-CIDR, 2a00:c0a0::/32, no-resolve
 IP6-CIDR, 2a00:f260::/32, no-resolve
 IP6-CIDR, 2a01:49e0::/32, no-resolve
-IP6-CIDR, 2a01:6480::/32, no-resolve
 IP6-CIDR, 2a01:8c60::/32, no-resolve
 IP6-CIDR, 2a01:9240::/32, no-resolve
 IP6-CIDR, 2a02:4380::/32, no-resolve
@@ -626,6 +625,7 @@ IP6-CIDR, 2a13:3f00::/32, no-resolve
 IP6-CIDR, 2001:3400::/29, no-resolve
 IP6-CIDR, 2001:3c00::/29, no-resolve
 IP6-CIDR, 2a01:4ba0::/29, no-resolve
+IP6-CIDR, 2a01:6480::/29, no-resolve
 IP6-CIDR, 2a01:f000::/29, no-resolve
 IP6-CIDR, 2a02:e3c0::/29, no-resolve
 IP6-CIDR, 2a02:ecc0::/29, no-resolve
