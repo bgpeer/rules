@@ -1,7 +1,7 @@
 /**
  * bgpeer Mihomo 覆写脚本
- * @version 5.12.4
- * @date    2026-10-21
+ * @version 5.12.5
+ * @date    2026-11-09
  * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
  * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
  */
@@ -813,11 +813,16 @@ function insec(q) { return q.insecure === "1" || q.allowInsecure === "1" || q.al
 
 function pVmess(s) {
   const j = JSON.parse(b64str(s.rest)); const net = j.net || "tcp";
-  const p = { name: j.ps || "", type: "vmess", server: j.add, port: +j.port, uuid: j.id, alterId: +(j.aid || 0), cipher: j.scy || j.security || "auto", udp: true, network: net === "h2" ? "h2" : net };
+  const hu = net === "httpupgrade";                     // Mihomo 写成 ws + v2ray-http-upgrade
+  const p = { name: j.ps || "", type: "vmess", server: j.add, port: +j.port, uuid: j.id, alterId: +(j.aid || 0), cipher: j.scy || j.security || "auto", udp: true, network: hu ? "ws" : net };
   if (j.tls === "tls" || j.tls === true) { p.tls = true; if (j.sni || j.host) p.servername = j.sni || j.host; }
+  if (["1", "true"].indexOf(String(j.allowInsecure || j.insecure || j["skip-cert-verify"] || "").toLowerCase()) >= 0) p["skip-cert-verify"] = true;   // 自签证书
   if (j.fp) p["client-fingerprint"] = j.fp;
   if (j.alpn) p.alpn = String(j.alpn).split(",");
-  if (net === "ws") p["ws-opts"] = { path: j.path || "/", headers: j.host ? { Host: j.host } : {} };
+  if (net === "ws" || hu) {
+    p["ws-opts"] = { path: j.path || "/", headers: j.host ? { Host: j.host } : {} };
+    if (hu) p["ws-opts"]["v2ray-http-upgrade"] = true;
+  }
   else if (net === "grpc") p["grpc-opts"] = { "grpc-service-name": j.path || "" };
   else if (net === "h2") p["h2-opts"] = { host: j.host ? [j.host] : [], path: j.path || "/" };
   return p;
@@ -826,11 +831,15 @@ function pVless(s) {
   const a = splitAuthority(s.rest), q = qparse(s.query), net = q.type || "tcp", sec = q.security || "none";
   const p = { name: s.frag || "", type: "vless", server: a.host, port: +a.port, uuid: dec(a.userinfo), udp: true, network: net };
   if (q.flow) p.flow = q.flow;
+  if (q.encryption && q.encryption !== "none") p.encryption = q.encryption;   // VLESS Encryption (内核 ≥1.19.13)
   if (sec === "tls" || sec === "reality") { p.tls = true; if (q.sni) p.servername = q.sni; if (q.alpn) p.alpn = q.alpn.split(","); if (q.fp) p["client-fingerprint"] = q.fp; }
   if (sec === "reality") p["reality-opts"] = { "public-key": q.pbk || "", "short-id": q.sid || "" };
   if (insec(q)) p["skip-cert-verify"] = true;
   if (net === "ws") p["ws-opts"] = wsOpts(q);
+  else if (net === "httpupgrade") { p.network = "ws"; p["ws-opts"] = Object.assign(wsOpts(q), { "v2ray-http-upgrade": true }); }
   else if (net === "grpc") p["grpc-opts"] = grpcOpts(q);
+  else if (net === "xhttp" || net === "splithttp") { p.network = "xhttp"; p["xhttp-opts"] = Object.assign({ path: q.path || "/" }, q.host ? { host: q.host } : {}); }
+  else if (net === "http" || net === "h2") { p.network = "h2"; p["h2-opts"] = { host: q.host ? q.host.split(",") : [], path: q.path || "/" }; }   // 链接里 http = HTTP/2
   return p;
 }
 function pTrojan(s) {
