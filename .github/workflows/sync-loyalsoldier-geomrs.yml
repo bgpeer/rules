@@ -108,6 +108,11 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
 
       # ── 固定工具版本（日常同步不直接追 latest）────────────────────────────
+      # 版本与 SHA256 一起钉在 .github/tool-versions.env：上游 release 不提供
+      # checksum 文件，哈希只能由仓库自己持有；下载步骤用这里输出的哈希做
+      # fail-closed 校验。MIHOMO_SHA256_TGZ 允许为空（个别版本没有 linux-amd64
+      # tar.gz，如 1.19.33），只校验格式；空哈希 + 真下到了 tar.gz 时，
+      # Install mihomo 步骤会直接失败，见该步骤注释。
       - name: Load pinned tool versions
         id: vers
         run: |
@@ -116,19 +121,27 @@ jobs:
           cat .github/tool-versions.env
           grep -E '^MIHOMO_VERSION=[0-9]' .github/tool-versions.env
           grep -E '^SINGBOX_VERSION=[0-9]' .github/tool-versions.env
+          grep -E '^MIHOMO_SHA256_TGZ=([0-9a-f]{64})?$' .github/tool-versions.env
+          grep -E '^MIHOMO_SHA256_GZ=[0-9a-f]{64}$' .github/tool-versions.env
+          grep -E '^SINGBOX_SHA256=[0-9a-f]{64}$' .github/tool-versions.env
           source .github/tool-versions.env
           echo "mihomo=${MIHOMO_VERSION}" >> "$GITHUB_OUTPUT"
           echo "singbox=${SINGBOX_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "mihomo_sha256_tgz=${MIHOMO_SHA256_TGZ}" >> "$GITHUB_OUTPUT"
+          echo "mihomo_sha256_gz=${MIHOMO_SHA256_GZ}" >> "$GITHUB_OUTPUT"
+          echo "singbox_sha256=${SINGBOX_SHA256}" >> "$GITHUB_OUTPUT"
           # v2dat 无版本固定（上游极少更新），按月重建一次缓存
           echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
 
       # ── 工具缓存：命中则跳过 Go 编译与二进制下载（运行时长稳定的关键）────
+      # key 里带上三个哈希：只换哈希不换版本时（如上游重传同版本包、或钉死
+      # 的哈希被纠正），旧缓存的二进制不再命中，避免未经校验的旧文件被沿用。
       - name: Cache tools (v2dat + mihomo + sing-box)
         id: toolcache
         uses: actions/cache@v4
         with:
           path: ~/nopt-tools
-          key: tools-${{ runner.os }}-${{ steps.vers.outputs.month }}-mihomo${{ steps.vers.outputs.mihomo }}-singbox${{ steps.vers.outputs.singbox }}
+          key: tools-${{ runner.os }}-${{ steps.vers.outputs.month }}-mihomo${{ steps.vers.outputs.mihomo }}-${{ steps.vers.outputs.mihomo_sha256_tgz }}-${{ steps.vers.outputs.mihomo_sha256_gz }}-singbox${{ steps.vers.outputs.singbox }}-${{ steps.vers.outputs.singbox_sha256 }}
 
       # ── Go 工具链（v2dat，仅缓存未命中时）────────────────────────────────
       - name: Setup Go
@@ -146,14 +159,25 @@ jobs:
           cp "$(go env GOPATH)/bin/v2dat" ~/nopt-tools/v2dat
 
       # ── mihomo（mrs 编译，仅缓存未命中时下载）─────────────────────────────
+      # SHA256 钉死校验（fail-closed）：哈希钉在 .github/tool-versions.env，
+      # 上游 release 不提供 checksum 文件，所以校验锚只能是仓库自己手里的哈希。
+      # tar.gz 优先、.gz 兜底，两条路各验各的哈希；任一哈希对不上（或某路下到
+      # 了文件但该路的哈希为空）→ exit 1，当天不同步，也不用可疑二进制编译规则集。
       - name: Install mihomo (cache miss)
         if: steps.toolcache.outputs.cache-hit != 'true'
         run: |
           set -eux
           MIHOMO_VERSION="${{ steps.vers.outputs.mihomo }}"
+          MIHOMO_SHA256_TGZ="${{ steps.vers.outputs.mihomo_sha256_tgz }}"
+          MIHOMO_SHA256_GZ="${{ steps.vers.outputs.mihomo_sha256_gz }}"
 
           if [ -z "${MIHOMO_VERSION:-}" ]; then
             echo "::error::MIHOMO_VERSION is empty"
+            exit 1
+          fi
+
+          if [ -z "${MIHOMO_SHA256_GZ:-}" ]; then
+            echo "::error::MIHOMO_SHA256_GZ is empty"
             exit 1
           fi
 
@@ -164,23 +188,37 @@ jobs:
 
           mkdir -p ~/nopt-tools
           if curl -fL --retry 3 --retry-delay 2 "$URL_TGZ" -o mihomo.tar.gz 2>/dev/null; then
+            if [ -z "${MIHOMO_SHA256_TGZ:-}" ]; then
+              echo "::error::mihomo tar.gz downloaded but MIHOMO_SHA256_TGZ is empty (no pinned hash for this version); refusing to use an unverified binary"
+              exit 1
+            fi
+            echo "${MIHOMO_SHA256_TGZ}  mihomo.tar.gz" | sha256sum -c -
             tar -xzf mihomo.tar.gz
             BIN="$(find . -maxdepth 3 -type f -name mihomo | head -n 1)"
             [ -f "$BIN" ] && cp -f "$BIN" ~/nopt-tools/mihomo
           else
             curl -fL --retry 3 --retry-delay 2 "$URL_GZ" -o mihomo.gz
+            echo "${MIHOMO_SHA256_GZ}  mihomo.gz" | sha256sum -c -
             gunzip -c mihomo.gz > ~/nopt-tools/mihomo
           fi
 
       # ── sing-box（srs 编译，仅缓存未命中时下载）───────────────────────────
+      # SHA256 钉死校验（fail-closed），思路同 Install mihomo：哈希钉在
+      # .github/tool-versions.env，对不上 → exit 1，不用可疑二进制编译规则集。
       - name: Install sing-box (cache miss)
         if: steps.toolcache.outputs.cache-hit != 'true'
         run: |
           set -eux
           SINGBOX_VERSION="${{ steps.vers.outputs.singbox }}"
+          SINGBOX_SHA256="${{ steps.vers.outputs.singbox_sha256 }}"
 
           if [ -z "${SINGBOX_VERSION:-}" ]; then
             echo "::error::SINGBOX_VERSION is empty"
+            exit 1
+          fi
+
+          if [ -z "${SINGBOX_SHA256:-}" ]; then
+            echo "::error::SINGBOX_SHA256 is empty"
             exit 1
           fi
 
@@ -190,6 +228,7 @@ jobs:
 
           mkdir -p ~/nopt-tools
           curl -fL --retry 3 --retry-delay 2 "$URL" -o singbox.tar.gz
+          echo "${SINGBOX_SHA256}  singbox.tar.gz" | sha256sum -c -
           tar -xzf singbox.tar.gz
           BIN="$(find . -maxdepth 3 -type f -name sing-box | head -n 1)"
           cp -f "$BIN" ~/nopt-tools/sing-box

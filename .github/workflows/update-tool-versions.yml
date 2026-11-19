@@ -68,12 +68,25 @@ jobs:
           MIHOMO_URL_TGZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.tar.gz"
           MIHOMO_URL_GZ="https://github.com/MetaCubeX/mihomo/releases/download/v${MIHOMO_VERSION}/mihomo-linux-${ARCH}-v${MIHOMO_VERSION}.gz"
 
+          # tar.gz 优先、.gz 兜底：两条路各算各的哈希，最后同批写回 env。
+          # 上游 release 不提供 checksum 文件，哈希只能由本步骤就地现算现钉；
+          # 某路的包不存在（如 1.19.33 没有 linux-amd64 tar.gz）时对应哈希留空，
+          # 同步工作流里该路下到文件却无哈希会 fail-closed。
+          MIHOMO_SHA256_TGZ=""
+          MIHOMO_SHA256_GZ=""
           if curl -fL --retry 3 --retry-delay 2 "$MIHOMO_URL_TGZ" -o mihomo.tar.gz 2>/dev/null; then
+            MIHOMO_SHA256_TGZ="$(sha256sum mihomo.tar.gz | awk '{print $1}')"
             tar -xzf mihomo.tar.gz
             BIN="$(find . -maxdepth 3 -type f -name mihomo | head -n 1)"
             [ -f "$BIN" ] && cp -f "$BIN" ./mihomo
+            # tar.gz 成功时也顺手取 .gz 的哈希，让两条路的钉死哈希都齐全；
+            # .gz 不存在也不报错（兜底路本来就可能没有）。
+            if curl -fL --retry 3 --retry-delay 2 "$MIHOMO_URL_GZ" -o mihomo.gz 2>/dev/null; then
+              MIHOMO_SHA256_GZ="$(sha256sum mihomo.gz | awk '{print $1}')"
+            fi
           else
             curl -fL --retry 3 --retry-delay 2 "$MIHOMO_URL_GZ" -o mihomo.gz
+            MIHOMO_SHA256_GZ="$(sha256sum mihomo.gz | awk '{print $1}')"
             gunzip -c mihomo.gz > ./mihomo
           fi
           chmod +x ./mihomo
@@ -81,11 +94,31 @@ jobs:
 
           SINGBOX_URL="https://github.com/SagerNet/sing-box/releases/download/v${SINGBOX_VERSION}/sing-box-${SINGBOX_VERSION}-linux-${ARCH}.tar.gz"
           curl -fL --retry 3 --retry-delay 2 "$SINGBOX_URL" -o singbox.tar.gz
+          SINGBOX_SHA256="$(sha256sum singbox.tar.gz | awk '{print $1}')"
           tar -xzf singbox.tar.gz
           BIN="$(find . -maxdepth 3 -type f -name sing-box | head -n 1)"
           cp -f "$BIN" ./sing-box
           chmod +x ./sing-box
           ./sing-box version
+
+          # 版本与哈希必须同批写回：只升版本不更新哈希，下次同步必校验失败。
+          # 写出的文件格式与仓库现有的 tool-versions.env 完全一致（含注释头），
+          # 版本没变时本步骤不产生无意义 diff。
+          {
+            echo "# Pinned tool versions + SHA256 checksums (linux-amd64)."
+            echo "# mihomo / sing-box releases ship no checksum file, so the hashes below are"
+            echo "# the repo's own pins: the sync workflow verifies every download fail-closed"
+            echo "# (mismatch -> exit 1); update-tool-versions.yml refreshes versions AND"
+            echo "# hashes together. Never bump a version by hand without its hash."
+            echo "# MIHOMO_SHA256_TGZ may be empty: some releases ship no linux-amd64 .tar.gz"
+            echo "# (e.g. 1.19.33 has only .gz); the updater fills it when a tar.gz exists."
+            echo "MIHOMO_VERSION=${MIHOMO_VERSION}"
+            echo "MIHOMO_SHA256_TGZ=${MIHOMO_SHA256_TGZ}"
+            echo "MIHOMO_SHA256_GZ=${MIHOMO_SHA256_GZ}"
+            echo "SINGBOX_VERSION=${SINGBOX_VERSION}"
+            echo "SINGBOX_SHA256=${SINGBOX_SHA256}"
+          } > .github/tool-versions.env
+          cat .github/tool-versions.env
 
       - name: Commit & push version update
         env:
