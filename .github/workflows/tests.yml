@@ -1,0 +1,29 @@
+name: Tests
+
+# 回归测试门: push 到 main / PR 到 main, 且改动 scripts/、tests/、run_tests.sh
+# 或本文件时, 跑全量 `bash run_tests.sh`。红了就拦。
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - 'run_tests.sh'
+      - '.github/workflows/tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - 'run_tests.sh'
+      - '.github/workflows/tests.yml'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run regression tests
+        run: bash run_tests.sh
