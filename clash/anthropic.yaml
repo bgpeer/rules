@@ -33,6 +33,20 @@ payload:
   - DOMAIN-SUFFIX,claudeusercontent.com
   - DOMAIN-SUFFIX,claudeusercontent.net
   - DOMAIN-SUFFIX,datadog.pool.ntp.org
+  - DOMAIN-SUFFIX,claude.app
+  - DOMAIN-SUFFIX,claudemcpcontent.com
+  - DOMAIN-SUFFIX,claudemcpclient.com
+  - DOMAIN-SUFFIX,claude.dev
+  - DOMAIN-SUFFIX,claude.site
+  - DOMAIN-SUFFIX,claudeacademy.com
+  - DOMAIN-SUFFIX,claude.new
+  - DOMAIN-SUFFIX,chatbotclaude.com
+  - DOMAIN-SUFFIX,claudepages.dev
+  - DOMAIN-SUFFIX,claudestudio.com
+  - DOMAIN-SUFFIX,anthropic.team
+  - DOMAIN-SUFFIX,clau.de
+  - DOMAIN-SUFFIX,ant.dev
+  - DOMAIN-SUFFIX,antspace.dev
 
   # Stripe 支付收银台
   - DOMAIN-SUFFIX,stripe.com
@@ -42,6 +56,7 @@ payload:
   # 登录 / 账号
   - DOMAIN,auth.anthropic.com
   - DOMAIN,accounts.anthropic.com
+  - DOMAIN,anthropic.auth0.com
   - DOMAIN-SUFFIX,auth.anthropic.com
   - DOMAIN-SUFFIX,accounts.anthropic.com
 
@@ -52,10 +67,21 @@ payload:
   - DOMAIN,status.claude.com
   - DOMAIN,status.anthropic.com
   - DOMAIN,trust.anthropic.com
+  - DOMAIN,anthropic-com.ghost.io
+
+  # 客服 / 风控
+  - DOMAIN-SUFFIX,intercom.io
+  - DOMAIN-SUFFIX,intercomcdn.com
+  - DOMAIN-SUFFIX,intercomassets.com
+  - DOMAIN-SUFFIX,intercom-messenger.com
+  - DOMAIN-SUFFIX,siftscience.com
 
   # 下载 / 更新
   - DOMAIN,downloads.claude.ai
   - DOMAIN,storage.googleapis.com
+
+  # 推送
+  - DOMAIN,fcmtoken.googleapis.com
 
   # Claude Code / MCP
   - DOMAIN-SUFFIX,modelcontextprotocol.io
@@ -72,12 +98,22 @@ payload:
   # CDN
   - DOMAIN-SUFFIX,anthropic-cdn.com
   - DOMAIN-WILDCARD,*.anthropic-cdn.com
+  - DOMAIN,anthropic.com.cdn.cloudflare.net
+  - DOMAIN,servd-anthropic-website.b-cdn.net
 
   # 统计 / 上报
   - DOMAIN,cdn.usefathom.com
   - DOMAIN,browser-intake-us5-datadoghq.com
+  - DOMAIN-SUFFIX,us5.datadoghq.com
   - DOMAIN,statsig.anthropic.com
   - DOMAIN-SUFFIX,sentry.io
+
+  # 人机验证 / KYC / 统计（没有单独线路就跟主规则走同一条）
+  - DOMAIN-SUFFIX,hcaptcha.com
+  - DOMAIN,challenges.cloudflare.com
+  - DOMAIN-SUFFIX,withpersona.com
+  - DOMAIN-SUFFIX,yoti.com
+  - DOMAIN-SUFFIX,statsigapi.net
 
   # 通配兜底
   - DOMAIN-WILDCARD,*.anthropic.com
@@ -110,6 +146,9 @@ payload:
   - DOMAIN-REGEX,(?i)^a[0-9]?-api\.anthropic\.com$
 
   # IP / ASN
-  - IP-CIDR,160.79.104.0/23,no-resolve
+  - IP-CIDR,34.8.0.0/16,no-resolve
+  - IP-CIDR,160.79.104.0/21,no-resolve
+  - IP-CIDR,153.61.208.0/20,no-resolve
+  - IP-CIDR,153.61.224.0/22,no-resolve
   - IP-CIDR6,2607:6bc0::/48,no-resolve
   - IP-ASN,399358,no-resolve
