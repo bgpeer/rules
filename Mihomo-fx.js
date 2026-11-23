@@ -1,6 +1,6 @@
 /**
  * bgpeer Mihomo 覆写脚本
- * @version 5.12.5
+ * @version 5.12.6
  * @date    2026-11-09
  * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
  * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
