@@ -1,7 +1,7 @@
 /**
  * bgpeer Mihomo 覆写脚本
  * @version 5.12.6
- * @date    2026-11-09
+ * @date    2026-11-23
  * @support Mihomo Party / ClashMi / Clash Verge Rev / FlClash / Bettbox
  * @usage   客户端「覆写」处导入链接; ClashMi: 核心设置 → 复写 → 右上 ➕ → 类型选 js
  */
@@ -633,7 +633,7 @@ function main(config) {
   if (setTun) {
     const t = {
       enable: true,
-      device: "mihomo",
+      // device 不写: 内核按平台自动生成网卡名 (macOS/iOS 只能用 utun 开头, 写死 "mihomo" 会导致 iOS 建不起网卡)
       stack: TUN_STACK,
       mtu: 1500,
       "inet6-address": ["fdfe:dcba:9876::1/126"],
