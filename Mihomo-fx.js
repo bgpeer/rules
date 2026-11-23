@@ -19,7 +19,7 @@ const GROUP_OFF = [];
 const FN_SWITCHES = {
   链式代理: true,
   严格链式: false,         // 落地节点名需含「落地」或 🏠
-  广告拦截: true,          // 关掉省内存 (iOS)
+  广告拦截: false,          // 关掉省内存 (iOS)
   DNS配置: true,
   域名嗅探: true,
   TUN网卡: true,
