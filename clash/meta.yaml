@@ -25,6 +25,16 @@ payload:
   - DOMAIN-SUFFIX,threads.com
   - DOMAIN-SUFFIX,threads.net
   - DOMAIN-SUFFIX,tfbnw.net
+  - DOMAIN-SUFFIX,facebook.com
+  - DOMAIN-SUFFIX,fb.com
+  - DOMAIN-SUFFIX,fb.me
+  - DOMAIN-SUFFIX,fbcdn.net
+  - DOMAIN-SUFFIX,fbsbx.com
+  - DOMAIN-SUFFIX,fbwat.ch
+  - DOMAIN-SUFFIX,m.me
+  - DOMAIN-SUFFIX,messenger.com
+  - DOMAIN-SUFFIX,meta.com
+  - DOMAIN-SUFFIX,workplace.com
   # === Muse（Meta 个人 AI 智能体，2026-09 上线；安卓包名 com.facebook.aura）===
   - DOMAIN-SUFFIX,muse.ai
   - DOMAIN-SUFFIX,museai.com
@@ -36,3 +46,5 @@ payload:
   - DOMAIN-KEYWORD,oculus
   # === 新增 IP-ASN 规则 ===
   - IP-ASN,63293
+  - IP-ASN,32934
+  - IP-ASN,54115
