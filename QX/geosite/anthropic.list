@@ -1,17 +1,22 @@
 HOST, a-api.anthropic.com
 HOST, accounts.anthropic.com
+HOST, anthropic-com.ghost.io
+HOST, anthropic.auth0.com
+HOST, anthropic.com.cdn.cloudflare.net
 HOST, api.anthropic.com
 HOST, app.claude.ai
 HOST, auth.anthropic.com
 HOST, bridge.claudeusercontent.com
 HOST, browser-intake-us5-datadoghq.com
 HOST, cdn.usefathom.com
+HOST, challenges.cloudflare.com
 HOST, claude.ai
 HOST, code.claude.com
 HOST, console.anthropic.com
 HOST, docs.anthropic.com
 HOST, docs.claude.com
 HOST, downloads.claude.ai
+HOST, fcmtoken.googleapis.com
 HOST, http-intake.logs.us5.datadoghq.com
 HOST, o1158394.ingest.us.sentry.io
 HOST, platform.claude.com
@@ -47,10 +52,20 @@ HOST-SUFFIX, claudestudio.com
 HOST-SUFFIX, claudeusercontent.com
 HOST-SUFFIX, claudeusercontent.net
 HOST-SUFFIX, datadog.pool.ntp.org
+HOST-SUFFIX, hcaptcha.com
+HOST-SUFFIX, intercom-messenger.com
+HOST-SUFFIX, intercom.io
+HOST-SUFFIX, intercomassets.com
+HOST-SUFFIX, intercomcdn.com
 HOST-SUFFIX, modelcontextprotocol.io
 HOST-SUFFIX, sentry.io
+HOST-SUFFIX, siftscience.com
+HOST-SUFFIX, statsigapi.net
 HOST-SUFFIX, stripe.com
 HOST-SUFFIX, stripe.network
+HOST-SUFFIX, us5.datadoghq.com
+HOST-SUFFIX, withpersona.com
+HOST-SUFFIX, yoti.com
 HOST-WILDCARD, *.anthropic-cdn.com
 HOST-WILDCARD, *.anthropic.com
 HOST-WILDCARD, *.claude.ai
@@ -59,7 +74,9 @@ HOST-WILDCARD, *.claudeusercontent.com
 HOST-WILDCARD, *.claudeusercontent.net
 HOST-WILDCARD, *.mcp.claude.com
 HOST-WILDCARD, *.modelcontextprotocol.io
-IP-CIDR, 160.79.104.0/23, no-resolve
+IP-CIDR, 153.61.224.0/22, no-resolve
+IP-CIDR, 160.79.104.0/21, no-resolve
+IP-CIDR, 153.61.208.0/20, no-resolve
 IP6-CIDR, 2607:6bc0::/48, no-resolve
 IP-ASN, 399358
 HOST-KEYWORD, anthropic
