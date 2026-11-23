@@ -633,7 +633,7 @@ function main(config) {
   if (setTun) {
     const t = {
       enable: true,
-      // device 不写: 内核按平台自动生成网卡名 (macOS/iOS 只能用 utun 开头, 写死 "mihomo" 会导致 iOS 建不起网卡)
+      device: "mihomo",
       stack: TUN_STACK,
       mtu: 1500,
       "inet6-address": ["fdfe:dcba:9876::1/126"],
